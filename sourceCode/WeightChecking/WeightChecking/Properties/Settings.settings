@@ -1,0 +1,12 @@
+﻿<?xml version='1.0' encoding='utf-8'?>
+<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="WeightChecking.Properties" GeneratedClassName="Settings">
+  <Profiles />
+  <Settings>
+    <Setting Name="conString" Type="System.String" Scope="User">
+      <Value Profile="(Default)">Data Source=server210;Database=RecycledAppTEST;UID=readmin;Password=Recycle123$; Min Pool Size=0;Max Pool Size=1000;Pooling=true; Connect Timeout=65535;</Value>
+    </Setting>
+    <Setting Name="ipScale" Type="System.String" Scope="User">
+      <Value Profile="(Default)">192.168.1.123</Value>
+    </Setting>
+  </Settings>
+</SettingsFile>
