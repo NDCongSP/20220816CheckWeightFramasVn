@@ -16,6 +16,37 @@ namespace WeightChecking
         public frmScale()
         {
             InitializeComponent();
+
+            Load += FrmScale_Load;
+        }
+
+        private void FrmScale_Load(object sender, EventArgs e)
+        {
+            this.txtQrCode.Text = "aaa";
+            this.txtQrCode.Focus();
+            this.txtQrCode.KeyDown += TxtQrCode_KeyDown;
+        }
+
+        private void TxtQrCode_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter)
+            {
+                TextEdit sen = sender as TextEdit;
+                Console.WriteLine(sen.Text);
+
+                if (sen.InvokeRequired)
+                {
+                    sen?.Invoke(new Action(() =>
+                    {
+                        sen.Text = null;
+                    }));
+                }
+                else
+                {
+                    sen.Text = null;
+                }
+                sen.Focus();
+            }
         }
     }
 }
