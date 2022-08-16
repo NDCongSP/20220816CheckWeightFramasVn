@@ -30,20 +30,20 @@ namespace WeightChecking
         private void InitializeComponent()
         {
             this.panelControl1 = new DevExpress.XtraEditors.PanelControl();
-            this.labUserName = new DevExpress.XtraEditors.LabelControl();
+            this.simpleButton1 = new DevExpress.XtraEditors.SimpleButton();
+            this.chkRemember = new DevExpress.XtraEditors.CheckEdit();
+            this.txtPass = new DevExpress.XtraEditors.TextEdit();
             this.txtUseName = new DevExpress.XtraEditors.TextEdit();
             this.labPass = new DevExpress.XtraEditors.LabelControl();
-            this.txtPass = new DevExpress.XtraEditors.TextEdit();
-            this.chkRemember = new DevExpress.XtraEditors.CheckEdit();
-            this.simpleButton1 = new DevExpress.XtraEditors.SimpleButton();
+            this.labUserName = new DevExpress.XtraEditors.LabelControl();
             this.labStatus = new DevExpress.XtraEditors.LabelControl();
             this.labelControl1 = new DevExpress.XtraEditors.LabelControl();
             this.labTime = new DevExpress.XtraEditors.LabelControl();
             ((System.ComponentModel.ISupportInitialize)(this.panelControl1)).BeginInit();
             this.panelControl1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.txtUseName.Properties)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.txtPass.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.chkRemember.Properties)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.txtPass.Properties)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.txtUseName.Properties)).BeginInit();
             this.SuspendLayout();
             // 
             // panelControl1
@@ -59,15 +59,39 @@ namespace WeightChecking
             this.panelControl1.Size = new System.Drawing.Size(520, 355);
             this.panelControl1.TabIndex = 0;
             // 
-            // labUserName
+            // simpleButton1
             // 
-            this.labUserName.Appearance.Font = new System.Drawing.Font("Tahoma", 15F);
-            this.labUserName.Appearance.Options.UseFont = true;
-            this.labUserName.Location = new System.Drawing.Point(30, 72);
-            this.labUserName.Name = "labUserName";
-            this.labUserName.Size = new System.Drawing.Size(96, 24);
-            this.labUserName.TabIndex = 0;
-            this.labUserName.Text = "User name";
+            this.simpleButton1.Appearance.BackColor = DevExpress.LookAndFeel.DXSkinColors.FillColors.Success;
+            this.simpleButton1.Appearance.Font = new System.Drawing.Font("Tahoma", 30F);
+            this.simpleButton1.Appearance.Options.UseBackColor = true;
+            this.simpleButton1.Appearance.Options.UseFont = true;
+            this.simpleButton1.Location = new System.Drawing.Point(179, 274);
+            this.simpleButton1.Name = "simpleButton1";
+            this.simpleButton1.Size = new System.Drawing.Size(301, 60);
+            this.simpleButton1.TabIndex = 3;
+            this.simpleButton1.Text = "Submit";
+            this.simpleButton1.Click += new System.EventHandler(this.simpleButton1_Click);
+            // 
+            // chkRemember
+            // 
+            this.chkRemember.Location = new System.Drawing.Point(357, 224);
+            this.chkRemember.Name = "chkRemember";
+            this.chkRemember.Properties.Appearance.Font = new System.Drawing.Font("Tahoma", 15F);
+            this.chkRemember.Properties.Appearance.Options.UseFont = true;
+            this.chkRemember.Properties.Caption = "Remember";
+            this.chkRemember.Size = new System.Drawing.Size(123, 28);
+            this.chkRemember.TabIndex = 2;
+            // 
+            // txtPass
+            // 
+            this.txtPass.EditValue = "";
+            this.txtPass.Location = new System.Drawing.Point(179, 152);
+            this.txtPass.Name = "txtPass";
+            this.txtPass.Properties.Appearance.Font = new System.Drawing.Font("Tahoma", 30F);
+            this.txtPass.Properties.Appearance.Options.UseFont = true;
+            this.txtPass.Properties.NullText = "UserName";
+            this.txtPass.Size = new System.Drawing.Size(301, 54);
+            this.txtPass.TabIndex = 1;
             // 
             // txtUseName
             // 
@@ -90,38 +114,15 @@ namespace WeightChecking
             this.labPass.TabIndex = 0;
             this.labPass.Text = "Password";
             // 
-            // txtPass
+            // labUserName
             // 
-            this.txtPass.EditValue = "";
-            this.txtPass.Location = new System.Drawing.Point(179, 152);
-            this.txtPass.Name = "txtPass";
-            this.txtPass.Properties.Appearance.Font = new System.Drawing.Font("Tahoma", 30F);
-            this.txtPass.Properties.Appearance.Options.UseFont = true;
-            this.txtPass.Properties.NullText = "UserName";
-            this.txtPass.Size = new System.Drawing.Size(301, 54);
-            this.txtPass.TabIndex = 1;
-            // 
-            // chkRemember
-            // 
-            this.chkRemember.Location = new System.Drawing.Point(357, 224);
-            this.chkRemember.Name = "chkRemember";
-            this.chkRemember.Properties.Appearance.Font = new System.Drawing.Font("Tahoma", 15F);
-            this.chkRemember.Properties.Appearance.Options.UseFont = true;
-            this.chkRemember.Properties.Caption = "Remember";
-            this.chkRemember.Size = new System.Drawing.Size(123, 28);
-            this.chkRemember.TabIndex = 2;
-            // 
-            // simpleButton1
-            // 
-            this.simpleButton1.Appearance.BackColor = DevExpress.LookAndFeel.DXSkinColors.FillColors.Success;
-            this.simpleButton1.Appearance.Font = new System.Drawing.Font("Tahoma", 30F);
-            this.simpleButton1.Appearance.Options.UseBackColor = true;
-            this.simpleButton1.Appearance.Options.UseFont = true;
-            this.simpleButton1.Location = new System.Drawing.Point(179, 274);
-            this.simpleButton1.Name = "simpleButton1";
-            this.simpleButton1.Size = new System.Drawing.Size(301, 60);
-            this.simpleButton1.TabIndex = 3;
-            this.simpleButton1.Text = "Submit";
+            this.labUserName.Appearance.Font = new System.Drawing.Font("Tahoma", 15F);
+            this.labUserName.Appearance.Options.UseFont = true;
+            this.labUserName.Location = new System.Drawing.Point(30, 72);
+            this.labUserName.Name = "labUserName";
+            this.labUserName.Size = new System.Drawing.Size(96, 24);
+            this.labUserName.TabIndex = 0;
+            this.labUserName.Text = "User name";
             // 
             // labStatus
             // 
@@ -159,15 +160,14 @@ namespace WeightChecking
             this.Controls.Add(this.labStatus);
             this.Controls.Add(this.panelControl1);
             this.DoubleBuffered = true;
-            this.IconOptions.Image = global::WeightChecking.Properties.Resources.framas_mini__black_;
             this.Name = "Login";
             this.Text = "Login";
             ((System.ComponentModel.ISupportInitialize)(this.panelControl1)).EndInit();
             this.panelControl1.ResumeLayout(false);
             this.panelControl1.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.txtUseName.Properties)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.txtPass.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.chkRemember.Properties)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.txtPass.Properties)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.txtUseName.Properties)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 

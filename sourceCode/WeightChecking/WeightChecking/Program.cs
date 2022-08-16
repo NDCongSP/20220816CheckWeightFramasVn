@@ -16,6 +16,11 @@ namespace WeightChecking
         [STAThread]
         static void Main()
         {
+            #region Đọc các thông số cấu hình ban đầu từ settings
+            GlobalVariables.ConnectionString = Properties.Settings.Default.conString;
+            var str = Properties.Settings.Default.ipScale;
+            #endregion
+
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
             Application.Run(new Login());

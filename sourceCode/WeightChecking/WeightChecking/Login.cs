@@ -36,5 +36,11 @@ namespace WeightChecking
             labTime.Text = DateTime.Now.ToString("dd/MM/yyyy HH:mm:ss");
             s.Enabled = true;
         }
+
+        private void simpleButton1_Click(object sender, EventArgs e)
+        {
+            frmMain nf = new frmMain();
+            nf.ShowDialog();
+        }
     }
 }

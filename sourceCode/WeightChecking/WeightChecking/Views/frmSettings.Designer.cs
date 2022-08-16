@@ -1,7 +1,7 @@
 ﻿
 namespace WeightChecking
 {
-    partial class Form1
+    partial class frmSettings
     {
         /// <summary>
         /// Required designer variable.
@@ -29,22 +29,33 @@ namespace WeightChecking
         /// </summary>
         private void InitializeComponent()
         {
+            this.textEdit1 = new DevExpress.XtraEditors.TextEdit();
+            ((System.ComponentModel.ISupportInitialize)(this.textEdit1.Properties)).BeginInit();
             this.SuspendLayout();
             // 
-            // Form1
+            // textEdit1
+            // 
+            this.textEdit1.Location = new System.Drawing.Point(99, 74);
+            this.textEdit1.Name = "textEdit1";
+            this.textEdit1.Size = new System.Drawing.Size(350, 20);
+            this.textEdit1.TabIndex = 0;
+            // 
+            // frmSettings
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1022, 736);
-            this.MaximizeBox = false;
-            this.Name = "Form1";
-            this.Text = "Form1";
+            this.ClientSize = new System.Drawing.Size(586, 438);
+            this.Controls.Add(this.textEdit1);
+            this.Name = "frmSettings";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
+            this.Text = "Settings";
+            ((System.ComponentModel.ISupportInitialize)(this.textEdit1.Properties)).EndInit();
             this.ResumeLayout(false);
 
         }
 
         #endregion
 
+        private DevExpress.XtraEditors.TextEdit textEdit1;
     }
 }
-

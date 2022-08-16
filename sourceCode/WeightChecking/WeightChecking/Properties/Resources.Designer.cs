@@ -10,8 +10,9 @@
 
 namespace WeightChecking.Properties {
     using System;
-    
-    
+    using System.Drawing;
+
+
     /// <summary>
     ///   A strongly-typed resource class, for looking up localized strings, etc.
     /// </summary>
@@ -23,7 +24,7 @@ namespace WeightChecking.Properties {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
     internal class Resources {
-        
+        internal static Image framas_mini__black_;
         private static global::System.Resources.ResourceManager resourceMan;
         
         private static global::System.Globalization.CultureInfo resourceCulture;
@@ -63,9 +64,9 @@ namespace WeightChecking.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap framas_mini__black_ {
+        internal static System.Drawing.Bitmap framas_mini__black__oEw_icon {
             get {
-                object obj = ResourceManager.GetObject("framas mini (black)", resourceCulture);
+                object obj = ResourceManager.GetObject("framas_mini__black__oEw_icon", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
