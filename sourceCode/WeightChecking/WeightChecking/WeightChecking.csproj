@@ -33,7 +33,8 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup>
-    <ApplicationIcon>framas_mini__black__oEw_icon.ico</ApplicationIcon>
+    <ApplicationIcon>
+    </ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="BCrypt.Net-Next, Version=4.0.3.0, Culture=neutral, PublicKeyToken=1e11be04b6288443, processorArchitecture=MSIL">
@@ -47,6 +48,7 @@
     </Reference>
     <Reference Include="DevExpress.Data.Desktop.v21.2, Version=21.2.6.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
     <Reference Include="DevExpress.Data.v21.2, Version=21.2.6.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.Images.v21.2, Version=21.2.6.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
     <Reference Include="DevExpress.Printing.v21.2.Core, Version=21.2.6.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
     <Reference Include="DevExpress.Utils.v21.2, Version=21.2.6.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
     <Reference Include="DevExpress.XtraBars.v21.2, Version=21.2.6.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
@@ -150,26 +152,10 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Properties\framas mini %28black%29.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\framas Vietnam Logo V2.png" />
-  </ItemGroup>
-  <ItemGroup>
     <None Include="Resources\framas mini %28black%29.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\framas_mini__black__oEw_icon.ico" />
-  </ItemGroup>
-  <ItemGroup>
     <None Include="Resources\framas Wallpaper 02.png" />
   </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\framas mini %28black%291.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="framas_mini__black__oEw_icon.ico" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it.
        Other similar extension points exist, see Microsoft.Common.targets.

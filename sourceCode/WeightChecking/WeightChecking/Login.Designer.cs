@@ -29,6 +29,7 @@ namespace WeightChecking
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Login));
             this.panelControl1 = new DevExpress.XtraEditors.PanelControl();
             this.btnSubmit = new DevExpress.XtraEditors.SimpleButton();
             this.chkRemember = new DevExpress.XtraEditors.CheckEdit();
@@ -162,7 +163,7 @@ namespace WeightChecking
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackgroundImageLayoutStore = System.Windows.Forms.ImageLayout.Stretch;
-            this.BackgroundImageStore = global::WeightChecking.Properties.Resources.framas_Wallpaper_02;
+            this.BackgroundImageStore = ((System.Drawing.Image)(resources.GetObject("$this.BackgroundImageStore")));
             this.ClientSize = new System.Drawing.Size(1918, 1048);
             this.Controls.Add(this.labTime);
             this.Controls.Add(this.labelControl1);
@@ -170,6 +171,7 @@ namespace WeightChecking
             this.Controls.Add(this.panelControl1);
             this.DoubleBuffered = true;
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
+            this.IconOptions.ImageUri.Uri = "AlignCenter";
             this.MaximizeBox = false;
             this.Name = "Login";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;

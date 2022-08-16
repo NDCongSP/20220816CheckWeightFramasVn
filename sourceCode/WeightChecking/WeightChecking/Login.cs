@@ -18,7 +18,7 @@ namespace WeightChecking
         public Login()
         {
             InitializeComponent();
-
+   
             Load += Login_Load;
             labStatus.Text = Application.ProductVersion;
         }

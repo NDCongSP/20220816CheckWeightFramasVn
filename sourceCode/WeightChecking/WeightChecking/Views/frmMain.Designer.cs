@@ -177,7 +177,6 @@ namespace WeightChecking
             this.Controls.Add(this.ribbonStatusBar1);
             this.Controls.Add(this.ribbonControl1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
-            this.IconOptions.Image = global::WeightChecking.Properties.Resources.framas_mini__black_1;
             this.IsMdiContainer = true;
             this.MaximizeBox = false;
             this.Name = "frmMain";

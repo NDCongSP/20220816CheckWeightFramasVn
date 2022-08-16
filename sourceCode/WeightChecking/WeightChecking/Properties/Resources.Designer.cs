@@ -63,29 +63,9 @@ namespace WeightChecking.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap framas_mini__black__oEw_icon {
+        internal static System.Drawing.Bitmap framas_mini__black_ {
             get {
-                object obj = ResourceManager.GetObject("framas_mini__black__oEw_icon", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
-        internal static System.Drawing.Bitmap framas_mini__black_1 {
-            get {
-                object obj = ResourceManager.GetObject("framas mini (black)1", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
-        internal static System.Drawing.Bitmap framas_Vietnam_Logo_V2 {
-            get {
-                object obj = ResourceManager.GetObject("framas Vietnam Logo V2", resourceCulture);
+                object obj = ResourceManager.GetObject("framas mini (black)", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
