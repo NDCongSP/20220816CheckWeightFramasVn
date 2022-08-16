@@ -42,14 +42,12 @@ namespace WeightChecking
             this.documentManager1 = new DevExpress.XtraBars.Docking2010.DocumentManager(this.components);
             this.tabbedView1 = new DevExpress.XtraBars.Docking2010.Views.Tabbed.TabbedView(this.components);
             this.dockManager1 = new DevExpress.XtraBars.Docking.DockManager(this.components);
-            this.behaviorManager1 = new DevExpress.Utils.Behaviors.BehaviorManager(this.components);
             this.barStaticItemVersion = new DevExpress.XtraBars.BarStaticItem();
             this.barStaticItemStatus = new DevExpress.XtraBars.BarStaticItem();
             ((System.ComponentModel.ISupportInitialize)(this.ribbonControl1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.documentManager1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.tabbedView1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dockManager1)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.behaviorManager1)).BeginInit();
             this.SuspendLayout();
             // 
             // ribbonControl1
@@ -69,7 +67,7 @@ namespace WeightChecking
             this.ribbonPageCategory1});
             this.ribbonControl1.Pages.AddRange(new DevExpress.XtraBars.Ribbon.RibbonPage[] {
             this.ribbonPageHome});
-            this.ribbonControl1.Size = new System.Drawing.Size(1117, 177);
+            this.ribbonControl1.Size = new System.Drawing.Size(1918, 177);
             this.ribbonControl1.StatusBar = this.ribbonStatusBar1;
             this.ribbonControl1.Click += new System.EventHandler(this.ribbonControl1_Click);
             // 
@@ -112,10 +110,10 @@ namespace WeightChecking
             // 
             this.ribbonStatusBar1.ItemLinks.Add(this.barStaticItemVersion);
             this.ribbonStatusBar1.ItemLinks.Add(this.barStaticItemStatus);
-            this.ribbonStatusBar1.Location = new System.Drawing.Point(0, 697);
+            this.ribbonStatusBar1.Location = new System.Drawing.Point(0, 1055);
             this.ribbonStatusBar1.Name = "ribbonStatusBar1";
             this.ribbonStatusBar1.Ribbon = this.ribbonControl1;
-            this.ribbonStatusBar1.Size = new System.Drawing.Size(1117, 24);
+            this.ribbonStatusBar1.Size = new System.Drawing.Size(1918, 24);
             // 
             // ribbonPage2
             // 
@@ -164,23 +162,22 @@ namespace WeightChecking
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1117, 721);
+            this.ClientSize = new System.Drawing.Size(1918, 1079);
             this.Controls.Add(this.ribbonStatusBar1);
             this.Controls.Add(this.ribbonControl1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
+            this.IconOptions.Image = global::WeightChecking.Properties.Resources.framas_mini__black_;
             this.IsMdiContainer = true;
             this.MaximizeBox = false;
             this.Name = "frmMain";
             this.Ribbon = this.ribbonControl1;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.StatusBar = this.ribbonStatusBar1;
-            this.Text = "Weight Checking";
-            this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
+            this.Text = "Main";
             ((System.ComponentModel.ISupportInitialize)(this.ribbonControl1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.documentManager1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.tabbedView1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.dockManager1)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.behaviorManager1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -196,7 +193,6 @@ namespace WeightChecking
         private DevExpress.XtraBars.Docking2010.DocumentManager documentManager1;
         private DevExpress.XtraBars.Docking2010.Views.Tabbed.TabbedView tabbedView1;
         private DevExpress.XtraBars.Docking.DockManager dockManager1;
-        private DevExpress.Utils.Behaviors.BehaviorManager behaviorManager1;
         private DevExpress.XtraBars.BarButtonItem barButtonItemMain;
         private DevExpress.XtraBars.BarButtonItem barButtonItemSettings;
         private DevExpress.XtraBars.Ribbon.RibbonPageCategory ribbonPageCategory1;

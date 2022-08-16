@@ -74,18 +74,18 @@ namespace WeightChecking
             };
 
             #region actived form scale
-            //if (_scale == null)
-            //{
-            //    _scale = "Actived";
+            if (_scale == null)
+            {
+                _scale = "Actived";
 
-            //    _frmScale = new frmScale();
-            //    tabbedView1.AddDocument(_frmScale);
-            //    tabbedView1.ActivateDocument(_frmScale);
-            //}
-            //else
-            //{
-            //    tabbedView1.ActivateDocument(_frmScale);
-            //}
+                _frmScale = new frmScale();
+                tabbedView1.AddDocument(_frmScale);
+                tabbedView1.ActivateDocument(_frmScale);
+            }
+            else
+            {
+                tabbedView1.ActivateDocument(_frmScale);
+            }
             #endregion
 
             _timer.Enabled = true;
