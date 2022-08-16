@@ -32,6 +32,9 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>framas_mini__black__oEw_icon.ico</ApplicationIcon>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="BCrypt.Net-Next, Version=4.0.3.0, Culture=neutral, PublicKeyToken=1e11be04b6288443, processorArchitecture=MSIL">
       <HintPath>..\packages\BCrypt.Net-Next.4.0.3\lib\net472\BCrypt.Net-Next.dll</HintPath>
@@ -157,6 +160,15 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\framas_mini__black__oEw_icon.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\framas Wallpaper 02.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\framas mini %28black%291.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="framas_mini__black__oEw_icon.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it.

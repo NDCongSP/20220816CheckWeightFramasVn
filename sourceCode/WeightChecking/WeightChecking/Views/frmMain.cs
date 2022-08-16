@@ -37,9 +37,13 @@ namespace WeightChecking
         {
             barStaticItemVersion.Caption = Application.ProductVersion;
 
+            //register ribbon barButton click
             this.barButtonItemMain.ItemClick += BarButtonItemMain_ItemClick;
             this.barButtonItemSettings.ItemClick += BarButtonItemSettings_ItemClick;
+            this.barButtonItemPrint.ItemClick += BarButtonItemPrint_ItemClick;
+            this.barButtonItemResetHistory.ItemClick += BarButtonItemResetHistory_ItemClick;
 
+            //chon chế độ chỉ hiển thị tab ribbon, ẩn chi tiết group
             ribbonControl1.Minimized = true;//show tabs
                                             //this.RibbonVisibility = DevExpress.XtraBars.Ribbon.RibbonVisibility.Hidden;
 
@@ -159,11 +163,16 @@ namespace WeightChecking
                 XtraMessageBox.Show("Lỗi MainForm: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
-        #endregion
 
-        private void ribbonControl1_Click(object sender, EventArgs e)
+        private void BarButtonItemPrint_ItemClick(object sender, DevExpress.XtraBars.ItemClickEventArgs e)
         {
-
+            throw new NotImplementedException();
         }
+
+        private void BarButtonItemResetHistory_ItemClick(object sender, DevExpress.XtraBars.ItemClickEventArgs e)
+        {
+            throw new NotImplementedException();
+        }
+        #endregion
     }
 }

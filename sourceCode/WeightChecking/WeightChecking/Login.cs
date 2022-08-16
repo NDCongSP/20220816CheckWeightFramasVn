@@ -25,6 +25,7 @@ namespace WeightChecking
 
         private void Login_Load(object sender, EventArgs e)
         {
+            this.txtUseName.Focus();
             _timer.Enabled = true;
             _timer.Tick += _timer_Tick;
         }

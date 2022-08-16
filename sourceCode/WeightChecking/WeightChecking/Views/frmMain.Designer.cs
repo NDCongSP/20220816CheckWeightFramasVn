@@ -34,7 +34,9 @@ namespace WeightChecking
             this.ribbonControl1 = new DevExpress.XtraBars.Ribbon.RibbonControl();
             this.barButtonItemMain = new DevExpress.XtraBars.BarButtonItem();
             this.barButtonItemSettings = new DevExpress.XtraBars.BarButtonItem();
-            this.ribbonPageCategory1 = new DevExpress.XtraBars.Ribbon.RibbonPageCategory();
+            this.barStaticItemVersion = new DevExpress.XtraBars.BarStaticItem();
+            this.barStaticItemStatus = new DevExpress.XtraBars.BarStaticItem();
+            this.barButtonItemPrint = new DevExpress.XtraBars.BarButtonItem();
             this.ribbonPageHome = new DevExpress.XtraBars.Ribbon.RibbonPage();
             this.ribbonPageGroupHome = new DevExpress.XtraBars.Ribbon.RibbonPageGroup();
             this.ribbonStatusBar1 = new DevExpress.XtraBars.Ribbon.RibbonStatusBar();
@@ -42,8 +44,7 @@ namespace WeightChecking
             this.documentManager1 = new DevExpress.XtraBars.Docking2010.DocumentManager(this.components);
             this.tabbedView1 = new DevExpress.XtraBars.Docking2010.Views.Tabbed.TabbedView(this.components);
             this.dockManager1 = new DevExpress.XtraBars.Docking.DockManager(this.components);
-            this.barStaticItemVersion = new DevExpress.XtraBars.BarStaticItem();
-            this.barStaticItemStatus = new DevExpress.XtraBars.BarStaticItem();
+            this.barButtonItemResetHistory = new DevExpress.XtraBars.BarButtonItem();
             ((System.ComponentModel.ISupportInitialize)(this.ribbonControl1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.documentManager1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.tabbedView1)).BeginInit();
@@ -59,17 +60,16 @@ namespace WeightChecking
             this.barButtonItemMain,
             this.barButtonItemSettings,
             this.barStaticItemVersion,
-            this.barStaticItemStatus});
+            this.barStaticItemStatus,
+            this.barButtonItemPrint,
+            this.barButtonItemResetHistory});
             this.ribbonControl1.Location = new System.Drawing.Point(0, 0);
-            this.ribbonControl1.MaxItemId = 5;
+            this.ribbonControl1.MaxItemId = 8;
             this.ribbonControl1.Name = "ribbonControl1";
-            this.ribbonControl1.PageCategories.AddRange(new DevExpress.XtraBars.Ribbon.RibbonPageCategory[] {
-            this.ribbonPageCategory1});
             this.ribbonControl1.Pages.AddRange(new DevExpress.XtraBars.Ribbon.RibbonPage[] {
             this.ribbonPageHome});
             this.ribbonControl1.Size = new System.Drawing.Size(1918, 177);
             this.ribbonControl1.StatusBar = this.ribbonStatusBar1;
-            this.ribbonControl1.Click += new System.EventHandler(this.ribbonControl1_Click);
             // 
             // barButtonItemMain
             // 
@@ -85,10 +85,25 @@ namespace WeightChecking
             this.barButtonItemSettings.ImageOptions.SvgImage = ((DevExpress.Utils.Svg.SvgImage)(resources.GetObject("barButtonItemSettings.ImageOptions.SvgImage")));
             this.barButtonItemSettings.Name = "barButtonItemSettings";
             // 
-            // ribbonPageCategory1
+            // barStaticItemVersion
             // 
-            this.ribbonPageCategory1.Name = "ribbonPageCategory1";
-            this.ribbonPageCategory1.Text = "ribbonPageCategory1";
+            this.barStaticItemVersion.Alignment = DevExpress.XtraBars.BarItemLinkAlignment.Right;
+            this.barStaticItemVersion.Caption = "Version";
+            this.barStaticItemVersion.Id = 3;
+            this.barStaticItemVersion.Name = "barStaticItemVersion";
+            // 
+            // barStaticItemStatus
+            // 
+            this.barStaticItemStatus.Caption = "Status";
+            this.barStaticItemStatus.Id = 4;
+            this.barStaticItemStatus.Name = "barStaticItemStatus";
+            // 
+            // barButtonItemPrint
+            // 
+            this.barButtonItemPrint.Caption = "Print";
+            this.barButtonItemPrint.Id = 6;
+            this.barButtonItemPrint.ImageOptions.SvgImage = ((DevExpress.Utils.Svg.SvgImage)(resources.GetObject("barButtonItemPrint.ImageOptions.SvgImage")));
+            this.barButtonItemPrint.Name = "barButtonItemPrint";
             // 
             // ribbonPageHome
             // 
@@ -103,6 +118,8 @@ namespace WeightChecking
             this.ribbonPageGroupHome.ImageOptions.SvgImage = ((DevExpress.Utils.Svg.SvgImage)(resources.GetObject("ribbonPageGroupHome.ImageOptions.SvgImage")));
             this.ribbonPageGroupHome.ItemLinks.Add(this.barButtonItemMain);
             this.ribbonPageGroupHome.ItemLinks.Add(this.barButtonItemSettings);
+            this.ribbonPageGroupHome.ItemLinks.Add(this.barButtonItemPrint);
+            this.ribbonPageGroupHome.ItemLinks.Add(this.barButtonItemResetHistory);
             this.ribbonPageGroupHome.Name = "ribbonPageGroupHome";
             this.ribbonPageGroupHome.Text = "Actions";
             // 
@@ -145,18 +162,12 @@ namespace WeightChecking
             "DevExpress.XtraBars.FluentDesignSystem.FluentDesignFormControl",
             "DevExpress.XtraBars.ToolbarForm.ToolbarFormControl"});
             // 
-            // barStaticItemVersion
+            // barButtonItemResetHistory
             // 
-            this.barStaticItemVersion.Alignment = DevExpress.XtraBars.BarItemLinkAlignment.Right;
-            this.barStaticItemVersion.Caption = "Version";
-            this.barStaticItemVersion.Id = 3;
-            this.barStaticItemVersion.Name = "barStaticItemVersion";
-            // 
-            // barStaticItemStatus
-            // 
-            this.barStaticItemStatus.Caption = "Status";
-            this.barStaticItemStatus.Id = 4;
-            this.barStaticItemStatus.Name = "barStaticItemStatus";
+            this.barButtonItemResetHistory.Caption = "Reset Count";
+            this.barButtonItemResetHistory.Id = 7;
+            this.barButtonItemResetHistory.ImageOptions.SvgImage = ((DevExpress.Utils.Svg.SvgImage)(resources.GetObject("barButtonItemResetHistory.ImageOptions.SvgImage")));
+            this.barButtonItemResetHistory.Name = "barButtonItemResetHistory";
             // 
             // frmMain
             // 
@@ -165,8 +176,8 @@ namespace WeightChecking
             this.ClientSize = new System.Drawing.Size(1918, 1079);
             this.Controls.Add(this.ribbonStatusBar1);
             this.Controls.Add(this.ribbonControl1);
-            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
-            this.IconOptions.Image = global::WeightChecking.Properties.Resources.framas_mini__black_;
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
+            this.IconOptions.Image = global::WeightChecking.Properties.Resources.framas_mini__black_1;
             this.IsMdiContainer = true;
             this.MaximizeBox = false;
             this.Name = "frmMain";
@@ -195,9 +206,10 @@ namespace WeightChecking
         private DevExpress.XtraBars.Docking.DockManager dockManager1;
         private DevExpress.XtraBars.BarButtonItem barButtonItemMain;
         private DevExpress.XtraBars.BarButtonItem barButtonItemSettings;
-        private DevExpress.XtraBars.Ribbon.RibbonPageCategory ribbonPageCategory1;
         private DevExpress.XtraBars.BarStaticItem barStaticItemVersion;
         private DevExpress.XtraBars.BarStaticItem barStaticItemStatus;
+        private DevExpress.XtraBars.BarButtonItem barButtonItemPrint;
+        private DevExpress.XtraBars.BarButtonItem barButtonItemResetHistory;
     }
 }
 

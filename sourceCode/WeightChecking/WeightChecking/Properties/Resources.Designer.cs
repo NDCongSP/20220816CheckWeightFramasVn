@@ -10,9 +10,8 @@
 
 namespace WeightChecking.Properties {
     using System;
-    using System.Drawing;
-
-
+    
+    
     /// <summary>
     ///   A strongly-typed resource class, for looking up localized strings, etc.
     /// </summary>
@@ -24,7 +23,7 @@ namespace WeightChecking.Properties {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
     internal class Resources {
-        internal static Image framas_mini__black_;
+        
         private static global::System.Resources.ResourceManager resourceMan;
         
         private static global::System.Globalization.CultureInfo resourceCulture;
@@ -74,9 +73,29 @@ namespace WeightChecking.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap framas_mini__black_1 {
+            get {
+                object obj = ResourceManager.GetObject("framas mini (black)1", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap framas_Vietnam_Logo_V2 {
             get {
                 object obj = ResourceManager.GetObject("framas Vietnam Logo V2", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap framas_Wallpaper_02 {
+            get {
+                object obj = ResourceManager.GetObject("framas Wallpaper 02", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
