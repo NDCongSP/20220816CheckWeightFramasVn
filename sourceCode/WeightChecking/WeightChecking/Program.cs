@@ -5,6 +5,9 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Forms;
+using Newtonsoft.Json;
+using System.Reflection;
+using System.IO;
 
 namespace WeightChecking
 {
@@ -18,7 +21,14 @@ namespace WeightChecking
         {
             #region Đọc các thông số cấu hình ban đầu từ settings
             GlobalVariables.ConnectionString = Properties.Settings.Default.conString;
-            var str = Properties.Settings.Default.ipScale;
+            GlobalVariables.ScaleIp = Properties.Settings.Default.ipScale;
+
+            Console.WriteLine($"Path app: {Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location)}");
+
+            GlobalVariables.ReInfo = JsonConvert.DeserializeObject<RememberInfo>(File.ReadAllText(@"./RememberInfo.json"));
+
+            GlobalVariables.ReInfo.UserName = EncodeMD5.DecryptString(GlobalVariables.ReInfo.UserName, "ITFramasBDVN");
+            GlobalVariables.ReInfo.Pass = EncodeMD5.DecryptString(GlobalVariables.ReInfo.Pass, "ITFramasBDVN");
             #endregion
 
             Application.EnableVisualStyles();

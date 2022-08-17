@@ -71,7 +71,7 @@ namespace WeightChecking
             this.btnSubmit.Size = new System.Drawing.Size(301, 60);
             this.btnSubmit.TabIndex = 4;
             this.btnSubmit.Text = "Submit";
-            this.btnSubmit.Click += new System.EventHandler(this.simpleButton1_Click);
+            this.btnSubmit.Click += new System.EventHandler(this.btnSubmit_Click);
             // 
             // chkRemember
             // 
@@ -91,6 +91,8 @@ namespace WeightChecking
             this.txtPass.Properties.Appearance.Font = new System.Drawing.Font("Tahoma", 30F);
             this.txtPass.Properties.Appearance.Options.UseFont = true;
             this.txtPass.Properties.NullText = "UserName";
+            this.txtPass.Properties.PasswordChar = '*';
+            this.txtPass.Properties.UseSystemPasswordChar = true;
             this.txtPass.Size = new System.Drawing.Size(301, 54);
             this.txtPass.TabIndex = 2;
             // 

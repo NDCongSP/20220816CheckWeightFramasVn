@@ -25,8 +25,9 @@ namespace WeightChecking.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("Data Source=server210;Database=RecycledAppTEST;UID=readmin;Password=Recycle123$; " +
-            "Min Pool Size=0;Max Pool Size=1000;Pooling=true; Connect Timeout=65535;")]
+        [global::System.Configuration.DefaultSettingValueAttribute("Data Source=192.168.180.216;Database=IDCScaleSystem;UID=idc_ad_system;Password= _" +
+            "%v%259G.G234Y466Q530U947I358u; Min Pool Size=0;Max Pool Size=1000;Pooling=true; " +
+            "Connect Timeout=65535;")]
         public string conString {
             get {
                 return ((string)(this["conString"]));
