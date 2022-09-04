@@ -25,9 +25,10 @@ namespace WeightChecking.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("Data Source=192.168.180.216;Database=IDCScaleSystem;UID=idc_ad_system;Password= _" +
-            "%v%259G.G234Y466Q530U947I358u; Min Pool Size=0;Max Pool Size=1000;Pooling=true; " +
-            "Connect Timeout=65535;")]
+        [global::System.Configuration.DefaultSettingValueAttribute("ed3YbBgz3fEdyTkRahthFY5ktQmH2er+blyCD/lIJfgQTkdsvUtAX21xE6NORw6ZjeFRNfYstnZaiBSjc" +
+            "XumLFU/sdtwUevAWTdRgM8d5rXa3D3X5+GMyirpW1sHWm/HgWEKYxsSdYZlXnxiuz9nf7drrpUpv2SLY" +
+            "UqgcaS4tI12TlmBEo/Dm8Id8z+gGyVqgoQB0EuDAY/OlHLTcrxHSejQK2jjixrgD9KsnAkU2d8AQ3+rE" +
+            "ONwHA==")]
         public string conString {
             get {
                 return ((string)(this["conString"]));

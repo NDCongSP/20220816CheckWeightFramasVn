@@ -20,7 +20,7 @@ namespace WeightChecking
         static void Main()
         {
             #region Đọc các thông số cấu hình ban đầu từ settings
-            GlobalVariables.ConnectionString = Properties.Settings.Default.conString;
+            GlobalVariables.ConnectionString = EncodeMD5.DecryptString(Properties.Settings.Default.conString, "ITFramasBDVN");
             GlobalVariables.ScaleIp = Properties.Settings.Default.ipScale;
 
             Console.WriteLine($"Path app: {Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location)}");
