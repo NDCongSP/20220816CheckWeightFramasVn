@@ -21,5 +21,7 @@ namespace WeightChecking
 
         //chứa các thông tin cần lưu lại để khi mở phần mềm lên thì sẽ đọc lên để tiếp tục làm việc.
         public static RememberInfo ReInfo { get; set; } = new RememberInfo();
+
+        public static RefreshEvent MyEvent = new RefreshEvent();
     }
 }

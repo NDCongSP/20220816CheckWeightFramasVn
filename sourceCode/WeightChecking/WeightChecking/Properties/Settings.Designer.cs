@@ -49,5 +49,17 @@ namespace WeightChecking.Properties {
                 this["ipScale"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string conStringWL {
+            get {
+                return ((string)(this["conStringWL"]));
+            }
+            set {
+                this["conStringWL"] = value;
+            }
+        }
     }
 }

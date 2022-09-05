@@ -53,8 +53,10 @@
     <Reference Include="DevExpress.Utils.v21.2, Version=21.2.6.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
     <Reference Include="DevExpress.XtraBars.v21.2, Version=21.2.6.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
     <Reference Include="DevExpress.XtraEditors.v21.2, Version=21.2.6.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.XtraGrid.v21.2, Version=21.2.6.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
     <Reference Include="DevExpress.XtraLayout.v21.2, Version=21.2.6.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
     <Reference Include="DevExpress.XtraNavBar.v21.2, Version=21.2.6.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.XtraPrinting.v21.2, Version=21.2.6.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
     <Reference Include="Newtonsoft.Json, Version=13.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\packages\Newtonsoft.Json.13.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
@@ -83,6 +85,13 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Events\RefreshEvent.cs" />
+    <Compile Include="Views\frmMasterData.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Views\frmMasterData.Designer.cs">
+      <DependentUpon>frmMasterData.cs</DependentUpon>
+    </Compile>
     <Compile Include="Models\RememberInfo.cs" />
     <Compile Include="Models\tblScanDataModel.cs" />
     <Compile Include="Models\tblUsers.cs" />
@@ -122,6 +131,9 @@
     <Compile Include="WaitForm1.Designer.cs">
       <DependentUpon>WaitForm1.cs</DependentUpon>
     </Compile>
+    <EmbeddedResource Include="Views\frmMasterData.resx">
+      <DependentUpon>frmMasterData.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Views\frmScale.resx">
       <DependentUpon>frmScale.cs</DependentUpon>
     </EmbeddedResource>

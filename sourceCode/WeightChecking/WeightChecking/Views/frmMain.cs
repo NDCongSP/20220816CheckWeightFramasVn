@@ -18,9 +18,11 @@ namespace WeightChecking
         #region Static Properties
         frmScale _frmScale;
         frmSettings _frmSettings;
+        frmMasterData _frmMasterData;
 
         string _scale = null;
         string _seetings = null;
+        string _masterData = null;
 
         Timer _timer = new Timer() { Interval = 500 };
         #endregion
@@ -166,13 +168,29 @@ namespace WeightChecking
 
         private void BarButtonItemPrint_ItemClick(object sender, DevExpress.XtraBars.ItemClickEventArgs e)
         {
-            throw new NotImplementedException();
+            
         }
 
         private void BarButtonItemResetHistory_ItemClick(object sender, DevExpress.XtraBars.ItemClickEventArgs e)
         {
-            throw new NotImplementedException();
+            
+        }
+
+        //Get data from winline update to local Databases.
+        private void barButtonItemGetDataWL_ItemClick(object sender, DevExpress.XtraBars.ItemClickEventArgs e)
+        {
+
+        }
+
+        private void barButtonItemRefreshData_ItemClick(object sender, DevExpress.XtraBars.ItemClickEventArgs e)
+        {
+
         }
         #endregion
+
+        private void tabbedView1_CustomHeaderButtonClick(object sender, DevExpress.XtraBars.Docking2010.Views.CustomHeaderButtonEventArgs e)
+        {
+            MessageBox.Show("Click");
+        }
     }
 }

@@ -30,6 +30,7 @@ namespace WeightChecking
         private void InitializeComponent()
         {
             this.layoutControl1 = new DevExpress.XtraLayout.LayoutControl();
+            this.labMetalScanCount = new DevExpress.XtraEditors.LabelControl();
             this.labelControl6 = new DevExpress.XtraEditors.LabelControl();
             this.labelControl5 = new DevExpress.XtraEditors.LabelControl();
             this.labelControl4 = new DevExpress.XtraEditors.LabelControl();
@@ -67,7 +68,6 @@ namespace WeightChecking
             this.layoutControlItem15 = new DevExpress.XtraLayout.LayoutControlItem();
             this.layoutControlItem16 = new DevExpress.XtraLayout.LayoutControlItem();
             this.layoutControlItem17 = new DevExpress.XtraLayout.LayoutControlItem();
-            this.labMetalScanCount = new DevExpress.XtraEditors.LabelControl();
             this.layoutControlItem18 = new DevExpress.XtraLayout.LayoutControlItem();
             this.txtQrCode = new DevExpress.XtraEditors.TextEdit();
             this.layoutControlItem1 = new DevExpress.XtraLayout.LayoutControlItem();
@@ -127,6 +127,21 @@ namespace WeightChecking
             this.layoutControl1.Size = new System.Drawing.Size(1119, 794);
             this.layoutControl1.TabIndex = 0;
             this.layoutControl1.Text = "layoutControl1";
+            // 
+            // labMetalScanCount
+            // 
+            this.labMetalScanCount.Appearance.BackColor = System.Drawing.Color.White;
+            this.labMetalScanCount.Appearance.Font = new System.Drawing.Font("Tahoma", 20F);
+            this.labMetalScanCount.Appearance.Options.UseBackColor = true;
+            this.labMetalScanCount.Appearance.Options.UseFont = true;
+            this.labMetalScanCount.Appearance.Options.UseTextOptions = true;
+            this.labMetalScanCount.Appearance.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Far;
+            this.labMetalScanCount.Location = new System.Drawing.Point(903, 492);
+            this.labMetalScanCount.Name = "labMetalScanCount";
+            this.labMetalScanCount.Size = new System.Drawing.Size(192, 86);
+            this.labMetalScanCount.StyleController = this.layoutControl1;
+            this.labMetalScanCount.TabIndex = 21;
+            this.labMetalScanCount.Text = "0";
             // 
             // labelControl6
             // 
@@ -635,21 +650,6 @@ namespace WeightChecking
             this.layoutControlItem17.SizeConstraintsType = DevExpress.XtraLayout.SizeConstraintsType.Custom;
             this.layoutControlItem17.Text = "Printing";
             this.layoutControlItem17.TextSize = new System.Drawing.Size(210, 24);
-            // 
-            // labMetalScanCount
-            // 
-            this.labMetalScanCount.Appearance.BackColor = System.Drawing.Color.White;
-            this.labMetalScanCount.Appearance.Font = new System.Drawing.Font("Tahoma", 20F);
-            this.labMetalScanCount.Appearance.Options.UseBackColor = true;
-            this.labMetalScanCount.Appearance.Options.UseFont = true;
-            this.labMetalScanCount.Appearance.Options.UseTextOptions = true;
-            this.labMetalScanCount.Appearance.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Far;
-            this.labMetalScanCount.Location = new System.Drawing.Point(903, 492);
-            this.labMetalScanCount.Name = "labMetalScanCount";
-            this.labMetalScanCount.Size = new System.Drawing.Size(192, 86);
-            this.labMetalScanCount.StyleController = this.layoutControl1;
-            this.labMetalScanCount.TabIndex = 21;
-            this.labMetalScanCount.Text = "0";
             // 
             // layoutControlItem18
             // 
