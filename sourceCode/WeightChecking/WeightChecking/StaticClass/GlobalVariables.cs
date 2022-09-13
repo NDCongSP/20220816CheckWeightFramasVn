@@ -28,5 +28,12 @@ namespace WeightChecking
         public static RememberInfo ReInfo { get; set; } = new RememberInfo();
 
         public static RefreshEvent MyEvent = new RefreshEvent();
+
+        //biến cấu hình cân
+        public static string IpScale = "192.168.1.237";
+        public static string PortScale = "23";
+        public static string ScaleStatus = "Disconnected";
+        public static int ScaleDelay = 300;
+        public static int UnitScale { get; set; } = 0;
     }
 }

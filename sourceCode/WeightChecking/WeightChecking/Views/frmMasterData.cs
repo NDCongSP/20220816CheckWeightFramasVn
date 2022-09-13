@@ -1,5 +1,6 @@
 ﻿using Dapper;
 using DevExpress.XtraEditors;
+using Serilog;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -28,20 +29,29 @@ namespace WeightChecking
 
         private void MyEvent_RefreshActionevent(object sender, EventArgs e)
         {
-            using (var connection = GlobalVariables.GetDbConnectionWinline())
+            try
             {
-                var winlineInfo = connection.Query<tblWinlineProductsInfoModel>("sp_IdcScanScaleGetCoreData").ToList();
+                using (var connection = GlobalVariables.GetDbConnectionWinline())
+                {
+                    var winlineInfo = connection.Query<tblWinlineProductsInfoModel>("sp_IdcScanScaleGetCoreData").ToList();
 
-                if (winlineInfo != null && winlineInfo.Count > 0)
-                {
-                    Console.WriteLine($"Get data from winline ok.");
+                    if (winlineInfo != null && winlineInfo.Count > 0)
+                    {
+                        Console.WriteLine($"Get data from winline ok.");
+                    }
+                    else
+                    {
+                        Console.WriteLine($"Get data from winline fail.");
+                        Log.Error("Get data from winline fail.");
+                    }
                 }
-                else
-                {
-                    Console.WriteLine($"Get data from winline fail.");
-                }
+
             }
-
+            catch (Exception ex)
+            {
+                Log.Error(ex, "Get data from winline exception.");
+            }
+            
             GlobalVariables.MyEvent.RefreshStatus = false;
         }
     }

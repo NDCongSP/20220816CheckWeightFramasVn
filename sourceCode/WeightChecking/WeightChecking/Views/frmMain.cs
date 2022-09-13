@@ -22,7 +22,7 @@ namespace WeightChecking
         frmMasterData _frmMasterData;
 
         string _scale = null;
-        string _seetings = null;
+        string _settings = null;
         string _masterData = null;
 
         Timer _timer = new Timer() { Interval = 500 };
@@ -67,14 +67,14 @@ namespace WeightChecking
                     }
                     else if (o.Document.Caption == "Settings")
                     {
-                        if (_frmSettings != null)
+                        if (_settings != null)
                         {
-                            _frmSettings = null;
+                            _settings = null;
                         }
                     }
                     else if (o.Document.Caption== "Master Data")
                     {
-                        if (_frmMasterData!=null)
+                        if (_masterData!=null)
                         {
                             _masterData = null;
                         }
@@ -111,7 +111,7 @@ namespace WeightChecking
             Timer t = (Timer)sender;
             t.Enabled = false;
 
-            barStaticItemStatus.Caption = DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss");
+            barStaticItemStatus.Caption =$"{DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss")} | ScaleStatus: {GlobalVariables.ScaleStatus}";
 
             t.Enabled = true;
         }
@@ -120,9 +120,9 @@ namespace WeightChecking
         {
             try
             {
-                if (_seetings == null)
+                if (_settings == null)
                 {
-                    _seetings = "Actived";
+                    _settings = "Actived";
 
                     SplashScreenManager.ShowForm(this, typeof(WaitForm1), true, true, false);
                     SplashScreenManager.Default.SetWaitFormCaption("Vui lòng chờ trong giây lát");

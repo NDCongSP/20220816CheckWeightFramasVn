@@ -8,6 +8,8 @@ using System.Windows.Forms;
 using Newtonsoft.Json;
 using System.Reflection;
 using System.IO;
+using Serilog;
+using Serilog.Sinks.MSSqlServer;
 
 namespace WeightChecking
 {
@@ -23,6 +25,7 @@ namespace WeightChecking
             GlobalVariables.ConnectionString = EncodeMD5.DecryptString(Properties.Settings.Default.conString, "ITFramasBDVN");
             GlobalVariables.ConStringWinline = EncodeMD5.DecryptString(Properties.Settings.Default.conStringWL, "ITFramasBDVN");
             GlobalVariables.ScaleIp = Properties.Settings.Default.ipScale;
+            GlobalVariables.UnitScale = int.TryParse(Properties.Settings.Default.UnitScale, out int value) ? value : 0;
 
             Console.WriteLine($"Path app: {Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location)}");
 
@@ -31,6 +34,20 @@ namespace WeightChecking
             GlobalVariables.ReInfo.UserName = EncodeMD5.DecryptString(GlobalVariables.ReInfo.UserName, "ITFramasBDVN");
             GlobalVariables.ReInfo.Pass = EncodeMD5.DecryptString(GlobalVariables.ReInfo.Pass, "ITFramasBDVN");
             #endregion
+
+            //Log các hành động của user thì tự log bằng tay vào bảng tblLog
+            //tạo serilog để log Error exception.
+            MSSqlServerSinkOptions sinkOption = new MSSqlServerSinkOptions()
+            {
+                TableName = "tblLog",
+                AutoCreateSqlTable = true,
+            };
+            Log.Logger = new LoggerConfiguration().WriteTo.MSSqlServer(
+
+              connectionString: GlobalVariables.ConnectionString,
+              sinkOptions: sinkOption
+
+              ).MinimumLevel.Error().CreateLogger();
 
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);

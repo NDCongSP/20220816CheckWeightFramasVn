@@ -63,5 +63,17 @@ namespace WeightChecking.Properties {
                 this["conStringWL"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("1000")]
+        public string UnitScale {
+            get {
+                return ((string)(this["UnitScale"]));
+            }
+            set {
+                this["UnitScale"] = value;
+            }
+        }
     }
 }
