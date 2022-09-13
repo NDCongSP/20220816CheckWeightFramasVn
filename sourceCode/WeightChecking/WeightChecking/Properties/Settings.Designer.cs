@@ -52,7 +52,9 @@ namespace WeightChecking.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        [global::System.Configuration.DefaultSettingValueAttribute("ed3YbBgz3fEdyTkRahthFY5ktQmH2er+ubV7i40QDz2+hAazJukJ2KdBD28UEGTZpJCCeedpXvxIaU3kh" +
+            "+lTExB/npJz2Uw5lNuwB800UZyeKbvZFrfjjijyurbNaMoE7IXQkLVO+pvLS+9V/AFxNrE1qo49bGzvA" +
+            "nZUvm1Uo3o1fPqAH5rwrQmiR/MZQW0YE/hEqI8KBWqqEiZJeE8Dbt/Bw1H8THChh6y2CqZBLz4=")]
         public string conStringWL {
             get {
                 return ((string)(this["conStringWL"]));

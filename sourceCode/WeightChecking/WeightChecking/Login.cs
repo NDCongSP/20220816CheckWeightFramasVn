@@ -30,11 +30,18 @@ namespace WeightChecking
 
         private void Login_Load(object sender, EventArgs e)
         {
+            if (GlobalVariables.ReInfo.Remember)
+            {
+                this.txtUseName.Text = GlobalVariables.ReInfo.UserName;
+                this.txtPass.Text = GlobalVariables.ReInfo.Pass;
+                this.chkRemember.Checked = GlobalVariables.ReInfo.Remember;
+            }
+           
             this.txtUseName.Focus();
             this.chkRemember.CheckedChanged += (s, o) =>
             {
                 CheckEdit ck = (CheckEdit)s;
-                _saveInfo = ck.Checked;
+                GlobalVariables.ReInfo.Remember = ck.Checked;
             };
 
             _timer.Enabled = true;
@@ -65,10 +72,19 @@ namespace WeightChecking
                         if (BC.Verify(txtPass.Text, result.Password))
                         {
                             //log thong tin dang nhap vao rememberInfo
-                            if (_saveInfo)
+                            if (GlobalVariables.ReInfo.Remember)
                             {
                                 GlobalVariables.ReInfo.UserName = EncodeMD5.EncryptString(txtUseName.Text, "ITFramasBDVN");
                                 GlobalVariables.ReInfo.Pass = EncodeMD5.EncryptString(txtPass.Text, "ITFramasBDVN");
+
+                                string json = JsonConvert.SerializeObject(GlobalVariables.ReInfo);
+
+                                File.WriteAllText(@"./RememberInfo.json", json);
+                            }
+                            else
+                            {
+                                GlobalVariables.ReInfo.UserName = null;
+                                GlobalVariables.ReInfo.Pass = null;
 
                                 string json = JsonConvert.SerializeObject(GlobalVariables.ReInfo);
 

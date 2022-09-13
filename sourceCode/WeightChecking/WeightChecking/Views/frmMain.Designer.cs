@@ -189,10 +189,6 @@ namespace WeightChecking
             this.documentManager1.ViewCollection.AddRange(new DevExpress.XtraBars.Docking2010.Views.BaseView[] {
             this.tabbedView1});
             // 
-            // tabbedView1
-            // 
-            this.tabbedView1.CustomHeaderButtonClick += new DevExpress.XtraBars.Docking2010.Views.CustomHeaderButtonEventHandler(this.tabbedView1_CustomHeaderButtonClick);
-            // 
             // dockManager1
             // 
             this.dockManager1.Form = this;

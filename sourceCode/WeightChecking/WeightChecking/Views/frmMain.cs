@@ -1,4 +1,5 @@
-﻿using DevExpress.XtraBars.Docking2010.Views.Tabbed;
+﻿using Dapper;
+using DevExpress.XtraBars.Docking2010.Views.Tabbed;
 using DevExpress.XtraEditors;
 using DevExpress.XtraSplashScreen;
 using DevExpress.XtraWaitForm;
@@ -57,18 +58,25 @@ namespace WeightChecking
                 try
                 {
                     //TabbedView tabbed = s as TabbedView;
-                    if (o.Document.Caption == "Weight Checking") 
+                    if (o.Document.Caption == "Weight Checking")
                     {
                         if (_scale != null)
                         {
                             _scale = null;
                         }
                     }
-                    else if (o.Document.Caption == "Settings") //Đặt nguyên liệu
+                    else if (o.Document.Caption == "Settings")
                     {
                         if (_frmSettings != null)
                         {
                             _frmSettings = null;
+                        }
+                    }
+                    else if (o.Document.Caption== "Master Data")
+                    {
+                        if (_frmMasterData!=null)
+                        {
+                            _masterData = null;
                         }
                     }
                 }
@@ -168,29 +176,48 @@ namespace WeightChecking
 
         private void BarButtonItemPrint_ItemClick(object sender, DevExpress.XtraBars.ItemClickEventArgs e)
         {
-            
+
         }
 
         private void BarButtonItemResetHistory_ItemClick(object sender, DevExpress.XtraBars.ItemClickEventArgs e)
         {
-            
+
         }
 
         //Get data from winline update to local Databases.
         private void barButtonItemGetDataWL_ItemClick(object sender, DevExpress.XtraBars.ItemClickEventArgs e)
         {
-
+            GlobalVariables.MyEvent.RefreshStatus = true;
         }
 
         private void barButtonItemRefreshData_ItemClick(object sender, DevExpress.XtraBars.ItemClickEventArgs e)
         {
+            try
+            {
+                if (_masterData == null)
+                {
+                    _masterData = "Actived";
 
-        }
-        #endregion
+                    SplashScreenManager.ShowForm(this, typeof(WaitForm1), true, true, false);
+                    SplashScreenManager.Default.SetWaitFormCaption("Vui lòng chờ trong giây lát");
+                    SplashScreenManager.Default.SetWaitFormDescription("Loading...");
 
-        private void tabbedView1_CustomHeaderButtonClick(object sender, DevExpress.XtraBars.Docking2010.Views.CustomHeaderButtonEventArgs e)
-        {
-            MessageBox.Show("Click");
+                    _frmMasterData = new frmMasterData();
+                    tabbedView1.AddDocument(_frmMasterData);
+                    tabbedView1.ActivateDocument(_frmMasterData);
+
+                    SplashScreenManager.CloseForm(false);
+                }
+                else
+                {
+                    tabbedView1.ActivateDocument(_frmMasterData);
+                }
+            }
+            catch (Exception ex)
+            {
+                XtraMessageBox.Show("Lỗi MainForm: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
     }
+    #endregion
 }

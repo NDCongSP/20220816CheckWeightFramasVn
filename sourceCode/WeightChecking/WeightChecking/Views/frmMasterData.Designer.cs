@@ -50,6 +50,7 @@ namespace WeightChecking
             // 
             this.grv.GridControl = this.grc;
             this.grv.Name = "grv";
+            this.grv.OptionsCustomization.AllowFilter = false;
             // 
             // frmMasterData
             // 
@@ -58,7 +59,7 @@ namespace WeightChecking
             this.ClientSize = new System.Drawing.Size(1299, 817);
             this.Controls.Add(this.grc);
             this.Name = "frmMasterData";
-            this.Text = "frmMasterData";
+            this.Text = "Master Data";
             ((System.ComponentModel.ISupportInitialize)(this.grc)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.grv)).EndInit();
             this.ResumeLayout(false);

@@ -9,7 +9,7 @@
       <Value Profile="(Default)">192.168.1.123</Value>
     </Setting>
     <Setting Name="conStringWL" Type="System.String" Scope="User">
-      <Value Profile="(Default)" />
+      <Value Profile="(Default)">ed3YbBgz3fEdyTkRahthFY5ktQmH2er+ubV7i40QDz2+hAazJukJ2KdBD28UEGTZpJCCeedpXvxIaU3kh+lTExB/npJz2Uw5lNuwB800UZyeKbvZFrfjjijyurbNaMoE7IXQkLVO+pvLS+9V/AFxNrE1qo49bGzvAnZUvm1Uo3o1fPqAH5rwrQmiR/MZQW0YE/hEqI8KBWqqEiZJeE8Dbt/Bw1H8THChh6y2CqZBLz4=</Value>
     </Setting>
   </Settings>
 </SettingsFile>

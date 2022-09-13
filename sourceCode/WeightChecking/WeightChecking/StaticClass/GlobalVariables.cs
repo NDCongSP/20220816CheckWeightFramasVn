@@ -12,6 +12,7 @@ namespace WeightChecking
     public static class GlobalVariables
     {
         public static string ConnectionString { get; set; }
+        public static string ConStringWinline { get; set; }
         public static string ScaleIp { get; set; }
 
         public static IDbConnection GetDbConnection()
@@ -19,6 +20,10 @@ namespace WeightChecking
             return new SqlConnection(ConnectionString);
         }
 
+        public static IDbConnection GetDbConnectionWinline()
+        {
+            return new SqlConnection(ConStringWinline);
+        }
         //chứa các thông tin cần lưu lại để khi mở phần mềm lên thì sẽ đọc lên để tiếp tục làm việc.
         public static RememberInfo ReInfo { get; set; } = new RememberInfo();
 

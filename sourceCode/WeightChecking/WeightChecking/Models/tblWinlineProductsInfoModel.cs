@@ -52,6 +52,7 @@ namespace WeightChecking
         public bool? Actived { get; set; }
         public DateTime? CreatedDate { get; set; }
         public string CreatedMachine { get; set; }
+        public int MetalScan { get; set; }
 
     }
 }
