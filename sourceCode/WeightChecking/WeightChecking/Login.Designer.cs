@@ -66,11 +66,11 @@ namespace WeightChecking
             this.btnSubmit.Appearance.Font = new System.Drawing.Font("Tahoma", 30F);
             this.btnSubmit.Appearance.Options.UseBackColor = true;
             this.btnSubmit.Appearance.Options.UseFont = true;
-            this.btnSubmit.Location = new System.Drawing.Point(207, 252);
+            this.btnSubmit.Location = new System.Drawing.Point(58, 252);
             this.btnSubmit.Name = "btnSubmit";
-            this.btnSubmit.Size = new System.Drawing.Size(301, 60);
+            this.btnSubmit.Size = new System.Drawing.Size(450, 60);
             this.btnSubmit.TabIndex = 4;
-            this.btnSubmit.Text = "Submit";
+            this.btnSubmit.Text = "Login";
             this.btnSubmit.Click += new System.EventHandler(this.btnSubmit_Click);
             // 
             // chkRemember

@@ -31,8 +31,11 @@ namespace WeightChecking
 
             GlobalVariables.ReInfo = JsonConvert.DeserializeObject<RememberInfo>(File.ReadAllText(@"./RememberInfo.json"));
 
-            GlobalVariables.ReInfo.UserName = EncodeMD5.DecryptString(GlobalVariables.ReInfo.UserName, "ITFramasBDVN");
-            GlobalVariables.ReInfo.Pass = EncodeMD5.DecryptString(GlobalVariables.ReInfo.Pass, "ITFramasBDVN");
+            if (GlobalVariables.ReInfo.Remember)
+            {
+                GlobalVariables.ReInfo.UserName = EncodeMD5.DecryptString(GlobalVariables.ReInfo.UserName, "ITFramasBDVN");
+                GlobalVariables.ReInfo.Pass = EncodeMD5.DecryptString(GlobalVariables.ReInfo.Pass, "ITFramasBDVN");
+            }
             #endregion
 
             //Log các hành động của user thì tự log bằng tay vào bảng tblLog
