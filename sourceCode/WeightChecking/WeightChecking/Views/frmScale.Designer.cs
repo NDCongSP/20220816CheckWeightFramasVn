@@ -30,6 +30,7 @@ namespace WeightChecking
         private void InitializeComponent()
         {
             this.layoutControl1 = new DevExpress.XtraLayout.LayoutControl();
+            this.txtTest = new DevExpress.XtraEditors.TextEdit();
             this.button1 = new System.Windows.Forms.Button();
             this.labMetalScanCount = new DevExpress.XtraEditors.LabelControl();
             this.labelControl6 = new DevExpress.XtraEditors.LabelControl();
@@ -62,6 +63,7 @@ namespace WeightChecking
             this.layoutControlItem8 = new DevExpress.XtraLayout.LayoutControlItem();
             this.layoutControlItem10 = new DevExpress.XtraLayout.LayoutControlItem();
             this.layoutControlItem19 = new DevExpress.XtraLayout.LayoutControlItem();
+            this.layoutControlItem20 = new DevExpress.XtraLayout.LayoutControlItem();
             this.layoutControlGroup2 = new DevExpress.XtraLayout.LayoutControlGroup();
             this.layoutControlItem9 = new DevExpress.XtraLayout.LayoutControlItem();
             this.layoutControlItem11 = new DevExpress.XtraLayout.LayoutControlItem();
@@ -73,10 +75,9 @@ namespace WeightChecking
             this.layoutControlItem16 = new DevExpress.XtraLayout.LayoutControlItem();
             this.layoutControlItem17 = new DevExpress.XtraLayout.LayoutControlItem();
             this.layoutControlItem18 = new DevExpress.XtraLayout.LayoutControlItem();
-            this.txtTest = new DevExpress.XtraEditors.TextEdit();
-            this.layoutControlItem20 = new DevExpress.XtraLayout.LayoutControlItem();
             ((System.ComponentModel.ISupportInitialize)(this.layoutControl1)).BeginInit();
             this.layoutControl1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.txtTest.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtQrCode.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.Root)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.emptySpaceItem1)).BeginInit();
@@ -91,6 +92,7 @@ namespace WeightChecking
             ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem8)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem10)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem19)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem20)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.layoutControlGroup2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem9)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem11)).BeginInit();
@@ -102,8 +104,6 @@ namespace WeightChecking
             ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem16)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem17)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem18)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.txtTest.Properties)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem20)).BeginInit();
             this.SuspendLayout();
             // 
             // layoutControl1
@@ -136,6 +136,16 @@ namespace WeightChecking
             this.layoutControl1.Size = new System.Drawing.Size(1119, 794);
             this.layoutControl1.TabIndex = 0;
             this.layoutControl1.Text = "layoutControl1";
+            // 
+            // txtTest
+            // 
+            this.txtTest.Location = new System.Drawing.Point(908, 97);
+            this.txtTest.Name = "txtTest";
+            this.txtTest.Properties.Appearance.Font = new System.Drawing.Font("Tahoma", 25F);
+            this.txtTest.Properties.Appearance.Options.UseFont = true;
+            this.txtTest.Size = new System.Drawing.Size(187, 46);
+            this.txtTest.StyleController = this.layoutControl1;
+            this.txtTest.TabIndex = 23;
             // 
             // button1
             // 
@@ -374,7 +384,7 @@ namespace WeightChecking
             this.labProductCode.Appearance.Options.UseFont = true;
             this.labProductCode.Location = new System.Drawing.Point(246, 97);
             this.labProductCode.Name = "labProductCode";
-            this.labProductCode.Size = new System.Drawing.Size(442, 46);
+            this.labProductCode.Size = new System.Drawing.Size(658, 46);
             this.labProductCode.StyleController = this.layoutControl1;
             this.labProductCode.TabIndex = 6;
             this.labProductCode.Text = "labelControl1";
@@ -465,7 +475,7 @@ namespace WeightChecking
             this.layoutControlItem3.Location = new System.Drawing.Point(0, 50);
             this.layoutControlItem3.MinSize = new System.Drawing.Size(383, 44);
             this.layoutControlItem3.Name = "layoutControlItem3";
-            this.layoutControlItem3.Size = new System.Drawing.Size(668, 50);
+            this.layoutControlItem3.Size = new System.Drawing.Size(884, 50);
             this.layoutControlItem3.SizeConstraintsType = DevExpress.XtraLayout.SizeConstraintsType.Custom;
             this.layoutControlItem3.Text = "Product Code";
             this.layoutControlItem3.TextSize = new System.Drawing.Size(210, 24);
@@ -555,6 +565,15 @@ namespace WeightChecking
             this.layoutControlItem19.Size = new System.Drawing.Size(191, 50);
             this.layoutControlItem19.TextSize = new System.Drawing.Size(0, 0);
             this.layoutControlItem19.TextVisible = false;
+            // 
+            // layoutControlItem20
+            // 
+            this.layoutControlItem20.Control = this.txtTest;
+            this.layoutControlItem20.Location = new System.Drawing.Point(884, 50);
+            this.layoutControlItem20.Name = "layoutControlItem20";
+            this.layoutControlItem20.Size = new System.Drawing.Size(191, 50);
+            this.layoutControlItem20.TextSize = new System.Drawing.Size(0, 0);
+            this.layoutControlItem20.TextVisible = false;
             // 
             // layoutControlGroup2
             // 
@@ -715,25 +734,6 @@ namespace WeightChecking
             this.layoutControlItem18.Text = "Metal Scan Count (Box)";
             this.layoutControlItem18.TextSize = new System.Drawing.Size(210, 24);
             // 
-            // txtTest
-            // 
-            this.txtTest.Location = new System.Drawing.Point(692, 97);
-            this.txtTest.Name = "txtTest";
-            this.txtTest.Properties.Appearance.Font = new System.Drawing.Font("Tahoma", 25F);
-            this.txtTest.Properties.Appearance.Options.UseFont = true;
-            this.txtTest.Size = new System.Drawing.Size(403, 46);
-            this.txtTest.StyleController = this.layoutControl1;
-            this.txtTest.TabIndex = 23;
-            // 
-            // layoutControlItem20
-            // 
-            this.layoutControlItem20.Control = this.txtTest;
-            this.layoutControlItem20.Location = new System.Drawing.Point(668, 50);
-            this.layoutControlItem20.Name = "layoutControlItem20";
-            this.layoutControlItem20.Size = new System.Drawing.Size(407, 50);
-            this.layoutControlItem20.TextSize = new System.Drawing.Size(0, 0);
-            this.layoutControlItem20.TextVisible = false;
-            // 
             // frmScale
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -748,6 +748,7 @@ namespace WeightChecking
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.frmScale_FormClosing);
             ((System.ComponentModel.ISupportInitialize)(this.layoutControl1)).EndInit();
             this.layoutControl1.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.txtTest.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtQrCode.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.Root)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.emptySpaceItem1)).EndInit();
@@ -762,6 +763,7 @@ namespace WeightChecking
             ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem8)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem10)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem19)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem20)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.layoutControlGroup2)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem9)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem11)).EndInit();
@@ -773,8 +775,6 @@ namespace WeightChecking
             ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem16)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem17)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem18)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.txtTest.Properties)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem20)).EndInit();
             this.ResumeLayout(false);
 
         }

@@ -153,6 +153,17 @@ namespace WeightChecking
                         GlobalVariables.ReInfo.GoodBoxNoPrinting += 1;
                     }
                 }
+                else//thung fail
+                {
+                    if (scanData.Decoration == 1)
+                    {
+                        GlobalVariables.ReInfo.FailBoxPrinting += 1;
+                    }
+                    else
+                    {
+                        GlobalVariables.ReInfo.FailBoxNoPrinting += 1;
+                    }
+                }
                 #endregion
 
                 #region reset txtQrcode để quét mã tiếp
@@ -193,7 +204,6 @@ namespace WeightChecking
 
             rptRe.Parameters["Weight"].Value = weight;
             rptRe.Parameters["IdLabel"].Value = _idLabel;
-            //rptRe.Parameters["Weight"].Visible = true;
 
             rptRe.CreateDocument();
             ReportPrintTool printToolCrush = new ReportPrintTool(rptRe);

@@ -37,7 +37,7 @@ namespace WeightChecking
             this.barStaticItemVersion = new DevExpress.XtraBars.BarStaticItem();
             this.barStaticItemStatus = new DevExpress.XtraBars.BarStaticItem();
             this.barButtonItemPrint = new DevExpress.XtraBars.BarButtonItem();
-            this.barButtonItemResetHistory = new DevExpress.XtraBars.BarButtonItem();
+            this.barButtonItemResetCountMetal = new DevExpress.XtraBars.BarButtonItem();
             this.barButtonItemGetDataWL = new DevExpress.XtraBars.BarButtonItem();
             this.barButtonItemRefreshData = new DevExpress.XtraBars.BarButtonItem();
             this.ribbonPageHome = new DevExpress.XtraBars.Ribbon.RibbonPage();
@@ -66,7 +66,7 @@ namespace WeightChecking
             this.barStaticItemVersion,
             this.barStaticItemStatus,
             this.barButtonItemPrint,
-            this.barButtonItemResetHistory,
+            this.barButtonItemResetCountMetal,
             this.barButtonItemGetDataWL,
             this.barButtonItemRefreshData});
             this.ribbonControl1.Location = new System.Drawing.Point(0, 0);
@@ -112,12 +112,12 @@ namespace WeightChecking
             this.barButtonItemPrint.ImageOptions.SvgImage = ((DevExpress.Utils.Svg.SvgImage)(resources.GetObject("barButtonItemPrint.ImageOptions.SvgImage")));
             this.barButtonItemPrint.Name = "barButtonItemPrint";
             // 
-            // barButtonItemResetHistory
+            // barButtonItemResetCountMetal
             // 
-            this.barButtonItemResetHistory.Caption = "Reset Count";
-            this.barButtonItemResetHistory.Id = 7;
-            this.barButtonItemResetHistory.ImageOptions.SvgImage = ((DevExpress.Utils.Svg.SvgImage)(resources.GetObject("barButtonItemResetHistory.ImageOptions.SvgImage")));
-            this.barButtonItemResetHistory.Name = "barButtonItemResetHistory";
+            this.barButtonItemResetCountMetal.Caption = "Reset Count";
+            this.barButtonItemResetCountMetal.Id = 7;
+            this.barButtonItemResetCountMetal.ImageOptions.SvgImage = ((DevExpress.Utils.Svg.SvgImage)(resources.GetObject("barButtonItemResetHistory.ImageOptions.SvgImage")));
+            this.barButtonItemResetCountMetal.Name = "barButtonItemResetCountMetal";
             // 
             // barButtonItemGetDataWL
             // 
@@ -149,7 +149,7 @@ namespace WeightChecking
             this.ribbonPageGroupHome.ItemLinks.Add(this.barButtonItemMain);
             this.ribbonPageGroupHome.ItemLinks.Add(this.barButtonItemSettings);
             this.ribbonPageGroupHome.ItemLinks.Add(this.barButtonItemPrint);
-            this.ribbonPageGroupHome.ItemLinks.Add(this.barButtonItemResetHistory);
+            this.ribbonPageGroupHome.ItemLinks.Add(this.barButtonItemResetCountMetal);
             this.ribbonPageGroupHome.Name = "ribbonPageGroupHome";
             this.ribbonPageGroupHome.Text = "Actions";
             // 
@@ -245,7 +245,7 @@ namespace WeightChecking
         private DevExpress.XtraBars.BarStaticItem barStaticItemVersion;
         private DevExpress.XtraBars.BarStaticItem barStaticItemStatus;
         private DevExpress.XtraBars.BarButtonItem barButtonItemPrint;
-        private DevExpress.XtraBars.BarButtonItem barButtonItemResetHistory;
+        private DevExpress.XtraBars.BarButtonItem barButtonItemResetCountMetal;
         private DevExpress.XtraBars.BarButtonItem barButtonItemGetDataWL;
         private DevExpress.XtraBars.Ribbon.RibbonPage ribbonPageMasterData;
         private DevExpress.XtraBars.Ribbon.RibbonPageGroup ribbonPageGroupMasterData;

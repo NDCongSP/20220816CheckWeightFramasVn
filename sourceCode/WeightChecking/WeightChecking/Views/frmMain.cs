@@ -44,7 +44,7 @@ namespace WeightChecking
             this.barButtonItemMain.ItemClick += BarButtonItemMain_ItemClick;
             this.barButtonItemSettings.ItemClick += BarButtonItemSettings_ItemClick;
             this.barButtonItemPrint.ItemClick += BarButtonItemPrint_ItemClick;
-            this.barButtonItemResetHistory.ItemClick += BarButtonItemResetHistory_ItemClick;
+            this.barButtonItemResetCountMetal.ItemClick += BarButtonItemResetCountMetal_ItemClick;
 
             //chon chế độ chỉ hiển thị tab ribbon, ẩn chi tiết group
             ribbonControl1.Minimized = true;//show tabs
@@ -179,7 +179,7 @@ namespace WeightChecking
 
         }
 
-        private void BarButtonItemResetHistory_ItemClick(object sender, DevExpress.XtraBars.ItemClickEventArgs e)
+        private void BarButtonItemResetCountMetal_ItemClick(object sender, DevExpress.XtraBars.ItemClickEventArgs e)
         {
 
         }
@@ -187,7 +187,7 @@ namespace WeightChecking
         //Get data from winline update to local Databases.
         private void barButtonItemGetDataWL_ItemClick(object sender, DevExpress.XtraBars.ItemClickEventArgs e)
         {
-            GlobalVariables.MyEvent.RefreshStatus = true;
+            
         }
 
         private void barButtonItemRefreshData_ItemClick(object sender, DevExpress.XtraBars.ItemClickEventArgs e)
