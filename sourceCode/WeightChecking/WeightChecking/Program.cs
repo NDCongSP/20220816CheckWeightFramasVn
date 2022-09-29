@@ -29,12 +29,12 @@ namespace WeightChecking
 
             Console.WriteLine($"Path app: {Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location)}");
 
-            GlobalVariables.ReInfo = JsonConvert.DeserializeObject<RememberInfo>(File.ReadAllText(@"./RememberInfo.json"));
+            GlobalVariables.RememberInfo = JsonConvert.DeserializeObject<RememberInfo>(File.ReadAllText(@"./RememberInfo.json"));
 
-            if (GlobalVariables.ReInfo.Remember)
+            if (GlobalVariables.RememberInfo.Remember)
             {
-                GlobalVariables.ReInfo.UserName = EncodeMD5.DecryptString(GlobalVariables.ReInfo.UserName, "ITFramasBDVN");
-                GlobalVariables.ReInfo.Pass = EncodeMD5.DecryptString(GlobalVariables.ReInfo.Pass, "ITFramasBDVN");
+                GlobalVariables.RememberInfo.UserName = EncodeMD5.DecryptString(GlobalVariables.RememberInfo.UserName, "ITFramasBDVN");
+                GlobalVariables.RememberInfo.Pass = EncodeMD5.DecryptString(GlobalVariables.RememberInfo.Pass, "ITFramasBDVN");
             }
             #endregion
 

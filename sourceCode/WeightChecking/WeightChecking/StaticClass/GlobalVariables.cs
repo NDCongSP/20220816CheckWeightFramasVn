@@ -25,7 +25,7 @@ namespace WeightChecking
             return new SqlConnection(ConStringWinline);
         }
         //chứa các thông tin cần lưu lại để khi mở phần mềm lên thì sẽ đọc lên để tiếp tục làm việc.
-        public static RememberInfo ReInfo { get; set; } = new RememberInfo();
+        public static RememberInfo RememberInfo { get; set; } = new RememberInfo();
 
         public static RefreshEvent MyEvent = new RefreshEvent();
 
@@ -35,5 +35,7 @@ namespace WeightChecking
         public static string ScaleStatus = "Disconnected";
         public static int ScaleDelay = 300;
         public static int UnitScale { get; set; } = 0;
+
+        public static tblUsers UserLoginInfo { get; set; } = new tblUsers();
     }
 }

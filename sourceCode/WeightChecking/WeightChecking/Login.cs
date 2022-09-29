@@ -30,18 +30,18 @@ namespace WeightChecking
 
         private void Login_Load(object sender, EventArgs e)
         {
-            if (GlobalVariables.ReInfo.Remember)
+            if (GlobalVariables.RememberInfo.Remember)
             {
-                this.txtUseName.Text = GlobalVariables.ReInfo.UserName;
-                this.txtPass.Text = GlobalVariables.ReInfo.Pass;
-                this.chkRemember.Checked = GlobalVariables.ReInfo.Remember;
+                this.txtUseName.Text = GlobalVariables.RememberInfo.UserName;
+                this.txtPass.Text = GlobalVariables.RememberInfo.Pass;
+                this.chkRemember.Checked = GlobalVariables.RememberInfo.Remember;
             }
            
             this.txtUseName.Focus();
             this.chkRemember.CheckedChanged += (s, o) =>
             {
                 CheckEdit ck = (CheckEdit)s;
-                GlobalVariables.ReInfo.Remember = ck.Checked;
+                GlobalVariables.RememberInfo.Remember = ck.Checked;
             };
 
             _timer.Enabled = true;
@@ -65,28 +65,28 @@ namespace WeightChecking
                     var para = new DynamicParameters();
                     para.Add("@userName", txtUseName.Text);
 
-                    var result = connection.Query<tblUsers>("sp_UsersLogin", para, commandType: CommandType.StoredProcedure).FirstOrDefault();
+                    GlobalVariables.UserLoginInfo = connection.Query<tblUsers>("sp_UsersLogin", para, commandType: CommandType.StoredProcedure).FirstOrDefault();
 
-                    if (result != null)
+                    if (GlobalVariables.UserLoginInfo != null)
                     {
-                        if (BC.Verify(txtPass.Text, result.Password))
+                        if (BC.Verify(txtPass.Text, GlobalVariables.UserLoginInfo.Password))
                         {
                             //log thong tin dang nhap vao rememberInfo
-                            if (GlobalVariables.ReInfo.Remember)
+                            if (GlobalVariables.RememberInfo.Remember)
                             {
-                                GlobalVariables.ReInfo.UserName = EncodeMD5.EncryptString(txtUseName.Text, "ITFramasBDVN");
-                                GlobalVariables.ReInfo.Pass = EncodeMD5.EncryptString(txtPass.Text, "ITFramasBDVN");
+                                GlobalVariables.RememberInfo.UserName = EncodeMD5.EncryptString(txtUseName.Text, "ITFramasBDVN");
+                                GlobalVariables.RememberInfo.Pass = EncodeMD5.EncryptString(txtPass.Text, "ITFramasBDVN");
 
-                                string json = JsonConvert.SerializeObject(GlobalVariables.ReInfo);
+                                string json = JsonConvert.SerializeObject(GlobalVariables.RememberInfo);
 
                                 File.WriteAllText(@"./RememberInfo.json", json);
                             }
                             else
                             {
-                                GlobalVariables.ReInfo.UserName = null;
-                                GlobalVariables.ReInfo.Pass = null;
+                                GlobalVariables.RememberInfo.UserName = null;
+                                GlobalVariables.RememberInfo.Pass = null;
 
-                                string json = JsonConvert.SerializeObject(GlobalVariables.ReInfo);
+                                string json = JsonConvert.SerializeObject(GlobalVariables.RememberInfo);
 
                                 File.WriteAllText(@"./RememberInfo.json", json);
                             }

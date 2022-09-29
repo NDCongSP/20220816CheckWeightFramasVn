@@ -80,7 +80,7 @@ namespace WeightChecking
             // 
             // barButtonItemMain
             // 
-            this.barButtonItemMain.Caption = "Main";
+            this.barButtonItemMain.Caption = "Scale";
             this.barButtonItemMain.Id = 1;
             this.barButtonItemMain.ImageOptions.SvgImage = ((DevExpress.Utils.Svg.SvgImage)(resources.GetObject("barButtonItemMain.ImageOptions.SvgImage")));
             this.barButtonItemMain.Name = "barButtonItemMain";
@@ -116,7 +116,7 @@ namespace WeightChecking
             // 
             this.barButtonItemResetCountMetal.Caption = "Reset Count";
             this.barButtonItemResetCountMetal.Id = 7;
-            this.barButtonItemResetCountMetal.ImageOptions.SvgImage = ((DevExpress.Utils.Svg.SvgImage)(resources.GetObject("barButtonItemResetHistory.ImageOptions.SvgImage")));
+            this.barButtonItemResetCountMetal.ImageOptions.SvgImage = ((DevExpress.Utils.Svg.SvgImage)(resources.GetObject("barButtonItemResetCountMetal.ImageOptions.SvgImage")));
             this.barButtonItemResetCountMetal.Name = "barButtonItemResetCountMetal";
             // 
             // barButtonItemGetDataWL
@@ -145,7 +145,6 @@ namespace WeightChecking
             // 
             // ribbonPageGroupHome
             // 
-            this.ribbonPageGroupHome.ImageOptions.SvgImage = ((DevExpress.Utils.Svg.SvgImage)(resources.GetObject("ribbonPageGroupHome.ImageOptions.SvgImage")));
             this.ribbonPageGroupHome.ItemLinks.Add(this.barButtonItemMain);
             this.ribbonPageGroupHome.ItemLinks.Add(this.barButtonItemSettings);
             this.ribbonPageGroupHome.ItemLinks.Add(this.barButtonItemPrint);
@@ -157,6 +156,7 @@ namespace WeightChecking
             // 
             this.ribbonPageMasterData.Groups.AddRange(new DevExpress.XtraBars.Ribbon.RibbonPageGroup[] {
             this.ribbonPageGroupMasterData});
+            this.ribbonPageMasterData.ImageOptions.SvgImage = ((DevExpress.Utils.Svg.SvgImage)(resources.GetObject("ribbonPageMasterData.ImageOptions.SvgImage")));
             this.ribbonPageMasterData.Name = "ribbonPageMasterData";
             this.ribbonPageMasterData.Text = "Master Data";
             // 

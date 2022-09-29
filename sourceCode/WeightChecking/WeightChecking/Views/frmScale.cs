@@ -146,22 +146,22 @@ namespace WeightChecking
                 {
                     if (scanData.Decoration == 1)
                     {
-                        GlobalVariables.ReInfo.GoodBoxPrinting += 1;
+                        GlobalVariables.RememberInfo.GoodBoxPrinting += 1;
                     }
                     else
                     {
-                        GlobalVariables.ReInfo.GoodBoxNoPrinting += 1;
+                        GlobalVariables.RememberInfo.GoodBoxNoPrinting += 1;
                     }
                 }
                 else//thung fail
                 {
                     if (scanData.Decoration == 1)
                     {
-                        GlobalVariables.ReInfo.FailBoxPrinting += 1;
+                        GlobalVariables.RememberInfo.FailBoxPrinting += 1;
                     }
                     else
                     {
-                        GlobalVariables.ReInfo.FailBoxNoPrinting += 1;
+                        GlobalVariables.RememberInfo.FailBoxNoPrinting += 1;
                     }
                 }
                 #endregion

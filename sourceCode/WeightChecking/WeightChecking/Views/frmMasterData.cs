@@ -1,5 +1,7 @@
 ﻿using Dapper;
+using DevExpress.Utils.Menu;
 using DevExpress.XtraEditors;
+using DevExpress.XtraGrid.Views.Grid;
 using Serilog;
 using System;
 using System.Collections.Generic;
@@ -15,6 +17,7 @@ namespace WeightChecking
 {
     public partial class frmMasterData : DevExpress.XtraEditors.XtraForm
     {
+        string _id;
         public frmMasterData()
         {
             InitializeComponent();
@@ -25,34 +28,100 @@ namespace WeightChecking
         private void FrmMasterData_Load(object sender, EventArgs e)
         {
             GlobalVariables.MyEvent.RefreshActionevent += MyEvent_RefreshActionevent;
+            this.grv.PopupMenuShowing += Grv_PopupMenuShowing;
+
+            GlobalVariables.MyEvent.RefreshStatus = true;
+        }
+
+        private void Grv_PopupMenuShowing(object sender, DevExpress.XtraGrid.Views.Grid.PopupMenuShowingEventArgs e)
+        {
+            try
+            {
+                e.Menu.Items.Add(new DXMenuItem("Update Tolerance", new EventHandler(UpdateTolerance)));
+            }
+            catch (Exception ex)
+            {
+                XtraMessageBox.Show("Lỗi Get Data: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void UpdateTolerance(object sender, EventArgs e)
+        {
+            try
+            {
+                frmUpdateTolerance frmUpdate = new frmUpdateTolerance();
+                frmUpdate.Id = _id;
+
+                frmUpdate.ShowDialog();
+            }
+            catch (Exception ex)
+            {
+                XtraMessageBox.Show("Lỗi MixingLisr: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
 
         private void MyEvent_RefreshActionevent(object sender, EventArgs e)
         {
             try
             {
-                using (var connection = GlobalVariables.GetDbConnectionWinline())
+                using (var connection = GlobalVariables.GetDbConnection())
                 {
-                    var winlineInfo = connection.Query<tblWinlineProductsInfoModel>("sp_IdcScanScaleGetCoreData").ToList();
+                    var winlineInfo = connection.Query<tblWinlineProductsInfoModel>("sp_tblWinlineProductsInfoGets").ToList();
 
                     if (winlineInfo != null && winlineInfo.Count > 0)
                     {
                         Console.WriteLine($"Get data from winline ok.");
+
+                        if (grc.InvokeRequired)
+                        {
+                            grc.Invoke(new Action(()=> {
+                                grc.DataSource = null;
+                                grc.DataSource = winlineInfo;
+
+                                grv.OptionsView.ColumnHeaderAutoHeight = DevExpress.Utils.DefaultBoolean.True;
+                                grv.OptionsView.ColumnAutoWidth = false;
+                                grv.Columns["Id"].Visible = false;
+                            }));
+                        }
+                        else
+                        {
+                            grc.DataSource = null;
+                            grc.DataSource = winlineInfo;
+                        }
                     }
                     else
                     {
-                        Console.WriteLine($"Get data from winline fail.");
-                        Log.Error("Get data from winline fail.");
+                        if (grc.InvokeRequired)
+                        {
+                            grc.Invoke(new Action(() => {
+                                grc.DataSource = null;
+                            }));
+                        }
+                        else
+                        {
+                            grc.DataSource = null;
+                        }
+
+                        Console.WriteLine($"Refresh master data.");
+                        Log.Error("Refresh master data fail.");
                     }
                 }
-
             }
             catch (Exception ex)
             {
                 Log.Error(ex, "Get data from winline exception.");
             }
-            
-            GlobalVariables.MyEvent.RefreshStatus = false;
+            finally
+            {
+                GlobalVariables.MyEvent.RefreshStatus = false;
+            }
+        }
+
+        private void grv_RowClick(object sender, DevExpress.XtraGrid.Views.Grid.RowClickEventArgs e)
+        {
+            GridView gv = (GridView)sender;
+
+            _id = gv.GetRowCellValue(gv.FocusedRowHandle,"Id").ToString();
         }
     }
 }

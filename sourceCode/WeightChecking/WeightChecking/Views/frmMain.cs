@@ -3,6 +3,7 @@ using DevExpress.XtraBars.Docking2010.Views.Tabbed;
 using DevExpress.XtraEditors;
 using DevExpress.XtraSplashScreen;
 using DevExpress.XtraWaitForm;
+using Serilog;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -47,8 +48,8 @@ namespace WeightChecking
             this.barButtonItemResetCountMetal.ItemClick += BarButtonItemResetCountMetal_ItemClick;
 
             //chon chế độ chỉ hiển thị tab ribbon, ẩn chi tiết group
-            ribbonControl1.Minimized = true;//show tabs
-                                            //this.RibbonVisibility = DevExpress.XtraBars.Ribbon.RibbonVisibility.Hidden;
+            //ribbonControl1.Minimized = true;//show tabs
+            //this.RibbonVisibility = DevExpress.XtraBars.Ribbon.RibbonVisibility.Hidden;
 
             this.ribbonControl1.RibbonCaptionAlignment = DevExpress.XtraBars.Ribbon.RibbonCaptionAlignment.Center;
 
@@ -72,9 +73,9 @@ namespace WeightChecking
                             _settings = null;
                         }
                     }
-                    else if (o.Document.Caption== "Master Data")
+                    else if (o.Document.Caption == "Master Data")
                     {
-                        if (_masterData!=null)
+                        if (_masterData != null)
                         {
                             _masterData = null;
                         }
@@ -87,19 +88,44 @@ namespace WeightChecking
 
             };
 
-            #region actived form scale
-            if (_scale == null)
+            #region Check role
+            if (GlobalVariables.UserLoginInfo.Role == RolesEnum.Operator)
             {
-                _scale = "Actived";
+                #region actived form scale
+                if (_scale == null)
+                {
+                    _scale = "Actived";
 
-                _frmScale = new frmScale();
-                tabbedView1.AddDocument(_frmScale);
-                tabbedView1.ActivateDocument(_frmScale);
+                    _frmScale = new frmScale();
+                    tabbedView1.AddDocument(_frmScale);
+                    tabbedView1.ActivateDocument(_frmScale);
+                }
+                else
+                {
+                    tabbedView1.ActivateDocument(_frmScale);
+                }
+                #endregion
+
+                ribbonPageMasterData.Visible = false;
             }
-            else
+            else//Admin
             {
-                tabbedView1.ActivateDocument(_frmScale);
+                if (_masterData == null)
+                {
+                    _masterData = "Actived";
+
+                    _frmMasterData = new frmMasterData();
+                    tabbedView1.AddDocument(_frmMasterData);
+                    tabbedView1.ActivateDocument(_frmMasterData);
+                }
+                else
+                {
+                    tabbedView1.ActivateDocument(_frmMasterData);
+                }
+
+                ribbonControl1.SelectedPage = ribbonPageMasterData;
             }
+
             #endregion
 
             _timer.Enabled = true;
@@ -111,7 +137,7 @@ namespace WeightChecking
             Timer t = (Timer)sender;
             t.Enabled = false;
 
-            barStaticItemStatus.Caption =$"{DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss")} | ScaleStatus: {GlobalVariables.ScaleStatus}";
+            barStaticItemStatus.Caption = $"{DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss")} | {GlobalVariables.UserLoginInfo.UserName} | ScaleStatus: {GlobalVariables.ScaleStatus}";
 
             t.Enabled = true;
         }
@@ -187,7 +213,98 @@ namespace WeightChecking
         //Get data from winline update to local Databases.
         private void barButtonItemGetDataWL_ItemClick(object sender, DevExpress.XtraBars.ItemClickEventArgs e)
         {
-            
+            try
+            {
+                using (var connection = GlobalVariables.GetDbConnectionWinline())
+                {
+                    SplashScreenManager.ShowForm(this, typeof(WaitForm1), true, true, false);
+                    SplashScreenManager.Default.SetWaitFormCaption("Vui lòng chờ trong giây lát");
+                    SplashScreenManager.Default.SetWaitFormDescription("Loading...");
+
+                    var res = connection.Query<WinlineDataModel>("sp_IdcScanScaleGetCoreData").ToList();
+
+                    if (res != null && res.Count > 0)
+                    {
+                        foreach (var item in res)
+                        {
+                            var para = new DynamicParameters();
+                            para.Add("@productCode", item.ProductNumber);
+                            using (var con=GlobalVariables.GetDbConnection())
+                            {
+                                var res1 = con.Query<tblWinlineProductsInfoModel>("sp_tblWinlineProductsInfoGet", para, commandType: CommandType.StoredProcedure).FirstOrDefault();
+                                if (res1 != null)
+                                {
+
+                                }
+                                else
+                                {
+                                    #region Create parametters
+                                    para = null;
+                                    para = new DynamicParameters();
+
+                                    para.Add("@ProductNunmber", item.ProductNumber);
+                                    para.Add("@Name", item.ProductName);
+                                    para.Add("@ProductCategory", item.ProductCategory);
+                                    para.Add("@Brand", item.Brand);
+                                    para.Add("@Decoration", item.Decoration);//int
+                                    para.Add("@MetalScan", item.MetalScan);//int
+                                    para.Add("@MainProductNo", item.MainProductNo);
+                                    para.Add("@Color", item.Color);
+                                    para.Add("@Size", item.Size);
+                                    para.Add("@Weight", item.Weight);//float
+                                    para.Add("@PackingMethod", item.PackingMethod);
+                                    para.Add("@LeftWeight", item.LeftWeight);//float
+                                    para.Add("@RightWeight", item.RightWeight);//float
+                                    para.Add("@BoxType", item.BoxType);
+                                    para.Add("@ToolingNo", item.ToolingNo);
+                                    para.Add("@PackingBoxType", item.PackingBoxType);
+                                    para.Add("@CustomeUsePb", item.CustomeUsePb);
+                                    para.Add("@PlacticBox", item.PlacticBox);//int
+                                    para.Add("@PPbagWeight", item.PPbagWeight);//float
+                                    para.Add("@Bx1Weight", item.Bx1Weight);//float
+                                    para.Add("@Bx1AWeight", item.Bx1AWeight);//float
+                                    para.Add("@Bx2Weight", item.Bx2Weight);//float
+                                    para.Add("@Bx3Weight", item.Bx3Weight);//float
+                                    para.Add("@Bx4Weight", item.Bx4Weight);//float
+                                    para.Add("@Bx5Weight", item.Bx5Weight);//float
+                                    para.Add("@Bx1_50_40_34", item.Bx1_50_40_34);//int
+                                    para.Add("@Bx1A", item.Bx1A);//int
+                                    para.Add("@Bx2_50_40_17", item.Bx2_50_40_17);//int
+                                    para.Add("@Bx3_41_32_31", item.Bx3_41_32_31);//int
+                                    para.Add("@Bx4_32_23_15", item.Bx4_32_23_15);//int
+                                    para.Add("@Bx5_41_32_31", item.Bx5_41_32_31);//int
+                                    para.Add("@PlaticBoxWeight", item.PlaticBoxWeight);//float
+                                    para.Add("@PEUW", item.PEUW);//int
+                                    para.Add("@BagWeight", item.BagWeight);//float
+                                    para.Add("@PartitionWeight", item.PartitionWeight);//float
+                                    para.Add("@QtyPerbag", item.QtyPerbag);//int
+                                    para.Add("@QtyPerPartition", item.QtyPerPartition);//int
+                                    para.Add("@QtyPerWrapSheet", item.QtyPerWrapSheet);//int
+                                    para.Add("@WrapSheetWeight", item.WrapSheetWeight);//float
+                                    para.Add("@Tolerance", 0);//float
+                                    para.Add("@ToleranceBeforePrint", 0);//float
+                                    para.Add("@ToleranceAfterPrint", 0);//float
+                                    para.Add("@ProductFillter", string.Empty);
+                                    #endregion
+
+                                    var resInsert = con.Execute("sp_tblWinlineProductsInfoInsert", para, commandType: CommandType.StoredProcedure);
+                                }
+                            }
+                        }
+                        XtraMessageBox.Show("Get data from winline Ok.", "INFO", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Log.Error(ex, "Get data from winline exception.");
+                XtraMessageBox.Show("Lỗi MainForm Get data from winline: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            finally
+            {
+                SplashScreenManager.CloseForm(false);
+                GlobalVariables.MyEvent.RefreshStatus = true;
+            }
         }
 
         private void barButtonItemRefreshData_ItemClick(object sender, DevExpress.XtraBars.ItemClickEventArgs e)
@@ -206,16 +323,22 @@ namespace WeightChecking
                     tabbedView1.AddDocument(_frmMasterData);
                     tabbedView1.ActivateDocument(_frmMasterData);
 
-                    SplashScreenManager.CloseForm(false);
+                    //SplashScreenManager.CloseForm(false);
                 }
                 else
                 {
                     tabbedView1.ActivateDocument(_frmMasterData);
+                    GlobalVariables.MyEvent.RefreshStatus = true;
                 }
             }
             catch (Exception ex)
             {
+                Log.Error(ex, "Lỗi MainForm ReFresh masterData exception.");
                 XtraMessageBox.Show("Lỗi MainForm: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            finally
+            {
+                SplashScreenManager.CloseForm(false);
             }
         }
     }

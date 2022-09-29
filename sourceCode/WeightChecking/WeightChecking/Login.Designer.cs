@@ -55,9 +55,9 @@ namespace WeightChecking
             this.panelControl1.Controls.Add(this.txtUseName);
             this.panelControl1.Controls.Add(this.labPass);
             this.panelControl1.Controls.Add(this.labUserName);
-            this.panelControl1.Location = new System.Drawing.Point(695, 165);
+            this.panelControl1.Location = new System.Drawing.Point(579, 164);
             this.panelControl1.Name = "panelControl1";
-            this.panelControl1.Size = new System.Drawing.Size(590, 355);
+            this.panelControl1.Size = new System.Drawing.Size(804, 492);
             this.panelControl1.TabIndex = 0;
             // 
             // btnSubmit
@@ -66,16 +66,16 @@ namespace WeightChecking
             this.btnSubmit.Appearance.Font = new System.Drawing.Font("Tahoma", 30F);
             this.btnSubmit.Appearance.Options.UseBackColor = true;
             this.btnSubmit.Appearance.Options.UseFont = true;
-            this.btnSubmit.Location = new System.Drawing.Point(58, 252);
+            this.btnSubmit.Location = new System.Drawing.Point(30, 374);
             this.btnSubmit.Name = "btnSubmit";
-            this.btnSubmit.Size = new System.Drawing.Size(450, 60);
+            this.btnSubmit.Size = new System.Drawing.Size(744, 60);
             this.btnSubmit.TabIndex = 4;
             this.btnSubmit.Text = "Login";
             this.btnSubmit.Click += new System.EventHandler(this.btnSubmit_Click);
             // 
             // chkRemember
             // 
-            this.chkRemember.Location = new System.Drawing.Point(385, 202);
+            this.chkRemember.Location = new System.Drawing.Point(30, 303);
             this.chkRemember.Name = "chkRemember";
             this.chkRemember.Properties.Appearance.Font = new System.Drawing.Font("Tahoma", 15F);
             this.chkRemember.Properties.Appearance.Options.UseFont = true;
@@ -86,32 +86,32 @@ namespace WeightChecking
             // txtPass
             // 
             this.txtPass.EditValue = "";
-            this.txtPass.Location = new System.Drawing.Point(207, 130);
+            this.txtPass.Location = new System.Drawing.Point(30, 206);
             this.txtPass.Name = "txtPass";
             this.txtPass.Properties.Appearance.Font = new System.Drawing.Font("Tahoma", 30F);
             this.txtPass.Properties.Appearance.Options.UseFont = true;
             this.txtPass.Properties.NullText = "UserName";
             this.txtPass.Properties.PasswordChar = '*';
             this.txtPass.Properties.UseSystemPasswordChar = true;
-            this.txtPass.Size = new System.Drawing.Size(301, 54);
+            this.txtPass.Size = new System.Drawing.Size(744, 54);
             this.txtPass.TabIndex = 2;
             // 
             // txtUseName
             // 
             this.txtUseName.EditValue = "";
-            this.txtUseName.Location = new System.Drawing.Point(207, 47);
+            this.txtUseName.Location = new System.Drawing.Point(30, 80);
             this.txtUseName.Name = "txtUseName";
             this.txtUseName.Properties.Appearance.Font = new System.Drawing.Font("Tahoma", 30F);
             this.txtUseName.Properties.Appearance.Options.UseFont = true;
             this.txtUseName.Properties.NullText = "UserName";
-            this.txtUseName.Size = new System.Drawing.Size(301, 54);
+            this.txtUseName.Size = new System.Drawing.Size(744, 54);
             this.txtUseName.TabIndex = 1;
             // 
             // labPass
             // 
             this.labPass.Appearance.Font = new System.Drawing.Font("Tahoma", 15F);
             this.labPass.Appearance.Options.UseFont = true;
-            this.labPass.Location = new System.Drawing.Point(58, 133);
+            this.labPass.Location = new System.Drawing.Point(30, 176);
             this.labPass.Name = "labPass";
             this.labPass.Size = new System.Drawing.Size(84, 24);
             this.labPass.TabIndex = 0;
@@ -121,7 +121,7 @@ namespace WeightChecking
             // 
             this.labUserName.Appearance.Font = new System.Drawing.Font("Tahoma", 15F);
             this.labUserName.Appearance.Options.UseFont = true;
-            this.labUserName.Location = new System.Drawing.Point(58, 50);
+            this.labUserName.Location = new System.Drawing.Point(30, 50);
             this.labUserName.Name = "labUserName";
             this.labUserName.Size = new System.Drawing.Size(96, 24);
             this.labUserName.TabIndex = 0;
