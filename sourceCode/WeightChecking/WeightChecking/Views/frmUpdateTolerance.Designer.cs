@@ -241,7 +241,7 @@ namespace WeightChecking
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "frmUpdateTolerance";
-            this.Text = "frmUpdateTolerance";
+            this.Text = "Update Tolerance";
             ((System.ComponentModel.ISupportInitialize)(this.layoutControl1)).EndInit();
             this.layoutControl1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.txtToleranceAfterPrint.Properties)).EndInit();

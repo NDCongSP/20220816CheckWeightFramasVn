@@ -22,8 +22,10 @@ namespace WeightChecking
         private ScaleHelper _scaleHelper;
         private Task _ckTask;
 
-        private tblScanDataModel scanData = new tblScanDataModel();
-        private double realWeight = 0;
+        private tblScanDataModel _scanData = new tblScanDataModel();
+
+        private string _idLabel = null;
+        private string _plr = null;// kiểu đóng thùng, P-đôi; L/R-left right
 
         public frmScale()
         {
@@ -99,15 +101,15 @@ namespace WeightChecking
 
             if (_w <= 30)
             {
-                scanData.RealWeight = _w;
+                _scanData.RealWeight = _w;
             }
 
-            Console.WriteLine($"Real weight: {scanData.RealWeight}");
+            Console.WriteLine($"Real weight: {_scanData.RealWeight}");
         }
 
         private void TxtQrCode_KeyDown(object sender, KeyEventArgs e)
         {
-            //content of the QR code "OC283225,6112012227-2094-2651,28,13,P,1/56,160506,1/1|1,30.2022"
+            //content of the QR code "OC283225,6112012227-2094-2651,28,13,P,1/56,160506,1/1|1,30.2022,1,0,1"
 
             if (e.KeyCode == Keys.Enter)
             {
@@ -116,9 +118,12 @@ namespace WeightChecking
 
                 var _s = _sen.Text.Split('|');
                 var _s1 = _s[0].Split(',');
+                var _s2 = _s[1].Split(',');
 
-                scanData.OcNo = _s1[0];
-                scanData.ProductNo = _s1[1];
+                _idLabel = _s2[0];
+
+                _scanData.OcNo = _s1[0];
+                _scanData.ProductNo = _s1[1];
 
                 #region truy vấn data và hiển thị giá trị lên các control
                 //truy vấn thông tin 
@@ -126,25 +131,25 @@ namespace WeightChecking
                 #region hiển thị thông tin
                 if (labOcNo.InvokeRequired)
                 {
-                    labOcNo.Invoke(new Action(() => { labOcNo.Text = scanData.OcNo; }));
+                    labOcNo.Invoke(new Action(() => { labOcNo.Text = _scanData.OcNo; }));
                 }
-                else labOcNo.Text = scanData.OcNo;
+                else labOcNo.Text = _scanData.OcNo;
 
                 if (labProductCode.InvokeRequired)
                 {
-                    labProductCode.Invoke(new Action(() => { labProductCode.Text = scanData.ProductNo; }));
+                    labProductCode.Invoke(new Action(() => { labProductCode.Text = _scanData.ProductNo; }));
                 }
-                else labProductCode.Text = scanData.ProductNo;
+                else labProductCode.Text = _scanData.ProductNo;
                 #endregion
 
                 #endregion
 
                 #region xử lý so sánh khối lượng cân thực tế với kế hoạch để xử lý
                 //thung hang Pass
-                if (scanData.RealWeight >= scanData.StandardWeight - scanData.Tolerance
-                    && scanData.RealWeight <= scanData.StandardWeight + scanData.Tolerance)
+                if (_scanData.RealWeight >= _scanData.StandardWeight - _scanData.Tolerance
+                    && _scanData.RealWeight <= _scanData.StandardWeight + _scanData.Tolerance)
                 {
-                    if (scanData.Decoration == 1)
+                    if (_scanData.Decoration == 1)
                     {
                         GlobalVariables.RememberInfo.GoodBoxPrinting += 1;
                     }
@@ -155,7 +160,7 @@ namespace WeightChecking
                 }
                 else//thung fail
                 {
-                    if (scanData.Decoration == 1)
+                    if (_scanData.Decoration == 1)
                     {
                         GlobalVariables.RememberInfo.FailBoxPrinting += 1;
                     }
