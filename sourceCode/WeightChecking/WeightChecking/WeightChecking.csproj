@@ -207,6 +207,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Enums\LocationEnum.cs" />
     <Compile Include="Enums\RolesEnum.cs" />
     <Compile Include="Events\RefreshEvent.cs" />
     <Compile Include="Views\frmUpdateTolerance.cs">
