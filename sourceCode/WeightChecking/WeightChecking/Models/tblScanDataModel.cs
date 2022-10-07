@@ -20,7 +20,6 @@ namespace WeightChecking
         public string CustomerNo { get; set; }
         public int Location { get; set; }
         public string BoxPosNo { get; set; }
-        public int Pass { get; set; }
         public string Note { get; set; }
         public string Brand { get; set; }
         public int Decoration { get; set; }
@@ -60,8 +59,13 @@ namespace WeightChecking
         public double WrapSheetWeight { get; set; }
         public double Tolerance { get; set; }
         public double StandardWeight { get; set; }
-        public double RealWeight { get; set; }
         public DateTime CreatedDate { get; set; }
+        public double RealWeight { get; set; }
+        public int Pass { get; set; }
+        //Báo trạng thái: 0- thùng fail; 1- chờ đi sơn; 2- Done hàng FG qua kho Kerry.
+        //Ở trạm IDC check nêu hàng noPrinting thì set =2. nếu printing set =1.
+        //Khi hàng đi sơn về, vào trạm check afterPrinting, quét OK set =2
+        public int Status { get; set; }
         public int Actived { get; set; }
         public string CreatedBy { get; set; }
 

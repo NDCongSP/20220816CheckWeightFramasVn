@@ -3,6 +3,7 @@ using DevExpress.XtraEditors;
 using DevExpress.XtraPrinting;
 using DevExpress.XtraReports.UI;
 using DevExpress.XtraSplashScreen;
+using Newtonsoft.Json;
 using Serilog;
 using System;
 using System.Collections.Generic;
@@ -234,10 +235,23 @@ namespace WeightChecking
                             if (_scanData.Decoration == 1)
                             {
                                 GlobalVariables.RememberInfo.GoodBoxPrinting += 1;
+                                _scanData.Status = 1;
                             }
                             else
                             {
                                 GlobalVariables.RememberInfo.GoodBoxNoPrinting += 1;
+                                _scanData.Status = 2;
+                            }
+                            //hien thi mau label
+                            if (labWeight.InvokeRequired)
+                            {
+                                labWeight.Invoke(new Action(()=> {
+                                    labWeight.BackColor = Color.Green;
+                                }));
+                            }
+                            else
+                            {
+                                labWeight.BackColor = Color.Green;
                             }
                             _scanData.Pass = 1;
                             //Printing
@@ -252,6 +266,18 @@ namespace WeightChecking
                             else
                             {
                                 GlobalVariables.RememberInfo.FailBoxNoPrinting += 1;
+                            }
+
+                            //hien thi mau label
+                            if (labWeight.InvokeRequired)
+                            {
+                                labWeight.Invoke(new Action(() => {
+                                    labWeight.BackColor = Color.Red;
+                                }));
+                            }
+                            else
+                            {
+                                labWeight.BackColor = Color.Red;
                             }
                         }
                         #endregion
@@ -277,6 +303,12 @@ namespace WeightChecking
                     _sen.Text = null;
                 }
                 _sen.Focus();
+                #endregion
+
+                #region tính toán các thông số cộng dồn số lượng và tluu vao file remember
+
+                string json = JsonConvert.SerializeObject(GlobalVariables.RememberInfo);
+                File.WriteAllText(@"./RememberInfo.json", json);
                 #endregion
             }
         }

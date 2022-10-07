@@ -692,7 +692,7 @@ namespace WeightChecking
             this.layoutControlItem15.Name = "layoutControlItem15";
             this.layoutControlItem15.Size = new System.Drawing.Size(337, 30);
             this.layoutControlItem15.SizeConstraintsType = DevExpress.XtraLayout.SizeConstraintsType.Custom;
-            this.layoutControlItem15.Text = "No Printing (Prs)";
+            this.layoutControlItem15.Text = "Fail No Printing (Prs)";
             this.layoutControlItem15.TextSize = new System.Drawing.Size(210, 24);
             // 
             // layoutControlItem16
@@ -718,7 +718,7 @@ namespace WeightChecking
             this.layoutControlItem17.Name = "layoutControlItem17";
             this.layoutControlItem17.Size = new System.Drawing.Size(337, 30);
             this.layoutControlItem17.SizeConstraintsType = DevExpress.XtraLayout.SizeConstraintsType.Custom;
-            this.layoutControlItem17.Text = "Printing";
+            this.layoutControlItem17.Text = "Printing (Prs)";
             this.layoutControlItem17.TextSize = new System.Drawing.Size(210, 24);
             // 
             // layoutControlItem18

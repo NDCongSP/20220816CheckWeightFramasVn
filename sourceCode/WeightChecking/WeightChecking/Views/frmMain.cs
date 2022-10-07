@@ -3,12 +3,14 @@ using DevExpress.XtraBars.Docking2010.Views.Tabbed;
 using DevExpress.XtraEditors;
 using DevExpress.XtraSplashScreen;
 using DevExpress.XtraWaitForm;
+using Newtonsoft.Json;
 using Serilog;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
@@ -34,9 +36,17 @@ namespace WeightChecking
             InitializeComponent();
 
             Load += frmMain_Load;
+
+            FormClosing += MainForm_FormClosing;
         }
 
         #region Events
+        private void MainForm_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            DialogResult = DialogResult.OK;
+            this.Close();
+        }
+
         private void frmMain_Load(object sender, EventArgs e)
         {
             barStaticItemVersion.Caption = Application.ProductVersion;
@@ -340,6 +350,20 @@ namespace WeightChecking
             {
                 SplashScreenManager.CloseForm(false);
             }
+        }
+
+        private void barButtonItemResetCountMetal_ItemClick_1(object sender, DevExpress.XtraBars.ItemClickEventArgs e)
+        {
+            GlobalVariables.RememberInfo.GoodBoxPrinting = 0;
+            GlobalVariables.RememberInfo.GoodBoxNoPrinting = 0;
+            GlobalVariables.RememberInfo.FailBoxPrinting = 0;
+            GlobalVariables.RememberInfo.FailBoxNoPrinting = 0;
+            GlobalVariables.RememberInfo.MetalScan = 0;
+            GlobalVariables.RememberInfo.NoMetalScan = 0;
+            GlobalVariables.RememberInfo.CountMetalScan = 0;
+
+            string json = JsonConvert.SerializeObject(GlobalVariables.RememberInfo);
+            File.WriteAllText(@"./RememberInfo.json", json);
         }
     }
     #endregion
