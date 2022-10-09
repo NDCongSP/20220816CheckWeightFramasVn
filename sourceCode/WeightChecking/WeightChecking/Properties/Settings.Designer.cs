@@ -75,5 +75,17 @@ namespace WeightChecking.Properties {
                 this["UnitScale"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("COM9")]
+        public string ComPort {
+            get {
+                return ((string)(this["ComPort"]));
+            }
+            set {
+                this["ComPort"] = value;
+            }
+        }
     }
 }

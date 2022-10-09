@@ -19,12 +19,13 @@ namespace WeightChecking
     {
         private Timer _timer = new Timer() { Interval = 100 };
         private bool _saveInfo = false;
-
+        DialogResult dialogResult;
         public Login()
         {
             InitializeComponent();
 
             Load += Login_Load;
+            
             labStatus.Text = Application.ProductVersion;
         }
 
@@ -91,8 +92,16 @@ namespace WeightChecking
                                 File.WriteAllText(@"./RememberInfo.json", json);
                             }
 
-                            frmMain nf = new frmMain();
-                            nf.ShowDialog();
+                            //frmMain nf = new frmMain();
+                            //nf.ShowDialog();
+
+                            this.Hide();
+                            var frmMain = new frmMain();
+                            dialogResult = frmMain.ShowDialog();
+                            if (dialogResult == DialogResult.OK)
+                            {
+                                this.Close();
+                            }
                         }
                         else
                         {

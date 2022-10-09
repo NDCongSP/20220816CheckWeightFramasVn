@@ -1,7 +1,9 @@
-﻿using DevExpress.XtraEditors;
+﻿using Dapper;
+using DevExpress.XtraEditors;
 using DevExpress.XtraPrinting;
 using DevExpress.XtraReports.UI;
 using DevExpress.XtraSplashScreen;
+using Newtonsoft.Json;
 using Serilog;
 using System;
 using System.Collections.Generic;
@@ -39,7 +41,7 @@ namespace WeightChecking
             this.txtQrCode.Text = "aaa";
             this.txtQrCode.Focus();
             this.txtQrCode.KeyDown += TxtQrCode_KeyDown;
-            this.labWeight.TextChanged += LabWeight_TextChanged;
+            //this.labWeight.TextChanged += LabWeight_TextChanged;
             this.txtTest.KeyDown += TxtTest_KeyDown;
 
             #region Register events Scale value change
@@ -64,16 +66,23 @@ namespace WeightChecking
             {
                 try
                 {
+                    var _w = o.Value * GlobalVariables.UnitScale;
+
+                    if (_w <= 30000)
+                    {
+                        _scanData.RealWeight = _w;
+                    }
+
                     if (labWeight.InvokeRequired)
                     {
                         labWeight.Invoke(new Action(() =>
                         {
-                            labWeight.Text = (o.Value * GlobalVariables.UnitScale).ToString();
+                            labWeight.Text = _scanData.RealWeight.ToString();
                         }));
                     }
                     else
                     {
-                        labWeight.Text = o.Value.ToString();
+                        labWeight.Text = _scanData.RealWeight.ToString();
                     }
                 }
                 catch (Exception ex)
@@ -109,66 +118,183 @@ namespace WeightChecking
 
         private void TxtQrCode_KeyDown(object sender, KeyEventArgs e)
         {
-            //content of the QR code "OC283225,6112012227-2094-2651,28,13,P,1/56,160506,1/1|1,30.2022,1,0,1"
+            //content of the QR code "OC283225,7112041803-PA2Q-3001,28,13,P,1/56,160506,1/1|1,30.2022,1,0,1"
 
             if (e.KeyCode == Keys.Enter)
             {
                 TextEdit _sen = sender as TextEdit;
                 Console.WriteLine(_sen.Text);
 
-                var _s = _sen.Text.Split('|');
-                var _s1 = _s[0].Split(',');
-                var _s2 = _s[1].Split(',');
+                _scanData.BarcodeString = _sen.Text;
 
-                _idLabel = _s2[0];
+                var s = _sen.Text.Split('|');
+                var s1 = s[0].Split(',');
+                var s2 = s[1].Split(',');
 
-                _scanData.OcNo = _s1[0];
-                _scanData.ProductNo = _s1[1];
+                GlobalVariables.IdLabel = s2[1];
+                _scanData.IdLable = GlobalVariables.IdLabel;
 
-                #region truy vấn data và hiển thị giá trị lên các control
+                _scanData.OcNo = s1[0];
+                _scanData.ProductNo = s1[1];
+                _scanData.BoxNo = s1[5];
+                _scanData.BoxPosNo = s1[7];
+                _plr = s1[4];//get Thung này đóng theo đôi (P) hay L/R
+                _scanData.Location = Convert.ToInt32(s2[0]);
+
+                #region truy vấn data và xử lý
                 //truy vấn thông tin 
-
-                #region hiển thị thông tin
-                if (labOcNo.InvokeRequired)
+                using (var connection = GlobalVariables.GetDbConnection())
                 {
-                    labOcNo.Invoke(new Action(() => { labOcNo.Text = _scanData.OcNo; }));
-                }
-                else labOcNo.Text = _scanData.OcNo;
+                    var para = new DynamicParameters();
+                    para.Add("@ProductCode", _scanData.ProductNo);
 
-                if (labProductCode.InvokeRequired)
-                {
-                    labProductCode.Invoke(new Action(() => { labProductCode.Text = _scanData.ProductNo; }));
-                }
-                else labProductCode.Text = _scanData.ProductNo;
-                #endregion
+                    var res = connection.Query<tblWinlineProductsInfoModel>("sp_tblWinlineProductsInfoGet", para, commandType: CommandType.StoredProcedure).FirstOrDefault();
 
-                #endregion
-
-                #region xử lý so sánh khối lượng cân thực tế với kế hoạch để xử lý
-                //thung hang Pass
-                if (_scanData.RealWeight >= _scanData.StandardWeight - _scanData.Tolerance
-                    && _scanData.RealWeight <= _scanData.StandardWeight + _scanData.Tolerance)
-                {
-                    if (_scanData.Decoration == 1)
+                    if (res != null)
                     {
-                        GlobalVariables.RememberInfo.GoodBoxPrinting += 1;
+                        #region Fill data from coreData to scanData
+                        _scanData.ProductName = res.Name;
+                        //_scanData.Quantity=res.
+                        //_scanData.Unit=res.
+                        //_scanData.CustomerNo = res.CustomeUsePb;
+                        _scanData.Decoration = res.Decoration;
+                        _scanData.MetalScan = res.MetalScan;
+                        _scanData.Brand = res.Brand;
+                        _scanData.MainProductNo = res.MainProductNo;
+                        _scanData.Color = res.Color;
+                        _scanData.Size = res.Size;
+                        _scanData.Weight = res.Weight;
+                        _scanData.PackingMethod = res.PackingMethod;
+                        _scanData.LeftWeight = res.LeftWeight;
+                        _scanData.RightWeight = res.RightWeight;
+                        _scanData.BoxType = res.BoxType;
+                        _scanData.ToolingNo = res.ToolingNo;
+                        _scanData.PackingBoxType = res.PackingBoxType;
+                        //_scanData.CustomerUsePlactixBox = res.CustomeUsePb;
+                        _scanData.BagWeight = res.BagWeight;
+                        _scanData.Tolerance = res.Tolerance;
+                        _scanData.ToleranceBeforePrint = res.ToleranceBeforePrint;
+                        _scanData.ToleranceAfterPrint = res.ToleranceAfterPrint;
+
+                        //tinh toán standardWeight theo Pair/Left/Right
+                        if (_plr == "P")
+                        {
+                            _scanData.StandardWeight = res.Weight * res.QtyPerbag + res.BagWeight;
+                        }
+                        else if (_plr == "L")
+                        {
+                            if (res.LeftWeight == 0)
+                            {
+                                _scanData.StandardWeight = res.Weight * res.QtyPerbag + res.BagWeight;
+                            }
+                            else
+                            {
+                                _scanData.StandardWeight = res.LeftWeight * res.QtyPerbag + res.BagWeight;
+                            }
+                        }
+                        else if (_plr == "R")
+                        {
+                            if (res.RightWeight == 0)
+                            {
+                                _scanData.StandardWeight = res.Weight * res.QtyPerbag + res.BagWeight;
+                            }
+                            else
+                            {
+                                _scanData.StandardWeight = res.RightWeight * res.QtyPerbag + res.BagWeight;
+                            }
+                        }
+                        #endregion
+
+                        #region hiển thị thông tin
+                        if (labOcNo.InvokeRequired)
+                        {
+                            labOcNo.Invoke(new Action(() => { labOcNo.Text = _scanData.OcNo; }));
+                        }
+                        else labOcNo.Text = _scanData.OcNo;
+
+                        if (labProductCode.InvokeRequired)
+                        {
+                            labProductCode.Invoke(new Action(() => { labProductCode.Text = _scanData.ProductNo; }));
+                        }
+                        else labProductCode.Text = _scanData.ProductNo;
+
+                        if (labProductName.InvokeRequired)
+                        {
+                            labProductName.Invoke(new Action(() => { labProductName.Text = _scanData.ProductName; }));
+                        }
+                        else labProductName.Text = _scanData.ProductName;
+
+                        if (labWeightPlan.InvokeRequired)
+                        {
+                            labWeightPlan.Invoke(new Action(() => { labWeightPlan.Text = _scanData.StandardWeight.ToString(); }));
+                        }
+                        else labWeightPlan.Text = _scanData.StandardWeight.ToString();
+                        #endregion
+
+                        #region xử lý so sánh khối lượng cân thực tế với kế hoạch để xử lý
+                        //thung hang Pass
+                        if (_scanData.RealWeight >= _scanData.StandardWeight - _scanData.Tolerance
+                            && _scanData.RealWeight <= _scanData.StandardWeight + _scanData.Tolerance)
+                        {
+                            if (_scanData.Decoration == 1)
+                            {
+                                GlobalVariables.RememberInfo.GoodBoxPrinting += 1;
+                                _scanData.Status = 1;
+                            }
+                            else
+                            {
+                                GlobalVariables.RememberInfo.GoodBoxNoPrinting += 1;
+                                _scanData.Status = 2;
+                            }
+                            //hien thi mau label
+                            if (labWeight.InvokeRequired)
+                            {
+                                labWeight.Invoke(new Action(()=> {
+                                    labWeight.BackColor = Color.Green;
+                                }));
+                            }
+                            else
+                            {
+                                labWeight.BackColor = Color.Green;
+                            }
+                            _scanData.Pass = 1;
+                            //Printing
+                            GlobalVariables.Printing(_scanData.RealWeight, GlobalVariables.IdLabel);
+                            GlobalVariables.RealWeight = _scanData.RealWeight;
+                            GlobalVariables.PrintApprove = true;
+                        }
+                        else//thung fail
+                        {
+                            GlobalVariables.PrintApprove = false;
+                            if (_scanData.Decoration == 1)
+                            {
+                                GlobalVariables.RememberInfo.FailBoxPrinting += 1;
+                            }
+                            else
+                            {
+                                GlobalVariables.RememberInfo.FailBoxNoPrinting += 1;
+                            }
+
+                            //hien thi mau label
+                            if (labWeight.InvokeRequired)
+                            {
+                                labWeight.Invoke(new Action(() => {
+                                    labWeight.BackColor = Color.Red;
+                                }));
+                            }
+                            else
+                            {
+                                labWeight.BackColor = Color.Red;
+                            }
+                        }
+                        #endregion
                     }
                     else
                     {
-                        GlobalVariables.RememberInfo.GoodBoxNoPrinting += 1;
+                        XtraMessageBox.Show($"Product number {_scanData.ProductNo} không có trong hệ thống. Xin hãy kiểm tra lại thông tin.", "CẢNH BÁO.", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     }
                 }
-                else//thung fail
-                {
-                    if (_scanData.Decoration == 1)
-                    {
-                        GlobalVariables.RememberInfo.FailBoxPrinting += 1;
-                    }
-                    else
-                    {
-                        GlobalVariables.RememberInfo.FailBoxNoPrinting += 1;
-                    }
-                }
+
                 #endregion
 
                 #region reset txtQrcode để quét mã tiếp
@@ -185,6 +311,12 @@ namespace WeightChecking
                 }
                 _sen.Focus();
                 #endregion
+
+                #region tính toán các thông số cộng dồn số lượng và luu vao file remember
+
+                string json = JsonConvert.SerializeObject(GlobalVariables.RememberInfo);
+                File.WriteAllText(@"./RememberInfo.json", json);
+                #endregion
             }
         }
 
@@ -198,27 +330,16 @@ namespace WeightChecking
             GlobalVariables.ScaleStatus = "Disconnect";
         }
 
-        #region Printing
-        // Print the file.
-        public void Printing(double weight, string qrCode)
-        {
-            //content of the QR code "OC283225,6112012227-2094-2651,28,13,P,1/56,160506,1/1|1,30.2022"
-            var _idLabel = qrCode.Split('|')[1].Split(',')[1];
-            var rptRe = new rptLabel();
-            //rptRe.DataSource = ds;
-
-            rptRe.Parameters["Weight"].Value = weight;
-            rptRe.Parameters["IdLabel"].Value = _idLabel;
-
-            rptRe.CreateDocument();
-            ReportPrintTool printToolCrush = new ReportPrintTool(rptRe);
-            printToolCrush.Print();
-        }
-        #endregion
-
         private void button1_Click(object sender, EventArgs e)
         {
-            Printing(25.68, "OC283225,6112012227-2094-2651,28,13,P,1/56,160506,1/1|1,3000000000.2022");
+            if (GlobalVariables.PrintApprove)
+            {
+                GlobalVariables.PrintApprove = false;
+            }
+            else
+            {
+                GlobalVariables.PrintApprove = true;
+            }
         }
     }
 }

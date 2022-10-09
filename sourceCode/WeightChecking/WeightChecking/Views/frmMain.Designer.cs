@@ -118,6 +118,7 @@ namespace WeightChecking
             this.barButtonItemResetCountMetal.Id = 7;
             this.barButtonItemResetCountMetal.ImageOptions.SvgImage = ((DevExpress.Utils.Svg.SvgImage)(resources.GetObject("barButtonItemResetCountMetal.ImageOptions.SvgImage")));
             this.barButtonItemResetCountMetal.Name = "barButtonItemResetCountMetal";
+            this.barButtonItemResetCountMetal.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(this.barButtonItemResetCountMetal_ItemClick_1);
             // 
             // barButtonItemGetDataWL
             // 

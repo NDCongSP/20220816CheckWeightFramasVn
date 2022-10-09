@@ -6,6 +6,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using DevExpress.XtraReports.UI;
+using PLCPiProject;
 
 namespace WeightChecking
 {
@@ -37,5 +39,31 @@ namespace WeightChecking
         public static int UnitScale { get; set; } = 0;
 
         public static tblUsers UserLoginInfo { get; set; } = new tblUsers();
+
+        public static PLCPi MyDriver = new PLCPi();
+        public static byte[] ReadHoldingArr { get; set; }
+        public static bool ModbusStatus { get; set; }
+        public static string ComPort { get; set; }
+
+        #region Printing
+        // Print the file.
+        public static void Printing(double weight, string idLabel)
+        {
+            //content of the QR code "OC283225,6112012227-2094-2651,28,13,P,1/56,160506,1/1|1,30.2022"
+            var rptRe = new rptLabel();
+            //rptRe.DataSource = ds;
+
+            rptRe.Parameters["Weight"].Value = weight;
+            rptRe.Parameters["IdLabel"].Value = idLabel;
+
+            rptRe.CreateDocument();
+            ReportPrintTool printToolCrush = new ReportPrintTool(rptRe);
+            printToolCrush.Print();
+        }
+
+        public static double RealWeight { get; set; } = 0;
+        public static string IdLabel { get; set; } = null;
+        public static bool PrintApprove { get; set; } = false;
+        #endregion
     }
 }

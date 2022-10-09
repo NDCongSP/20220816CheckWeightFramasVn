@@ -36,6 +36,8 @@ namespace WeightChecking
                 GlobalVariables.RememberInfo.UserName = EncodeMD5.DecryptString(GlobalVariables.RememberInfo.UserName, "ITFramasBDVN");
                 GlobalVariables.RememberInfo.Pass = EncodeMD5.DecryptString(GlobalVariables.RememberInfo.Pass, "ITFramasBDVN");
             }
+
+            GlobalVariables.ComPort = Properties.Settings.Default.ComPort;
             #endregion
 
             //Log các hành động của user thì tự log bằng tay vào bảng tblLog
