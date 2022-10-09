@@ -58,6 +58,9 @@ namespace WeightChecking
         public int QtyWrapSheet { get; set; }
         public double WrapSheetWeight { get; set; }
         public double Tolerance { get; set; }
+        public double ToleranceBeforePrint { get; set; }
+        public double ToleranceAfterPrint { get; set; }
+        public string IdLable { get; set; }
         public double StandardWeight { get; set; }
         public DateTime CreatedDate { get; set; }
         public double RealWeight { get; set; }

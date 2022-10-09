@@ -131,7 +131,8 @@ namespace WeightChecking
                 var s1 = s[0].Split(',');
                 var s2 = s[1].Split(',');
 
-                _idLabel = s2[1];
+                GlobalVariables.IdLabel = s2[1];
+                _scanData.IdLable = GlobalVariables.IdLabel;
 
                 _scanData.OcNo = s1[0];
                 _scanData.ProductNo = s1[1];
@@ -172,7 +173,10 @@ namespace WeightChecking
                         //_scanData.CustomerUsePlactixBox = res.CustomeUsePb;
                         _scanData.BagWeight = res.BagWeight;
                         _scanData.Tolerance = res.Tolerance;
+                        _scanData.ToleranceBeforePrint = res.ToleranceBeforePrint;
+                        _scanData.ToleranceAfterPrint = res.ToleranceAfterPrint;
 
+                        //tinh toán standardWeight theo Pair/Left/Right
                         if (_plr == "P")
                         {
                             _scanData.StandardWeight = res.Weight * res.QtyPerbag + res.BagWeight;
@@ -255,10 +259,13 @@ namespace WeightChecking
                             }
                             _scanData.Pass = 1;
                             //Printing
-                            Printing(_scanData.RealWeight, _idLabel);
+                            GlobalVariables.Printing(_scanData.RealWeight, GlobalVariables.IdLabel);
+                            GlobalVariables.RealWeight = _scanData.RealWeight;
+                            GlobalVariables.PrintApprove = true;
                         }
                         else//thung fail
                         {
+                            GlobalVariables.PrintApprove = false;
                             if (_scanData.Decoration == 1)
                             {
                                 GlobalVariables.RememberInfo.FailBoxPrinting += 1;
@@ -305,7 +312,7 @@ namespace WeightChecking
                 _sen.Focus();
                 #endregion
 
-                #region tính toán các thông số cộng dồn số lượng và tluu vao file remember
+                #region tính toán các thông số cộng dồn số lượng và luu vao file remember
 
                 string json = JsonConvert.SerializeObject(GlobalVariables.RememberInfo);
                 File.WriteAllText(@"./RememberInfo.json", json);
@@ -323,26 +330,16 @@ namespace WeightChecking
             GlobalVariables.ScaleStatus = "Disconnect";
         }
 
-        #region Printing
-        // Print the file.
-        public void Printing(double weight, string idLabel)
-        {
-            //content of the QR code "OC283225,6112012227-2094-2651,28,13,P,1/56,160506,1/1|1,30.2022"
-            var rptRe = new rptLabel();
-            //rptRe.DataSource = ds;
-
-            rptRe.Parameters["Weight"].Value = weight;
-            rptRe.Parameters["IdLabel"].Value = idLabel;
-
-            rptRe.CreateDocument();
-            ReportPrintTool printToolCrush = new ReportPrintTool(rptRe);
-            printToolCrush.Print();
-        }
-        #endregion
-
         private void button1_Click(object sender, EventArgs e)
         {
-            Printing(25.68, "OC283225,6112012227-2094-2651,28,13,P,1/56,160506,1/1|1,3000000000.2022");
+            if (GlobalVariables.PrintApprove)
+            {
+                GlobalVariables.PrintApprove = false;
+            }
+            else
+            {
+                GlobalVariables.PrintApprove = true;
+            }
         }
     }
 }

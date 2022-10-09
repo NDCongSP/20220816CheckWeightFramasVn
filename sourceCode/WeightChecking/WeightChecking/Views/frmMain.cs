@@ -138,6 +138,16 @@ namespace WeightChecking
 
             #endregion
 
+            #region Ket noi modbus RTU PLC metalScan counter
+            //GlobalVariables.ModbusStatus = GlobalVariables.MyDriver.ModbusRTUMaster.KetNoi(GlobalVariables.ComPort, 9600, 8, System.IO.Ports.Parity.None, System.IO.Ports.StopBits.One);
+
+            //Console.WriteLine($"PLC Status: {GlobalVariables.ModbusStatus}");
+            //if (GlobalVariables.ModbusStatus == false)
+            //{
+            //    MessageBox.Show($"Không thể kết nối được bộ đếm dò kim loại.{Environment.NewLine}Tắt phần mềm, kiểm tra lại kết nối với PLC rồi mở lại phần mềm.",
+            //                    "CẢNH BÁO", MessageBoxButtons.OK,MessageBoxIcon.Error);
+            //}
+            #endregion
             _timer.Enabled = true;
             _timer.Tick += _timer_Tick;
         }
@@ -212,7 +222,10 @@ namespace WeightChecking
 
         private void BarButtonItemPrint_ItemClick(object sender, DevExpress.XtraBars.ItemClickEventArgs e)
         {
-
+            if (GlobalVariables.PrintApprove)
+            {
+                GlobalVariables.Printing(25.68, "3000000000.2022");
+            }
         }
 
         private void BarButtonItemResetCountMetal_ItemClick(object sender, DevExpress.XtraBars.ItemClickEventArgs e)
@@ -239,7 +252,7 @@ namespace WeightChecking
                         {
                             var para = new DynamicParameters();
                             para.Add("@productCode", item.ProductNumber);
-                            using (var con=GlobalVariables.GetDbConnection())
+                            using (var con = GlobalVariables.GetDbConnection())
                             {
                                 var res1 = con.Query<tblWinlineProductsInfoModel>("sp_tblWinlineProductsInfoGet", para, commandType: CommandType.StoredProcedure).FirstOrDefault();
                                 if (res1 != null)
