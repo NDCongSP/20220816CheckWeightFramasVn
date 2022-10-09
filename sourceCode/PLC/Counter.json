@@ -1,0 +1,138 @@
+{
+  "ProjectPath": "D:\\MyCompany\\8.SourceCode\\3.Projects\\20220816CheckWeightFramasVn\\sourceCode\\PLC\\Counter.json",
+  "Username": null,
+  "Password": null,
+  "ParameterContainer": null,
+  "Childs": [
+    {
+  "Name": "Local Station",
+  "Description": null,
+  "ItemType": "LocalStation",
+  "IsReadOnly": true,
+  "Enabled": true,
+  "CreatedDate": "2022-10-01T18:30:02.2901074+07:00",
+  "ModifiedDate": "2022-10-03T21:07:58.8518015+07:00",
+  "ParameterContainer": {
+  "DisplayName": null,
+  "DisplayParameters": null,
+  "Parameters": {}
+},
+  "CommunicationMode": "ReceiveFromServer",
+  "StationType": "Local",
+  "RemoteAddress": null,
+  "Port": 0,
+  "ConnectionString": null,
+  "RefreshRate": 0,
+  "Childs": [
+    {
+  "Name": "PlcCounter",
+  "Description": null,
+  "ItemType": "Channel",
+  "IsReadOnly": false,
+  "Enabled": true,
+  "CreatedDate": "2022-10-01T18:30:20.3921464+07:00",
+  "ModifiedDate": "2022-10-03T21:07:58.8518015+07:00",
+  "ParameterContainer": {
+  "DisplayName": null,
+  "DisplayParameters": null,
+  "Parameters": {
+    "Port": "COM9",
+    "ScanRate": "1000",
+    "Baudrate": "9600",
+    "Parity": "None",
+    "StopBits": "One",
+    "DelayBetweenPool": "5",
+    "MaxWritesCount": "10",
+    "DataBits": "8"
+  }
+},
+  "DriverPath": "ModbusRTU",
+  "Childs": [
+    {
+  "Name": "Device1",
+  "Description": null,
+  "ItemType": "Device",
+  "IsReadOnly": false,
+  "Enabled": true,
+  "CreatedDate": "2022-10-01T18:30:24.3300637+07:00",
+  "ModifiedDate": "2022-10-03T21:20:15.8417648+07:00",
+  "ParameterContainer": {
+  "DisplayName": null,
+  "DisplayParameters": null,
+  "Parameters": {
+    "DeviceId": "1",
+    "Timeout": "1000",
+    "TryReadWriteTimes": "3",
+    "ReadMode": "Block",
+    "InputContactReadBlockSettings": "[]",
+    "OutputCoilsReadBlockSettings": "[]",
+    "InputRegisterReadBlockSettings": "[]",
+    "HoldingRegisterReadBlockSettings": "[]"
+  }
+},
+  "ByteOrder": "ABCD",
+  "Childs": [],
+  "HaveTags": true,
+  "Tags": [
+    {
+  "Name": "ResetCounterS2",
+  "Description": null,
+  "ItemType": "Tag",
+  "IsReadOnly": false,
+  "Enabled": true,
+  "CreatedDate": "2022-10-01T18:44:28.7157332+07:00",
+  "ModifiedDate": "2022-10-01T18:44:28.7157332+07:00",
+  "ParameterContainer": {
+  "DisplayName": null,
+  "DisplayParameters": null,
+  "Parameters": {}
+},
+  "Address": "3",
+  "DataTypeName": "Bool",
+  "RefreshRate": 100,
+  "ByteOrder": 0,
+  "AccessPermission": "ReadAndWrite",
+  "Offset": 0.0,
+  "Gain": 1.0,
+  "IsInternalTag": false,
+  "GUID": null,
+  "Retain": false,
+  "Childs": [],
+  "HaveTags": true,
+  "Tags": []
+},
+    {
+  "Name": "CounterValueD500",
+  "Description": "thanh ghi D500, thanh ghi latched",
+  "ItemType": "Tag",
+  "IsReadOnly": false,
+  "Enabled": true,
+  "CreatedDate": "2022-10-03T21:18:51.3268045+07:00",
+  "ModifiedDate": "2022-10-03T21:18:51.3268045+07:00",
+  "ParameterContainer": {
+  "DisplayName": null,
+  "DisplayParameters": null,
+  "Parameters": {}
+},
+  "Address": "404597",
+  "DataTypeName": "Word",
+  "RefreshRate": 100,
+  "ByteOrder": 0,
+  "AccessPermission": "ReadAndWrite",
+  "Offset": 0.0,
+  "Gain": 1.0,
+  "IsInternalTag": false,
+  "GUID": null,
+  "Retain": false,
+  "Childs": [],
+  "HaveTags": true,
+  "Tags": []
+}
+  ]
+}
+  ]
+}
+  ]
+}
+  ]
+}
