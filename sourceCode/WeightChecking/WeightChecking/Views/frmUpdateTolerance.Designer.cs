@@ -33,6 +33,7 @@ namespace WeightChecking
         private void InitializeComponent()
         {
             this.layoutControl1 = new DevExpress.XtraLayout.LayoutControl();
+            this.labSize = new DevExpress.XtraEditors.LabelControl();
             this.labCodeItemSize = new DevExpress.XtraEditors.LabelControl();
             this.txtWrapSheetWeight = new DevExpress.XtraEditors.TextEdit();
             this.txtPlasicWeight = new DevExpress.XtraEditors.TextEdit();
@@ -79,7 +80,6 @@ namespace WeightChecking
             this.layoutControlItem5 = new DevExpress.XtraLayout.LayoutControlItem();
             this.layoutControlItem7 = new DevExpress.XtraLayout.LayoutControlItem();
             this.layoutControlItem22 = new DevExpress.XtraLayout.LayoutControlItem();
-            this.labSize = new DevExpress.XtraEditors.LabelControl();
             this.layoutControlItem23 = new DevExpress.XtraLayout.LayoutControlItem();
             ((System.ComponentModel.ISupportInitialize)(this.layoutControl1)).BeginInit();
             this.layoutControl1.SuspendLayout();
@@ -161,6 +161,18 @@ namespace WeightChecking
             this.layoutControl1.Size = new System.Drawing.Size(1457, 389);
             this.layoutControl1.TabIndex = 0;
             this.layoutControl1.Text = "layoutControl1";
+            // 
+            // labSize
+            // 
+            this.labSize.Appearance.Font = new System.Drawing.Font("Tahoma", 15F);
+            this.labSize.Appearance.Options.UseFont = true;
+            this.labSize.AutoSizeMode = DevExpress.XtraEditors.LabelAutoSizeMode.None;
+            this.labSize.Location = new System.Drawing.Point(250, 96);
+            this.labSize.Name = "labSize";
+            this.labSize.Size = new System.Drawing.Size(1178, 24);
+            this.labSize.StyleController = this.layoutControl1;
+            this.labSize.TabIndex = 27;
+            this.labSize.Text = "labelControl1";
             // 
             // labCodeItemSize
             // 
@@ -689,18 +701,6 @@ namespace WeightChecking
             this.layoutControlItem22.Text = "Code Item Size";
             this.layoutControlItem22.TextSize = new System.Drawing.Size(226, 24);
             // 
-            // labSize
-            // 
-            this.labSize.Appearance.Font = new System.Drawing.Font("Tahoma", 15F);
-            this.labSize.Appearance.Options.UseFont = true;
-            this.labSize.AutoSizeMode = DevExpress.XtraEditors.LabelAutoSizeMode.None;
-            this.labSize.Location = new System.Drawing.Point(250, 96);
-            this.labSize.Name = "labSize";
-            this.labSize.Size = new System.Drawing.Size(1178, 24);
-            this.labSize.StyleController = this.layoutControl1;
-            this.labSize.TabIndex = 27;
-            this.labSize.Text = "labelControl1";
-            // 
             // layoutControlItem23
             // 
             this.layoutControlItem23.AppearanceItemCaption.Font = new System.Drawing.Font("Tahoma", 15F);
@@ -721,7 +721,7 @@ namespace WeightChecking
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "frmUpdateTolerance";
-            this.Text = "Update Tolerance";
+            this.Text = "Update information";
             ((System.ComponentModel.ISupportInitialize)(this.layoutControl1)).EndInit();
             this.layoutControl1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.txtWrapSheetWeight.Properties)).EndInit();
