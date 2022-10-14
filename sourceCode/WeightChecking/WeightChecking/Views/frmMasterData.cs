@@ -17,7 +17,8 @@ namespace WeightChecking
 {
     public partial class frmMasterData : DevExpress.XtraEditors.XtraForm
     {
-        string _id;
+        string _productNumber;
+        string _codeItemZise;
         public frmMasterData()
         {
             InitializeComponent();
@@ -50,7 +51,8 @@ namespace WeightChecking
             try
             {
                 frmUpdateTolerance frmUpdate = new frmUpdateTolerance();
-                frmUpdate.Id = _id;
+                frmUpdate._info.ProductNumber = _productNumber;
+                frmUpdate._info.CodeItemSize = _codeItemZise;
 
                 frmUpdate.ShowDialog();
             }
@@ -66,7 +68,7 @@ namespace WeightChecking
             {
                 using (var connection = GlobalVariables.GetDbConnection())
                 {
-                    var winlineInfo = connection.Query<tblWinlineProductsInfoModel>("sp_tblWinlineProductsInfoGets").ToList();
+                    var winlineInfo = connection.Query<ProductInfoModel>("sp_vProductItemInfoGets").ToList();
 
                     if (winlineInfo != null && winlineInfo.Count > 0)
                     {
@@ -79,8 +81,8 @@ namespace WeightChecking
                                 grc.DataSource = winlineInfo;
 
                                 grv.OptionsView.ColumnHeaderAutoHeight = DevExpress.Utils.DefaultBoolean.True;
-                                grv.OptionsView.ColumnAutoWidth = false;
-                                grv.Columns["Id"].Visible = false;
+                                grv.OptionsView.ColumnAutoWidth = true;
+                                //grv.Columns["Id"].Visible = false;
                             }));
                         }
                         else
@@ -121,7 +123,8 @@ namespace WeightChecking
         {
             GridView gv = (GridView)sender;
 
-            _id = gv.GetRowCellValue(gv.FocusedRowHandle,"Id").ToString();
+            _productNumber = gv.GetRowCellValue(gv.FocusedRowHandle,"ProductNumber").ToString();
+            _codeItemZise = gv.GetRowCellValue(gv.FocusedRowHandle,"CodeItemSize").ToString();
         }
     }
 }

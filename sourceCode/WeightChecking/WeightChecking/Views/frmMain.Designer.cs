@@ -49,6 +49,7 @@ namespace WeightChecking
             this.documentManager1 = new DevExpress.XtraBars.Docking2010.DocumentManager(this.components);
             this.tabbedView1 = new DevExpress.XtraBars.Docking2010.Views.Tabbed.TabbedView(this.components);
             this.dockManager1 = new DevExpress.XtraBars.Docking.DockManager(this.components);
+            this.barButtonItemImport = new DevExpress.XtraBars.BarButtonItem();
             ((System.ComponentModel.ISupportInitialize)(this.ribbonControl1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.documentManager1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.tabbedView1)).BeginInit();
@@ -68,9 +69,10 @@ namespace WeightChecking
             this.barButtonItemPrint,
             this.barButtonItemResetCountMetal,
             this.barButtonItemGetDataWL,
-            this.barButtonItemRefreshData});
+            this.barButtonItemRefreshData,
+            this.barButtonItemImport});
             this.ribbonControl1.Location = new System.Drawing.Point(0, 0);
-            this.ribbonControl1.MaxItemId = 10;
+            this.ribbonControl1.MaxItemId = 11;
             this.ribbonControl1.Name = "ribbonControl1";
             this.ribbonControl1.Pages.AddRange(new DevExpress.XtraBars.Ribbon.RibbonPage[] {
             this.ribbonPageHome,
@@ -165,6 +167,7 @@ namespace WeightChecking
             // 
             this.ribbonPageGroupMasterData.ItemLinks.Add(this.barButtonItemRefreshData);
             this.ribbonPageGroupMasterData.ItemLinks.Add(this.barButtonItemGetDataWL);
+            this.ribbonPageGroupMasterData.ItemLinks.Add(this.barButtonItemImport);
             this.ribbonPageGroupMasterData.Name = "ribbonPageGroupMasterData";
             this.ribbonPageGroupMasterData.Text = "Master Data";
             // 
@@ -206,6 +209,14 @@ namespace WeightChecking
             "DevExpress.XtraBars.TabFormControl",
             "DevExpress.XtraBars.FluentDesignSystem.FluentDesignFormControl",
             "DevExpress.XtraBars.ToolbarForm.ToolbarFormControl"});
+            // 
+            // barButtonItemImport
+            // 
+            this.barButtonItemImport.Caption = "Import Template Settings";
+            this.barButtonItemImport.Id = 10;
+            this.barButtonItemImport.ImageOptions.SvgImage = ((DevExpress.Utils.Svg.SvgImage)(resources.GetObject("barButtonItemImport.ImageOptions.SvgImage")));
+            this.barButtonItemImport.Name = "barButtonItemImport";
+            this.barButtonItemImport.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(this.barButtonItemImport_ItemClick);
             // 
             // frmMain
             // 
@@ -251,6 +262,7 @@ namespace WeightChecking
         private DevExpress.XtraBars.Ribbon.RibbonPage ribbonPageMasterData;
         private DevExpress.XtraBars.Ribbon.RibbonPageGroup ribbonPageGroupMasterData;
         private DevExpress.XtraBars.BarButtonItem barButtonItemRefreshData;
+        private DevExpress.XtraBars.BarButtonItem barButtonItemImport;
     }
 }
 

@@ -1,4 +1,6 @@
 ﻿using Dapper;
+using DevExpress.Spreadsheet;
+using DevExpress.XtraPrinting.Export;
 using DevExpress.XtraBars.Docking2010.Views.Tabbed;
 using DevExpress.XtraEditors;
 using DevExpress.XtraSplashScreen;
@@ -248,73 +250,28 @@ namespace WeightChecking
 
                     if (res != null && res.Count > 0)
                     {
-                        foreach (var item in res)
+                        using (var con = GlobalVariables.GetDbConnection())
                         {
-                            var para = new DynamicParameters();
-                            para.Add("@productCode", item.ProductNumber);
-                            using (var con = GlobalVariables.GetDbConnection())
+                            //truncate data
+                            con.Execute("truncate table tblWinlineProductsInfo");
+
+                            var _insertCount = con.Execute($"Insert into tblWinlineProductsInfo (CodeItemSize,ProductNumber," +
+                            $"ProductName,ProductCategory,Brand,Decoration,MetalScan,MainProductNo,MainProductName,Color,SizeCode," +
+                            $"SizeName,Weight,LeftWeight,RightWeight,BoxType,ToolingNo,PackingBoxType,CustomeUsePb) " +
+                       $"values (@CodeItemSize,@ProductNumber,@ProductName,@ProductCategory,@Brand,@Decoration ,@MetalScan,@MainProductNo," +
+                       $"@MainProductName,@Color,@SizeCode,@SizeName,@Weight,@LeftWeight,@RightWeight,@BoxType,@ToolingNo" +
+                       $",@PackingBoxType,@CustomeUsePb)", res);
+
+                            if (_insertCount == res.Count)
                             {
-                                var res1 = con.Query<tblWinlineProductsInfoModel>("sp_tblWinlineProductsInfoGet", para, commandType: CommandType.StoredProcedure).FirstOrDefault();
-                                if (res1 != null)
-                                {
-
-                                }
-                                else
-                                {
-                                    #region Create parametters
-                                    para = null;
-                                    para = new DynamicParameters();
-
-                                    para.Add("@ProductNunmber", item.ProductNumber);
-                                    para.Add("@Name", item.ProductName);
-                                    para.Add("@ProductCategory", item.ProductCategory);
-                                    para.Add("@Brand", item.Brand);
-                                    para.Add("@Decoration", item.Decoration);//int
-                                    para.Add("@MetalScan", item.MetalScan);//int
-                                    para.Add("@MainProductNo", item.MainProductNo);
-                                    para.Add("@Color", item.Color);
-                                    para.Add("@Size", item.Size);
-                                    para.Add("@Weight", item.Weight);//float
-                                    para.Add("@PackingMethod", item.PackingMethod);
-                                    para.Add("@LeftWeight", item.LeftWeight);//float
-                                    para.Add("@RightWeight", item.RightWeight);//float
-                                    para.Add("@BoxType", item.BoxType);
-                                    para.Add("@ToolingNo", item.ToolingNo);
-                                    para.Add("@PackingBoxType", item.PackingBoxType);
-                                    para.Add("@CustomeUsePb", item.CustomeUsePb);
-                                    para.Add("@PlacticBox", item.PlacticBox);//int
-                                    para.Add("@PPbagWeight", item.PPbagWeight);//float
-                                    para.Add("@Bx1Weight", item.Bx1Weight);//float
-                                    para.Add("@Bx1AWeight", item.Bx1AWeight);//float
-                                    para.Add("@Bx2Weight", item.Bx2Weight);//float
-                                    para.Add("@Bx3Weight", item.Bx3Weight);//float
-                                    para.Add("@Bx4Weight", item.Bx4Weight);//float
-                                    para.Add("@Bx5Weight", item.Bx5Weight);//float
-                                    para.Add("@Bx1_50_40_34", item.Bx1_50_40_34);//int
-                                    para.Add("@Bx1A", item.Bx1A);//int
-                                    para.Add("@Bx2_50_40_17", item.Bx2_50_40_17);//int
-                                    para.Add("@Bx3_41_32_31", item.Bx3_41_32_31);//int
-                                    para.Add("@Bx4_32_23_15", item.Bx4_32_23_15);//int
-                                    para.Add("@Bx5_41_32_31", item.Bx5_41_32_31);//int
-                                    para.Add("@PlaticBoxWeight", item.PlaticBoxWeight);//float
-                                    para.Add("@PEUW", item.PEUW);//int
-                                    para.Add("@BagWeight", item.BagWeight);//float
-                                    para.Add("@PartitionWeight", item.PartitionWeight);//float
-                                    para.Add("@QtyPerbag", item.QtyPerbag);//int
-                                    para.Add("@QtyPerPartition", item.QtyPerPartition);//int
-                                    para.Add("@QtyPerWrapSheet", item.QtyPerWrapSheet);//int
-                                    para.Add("@WrapSheetWeight", item.WrapSheetWeight);//float
-                                    para.Add("@Tolerance", 0);//float
-                                    para.Add("@ToleranceBeforePrint", 0);//float
-                                    para.Add("@ToleranceAfterPrint", 0);//float
-                                    para.Add("@ProductFillter", string.Empty);
-                                    #endregion
-
-                                    var resInsert = con.Execute("sp_tblWinlineProductsInfoInsert", para, commandType: CommandType.StoredProcedure);
-                                }
+                                XtraMessageBox.Show($"Get data from winline Ok.  Rows inserted {_insertCount}/{ res.Count}.", "INFO", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                            }
+                            else
+                            {
+                                XtraMessageBox.Show($"Get data from winline fail. Rows inserted {_insertCount}/{ res.Count}.", "INFO", MessageBoxButtons.OK, MessageBoxIcon.Information);
                             }
                         }
-                        XtraMessageBox.Show("Get data from winline Ok.", "INFO", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        GlobalVariables.MyEvent.RefreshStatus = true;
                     }
                 }
             }
@@ -377,6 +334,146 @@ namespace WeightChecking
 
             string json = JsonConvert.SerializeObject(GlobalVariables.RememberInfo);
             File.WriteAllText(@"./RememberInfo.json", json);
+        }
+
+        private void barButtonItemImport_ItemClick(object sender, DevExpress.XtraBars.ItemClickEventArgs e)
+        {
+            try
+            {
+                OpenFileDialog ofd = new OpenFileDialog();
+                ofd.Filter = "Excel File|*.xlsx";
+                ofd.Title = "Import Excel File";
+                if (ofd.ShowDialog() == DialogResult.OK)
+                {
+                    SplashScreenManager.ShowForm(this, typeof(WaitForm1), true, true, false);
+                    SplashScreenManager.Default.SetWaitFormCaption("Vui lòng chờ trong giây lát");
+                    SplashScreenManager.Default.SetWaitFormDescription("Loading...");
+                    List<tblCoreDataCodeItemSizeModel> coreData = new List<tblCoreDataCodeItemSizeModel>();
+
+                    #region Get data from template excel
+                    using (Workbook wb = new Workbook())
+                    {
+                        wb.LoadDocument(ofd.FileName);
+
+                        if (wb.Worksheets.Count > 0)
+                        {
+                            Worksheet ws = wb.Worksheets[0];
+
+                            //Get ra số hàng và cột có data
+                            //index bắt đầu từ 1
+                            var _usedRange = ws.GetUsedRange();
+                            int _rowUsed = _usedRange.RowCount;
+                            int _colUsed = _usedRange.ColumnCount;
+
+                            for (int i = 5; i < _rowUsed - 5; i++)
+                            {
+                                Row _row = ws.Rows[i];
+                                if (!string.IsNullOrEmpty(_row[$"A{i}"].Value.TextValue))
+                                {
+                                    coreData.Add(new tblCoreDataCodeItemSizeModel()
+                                    {
+                                        CodeItemSize = _row[$"A{i}"].Value.TextValue,
+                                        MainItemName = _row[$"B{i}"].Value.TextValue,
+                                        Date = _row[$"E{i}"].Value.DateTimeValue.ToString(),
+                                        Size = _row[$"F{i}"].Value.TextValue,
+                                        AveWeight1Prs = _row[$"L{i}"].Value.NumericValue,
+                                        BoxQtyBx1 = (int)_row[$"N{i}"].Value.NumericValue,
+                                        BoxQtyBx2 = (int)_row[$"O{i}"].Value.NumericValue,
+                                        BoxQtyBx3 = (int)_row[$"P{i}"].Value.NumericValue,
+                                        BoxQtyBx4 = (int)_row[$"Q{i}"].Value.NumericValue,
+                                        BoxWeightBx1 = _row[$"R{i}"].Value.NumericValue,
+                                        BoxWeightBx2 = _row[$"S{i}"].Value.NumericValue,
+                                        BoxWeightBx3 = _row[$"T{i}"].Value.NumericValue,
+                                        BoxWeightBx4 = _row[$"U{i}"].Value.NumericValue,
+                                        PartitionQty = (int)_row[$"V{i}"].Value.NumericValue,
+                                        PlasicBagQty = (int)_row[$"W{i}"].Value.NumericValue,
+                                        WrapSheetQty = (int)_row[$"X{i}"].Value.NumericValue,
+                                        PlasicBagWeight = _row[$"AA{i}"].Value.NumericValue,
+                                        WrapSheetWeight = _row[$"AB{i}"].Value.NumericValue
+                                    });
+                                }
+                            }
+                        }
+                        else
+                        {
+                            XtraMessageBox.Show($"File temple is empty.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        }
+                    }
+                    #endregion
+
+                    #region Log DB
+                    using (var con = GlobalVariables.GetDbConnection())
+                    {
+                        foreach (var item in coreData)
+                        {
+                            var para = new DynamicParameters();
+
+                            var sfdsf = con.Query<tblCoreDataCodeItemSizeModel>($"select * from tblCoreDataCodeItemSize where CodeItemSize = '{item.CodeItemSize}'").FirstOrDefault();
+                            if (sfdsf == null)
+                            {
+                                para.Add("@CodeItemSize", item.CodeItemSize);
+                                para.Add("@MainItemName", item.MainItemName);
+                                para.Add("@Date", item.Date);
+                                para.Add("@Size", item.Size);
+                                para.Add("@AveWeight1Prs", item.AveWeight1Prs);
+                                para.Add("@BoxQtyBx1", item.BoxQtyBx1);
+                                para.Add("@BoxQtyBx2", item.BoxQtyBx2);
+                                para.Add("@BoxQtyBx3", item.BoxQtyBx3);
+                                para.Add("@BoxQtyBx4", item.BoxQtyBx4);
+                                para.Add("@BoxWeightBx1", item.BoxWeightBx1);
+                                para.Add("@BoxWeightBx2", item.BoxWeightBx2);
+                                para.Add("@BoxWeightBx3", item.BoxWeightBx3);
+                                para.Add("@BoxWeightBx4", item.BoxWeightBx4);
+                                para.Add("@PartitionQty", item.PartitionQty);
+                                para.Add("@PlasicBagQty", item.PlasicBagQty);
+                                para.Add("@WrapSheetQty", item.WrapSheetQty);
+                                para.Add("@PartitionWeight", item.PartitionWeight);
+                                para.Add("@PlasicBagWeight", item.PlasicBagWeight);
+                                para.Add("@WrapSheetWeight", item.WrapSheetWeight);
+                                para.Add("@PlasicBoxWeight", item.PlasicBoxWeight);
+                                para.Add("@Tolerance", item.Tolerance);
+                                para.Add("@ToleranceAfterPrint", item.ToleranceAfterPrint);
+                                con.Execute("sp_tblCoreDataCodeitemSizeInsert", para, commandType: CommandType.StoredProcedure);
+                            }
+                            else
+                            {
+                                para.Add("@CodeItemSize", item.CodeItemSize);
+                                para.Add("@MainItemName", item.MainItemName);
+                                para.Add("@Date", item.Date);
+                                para.Add("@Size", item.Size);
+                                para.Add("@AveWeight1Prs", item.AveWeight1Prs);
+                                para.Add("@BoxQtyBx1", item.BoxQtyBx1);
+                                para.Add("@BoxQtyBx2", item.BoxQtyBx2);
+                                para.Add("@BoxQtyBx3", item.BoxQtyBx3);
+                                para.Add("@BoxQtyBx4", item.BoxQtyBx4);
+                                para.Add("@BoxWeightBx1", item.BoxWeightBx1);
+                                para.Add("@BoxWeightBx2", item.BoxWeightBx2);
+                                para.Add("@BoxWeightBx3", item.BoxWeightBx3);
+                                para.Add("@BoxWeightBx4", item.BoxWeightBx4);
+                                para.Add("@PartitionQty", item.PartitionQty);
+                                para.Add("@PlasicBagQty", item.PlasicBagQty);
+                                para.Add("@WrapSheetQty", item.WrapSheetQty);
+                                para.Add("@PartitionWeight", item.PartitionWeight);
+                                para.Add("@PlasicBagWeight", item.PlasicBagWeight);
+                                para.Add("@WrapSheetWeight", item.WrapSheetWeight);
+                                para.Add("@PlasicBoxWeight", item.PlasicBoxWeight);
+                                para.Add("@Tolerance", item.Tolerance);
+                                para.Add("@ToleranceAfterPrint", item.ToleranceAfterPrint);
+                                con.Execute("sp_tblCoreDataCodeitemSizeUpdate", para, commandType: CommandType.StoredProcedure);
+                            }
+                        }
+                    }
+                    #endregion
+                }
+            }
+            catch (Exception ex)
+            {
+                XtraMessageBox.Show($"Update fail.{Environment.NewLine}{ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            finally
+            {
+                SplashScreenManager.CloseForm(false);
+            }
         }
     }
     #endregion

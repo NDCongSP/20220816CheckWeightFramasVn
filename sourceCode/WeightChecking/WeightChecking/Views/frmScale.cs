@@ -14,6 +14,7 @@ using System.Drawing.Printing;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
@@ -42,7 +43,6 @@ namespace WeightChecking
             this.txtQrCode.Focus();
             this.txtQrCode.KeyDown += TxtQrCode_KeyDown;
             //this.labWeight.TextChanged += LabWeight_TextChanged;
-            this.txtTest.KeyDown += TxtTest_KeyDown;
 
             #region Register events Scale value change
             _scaleHelper = new ScaleHelper()
@@ -118,91 +118,90 @@ namespace WeightChecking
 
         private void TxtQrCode_KeyDown(object sender, KeyEventArgs e)
         {
-            //content of the QR code "OC283225,7112041803-PA2Q-3001,28,13,P,1/56,160506,1/1|1,30.2022,1,0,1"
+            //content of the QR code "OC283225,6112042007-P062-3301,28,13,P,1/56,160506,1/1|1,30.2022,1,0,1"
 
             if (e.KeyCode == Keys.Enter)
             {
+                Thread.Sleep(1000);
                 TextEdit _sen = sender as TextEdit;
                 Console.WriteLine(_sen.Text);
 
+                #region xử lý barcode lấy ra các giá trị theo code
                 _scanData.BarcodeString = _sen.Text;
 
                 var s = _sen.Text.Split('|');
                 var s1 = s[0].Split(',');
-                var s2 = s[1].Split(',');
-
-                GlobalVariables.IdLabel = s2[1];
-                _scanData.IdLable = GlobalVariables.IdLabel;
-
+                _plr = s1[4];//get Thung này đóng theo đôi (P) hay L/R
                 _scanData.OcNo = s1[0];
                 _scanData.ProductNo = s1[1];
+                
+                _scanData.Quantity = Convert.ToInt32(s1[2]);
+                _scanData.LinePosNo = s1[3];
                 _scanData.BoxNo = s1[5];
+                _scanData.CustomerNo = s1[6];
                 _scanData.BoxPosNo = s1[7];
-                _plr = s1[4];//get Thung này đóng theo đôi (P) hay L/R
-                _scanData.Location = Convert.ToInt32(s2[0]);
+
+                if (s1[1].Contains(","))
+                {
+                    var s2 = s[1].Split(',');
+
+                    GlobalVariables.IdLabel = s2[1];
+                    _scanData.IdLable = GlobalVariables.IdLabel;
+                    _scanData.Location = Convert.ToInt32(s2[0]);
+                }
+                else
+                {
+                    _scanData.Location = Convert.ToInt32(s1[1]);
+                }
+                #endregion
+
 
                 #region truy vấn data và xử lý
                 //truy vấn thông tin 
                 using (var connection = GlobalVariables.GetDbConnection())
                 {
                     var para = new DynamicParameters();
-                    para.Add("@ProductCode", _scanData.ProductNo);
+                    para.Add("@ProductNumber", _scanData.ProductNo);
 
-                    var res = connection.Query<tblWinlineProductsInfoModel>("sp_tblWinlineProductsInfoGet", para, commandType: CommandType.StoredProcedure).FirstOrDefault();
+                    var res = connection.Query<ProductInfoModel>("sp_vProduct_infoInfoGet", para, commandType: CommandType.StoredProcedure).FirstOrDefault();
 
                     if (res != null)
                     {
                         #region Fill data from coreData to scanData
-                        _scanData.ProductName = res.Name;
-                        //_scanData.Quantity=res.
-                        //_scanData.Unit=res.
-                        //_scanData.CustomerNo = res.CustomeUsePb;
+                        _scanData.ProductName = res.ProductName;
                         _scanData.Decoration = res.Decoration;
                         _scanData.MetalScan = res.MetalScan;
                         _scanData.Brand = res.Brand;
-                        _scanData.MainProductNo = res.MainProductNo;
-                        _scanData.Color = res.Color;
-                        _scanData.Size = res.Size;
-                        _scanData.Weight = res.Weight;
-                        _scanData.PackingMethod = res.PackingMethod;
-                        _scanData.LeftWeight = res.LeftWeight;
-                        _scanData.RightWeight = res.RightWeight;
-                        _scanData.BoxType = res.BoxType;
-                        _scanData.ToolingNo = res.ToolingNo;
-                        _scanData.PackingBoxType = res.PackingBoxType;
-                        //_scanData.CustomerUsePlactixBox = res.CustomeUsePb;
-                        _scanData.BagWeight = res.BagWeight;
-                        _scanData.Tolerance = res.Tolerance;
-                        _scanData.ToleranceBeforePrint = res.ToleranceBeforePrint;
-                        _scanData.ToleranceAfterPrint = res.ToleranceAfterPrint;
 
-                        //tinh toán standardWeight theo Pair/Left/Right
-                        if (_plr == "P")
-                        {
-                            _scanData.StandardWeight = res.Weight * res.QtyPerbag + res.BagWeight;
-                        }
-                        else if (_plr == "L")
-                        {
-                            if (res.LeftWeight == 0)
-                            {
-                                _scanData.StandardWeight = res.Weight * res.QtyPerbag + res.BagWeight;
-                            }
-                            else
-                            {
-                                _scanData.StandardWeight = res.LeftWeight * res.QtyPerbag + res.BagWeight;
-                            }
-                        }
-                        else if (_plr == "R")
-                        {
-                            if (res.RightWeight == 0)
-                            {
-                                _scanData.StandardWeight = res.Weight * res.QtyPerbag + res.BagWeight;
-                            }
-                            else
-                            {
-                                _scanData.StandardWeight = res.RightWeight * res.QtyPerbag + res.BagWeight;
-                            }
-                        }
+                        #region tinh toán standardWeight theo Pair/Left/Right
+                        //if (_plr == "P")
+                        //{
+                        //    _scanData.GrossdWeight = res.Weight * res.QtyPerbag + res.BagWeight;
+                        //}
+                        //else if (_plr == "L")
+                        //{
+                        //    if (res.LeftWeight == 0)
+                        //    {
+                        //        _scanData.StandardWeight = res.Weight * res.QtyPerbag + res.BagWeight;
+                        //    }
+                        //    else
+                        //    {
+                        //        _scanData.StandardWeight = res.LeftWeight * res.QtyPerbag + res.BagWeight;
+                        //    }
+                        //}
+                        //else if (_plr == "R")
+                        //{
+                        //    if (res.RightWeight == 0)
+                        //    {
+                        //        _scanData.StandardWeight = res.Weight * res.QtyPerbag + res.BagWeight;
+                        //    }
+                        //    else
+                        //    {
+                        //        _scanData.StandardWeight = res.RightWeight * res.QtyPerbag + res.BagWeight;
+                        //    }
+                        //}
+                        #endregion
+
                         #endregion
 
                         #region hiển thị thông tin
@@ -226,15 +225,15 @@ namespace WeightChecking
 
                         if (labWeightPlan.InvokeRequired)
                         {
-                            labWeightPlan.Invoke(new Action(() => { labWeightPlan.Text = _scanData.StandardWeight.ToString(); }));
+                            labWeightPlan.Invoke(new Action(() => { labWeightPlan.Text = _scanData.GrossdWeight.ToString(); }));
                         }
-                        else labWeightPlan.Text = _scanData.StandardWeight.ToString();
+                        else labWeightPlan.Text = _scanData.GrossdWeight.ToString();
                         #endregion
 
                         #region xử lý so sánh khối lượng cân thực tế với kế hoạch để xử lý
                         //thung hang Pass
-                        if (_scanData.RealWeight >= _scanData.StandardWeight - _scanData.Tolerance
-                            && _scanData.RealWeight <= _scanData.StandardWeight + _scanData.Tolerance)
+                        if (_scanData.RealWeight >= _scanData.GrossdWeight - res.Tolerance
+                            && _scanData.RealWeight <= _scanData.GrossdWeight + res.Tolerance)
                         {
                             if (_scanData.Decoration == 1)
                             {
@@ -287,6 +286,10 @@ namespace WeightChecking
                                 labWeight.BackColor = Color.Red;
                             }
                         }
+
+                        #region Log data
+
+                        #endregion
                         #endregion
                     }
                     else

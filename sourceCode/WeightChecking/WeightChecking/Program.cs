@@ -24,7 +24,7 @@ namespace WeightChecking
             #region Đọc các thông số cấu hình ban đầu từ settings
             GlobalVariables.ConnectionString = EncodeMD5.DecryptString(Properties.Settings.Default.conString, "ITFramasBDVN");
             GlobalVariables.ConStringWinline = EncodeMD5.DecryptString(Properties.Settings.Default.conStringWL, "ITFramasBDVN");
-            GlobalVariables.ScaleIp = Properties.Settings.Default.ipScale;
+            GlobalVariables.IpScale = Properties.Settings.Default.ipScale;
             GlobalVariables.UnitScale = int.TryParse(Properties.Settings.Default.UnitScale, out int value) ? value : 0;
 
             Console.WriteLine($"Path app: {Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location)}");
@@ -47,12 +47,12 @@ namespace WeightChecking
                 TableName = "tblLog",
                 AutoCreateSqlTable = true,
             };
-            Log.Logger = new LoggerConfiguration().WriteTo.MSSqlServer(
+            //Log.Logger = new LoggerConfiguration().WriteTo.MSSqlServer(
 
-              connectionString: GlobalVariables.ConnectionString,
-              sinkOptions: sinkOption
+            //  connectionString: GlobalVariables.ConnectionString,
+            //  sinkOptions: sinkOption
 
-              ).MinimumLevel.Error().CreateLogger();
+            //  ).MinimumLevel.Error().CreateLogger();
 
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);

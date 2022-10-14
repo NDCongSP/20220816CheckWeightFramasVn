@@ -15,7 +15,6 @@ namespace WeightChecking
     {
         public static string ConnectionString { get; set; }
         public static string ConStringWinline { get; set; }
-        public static string ScaleIp { get; set; }
 
         public static IDbConnection GetDbConnection()
         {
@@ -32,7 +31,7 @@ namespace WeightChecking
         public static RefreshEvent MyEvent = new RefreshEvent();
 
         //biến cấu hình cân
-        public static string IpScale = "192.168.1.237";
+        public static string IpScale = "";
         public static string PortScale = "23";
         public static string ScaleStatus = "Disconnected";
         public static int ScaleDelay = 300;

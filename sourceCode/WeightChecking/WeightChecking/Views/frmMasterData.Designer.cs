@@ -48,10 +48,13 @@ namespace WeightChecking
             // 
             // grv
             // 
+            this.grv.Appearance.HeaderPanel.Font = new System.Drawing.Font("Tahoma", 10F);
+            this.grv.Appearance.HeaderPanel.Options.UseFont = true;
             this.grv.Appearance.Row.Font = new System.Drawing.Font("Tahoma", 10F);
             this.grv.Appearance.Row.Options.UseFont = true;
             this.grv.GridControl = this.grc;
             this.grv.Name = "grv";
+            this.grv.OptionsBehavior.Editable = false;
             this.grv.OptionsCustomization.AllowFilter = false;
             this.grv.RowClick += new DevExpress.XtraGrid.Views.Grid.RowClickEventHandler(this.grv_RowClick);
             // 
