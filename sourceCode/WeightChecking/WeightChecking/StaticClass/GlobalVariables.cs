@@ -52,7 +52,7 @@ namespace WeightChecking
             var rptRe = new rptLabel();
             //rptRe.DataSource = ds;
 
-            rptRe.Parameters["Weight"].Value = weight;
+            rptRe.Parameters["Weight"].Value = weight/1000;
             rptRe.Parameters["IdLabel"].Value = idLabel;
 
             rptRe.CreateDocument();

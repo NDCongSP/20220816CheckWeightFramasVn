@@ -9,28 +9,30 @@ namespace WeightChecking
     public class tblScanDataModel
     {
         public Guid Id { get; set; }
-        public string BarcodeString { get; set; }
-        public string IdLable { get; set; }
-        public string OcNo { get; set; }
-        public string ProductNo { get; set; }
-        public string ProductName { get; set; }
-        public int Quantity { get; set; }
-        public string LinePosNo { get; set; }
-        public string Unit { get; set; }
-        public string BoxNo { get; set; }
-        public string CustomerNo { get; set; }
+        public string BarcodeString { get; set; } = null;
+        public string IdLable { get; set; } = null;
+        public string OcNo { get; set; } = null;
+        public string ProductNumber { get; set; } = null;
+        public string ProductName { get; set; } = null;
+        public int Quantity { get; set; } = 0;
+        public string LinePosNo { get; set; } = null;
+        public string Unit { get; set; } = "Prs";
+        public string BoxNo { get; set; } = null;
+        public string CustomerNo { get; set; } = null;
         public int Location { get; set; }
-        public string BoxPosNo { get; set; }
-        public string Note { get; set; }
-        public string Brand { get; set; }
+        public string BoxPosNo { get; set; } = null;
+        public string Note { get; set; } = null;
+        public string Brand { get; set; } = null;
         public int Decoration { get; set; }
         public int MetalScan { get; set; }
-       
+        public double AveWeight1Prs { get; set; }
         public double NetWeight { get; set; }
+        public double Tolerance { get; set; }
         public double BoxWeight { get; set; }
         public double AccessoriesWeight { get; set; }
         public double GrossdWeight { get; set; }
         public double RealWeight { get; set; }
+        public double Deviation { get; set; }
         public int Pass { get; set; }
         //Báo trạng thái: 0- thùng fail; 1- chờ đi sơn; 2- Done hàng FG qua kho Kerry.
         //Ở trạm IDC check nêu hàng noPrinting thì set =2. nếu printing set =1.
