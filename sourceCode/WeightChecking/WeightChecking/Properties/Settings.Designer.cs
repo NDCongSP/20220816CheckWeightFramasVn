@@ -40,7 +40,7 @@ namespace WeightChecking.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("192.168.1.123")]
+        [global::System.Configuration.DefaultSettingValueAttribute("192.168.80.1")]
         public string ipScale {
             get {
                 return ((string)(this["ipScale"]));
@@ -78,7 +78,7 @@ namespace WeightChecking.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("COM9")]
+        [global::System.Configuration.DefaultSettingValueAttribute("COM10")]
         public string ComPort {
             get {
                 return ((string)(this["ComPort"]));
