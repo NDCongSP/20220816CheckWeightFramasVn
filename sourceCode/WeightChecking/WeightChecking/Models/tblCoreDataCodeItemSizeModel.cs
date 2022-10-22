@@ -11,6 +11,7 @@ namespace WeightChecking
         public Guid Id { get; set; }
         public string CodeItemSize { get; set; }
         public string MainItemName { get; set; }
+        public int MetalScan { get; set; } //1 co; 0 ko
         public string Date { get; set; }
         public string Size { get; set; }
         public double AveWeight1Prs { get; set; }

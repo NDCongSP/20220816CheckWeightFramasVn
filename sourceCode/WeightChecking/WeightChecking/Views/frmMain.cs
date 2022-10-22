@@ -31,6 +31,9 @@ namespace WeightChecking
         string _masterData = null;
 
         Timer _timer = new Timer() { Interval = 500 };
+
+        byte[] _readHoldingRegisterArr = { 0, 0 };
+        int _countDisconnectPlc = 0;
         #endregion
 
         public frmMain()
@@ -147,7 +150,7 @@ namespace WeightChecking
             //if (GlobalVariables.ModbusStatus == false)
             //{
             //    MessageBox.Show($"Không thể kết nối được bộ đếm dò kim loại.{Environment.NewLine}Tắt phần mềm, kiểm tra lại kết nối với PLC rồi mở lại phần mềm.",
-            //                    "CẢNH BÁO", MessageBoxButtons.OK,MessageBoxIcon.Error);
+            //                    "CẢNH BÁO", MessageBoxButtons.OK, MessageBoxIcon.Error);
             //}
             #endregion
             _timer.Enabled = true;
@@ -159,7 +162,31 @@ namespace WeightChecking
             Timer t = (Timer)sender;
             t.Enabled = false;
 
-            barStaticItemStatus.Caption = $"{DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss")} | {GlobalVariables.UserLoginInfo.UserName} | ScaleStatus: {GlobalVariables.ScaleStatus}";
+            barStaticItemStatus.Caption = $"{DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss")} " +
+                $"| {GlobalVariables.UserLoginInfo.UserName} | ScaleStatus: {GlobalVariables.ScaleStatus}" +
+                $" | CounterStatus: {GlobalVariables.ModbusStatus}";
+
+            #region Đọc các giá trị từ PLC
+            //if (GlobalVariables.ModbusStatus)
+            //{
+            //    //thanh ghi D0 cua PLC Delta DPV14SS2 co dia chi la 4596
+            //    GlobalVariables.ModbusStatus = GlobalVariables.MyDriver.ModbusRTUMaster.ReadHoldingRegisters(1, 4596, 1, ref _readHoldingRegisterArr);
+
+            //    GlobalVariables.RememberInfo.CountMetalScan = GlobalVariables.MyDriver.GetUshortAt(_readHoldingRegisterArr, 0);
+            //    //update gia tri count vao sự kiện để trong frmScal  nó update lên giao diện
+            //    GlobalVariables.MyEvent.CountValue = GlobalVariables.RememberInfo.CountMetalScan;
+            //}
+            //else
+            //{
+            //    _countDisconnectPlc += 1;
+            //    if (_countDisconnectPlc==3)
+            //    {
+            //        GlobalVariables.MyDriver.ModbusRTUMaster.NgatKetNoi();
+
+            //        GlobalVariables.ModbusStatus = GlobalVariables.MyDriver.ModbusRTUMaster.KetNoi(GlobalVariables.ComPort, 9600, 8, System.IO.Ports.Parity.None, System.IO.Ports.StopBits.One);
+            //    }
+            //}
+            #endregion
 
             t.Enabled = true;
         }
@@ -256,9 +283,9 @@ namespace WeightChecking
                             con.Execute("truncate table tblWinlineProductsInfo");
 
                             var _insertCount = con.Execute($"Insert into tblWinlineProductsInfo (CodeItemSize,ProductNumber," +
-                            $"ProductName,ProductCategory,Brand,Decoration,MetalScan,MainProductNo,MainProductName,Color,SizeCode," +
+                            $"ProductName,ProductCategory,Brand,Decoration,MainProductNo,MainProductName,Color,SizeCode," +
                             $"SizeName,Weight,LeftWeight,RightWeight,BoxType,ToolingNo,PackingBoxType,CustomeUsePb) " +
-                       $"values (@CodeItemSize,@ProductNumber,@ProductName,@ProductCategory,@Brand,@Decoration ,@MetalScan,@MainProductNo," +
+                       $"values (@CodeItemSize,@ProductNumber,@ProductName,@ProductCategory,@Brand,@Decoration,@MainProductNo," +
                        $"@MainProductName,@Color,@SizeCode,@SizeName,@Weight,@LeftWeight,@RightWeight,@BoxType,@ToolingNo" +
                        $",@PackingBoxType,@CustomeUsePb)", res);
 
@@ -332,6 +359,8 @@ namespace WeightChecking
             GlobalVariables.RememberInfo.NoMetalScan = 0;
             GlobalVariables.RememberInfo.CountMetalScan = 0;
 
+            GlobalVariables.MyEvent.RefreshStatus = true;
+
             string json = JsonConvert.SerializeObject(GlobalVariables.RememberInfo);
             File.WriteAllText(@"./RememberInfo.json", json);
         }
@@ -374,22 +403,23 @@ namespace WeightChecking
                                     {
                                         CodeItemSize = _row[$"A{i}"].Value.TextValue,
                                         MainItemName = _row[$"B{i}"].Value.TextValue,
-                                        Date = _row[$"E{i}"].Value.DateTimeValue.ToString(),
-                                        Size = _row[$"F{i}"].Value.TextValue,
-                                        AveWeight1Prs = _row[$"L{i}"].Value.NumericValue,
-                                        BoxQtyBx1 = (int)_row[$"N{i}"].Value.NumericValue,
-                                        BoxQtyBx2 = (int)_row[$"O{i}"].Value.NumericValue,
-                                        BoxQtyBx3 = (int)_row[$"P{i}"].Value.NumericValue,
-                                        BoxQtyBx4 = (int)_row[$"Q{i}"].Value.NumericValue,
-                                        BoxWeightBx1 = _row[$"R{i}"].Value.NumericValue,
-                                        BoxWeightBx2 = _row[$"S{i}"].Value.NumericValue,
-                                        BoxWeightBx3 = _row[$"T{i}"].Value.NumericValue,
-                                        BoxWeightBx4 = _row[$"U{i}"].Value.NumericValue,
-                                        PartitionQty = (int)_row[$"V{i}"].Value.NumericValue,
-                                        PlasicBagQty = (int)_row[$"W{i}"].Value.NumericValue,
-                                        WrapSheetQty = (int)_row[$"X{i}"].Value.NumericValue,
-                                        PlasicBagWeight = _row[$"AA{i}"].Value.NumericValue,
-                                        WrapSheetWeight = _row[$"AB{i}"].Value.NumericValue
+                                        MetalScan = (int)_row[$"c{i}"].Value.NumericValue,
+                                        Date = _row[$"F{i}"].Value.DateTimeValue.ToString(),
+                                        Size = _row[$"G{i}"].Value.TextValue,
+                                        AveWeight1Prs = _row[$"M{i}"].Value.NumericValue,
+                                        BoxQtyBx1 = (int)_row[$"O{i}"].Value.NumericValue,
+                                        BoxQtyBx2 = (int)_row[$"P{i}"].Value.NumericValue,
+                                        BoxQtyBx3 = (int)_row[$"Q{i}"].Value.NumericValue,
+                                        BoxQtyBx4 = (int)_row[$"R{i}"].Value.NumericValue,
+                                        BoxWeightBx1 = _row[$"S{i}"].Value.NumericValue,
+                                        BoxWeightBx2 = _row[$"T{i}"].Value.NumericValue,
+                                        BoxWeightBx3 = _row[$"U{i}"].Value.NumericValue,
+                                        BoxWeightBx4 = _row[$"V{i}"].Value.NumericValue,
+                                        PartitionQty = (int)_row[$"W{i}"].Value.NumericValue,
+                                        PlasicBagQty = (int)_row[$"X{i}"].Value.NumericValue,
+                                        WrapSheetQty = (int)_row[$"Y{i}"].Value.NumericValue,
+                                        PlasicBagWeight = _row[$"AB{i}"].Value.NumericValue,
+                                        WrapSheetWeight = _row[$"AC{i}"].Value.NumericValue
                                     });
                                 }
                             }
@@ -413,6 +443,7 @@ namespace WeightChecking
                             {
                                 para.Add("@CodeItemSize", item.CodeItemSize);
                                 para.Add("@MainItemName", item.MainItemName);
+                                para.Add("@MetalScan", item.MetalScan);
                                 para.Add("@Date", item.Date);
                                 para.Add("@Size", item.Size);
                                 para.Add("@AveWeight1Prs", item.AveWeight1Prs);
@@ -439,6 +470,7 @@ namespace WeightChecking
                             {
                                 para.Add("@CodeItemSize", item.CodeItemSize);
                                 para.Add("@MainItemName", item.MainItemName);
+                                para.Add("@MetalScan", item.MetalScan);
                                 para.Add("@Date", item.Date);
                                 para.Add("@Size", item.Size);
                                 para.Add("@AveWeight1Prs", item.AveWeight1Prs);

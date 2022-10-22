@@ -154,6 +154,89 @@ namespace WeightChecking
             else labMetalScanCount.Text = GlobalVariables.RememberInfo.CountMetalScan.ToString();
 
             #endregion
+
+            #region đăng ký sự kiện cập nhật giá trị MetalScan counter
+            GlobalVariables.MyEvent.EventHandlerCount += (s, o) => {
+                GlobalVariables.RememberInfo.CountMetalScan = o.CountValue;
+
+                if (labMetalScanCount.InvokeRequired)
+                {
+                    labMetalScanCount.Invoke(new Action(()=> {
+                        labMetalScanCount.Text = o.CountValue.ToString();
+                    }));
+                }
+                else
+                {
+                    labMetalScanCount.Text = o.CountValue.ToString();
+                }
+            };
+
+            GlobalVariables.MyEvent.RefreshActionevent += (s, o) =>
+            {
+                #region hien thi cac thong so dem
+                if (labGoodBox.InvokeRequired)
+                {
+                    labGoodBox.Invoke(new Action(() => { labGoodBox.Text = (GlobalVariables.RememberInfo.GoodBoxNoPrinting + GlobalVariables.RememberInfo.GoodBoxPrinting).ToString(); }));
+                }
+                else labGoodBox.Text = (GlobalVariables.RememberInfo.GoodBoxNoPrinting + GlobalVariables.RememberInfo.GoodBoxPrinting).ToString();
+
+                if (labGoodNoPrint.InvokeRequired)
+                {
+                    labGoodNoPrint.Invoke(new Action(() =>
+                    {
+                        labGoodNoPrint.Text = GlobalVariables.RememberInfo.GoodBoxNoPrinting.ToString();
+                    }));
+                }
+                else labGoodNoPrint.Text = GlobalVariables.RememberInfo.GoodBoxNoPrinting.ToString();
+
+                if (labGoodPrint.InvokeRequired)
+                {
+                    labGoodPrint.Invoke(new Action(() =>
+                    {
+                        labGoodPrint.Text = GlobalVariables.RememberInfo.GoodBoxPrinting.ToString();
+                    }));
+                }
+                else labGoodPrint.Text = GlobalVariables.RememberInfo.GoodBoxPrinting.ToString();
+
+                if (labFailBox.InvokeRequired)
+                {
+                    labFailBox.Invoke(new Action(() =>
+                    {
+                        labFailBox.Text = (GlobalVariables.RememberInfo.FailBoxNoPrinting
+                        + GlobalVariables.RememberInfo.FailBoxPrinting).ToString();
+                    }));
+                }
+                else labFailBox.Text = (GlobalVariables.RememberInfo.FailBoxNoPrinting + GlobalVariables.RememberInfo.FailBoxPrinting).ToString();
+
+                if (labFailNoPrint.InvokeRequired)
+                {
+                    labFailNoPrint.Invoke(new Action(() =>
+                    {
+                        labFailNoPrint.Text = GlobalVariables.RememberInfo.FailBoxNoPrinting.ToString();
+                    }));
+                }
+                else labFailNoPrint.Text = GlobalVariables.RememberInfo.FailBoxNoPrinting.ToString();
+                if (labFailPrint.InvokeRequired)
+                {
+                    labFailPrint.Invoke(new Action(() =>
+                    {
+                        labFailPrint.Text = GlobalVariables.RememberInfo.FailBoxPrinting.ToString();
+                    }));
+                }
+                else labFailPrint.Text = GlobalVariables.RememberInfo.FailBoxPrinting.ToString();
+
+                if (labMetalScanCount.InvokeRequired)
+                {
+                    labMetalScanCount.Invoke(new Action(() =>
+                    {
+                        labMetalScanCount.Text = GlobalVariables.RememberInfo.CountMetalScan.ToString();
+                    }));
+                }
+                else labMetalScanCount.Text = GlobalVariables.RememberInfo.CountMetalScan.ToString();
+
+                #endregion
+            };
+            #endregion
         }
 
         private void TxtTest_KeyDown(object sender, KeyEventArgs e)
@@ -412,9 +495,11 @@ namespace WeightChecking
                         #endregion
 
                         #region xử lý so sánh khối lượng cân thực tế với kế hoạch để xử lý
+                        _scanData.RealNetWeight = Math.Round(_scanData.RealWeight - _scanData.BoxWeight - _scanData.AccessoriesWeight, 3);
+                        _scanData.Deviation = Math.Round(_scanData.RealNetWeight - _scanData.NetWeight, 3);
                         //thung hang Pass
-                        if (_scanData.RealWeight >= _scanData.GrossdWeight - _scanData.Tolerance
-                            && _scanData.RealWeight <= _scanData.GrossdWeight + _scanData.Tolerance)
+                        if (_scanData.Deviation >= (-1)*_scanData.Tolerance
+                            && _scanData.Deviation <= _scanData.Tolerance)
                         {
                             if (_scanData.Decoration == 1)
                             {
@@ -476,8 +561,6 @@ namespace WeightChecking
                             _scanData.Pass = 0;
                             _scanData.Status = 0;
                         }
-
-                        _scanData.Deviation = Math.Round(_scanData.RealWeight - _scanData.GrossdWeight, 3);
                         #endregion
                     }
                     else
@@ -559,7 +642,7 @@ namespace WeightChecking
 
                     #region Log data
                     para = null;
-                     para = new DynamicParameters();
+                    para = new DynamicParameters();
                     para.Add("@BarcodeString", _scanData.BarcodeString);
                     para.Add("@IdLable", _scanData.IdLable);
                     para.Add("@OcNo", _scanData.OcNo);
@@ -583,11 +666,12 @@ namespace WeightChecking
                     para.Add("@AccessoriesWeight", _scanData.AccessoriesWeight);
                     para.Add("@Grossweight", _scanData.GrossdWeight);
                     para.Add("@RealWeight", _scanData.RealWeight);
+                    para.Add("@RealNetWeight", _scanData.RealNetWeight);
                     para.Add("@Deviation", _scanData.Deviation);
                     para.Add("@Pass", _scanData.Pass);
                     para.Add("Status", _scanData.Status);
 
-                    var insertResult = connection.Execute("sp_tblScanDataInsert",para,commandType:CommandType.StoredProcedure);
+                    var insertResult = connection.Execute("sp_tblScanDataInsert", para, commandType: CommandType.StoredProcedure);
                     #endregion
 
                     string json = JsonConvert.SerializeObject(GlobalVariables.RememberInfo);

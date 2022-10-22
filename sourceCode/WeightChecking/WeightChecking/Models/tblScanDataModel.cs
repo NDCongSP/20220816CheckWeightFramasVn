@@ -32,6 +32,7 @@ namespace WeightChecking
         public double AccessoriesWeight { get; set; }
         public double GrossdWeight { get; set; }
         public double RealWeight { get; set; }
+        public double RealNetWeight { get; set; }
         public double Deviation { get; set; }
         public int Pass { get; set; }
         //Báo trạng thái: 0- thùng fail; 1- chờ đi sơn; 2- Done hàng FG qua kho Kerry.

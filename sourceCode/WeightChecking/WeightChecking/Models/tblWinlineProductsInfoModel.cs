@@ -15,7 +15,6 @@ namespace WeightChecking
         public string ProductName { get; set; }
         public string Brand { get; set; }
         public int Decoration { get; set; }//1 co; 0 Khong
-        public int MetalScan { get; set; } //1 khong; 0 co
         public string MainProductNo { get; set; }
         public string MainProductName { get; set; }
         public string Color { get; set; }

@@ -30,6 +30,8 @@ namespace WeightChecking
         private void InitializeComponent()
         {
             this.layoutControl1 = new DevExpress.XtraLayout.LayoutControl();
+            this.labScaleValue = new DevExpress.XtraEditors.LabelControl();
+            this.labNetWeight = new DevExpress.XtraEditors.LabelControl();
             this.labAccessoriesWeight = new DevExpress.XtraEditors.LabelControl();
             this.labGrossWeight = new DevExpress.XtraEditors.LabelControl();
             this.labDecoration = new DevExpress.XtraEditors.LabelControl();
@@ -59,10 +61,8 @@ namespace WeightChecking
             this.layoutControlItem3 = new DevExpress.XtraLayout.LayoutControlItem();
             this.layoutControlItem2 = new DevExpress.XtraLayout.LayoutControlItem();
             this.layoutControlItem4 = new DevExpress.XtraLayout.LayoutControlItem();
-            this.layoutControlItem5 = new DevExpress.XtraLayout.LayoutControlItem();
             this.layoutControlItem6 = new DevExpress.XtraLayout.LayoutControlItem();
             this.layoutControlItem8 = new DevExpress.XtraLayout.LayoutControlItem();
-            this.layoutControlItem10 = new DevExpress.XtraLayout.LayoutControlItem();
             this.layoutControlItem20 = new DevExpress.XtraLayout.LayoutControlItem();
             this.layoutControlItem24 = new DevExpress.XtraLayout.LayoutControlItem();
             this.layoutControlItem19 = new DevExpress.XtraLayout.LayoutControlItem();
@@ -74,9 +74,14 @@ namespace WeightChecking
             this.emptySpaceItem5 = new DevExpress.XtraLayout.EmptySpaceItem();
             this.emptySpaceItem6 = new DevExpress.XtraLayout.EmptySpaceItem();
             this.emptySpaceItem7 = new DevExpress.XtraLayout.EmptySpaceItem();
+            this.layoutControlItem22 = new DevExpress.XtraLayout.LayoutControlItem();
+            this.layoutControlItem10 = new DevExpress.XtraLayout.LayoutControlItem();
+            this.emptySpaceItem15 = new DevExpress.XtraLayout.EmptySpaceItem();
+            this.layoutControlItem5 = new DevExpress.XtraLayout.LayoutControlItem();
             this.layoutControlGroup2 = new DevExpress.XtraLayout.LayoutControlGroup();
             this.layoutControlItem11 = new DevExpress.XtraLayout.LayoutControlItem();
             this.layoutControlItem9 = new DevExpress.XtraLayout.LayoutControlItem();
+            this.layoutControlItem7 = new DevExpress.XtraLayout.LayoutControlItem();
             this.layoutControlGroup3 = new DevExpress.XtraLayout.LayoutControlGroup();
             this.layoutControlItem12 = new DevExpress.XtraLayout.LayoutControlItem();
             this.layoutControlItem13 = new DevExpress.XtraLayout.LayoutControlItem();
@@ -92,11 +97,8 @@ namespace WeightChecking
             this.emptySpaceItem12 = new DevExpress.XtraLayout.EmptySpaceItem();
             this.emptySpaceItem13 = new DevExpress.XtraLayout.EmptySpaceItem();
             this.emptySpaceItem14 = new DevExpress.XtraLayout.EmptySpaceItem();
-            this.labNetWeight = new DevExpress.XtraEditors.LabelControl();
-            this.layoutControlItem22 = new DevExpress.XtraLayout.LayoutControlItem();
-            this.labScaleValue = new DevExpress.XtraEditors.LabelControl();
-            this.layoutControlItem7 = new DevExpress.XtraLayout.LayoutControlItem();
-            this.emptySpaceItem15 = new DevExpress.XtraLayout.EmptySpaceItem();
+            this.labelControl1 = new DevExpress.XtraEditors.LabelControl();
+            this.layoutControlItem25 = new DevExpress.XtraLayout.LayoutControlItem();
             ((System.ComponentModel.ISupportInitialize)(this.layoutControl1)).BeginInit();
             this.layoutControl1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.txtQrCode.Properties)).BeginInit();
@@ -107,10 +109,8 @@ namespace WeightChecking
             ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem3)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem4)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem5)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem6)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem8)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem10)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem20)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem24)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem19)).BeginInit();
@@ -122,9 +122,14 @@ namespace WeightChecking
             ((System.ComponentModel.ISupportInitialize)(this.emptySpaceItem5)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.emptySpaceItem6)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.emptySpaceItem7)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem22)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem10)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.emptySpaceItem15)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem5)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.layoutControlGroup2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem11)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem9)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem7)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.layoutControlGroup3)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem12)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem13)).BeginInit();
@@ -140,13 +145,12 @@ namespace WeightChecking
             ((System.ComponentModel.ISupportInitialize)(this.emptySpaceItem12)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.emptySpaceItem13)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.emptySpaceItem14)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem22)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem7)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.emptySpaceItem15)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem25)).BeginInit();
             this.SuspendLayout();
             // 
             // layoutControl1
             // 
+            this.layoutControl1.Controls.Add(this.labelControl1);
             this.layoutControl1.Controls.Add(this.labScaleValue);
             this.layoutControl1.Controls.Add(this.labNetWeight);
             this.layoutControl1.Controls.Add(this.labAccessoriesWeight);
@@ -179,6 +183,38 @@ namespace WeightChecking
             this.layoutControl1.Size = new System.Drawing.Size(1119, 794);
             this.layoutControl1.TabIndex = 0;
             this.layoutControl1.Text = "layoutControl1";
+            // 
+            // labScaleValue
+            // 
+            this.labScaleValue.Appearance.BackColor = System.Drawing.Color.White;
+            this.labScaleValue.Appearance.Font = new System.Drawing.Font("Tahoma", 50F);
+            this.labScaleValue.Appearance.Options.UseBackColor = true;
+            this.labScaleValue.Appearance.Options.UseFont = true;
+            this.labScaleValue.Appearance.Options.UseTextOptions = true;
+            this.labScaleValue.Appearance.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Far;
+            this.labScaleValue.Location = new System.Drawing.Point(24, 672);
+            this.labScaleValue.Name = "labScaleValue";
+            this.labScaleValue.Size = new System.Drawing.Size(384, 88);
+            this.labScaleValue.StyleController = this.layoutControl1;
+            this.labScaleValue.TabIndex = 30;
+            this.labScaleValue.Text = "0";
+            // 
+            // labNetWeight
+            // 
+            this.labNetWeight.Appearance.BackColor = System.Drawing.Color.White;
+            this.labNetWeight.Appearance.Font = new System.Drawing.Font("Tahoma", 15F, System.Drawing.FontStyle.Bold);
+            this.labNetWeight.Appearance.ForeColor = System.Drawing.Color.Blue;
+            this.labNetWeight.Appearance.Options.UseBackColor = true;
+            this.labNetWeight.Appearance.Options.UseFont = true;
+            this.labNetWeight.Appearance.Options.UseForeColor = true;
+            this.labNetWeight.Appearance.Options.UseTextOptions = true;
+            this.labNetWeight.Appearance.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Far;
+            this.labNetWeight.Location = new System.Drawing.Point(603, 273);
+            this.labNetWeight.Name = "labNetWeight";
+            this.labNetWeight.Size = new System.Drawing.Size(151, 33);
+            this.labNetWeight.StyleController = this.layoutControl1;
+            this.labNetWeight.TabIndex = 29;
+            this.labNetWeight.Text = "0";
             // 
             // labAccessoriesWeight
             // 
@@ -268,9 +304,9 @@ namespace WeightChecking
             this.labMetalScanCount.Appearance.Options.UseFont = true;
             this.labMetalScanCount.Appearance.Options.UseTextOptions = true;
             this.labMetalScanCount.Appearance.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Far;
-            this.labMetalScanCount.Location = new System.Drawing.Point(246, 562);
+            this.labMetalScanCount.Location = new System.Drawing.Point(246, 569);
             this.labMetalScanCount.Name = "labMetalScanCount";
-            this.labMetalScanCount.Size = new System.Drawing.Size(151, 31);
+            this.labMetalScanCount.Size = new System.Drawing.Size(151, 24);
             this.labMetalScanCount.StyleController = this.layoutControl1;
             this.labMetalScanCount.TabIndex = 21;
             this.labMetalScanCount.Text = "0";
@@ -285,7 +321,7 @@ namespace WeightChecking
             this.labFailPrint.Appearance.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Far;
             this.labFailPrint.Location = new System.Drawing.Point(825, 524);
             this.labFailPrint.Name = "labFailPrint";
-            this.labFailPrint.Size = new System.Drawing.Size(149, 34);
+            this.labFailPrint.Size = new System.Drawing.Size(149, 41);
             this.labFailPrint.StyleController = this.layoutControl1;
             this.labFailPrint.TabIndex = 20;
             this.labFailPrint.Text = "0";
@@ -302,7 +338,7 @@ namespace WeightChecking
             this.labGoodPrint.AppearanceDisabled.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Far;
             this.labGoodPrint.Location = new System.Drawing.Point(246, 524);
             this.labGoodPrint.Name = "labGoodPrint";
-            this.labGoodPrint.Size = new System.Drawing.Size(151, 34);
+            this.labGoodPrint.Size = new System.Drawing.Size(151, 41);
             this.labGoodPrint.StyleController = this.layoutControl1;
             this.labGoodPrint.TabIndex = 19;
             this.labGoodPrint.Text = "0";
@@ -609,17 +645,6 @@ namespace WeightChecking
             this.layoutControlItem4.Text = "OC No";
             this.layoutControlItem4.TextSize = new System.Drawing.Size(210, 24);
             // 
-            // layoutControlItem5
-            // 
-            this.layoutControlItem5.Control = this.labColor;
-            this.layoutControlItem5.Location = new System.Drawing.Point(0, 186);
-            this.layoutControlItem5.MinSize = new System.Drawing.Size(344, 28);
-            this.layoutControlItem5.Name = "layoutControlItem5";
-            this.layoutControlItem5.Size = new System.Drawing.Size(1075, 40);
-            this.layoutControlItem5.SizeConstraintsType = DevExpress.XtraLayout.SizeConstraintsType.Custom;
-            this.layoutControlItem5.Text = "Color";
-            this.layoutControlItem5.TextSize = new System.Drawing.Size(210, 24);
-            // 
             // layoutControlItem6
             // 
             this.layoutControlItem6.Control = this.labSize;
@@ -643,19 +668,6 @@ namespace WeightChecking
             this.layoutControlItem8.TextAlignMode = DevExpress.XtraLayout.TextAlignModeItem.CustomSize;
             this.layoutControlItem8.TextSize = new System.Drawing.Size(150, 24);
             this.layoutControlItem8.TextToControlDistance = 5;
-            // 
-            // layoutControlItem10
-            // 
-            this.layoutControlItem10.Control = this.labToloren;
-            this.layoutControlItem10.Location = new System.Drawing.Point(758, 226);
-            this.layoutControlItem10.MinSize = new System.Drawing.Size(237, 28);
-            this.layoutControlItem10.Name = "layoutControlItem10";
-            this.layoutControlItem10.Size = new System.Drawing.Size(317, 37);
-            this.layoutControlItem10.SizeConstraintsType = DevExpress.XtraLayout.SizeConstraintsType.Custom;
-            this.layoutControlItem10.Text = "Toloren (g)";
-            this.layoutControlItem10.TextAlignMode = DevExpress.XtraLayout.TextAlignModeItem.CustomSize;
-            this.layoutControlItem10.TextSize = new System.Drawing.Size(150, 24);
-            this.layoutControlItem10.TextToControlDistance = 5;
             // 
             // layoutControlItem20
             // 
@@ -764,6 +776,51 @@ namespace WeightChecking
             this.emptySpaceItem7.Size = new System.Drawing.Size(24, 35);
             this.emptySpaceItem7.TextSize = new System.Drawing.Size(0, 0);
             // 
+            // layoutControlItem22
+            // 
+            this.layoutControlItem22.Control = this.labNetWeight;
+            this.layoutControlItem22.Location = new System.Drawing.Point(424, 226);
+            this.layoutControlItem22.MinSize = new System.Drawing.Size(177, 28);
+            this.layoutControlItem22.Name = "layoutControlItem22";
+            this.layoutControlItem22.Size = new System.Drawing.Size(310, 37);
+            this.layoutControlItem22.SizeConstraintsType = DevExpress.XtraLayout.SizeConstraintsType.Custom;
+            this.layoutControlItem22.Text = "Net Weight (g)";
+            this.layoutControlItem22.TextAlignMode = DevExpress.XtraLayout.TextAlignModeItem.CustomSize;
+            this.layoutControlItem22.TextSize = new System.Drawing.Size(150, 20);
+            this.layoutControlItem22.TextToControlDistance = 5;
+            // 
+            // layoutControlItem10
+            // 
+            this.layoutControlItem10.Control = this.labToloren;
+            this.layoutControlItem10.Location = new System.Drawing.Point(758, 226);
+            this.layoutControlItem10.MinSize = new System.Drawing.Size(237, 28);
+            this.layoutControlItem10.Name = "layoutControlItem10";
+            this.layoutControlItem10.Size = new System.Drawing.Size(317, 37);
+            this.layoutControlItem10.SizeConstraintsType = DevExpress.XtraLayout.SizeConstraintsType.Custom;
+            this.layoutControlItem10.Text = "Toloren (g)";
+            this.layoutControlItem10.TextAlignMode = DevExpress.XtraLayout.TextAlignModeItem.CustomSize;
+            this.layoutControlItem10.TextSize = new System.Drawing.Size(150, 24);
+            this.layoutControlItem10.TextToControlDistance = 5;
+            // 
+            // emptySpaceItem15
+            // 
+            this.emptySpaceItem15.AllowHotTrack = false;
+            this.emptySpaceItem15.Location = new System.Drawing.Point(536, 109);
+            this.emptySpaceItem15.Name = "emptySpaceItem15";
+            this.emptySpaceItem15.Size = new System.Drawing.Size(198, 38);
+            this.emptySpaceItem15.TextSize = new System.Drawing.Size(0, 0);
+            // 
+            // layoutControlItem5
+            // 
+            this.layoutControlItem5.Control = this.labColor;
+            this.layoutControlItem5.Location = new System.Drawing.Point(0, 186);
+            this.layoutControlItem5.MinSize = new System.Drawing.Size(344, 28);
+            this.layoutControlItem5.Name = "layoutControlItem5";
+            this.layoutControlItem5.Size = new System.Drawing.Size(1075, 40);
+            this.layoutControlItem5.SizeConstraintsType = DevExpress.XtraLayout.SizeConstraintsType.Custom;
+            this.layoutControlItem5.Text = "Color";
+            this.layoutControlItem5.TextSize = new System.Drawing.Size(210, 24);
+            // 
             // layoutControlGroup2
             // 
             this.layoutControlGroup2.AppearanceGroup.BackColor = System.Drawing.Color.Transparent;
@@ -814,6 +871,21 @@ namespace WeightChecking
             this.layoutControlItem9.TextLocation = DevExpress.Utils.Locations.Top;
             this.layoutControlItem9.TextSize = new System.Drawing.Size(210, 24);
             // 
+            // layoutControlItem7
+            // 
+            this.layoutControlItem7.AppearanceItemCaption.Font = new System.Drawing.Font("Tahoma", 15F);
+            this.layoutControlItem7.AppearanceItemCaption.Options.UseFont = true;
+            this.layoutControlItem7.BestFitWeight = 50;
+            this.layoutControlItem7.Control = this.labScaleValue;
+            this.layoutControlItem7.Location = new System.Drawing.Point(0, 0);
+            this.layoutControlItem7.MinSize = new System.Drawing.Size(388, 110);
+            this.layoutControlItem7.Name = "layoutControlItem7";
+            this.layoutControlItem7.Size = new System.Drawing.Size(388, 119);
+            this.layoutControlItem7.SizeConstraintsType = DevExpress.XtraLayout.SizeConstraintsType.Custom;
+            this.layoutControlItem7.Text = "Scale Weight (g)";
+            this.layoutControlItem7.TextLocation = DevExpress.Utils.Locations.Top;
+            this.layoutControlItem7.TextSize = new System.Drawing.Size(210, 24);
+            // 
             // layoutControlGroup3
             // 
             this.layoutControlGroup3.AppearanceGroup.BorderColor = System.Drawing.Color.DarkTurquoise;
@@ -834,7 +906,8 @@ namespace WeightChecking
             this.emptySpaceItem11,
             this.emptySpaceItem12,
             this.emptySpaceItem13,
-            this.emptySpaceItem14});
+            this.emptySpaceItem14,
+            this.layoutControlItem25});
             this.layoutControlGroup3.Location = new System.Drawing.Point(0, 406);
             this.layoutControlGroup3.Name = "layoutControlGroup3";
             this.layoutControlGroup3.Size = new System.Drawing.Size(1099, 191);
@@ -897,10 +970,10 @@ namespace WeightChecking
             this.layoutControlItem18.AppearanceItemCaption.Font = new System.Drawing.Font("Tahoma", 15F);
             this.layoutControlItem18.AppearanceItemCaption.Options.UseFont = true;
             this.layoutControlItem18.Control = this.labMetalScanCount;
-            this.layoutControlItem18.Location = new System.Drawing.Point(0, 109);
+            this.layoutControlItem18.Location = new System.Drawing.Point(0, 116);
             this.layoutControlItem18.MinSize = new System.Drawing.Size(255, 17);
             this.layoutControlItem18.Name = "layoutControlItem18";
-            this.layoutControlItem18.Size = new System.Drawing.Size(377, 35);
+            this.layoutControlItem18.Size = new System.Drawing.Size(377, 28);
             this.layoutControlItem18.SizeConstraintsType = DevExpress.XtraLayout.SizeConstraintsType.Custom;
             this.layoutControlItem18.Text = "Metal Scan Count (Box)";
             this.layoutControlItem18.TextSize = new System.Drawing.Size(210, 24);
@@ -913,7 +986,7 @@ namespace WeightChecking
             this.layoutControlItem17.Location = new System.Drawing.Point(579, 71);
             this.layoutControlItem17.MinSize = new System.Drawing.Size(255, 17);
             this.layoutControlItem17.Name = "layoutControlItem17";
-            this.layoutControlItem17.Size = new System.Drawing.Size(375, 38);
+            this.layoutControlItem17.Size = new System.Drawing.Size(375, 45);
             this.layoutControlItem17.SizeConstraintsType = DevExpress.XtraLayout.SizeConstraintsType.Custom;
             this.layoutControlItem17.Text = "Fail Printing (Prs)";
             this.layoutControlItem17.TextSize = new System.Drawing.Size(210, 24);
@@ -926,7 +999,7 @@ namespace WeightChecking
             this.layoutControlItem16.Location = new System.Drawing.Point(0, 71);
             this.layoutControlItem16.MinSize = new System.Drawing.Size(255, 17);
             this.layoutControlItem16.Name = "layoutControlItem16";
-            this.layoutControlItem16.Size = new System.Drawing.Size(377, 38);
+            this.layoutControlItem16.Size = new System.Drawing.Size(377, 45);
             this.layoutControlItem16.SizeConstraintsType = DevExpress.XtraLayout.SizeConstraintsType.Custom;
             this.layoutControlItem16.Text = "Printing (Prs)";
             this.layoutControlItem16.TextSize = new System.Drawing.Size(210, 24);
@@ -952,15 +1025,15 @@ namespace WeightChecking
             this.emptySpaceItem10.AllowHotTrack = false;
             this.emptySpaceItem10.Location = new System.Drawing.Point(377, 71);
             this.emptySpaceItem10.Name = "emptySpaceItem10";
-            this.emptySpaceItem10.Size = new System.Drawing.Size(202, 38);
+            this.emptySpaceItem10.Size = new System.Drawing.Size(202, 45);
             this.emptySpaceItem10.TextSize = new System.Drawing.Size(0, 0);
             // 
             // emptySpaceItem11
             // 
             this.emptySpaceItem11.AllowHotTrack = false;
-            this.emptySpaceItem11.Location = new System.Drawing.Point(377, 109);
+            this.emptySpaceItem11.Location = new System.Drawing.Point(377, 116);
             this.emptySpaceItem11.Name = "emptySpaceItem11";
-            this.emptySpaceItem11.Size = new System.Drawing.Size(698, 35);
+            this.emptySpaceItem11.Size = new System.Drawing.Size(349, 28);
             this.emptySpaceItem11.TextSize = new System.Drawing.Size(0, 0);
             // 
             // emptySpaceItem12
@@ -984,75 +1057,35 @@ namespace WeightChecking
             this.emptySpaceItem14.AllowHotTrack = false;
             this.emptySpaceItem14.Location = new System.Drawing.Point(954, 71);
             this.emptySpaceItem14.Name = "emptySpaceItem14";
-            this.emptySpaceItem14.Size = new System.Drawing.Size(121, 38);
+            this.emptySpaceItem14.Size = new System.Drawing.Size(121, 45);
             this.emptySpaceItem14.TextSize = new System.Drawing.Size(0, 0);
             // 
-            // labNetWeight
+            // labelControl1
             // 
-            this.labNetWeight.Appearance.BackColor = System.Drawing.Color.White;
-            this.labNetWeight.Appearance.Font = new System.Drawing.Font("Tahoma", 15F, System.Drawing.FontStyle.Bold);
-            this.labNetWeight.Appearance.ForeColor = System.Drawing.Color.Blue;
-            this.labNetWeight.Appearance.Options.UseBackColor = true;
-            this.labNetWeight.Appearance.Options.UseFont = true;
-            this.labNetWeight.Appearance.Options.UseForeColor = true;
-            this.labNetWeight.Appearance.Options.UseTextOptions = true;
-            this.labNetWeight.Appearance.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Far;
-            this.labNetWeight.Location = new System.Drawing.Point(603, 273);
-            this.labNetWeight.Name = "labNetWeight";
-            this.labNetWeight.Size = new System.Drawing.Size(151, 33);
-            this.labNetWeight.StyleController = this.layoutControl1;
-            this.labNetWeight.TabIndex = 29;
-            this.labNetWeight.Text = "0";
+            this.labelControl1.Appearance.BackColor = System.Drawing.Color.White;
+            this.labelControl1.Appearance.Font = new System.Drawing.Font("Tahoma", 15F);
+            this.labelControl1.Appearance.Options.UseBackColor = true;
+            this.labelControl1.Appearance.Options.UseFont = true;
+            this.labelControl1.Appearance.Options.UseTextOptions = true;
+            this.labelControl1.Appearance.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Far;
+            this.labelControl1.AutoSizeMode = DevExpress.XtraEditors.LabelAutoSizeMode.None;
+            this.labelControl1.Location = new System.Drawing.Point(855, 569);
+            this.labelControl1.Name = "labelControl1";
+            this.labelControl1.Size = new System.Drawing.Size(240, 24);
+            this.labelControl1.StyleController = this.layoutControl1;
+            this.labelControl1.TabIndex = 31;
+            this.labelControl1.Text = "0";
             // 
-            // layoutControlItem22
+            // layoutControlItem25
             // 
-            this.layoutControlItem22.Control = this.labNetWeight;
-            this.layoutControlItem22.Location = new System.Drawing.Point(424, 226);
-            this.layoutControlItem22.MinSize = new System.Drawing.Size(177, 28);
-            this.layoutControlItem22.Name = "layoutControlItem22";
-            this.layoutControlItem22.Size = new System.Drawing.Size(310, 37);
-            this.layoutControlItem22.SizeConstraintsType = DevExpress.XtraLayout.SizeConstraintsType.Custom;
-            this.layoutControlItem22.Text = "Net Weight (g)";
-            this.layoutControlItem22.TextAlignMode = DevExpress.XtraLayout.TextAlignModeItem.CustomSize;
-            this.layoutControlItem22.TextSize = new System.Drawing.Size(150, 20);
-            this.layoutControlItem22.TextToControlDistance = 5;
-            // 
-            // labScaleValue
-            // 
-            this.labScaleValue.Appearance.BackColor = System.Drawing.Color.White;
-            this.labScaleValue.Appearance.Font = new System.Drawing.Font("Tahoma", 50F);
-            this.labScaleValue.Appearance.Options.UseBackColor = true;
-            this.labScaleValue.Appearance.Options.UseFont = true;
-            this.labScaleValue.Appearance.Options.UseTextOptions = true;
-            this.labScaleValue.Appearance.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Far;
-            this.labScaleValue.Location = new System.Drawing.Point(24, 672);
-            this.labScaleValue.Name = "labScaleValue";
-            this.labScaleValue.Size = new System.Drawing.Size(384, 88);
-            this.labScaleValue.StyleController = this.layoutControl1;
-            this.labScaleValue.TabIndex = 30;
-            this.labScaleValue.Text = "0";
-            // 
-            // layoutControlItem7
-            // 
-            this.layoutControlItem7.AppearanceItemCaption.Font = new System.Drawing.Font("Tahoma", 15F);
-            this.layoutControlItem7.AppearanceItemCaption.Options.UseFont = true;
-            this.layoutControlItem7.Control = this.labScaleValue;
-            this.layoutControlItem7.Location = new System.Drawing.Point(0, 0);
-            this.layoutControlItem7.MinSize = new System.Drawing.Size(388, 110);
-            this.layoutControlItem7.Name = "layoutControlItem7";
-            this.layoutControlItem7.Size = new System.Drawing.Size(388, 119);
-            this.layoutControlItem7.SizeConstraintsType = DevExpress.XtraLayout.SizeConstraintsType.Custom;
-            this.layoutControlItem7.Text = "Scale Weight (g)";
-            this.layoutControlItem7.TextLocation = DevExpress.Utils.Locations.Top;
-            this.layoutControlItem7.TextSize = new System.Drawing.Size(210, 24);
-            // 
-            // emptySpaceItem15
-            // 
-            this.emptySpaceItem15.AllowHotTrack = false;
-            this.emptySpaceItem15.Location = new System.Drawing.Point(536, 109);
-            this.emptySpaceItem15.Name = "emptySpaceItem15";
-            this.emptySpaceItem15.Size = new System.Drawing.Size(198, 38);
-            this.emptySpaceItem15.TextSize = new System.Drawing.Size(0, 0);
+            this.layoutControlItem25.Control = this.labelControl1;
+            this.layoutControlItem25.Location = new System.Drawing.Point(726, 116);
+            this.layoutControlItem25.Name = "layoutControlItem25";
+            this.layoutControlItem25.Size = new System.Drawing.Size(349, 28);
+            this.layoutControlItem25.Text = "Real Net Weight (g)";
+            this.layoutControlItem25.TextAlignMode = DevExpress.XtraLayout.TextAlignModeItem.CustomSize;
+            this.layoutControlItem25.TextSize = new System.Drawing.Size(100, 20);
+            this.layoutControlItem25.TextToControlDistance = 5;
             // 
             // frmScale
             // 
@@ -1076,10 +1109,8 @@ namespace WeightChecking
             ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem3)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem2)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem4)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem5)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem6)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem8)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem10)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem20)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem24)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem19)).EndInit();
@@ -1091,9 +1122,14 @@ namespace WeightChecking
             ((System.ComponentModel.ISupportInitialize)(this.emptySpaceItem5)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.emptySpaceItem6)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.emptySpaceItem7)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem22)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem10)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.emptySpaceItem15)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem5)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.layoutControlGroup2)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem11)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem9)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem7)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.layoutControlGroup3)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem12)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem13)).EndInit();
@@ -1109,9 +1145,7 @@ namespace WeightChecking
             ((System.ComponentModel.ISupportInitialize)(this.emptySpaceItem12)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.emptySpaceItem13)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.emptySpaceItem14)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem22)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem7)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.emptySpaceItem15)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem25)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -1186,5 +1220,7 @@ namespace WeightChecking
         private DevExpress.XtraEditors.LabelControl labScaleValue;
         private DevExpress.XtraLayout.LayoutControlItem layoutControlItem7;
         private DevExpress.XtraLayout.EmptySpaceItem emptySpaceItem15;
+        private DevExpress.XtraEditors.LabelControl labelControl1;
+        private DevExpress.XtraLayout.LayoutControlItem layoutControlItem25;
     }
 }

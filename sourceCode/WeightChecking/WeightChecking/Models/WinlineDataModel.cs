@@ -14,7 +14,6 @@ namespace WeightChecking
         public int ProductCategory { get; set; } //=1 là heelCounter
         public string Brand { get; set; }
         public double? Decoration { get; set; }
-        public double? MetalScan { get; set; }
         public string MainProductNo { get; set; }
         public string MainProductName { get; set; }
         public string Color { get; set; }
