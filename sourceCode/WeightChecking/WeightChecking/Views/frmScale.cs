@@ -263,7 +263,7 @@ namespace WeightChecking
 
         private void TxtQrCode_KeyDown(object sender, KeyEventArgs e)
         {
-            //content of the QR code "OC283225,6112042007-P062-3301,42,13,P,1/56,160506,1/1|1,30.2022,0,0,1" no print
+            //content of the QR code "OC283225,6112042007-P054-2902,42,13,P,1/56,160506,1/1|1,30.2022,0,0,1" no print
             //content of the QR code "OC283226,6112042007-P054-2902,42,13,P,1/56,160506,1/1|1,30.2022,1,0,1" print
 
             _scanData.RealWeight = double.TryParse(labScaleValue.Text, out double value) ? value : 0;

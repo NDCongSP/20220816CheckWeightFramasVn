@@ -34,6 +34,7 @@ namespace WeightChecking
 
         byte[] _readHoldingRegisterArr = { 0, 0 };
         int _countDisconnectPlc = 0;
+        private System.Threading.Tasks.Task _tskModbus;
         #endregion
 
         public frmMain()
@@ -147,7 +148,13 @@ namespace WeightChecking
             //GlobalVariables.ModbusStatus = GlobalVariables.MyDriver.ModbusRTUMaster.KetNoi(GlobalVariables.ComPort, 9600, 8, System.IO.Ports.Parity.None, System.IO.Ports.StopBits.One);
 
             //Console.WriteLine($"PLC Status: {GlobalVariables.ModbusStatus}");
-            //if (GlobalVariables.ModbusStatus == false)
+
+            //if (GlobalVariables.ModbusStatus)
+            //{
+            //    _tskModbus = new System.Threading.Tasks.Task(()=>ReadModbus());
+            //    _tskModbus.Start();
+            //}
+            //else
             //{
             //    MessageBox.Show($"Không thể kết nối được bộ đếm dò kim loại.{Environment.NewLine}Tắt phần mềm, kiểm tra lại kết nối với PLC rồi mở lại phần mềm.",
             //                    "CẢNH BÁO", MessageBoxButtons.OK, MessageBoxIcon.Error);
@@ -165,28 +172,6 @@ namespace WeightChecking
             barStaticItemStatus.Caption = $"{DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss")} " +
                 $"| {GlobalVariables.UserLoginInfo.UserName} | ScaleStatus: {GlobalVariables.ScaleStatus}" +
                 $" | CounterStatus: {GlobalVariables.ModbusStatus}";
-
-            #region Đọc các giá trị từ PLC
-            //if (GlobalVariables.ModbusStatus)
-            //{
-            //    //thanh ghi D0 cua PLC Delta DPV14SS2 co dia chi la 4596
-            //    GlobalVariables.ModbusStatus = GlobalVariables.MyDriver.ModbusRTUMaster.ReadHoldingRegisters(1, 4596, 1, ref _readHoldingRegisterArr);
-
-            //    GlobalVariables.RememberInfo.CountMetalScan = GlobalVariables.MyDriver.GetUshortAt(_readHoldingRegisterArr, 0);
-            //    //update gia tri count vao sự kiện để trong frmScal  nó update lên giao diện
-            //    GlobalVariables.MyEvent.CountValue = GlobalVariables.RememberInfo.CountMetalScan;
-            //}
-            //else
-            //{
-            //    _countDisconnectPlc += 1;
-            //    if (_countDisconnectPlc==3)
-            //    {
-            //        GlobalVariables.MyDriver.ModbusRTUMaster.NgatKetNoi();
-
-            //        GlobalVariables.ModbusStatus = GlobalVariables.MyDriver.ModbusRTUMaster.KetNoi(GlobalVariables.ComPort, 9600, 8, System.IO.Ports.Parity.None, System.IO.Ports.StopBits.One);
-            //    }
-            //}
-            #endregion
 
             t.Enabled = true;
         }
@@ -507,6 +492,36 @@ namespace WeightChecking
                 SplashScreenManager.CloseForm(false);
             }
         }
+        #endregion
+
+        public void ReadModbus()
+        {
+            while (true)
+            {
+                #region Đọc các giá trị từ PLC
+                if (GlobalVariables.ModbusStatus)
+                {
+                    //thanh ghi D0 cua PLC Delta DPV14SS2 co dia chi la 4596
+                    GlobalVariables.ModbusStatus = GlobalVariables.MyDriver.ModbusRTUMaster.ReadHoldingRegisters(1, 4596, 1, ref _readHoldingRegisterArr);
+
+                    GlobalVariables.RememberInfo.CountMetalScan = GlobalVariables.MyDriver.GetUshortAt(_readHoldingRegisterArr, 0);
+                    //update gia tri count vao sự kiện để trong frmScal  nó update lên giao diện
+                    GlobalVariables.MyEvent.CountValue = GlobalVariables.RememberInfo.CountMetalScan;
+                }
+                else
+                {
+                    _countDisconnectPlc += 1;
+                    if (_countDisconnectPlc >= 3)
+                    {
+                        GlobalVariables.MyDriver.ModbusRTUMaster.NgatKetNoi();
+
+                        GlobalVariables.ModbusStatus = GlobalVariables.MyDriver.ModbusRTUMaster.KetNoi(GlobalVariables.ComPort, 9600, 8, System.IO.Ports.Parity.None, System.IO.Ports.StopBits.One);
+                    }
+                }
+                #endregion
+
+                System.Threading.Thread.Sleep(100);
+            }
+        }
     }
-    #endregion
 }
