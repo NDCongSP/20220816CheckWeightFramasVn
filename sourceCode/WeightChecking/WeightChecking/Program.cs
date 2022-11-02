@@ -10,6 +10,9 @@ using System.Reflection;
 using System.IO;
 using Serilog;
 using Serilog.Sinks.MSSqlServer;
+using DevExpress.XtraSplashScreen;
+using AutoUpdaterDotNET;
+using System.Threading;
 
 namespace WeightChecking
 {
@@ -56,7 +59,88 @@ namespace WeightChecking
 
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new Login());
+
+            bool createdNew;
+
+            Mutex m = new Mutex(true, "WHEx", out createdNew);
+
+            if (!createdNew)
+            {
+                // myApp is already running...
+                MessageBox.Show("App đang chạy, chế cứ từ từ!", "Bình tĩnh");
+                return;
+            }
+            else
+            {
+                AutoUpdater.RunUpdateAsAdmin = false;
+                AutoUpdater.DownloadPath = Environment.CurrentDirectory;
+                //AutoUpdater.ApplicationExitEvent += AutoUpdater_ApplicationExitEvent;
+                //AutoUpdater.CheckForUpdateEvent += AutoUpdater_CheckForUpdateEvent;
+                AutoUpdater.Start(Properties.Settings.Default.UpdatePath);
+                Application.Run(new Login());
+
+            }
+        }
+
+        private static void AutoUpdater_CheckForUpdateEvent(UpdateInfoEventArgs args)
+        {
+            if (args.IsUpdateAvailable)
+            {
+                DialogResult dialogResult;
+                dialogResult =
+                        MessageBox.Show(
+                            $@"SSFG App có phiên bản mới {args.CurrentVersion}. Phiên bản đang sử dụng hiện tại  {args.InstalledVersion}. Bạn có muốn cập nhật phần mềm không?", @"Cập nhật phần mềm",
+                            MessageBoxButtons.YesNo,
+                            MessageBoxIcon.Information);
+
+                if (dialogResult.Equals(DialogResult.Yes) || dialogResult.Equals(DialogResult.OK))
+                {
+                    SplashScreenManager.ShowForm(null, typeof(WaitForm1), true, true, false);
+                    SplashScreenManager.Default.SetWaitFormCaption("Vui lòng chờ trong giây lát");
+                    SplashScreenManager.Default.SetWaitFormDescription("Updating...");
+
+                    try
+                    {
+                        if (AutoUpdater.DownloadUpdate(args))
+                        {
+                            SplashScreenManager.CloseForm(false);
+                            Application.Exit();
+                            //var prs = Process.GetProcessesByName("ZipExtractor");
+                            //if (prs != null)
+                            //{
+                            //    foreach (var item in prs)
+                            //    {
+                            //        item.Kill();
+                            //    }
+                            //}
+                        }
+                        else
+                        {
+                            SplashScreenManager.ShowForm(null, typeof(WaitForm1), true, true, false);
+                            SplashScreenManager.Default.SetWaitFormCaption("Vui lòng chờ trong giây lát");
+                            SplashScreenManager.Default.SetWaitFormDescription("Updating...");
+                        }
+                    }
+                    catch (Exception exception)
+                    {
+                        SplashScreenManager.CloseForm(false);
+                        MessageBox.Show(exception.Message, exception.GetType().ToString(), MessageBoxButtons.OK,
+                            MessageBoxIcon.Error);
+                    }
+                }
+
+            }
+            else
+            {
+                //MessageBox.Show(@"Phiên bản bạn đang sử dụng đã được cập nhật mới nhất.", @"Cập nhật phần mềm",
+                //    MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+        }
+        private static void AutoUpdater_ApplicationExitEvent()
+        {
+
+            Thread.Sleep(5000);
+            Application.Exit();
         }
     }
 }

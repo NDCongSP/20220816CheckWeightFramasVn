@@ -16,12 +16,15 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
+using AutoUpdaterDotNET;
 
 namespace WeightChecking
 {
     public partial class frmMain : DevExpress.XtraBars.Ribbon.RibbonForm
     {
         #region Static Properties
+        private bool isUpdateClicked = false;
+
         frmScale _frmScale;
         frmSettings _frmSettings;
         frmMasterData _frmMasterData;
@@ -35,6 +38,8 @@ namespace WeightChecking
         byte[] _readHoldingRegisterArr = { 0, 0 };
         int _countDisconnectPlc = 0;
         private System.Threading.Tasks.Task _tskModbus;
+
+        private bool _resetCounter = false;
         #endregion
 
         public frmMain()
@@ -57,11 +62,19 @@ namespace WeightChecking
         {
             barStaticItemVersion.Caption = Application.ProductVersion;
 
+            AutoUpdater.RunUpdateAsAdmin = false;
+            AutoUpdater.DownloadPath = Environment.CurrentDirectory;
+
+            AutoUpdater.ApplicationExitEvent += AutoUpdater_ApplicationExitEvent;
+            AutoUpdater.CheckForUpdateEvent += AutoUpdater_CheckForUpdateEvent;
+
             //register ribbon barButton click
             this.barButtonItemMain.ItemClick += BarButtonItemMain_ItemClick;
             this.barButtonItemSettings.ItemClick += BarButtonItemSettings_ItemClick;
             this.barButtonItemPrint.ItemClick += BarButtonItemPrint_ItemClick;
             //this.barButtonItemResetCountMetal.ItemClick += BarButtonItemResetCountMetal_ItemClick;
+            this._barButtonItemUpVersion.ItemClick += _barButtonItemUpVersion_ItemClick;
+            this._barButtonItemUpVersion.Visibility = DevExpress.XtraBars.BarItemVisibility.Never;
 
             //chon chế độ chỉ hiển thị tab ribbon, ẩn chi tiết group
             //ribbonControl1.Minimized = true;//show tabs
@@ -145,23 +158,44 @@ namespace WeightChecking
             #endregion
 
             #region Ket noi modbus RTU PLC metalScan counter
-            GlobalVariables.ModbusStatus = GlobalVariables.MyDriver.ModbusRTUMaster.KetNoi(GlobalVariables.ComPort, 9600, 8, System.IO.Ports.Parity.None, System.IO.Ports.StopBits.One);
+            //GlobalVariables.ModbusStatus = GlobalVariables.MyDriver.ModbusRTUMaster.KetNoi(GlobalVariables.ComPort, 9600, 8, System.IO.Ports.Parity.None, System.IO.Ports.StopBits.One);
 
-            Console.WriteLine($"PLC Status: {GlobalVariables.ModbusStatus}");
+            //Console.WriteLine($"PLC Status: {GlobalVariables.ModbusStatus}");
 
-            if (GlobalVariables.ModbusStatus)
-            {
-                _tskModbus = new System.Threading.Tasks.Task(() => ReadModbus());
-                _tskModbus.Start();
-            }
-            else
-            {
-                MessageBox.Show($"Không thể kết nối được bộ đếm dò kim loại.{Environment.NewLine}Tắt phần mềm, kiểm tra lại kết nối với PLC rồi mở lại phần mềm.",
-                                "CẢNH BÁO", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
+            //if (GlobalVariables.ModbusStatus)
+            //{
+            //    _tskModbus = new System.Threading.Tasks.Task(() => ReadModbus());
+            //    _tskModbus.Start();
+            //}
+            //else
+            //{
+            //    MessageBox.Show($"Không thể kết nối được bộ đếm dò kim loại.{Environment.NewLine}Tắt phần mềm, kiểm tra lại kết nối với PLC rồi mở lại phần mềm.",
+            //                    "CẢNH BÁO", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            //}
             #endregion
             _timer.Enabled = true;
             _timer.Tick += _timer_Tick;
+        }
+
+        private void _barButtonItemUpVersion_ItemClick(object sender, DevExpress.XtraBars.ItemClickEventArgs e)
+        {
+            try
+            {
+                isUpdateClicked = true;
+                string UUrl = "\\192.168.1.241\\FramasPublic\\PUBLIC_Able to deleted\\22 IT\\01-UpdateApp\\11-SSFG_IDC\\Update.xml";
+                XtraMessageBox.Show("Check version cái nhe. Chờ xíu...", "Taaa...daaa");
+                SplashScreenManager.ShowForm(typeof(WaitForm1));
+                System.Threading.Thread.Sleep(3000);
+                AutoUpdater.Start(UUrl);
+            }
+            catch (Exception ex)
+            {
+                XtraMessageBox.Show($"{ex.Message}", "Error");
+            }
+            finally
+            {
+                SplashScreenManager.CloseForm(false);
+            }
         }
 
         private void _timer_Tick(object sender, EventArgs e)
@@ -336,6 +370,8 @@ namespace WeightChecking
 
         private void barButtonItemResetCountMetal_ItemClick_1(object sender, DevExpress.XtraBars.ItemClickEventArgs e)
         {
+            _resetCounter = true;
+
             GlobalVariables.RememberInfo.GoodBoxPrinting = 0;
             GlobalVariables.RememberInfo.GoodBoxNoPrinting = 0;
             GlobalVariables.RememberInfo.FailBoxPrinting = 0;
@@ -492,6 +528,62 @@ namespace WeightChecking
                 SplashScreenManager.CloseForm(false);
             }
         }
+
+        //update
+        private async void AutoUpdater_CheckForUpdateEvent(UpdateInfoEventArgs args)
+        {
+            if (args.IsUpdateAvailable)
+            {
+                DialogResult dialogResult;
+                dialogResult =
+                        MessageBox.Show(
+                            $@"SSFG App có phiên bản mới {args.CurrentVersion}. SSFG App bản hiện tại là {args.InstalledVersion}. Bạn có muốn lên phiên bản mới không?", @"Thông Báo",
+                            MessageBoxButtons.YesNo,
+                            MessageBoxIcon.Information);
+
+                if (dialogResult.Equals(DialogResult.Yes) || dialogResult.Equals(DialogResult.OK))
+                {
+                    SplashScreenManager.ShowForm(typeof(WaitForm1));
+                    await System.Threading.Tasks.Task.Delay(3000);
+                    //AutoZipFolder();
+
+                    try
+                    {
+                        if (AutoUpdater.DownloadUpdate(args))
+                        {
+                            SplashScreenManager.CloseForm(false);
+                            Application.Exit();
+                        }
+                        else
+                        {
+                            SplashScreenManager.ShowForm(typeof(WaitForm1));
+                        }
+                    }
+                    catch (Exception exception)
+                    {
+                        SplashScreenManager.CloseForm(false);
+                        MessageBox.Show(exception.Message, exception.GetType().ToString(), MessageBoxButtons.OK,
+                            MessageBoxIcon.Error);
+                    }
+                }
+            }
+            else
+            {
+                if (isUpdateClicked)
+                {
+                    MessageBox.Show(@"SSFG App đang chạy phiên bản mới nhất.", @"Thông Báo",
+                   MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+            }
+        }
+
+        private async void AutoUpdater_ApplicationExitEvent()
+        {
+            Text = @"Closing application...";
+            await System.Threading.Tasks.Task.Delay(3000);
+            Application.Exit();
+        }
+
         #endregion
 
         public void ReadModbus()
@@ -501,6 +593,17 @@ namespace WeightChecking
                 #region Đọc các giá trị từ PLC
                 if (GlobalVariables.ModbusStatus)
                 {
+                    if (_resetCounter)
+                    {
+                        if (GlobalVariables.MyDriver.ModbusRTUMaster.WriteSingleCoil(1, 2, true))
+                        {
+                            System.Threading.Thread.Sleep(10);
+                            if (GlobalVariables.MyDriver.ModbusRTUMaster.WriteSingleCoil(1, 2, false))
+                            {
+                                _resetCounter = false;
+                            }
+                        }
+                    }
                     //thanh ghi D0 cua PLC Delta DPV14SS2 co dia chi la 4596
                     GlobalVariables.ModbusStatus = GlobalVariables.MyDriver.ModbusRTUMaster.ReadHoldingRegisters(1, 4596, 1, ref _readHoldingRegisterArr);
 

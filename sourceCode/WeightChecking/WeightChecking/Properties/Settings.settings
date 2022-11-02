@@ -17,5 +17,8 @@
     <Setting Name="ComPort" Type="System.String" Scope="User">
       <Value Profile="(Default)">COM2</Value>
     </Setting>
+    <Setting Name="UpdatePath" Type="System.String" Scope="User">
+      <Value Profile="(Default)">\\192.168.1.241\FramasPublic\PUBLIC_Able to deleted\22 IT\01-UpdateApp\11-SSFG_IDC\Update.xml</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

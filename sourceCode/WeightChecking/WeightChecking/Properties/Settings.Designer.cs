@@ -87,5 +87,18 @@ namespace WeightChecking.Properties {
                 this["ComPort"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("\\\\192.168.1.241\\FramasPublic\\PUBLIC_Able to deleted\\22 IT\\01-UpdateApp\\11-SSFG_ID" +
+            "C\\Update.xml")]
+        public string UpdatePath {
+            get {
+                return ((string)(this["UpdatePath"]));
+            }
+            set {
+                this["UpdatePath"] = value;
+            }
+        }
     }
 }

@@ -40,6 +40,7 @@ namespace WeightChecking
             this.barButtonItemResetCountMetal = new DevExpress.XtraBars.BarButtonItem();
             this.barButtonItemGetDataWL = new DevExpress.XtraBars.BarButtonItem();
             this.barButtonItemRefreshData = new DevExpress.XtraBars.BarButtonItem();
+            this.barButtonItemImport = new DevExpress.XtraBars.BarButtonItem();
             this.ribbonPageHome = new DevExpress.XtraBars.Ribbon.RibbonPage();
             this.ribbonPageGroupHome = new DevExpress.XtraBars.Ribbon.RibbonPageGroup();
             this.ribbonPageMasterData = new DevExpress.XtraBars.Ribbon.RibbonPage();
@@ -49,7 +50,7 @@ namespace WeightChecking
             this.documentManager1 = new DevExpress.XtraBars.Docking2010.DocumentManager(this.components);
             this.tabbedView1 = new DevExpress.XtraBars.Docking2010.Views.Tabbed.TabbedView(this.components);
             this.dockManager1 = new DevExpress.XtraBars.Docking.DockManager(this.components);
-            this.barButtonItemImport = new DevExpress.XtraBars.BarButtonItem();
+            this._barButtonItemUpVersion = new DevExpress.XtraBars.BarButtonItem();
             ((System.ComponentModel.ISupportInitialize)(this.ribbonControl1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.documentManager1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.tabbedView1)).BeginInit();
@@ -70,9 +71,10 @@ namespace WeightChecking
             this.barButtonItemResetCountMetal,
             this.barButtonItemGetDataWL,
             this.barButtonItemRefreshData,
-            this.barButtonItemImport});
+            this.barButtonItemImport,
+            this._barButtonItemUpVersion});
             this.ribbonControl1.Location = new System.Drawing.Point(0, 0);
-            this.ribbonControl1.MaxItemId = 11;
+            this.ribbonControl1.MaxItemId = 12;
             this.ribbonControl1.Name = "ribbonControl1";
             this.ribbonControl1.Pages.AddRange(new DevExpress.XtraBars.Ribbon.RibbonPage[] {
             this.ribbonPageHome,
@@ -138,6 +140,14 @@ namespace WeightChecking
             this.barButtonItemRefreshData.Name = "barButtonItemRefreshData";
             this.barButtonItemRefreshData.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(this.barButtonItemRefreshData_ItemClick);
             // 
+            // barButtonItemImport
+            // 
+            this.barButtonItemImport.Caption = "Import Template Settings";
+            this.barButtonItemImport.Id = 10;
+            this.barButtonItemImport.ImageOptions.SvgImage = ((DevExpress.Utils.Svg.SvgImage)(resources.GetObject("barButtonItemImport.ImageOptions.SvgImage")));
+            this.barButtonItemImport.Name = "barButtonItemImport";
+            this.barButtonItemImport.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(this.barButtonItemImport_ItemClick);
+            // 
             // ribbonPageHome
             // 
             this.ribbonPageHome.Groups.AddRange(new DevExpress.XtraBars.Ribbon.RibbonPageGroup[] {
@@ -152,6 +162,7 @@ namespace WeightChecking
             this.ribbonPageGroupHome.ItemLinks.Add(this.barButtonItemSettings);
             this.ribbonPageGroupHome.ItemLinks.Add(this.barButtonItemPrint);
             this.ribbonPageGroupHome.ItemLinks.Add(this.barButtonItemResetCountMetal);
+            this.ribbonPageGroupHome.ItemLinks.Add(this._barButtonItemUpVersion);
             this.ribbonPageGroupHome.Name = "ribbonPageGroupHome";
             this.ribbonPageGroupHome.Text = "Actions";
             // 
@@ -210,13 +221,13 @@ namespace WeightChecking
             "DevExpress.XtraBars.FluentDesignSystem.FluentDesignFormControl",
             "DevExpress.XtraBars.ToolbarForm.ToolbarFormControl"});
             // 
-            // barButtonItemImport
+            // _barButtonItemUpVersion
             // 
-            this.barButtonItemImport.Caption = "Import Template Settings";
-            this.barButtonItemImport.Id = 10;
-            this.barButtonItemImport.ImageOptions.SvgImage = ((DevExpress.Utils.Svg.SvgImage)(resources.GetObject("barButtonItemImport.ImageOptions.SvgImage")));
-            this.barButtonItemImport.Name = "barButtonItemImport";
-            this.barButtonItemImport.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(this.barButtonItemImport_ItemClick);
+            this._barButtonItemUpVersion.Caption = "Update Version";
+            this._barButtonItemUpVersion.Id = 11;
+            this._barButtonItemUpVersion.ImageOptions.SvgImage = ((DevExpress.Utils.Svg.SvgImage)(resources.GetObject("_barButtonItemUpVersion.ImageOptions.SvgImage")));
+            this._barButtonItemUpVersion.LargeWidth = 100;
+            this._barButtonItemUpVersion.Name = "_barButtonItemUpVersion";
             // 
             // frmMain
             // 
@@ -263,6 +274,7 @@ namespace WeightChecking
         private DevExpress.XtraBars.Ribbon.RibbonPageGroup ribbonPageGroupMasterData;
         private DevExpress.XtraBars.BarButtonItem barButtonItemRefreshData;
         private DevExpress.XtraBars.BarButtonItem barButtonItemImport;
+        private DevExpress.XtraBars.BarButtonItem _barButtonItemUpVersion;
     }
 }
 

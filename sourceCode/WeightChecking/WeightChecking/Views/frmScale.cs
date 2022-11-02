@@ -69,7 +69,7 @@ namespace WeightChecking
                 try
                 {
                     var w = o.Value * GlobalVariables.UnitScale;
-                    if (w.ToString().Length >= 4 || w == 0)
+                    //if (w.ToString().Length >= 4 || w == 0)
                     {
                         if (labRealWeight.InvokeRequired)
                         {
@@ -156,12 +156,14 @@ namespace WeightChecking
             #endregion
 
             #region đăng ký sự kiện cập nhật giá trị MetalScan counter
-            GlobalVariables.MyEvent.EventHandlerCount += (s, o) => {
+            GlobalVariables.MyEvent.EventHandlerCount += (s, o) =>
+            {
                 GlobalVariables.RememberInfo.CountMetalScan = o.CountValue;
 
                 if (labMetalScanCount.InvokeRequired)
                 {
-                    labMetalScanCount.Invoke(new Action(()=> {
+                    labMetalScanCount.Invoke(new Action(() =>
+                    {
                         labMetalScanCount.Text = o.CountValue.ToString();
                     }));
                 }
@@ -265,6 +267,7 @@ namespace WeightChecking
         {
             //content of the QR code "OC283225,6112042007-P054-2902,42,13,P,1/56,160506,1/1|1,30.2022,0,0,1" no print
             //content of the QR code "OC283226,6112042007-P054-2902,42,13,P,1/56,160506,1/1|1,30.2022,1,0,1" print
+            //|1,30.2022,1,0,1-->Location,IdLable,Decoration,MetalScan,Category(phân biệt hàng HC hay ko)
 
             _scanData.RealWeight = double.TryParse(labScaleValue.Text, out double value) ? value : 0;
 
@@ -275,30 +278,43 @@ namespace WeightChecking
 
                 #region xử lý barcode lấy ra các giá trị theo code
                 _scanData.BarcodeString = _sen.Text;
-
-                var s = _sen.Text.Split('|');
-                var s1 = s[0].Split(',');
-                _plr = s1[4];//get Thung này đóng theo đôi (P) hay L/R
-                _scanData.OcNo = s1[0];
-                _scanData.ProductNumber = s1[1];
-
-                _scanData.Quantity = Convert.ToInt32(s1[2]);
-                _scanData.LinePosNo = s1[3];
-                _scanData.BoxNo = s1[5];
-                _scanData.CustomerNo = s1[6];
-                _scanData.BoxPosNo = s1[7];
-
-                if (s[1].Contains(","))
+                if (_scanData.BarcodeString.Contains("|"))
                 {
-                    var s2 = s[1].Split(',');
+                    var s = _sen.Text.Split('|');
+                    var s1 = s[0].Split(',');
+                    _plr = s1[4];//get Thung này đóng theo đôi (P) hay L/R
+                    _scanData.OcNo = s1[0];
+                    _scanData.ProductNumber = s1[1];
 
-                    GlobalVariables.IdLabel = s2[1];
-                    _scanData.IdLable = GlobalVariables.IdLabel;
-                    _scanData.Location = Convert.ToInt32(s2[0]);
+                    _scanData.Quantity = Convert.ToInt32(s1[2]);
+                    _scanData.LinePosNo = s1[3];
+                    _scanData.BoxNo = s1[5];
+                    _scanData.CustomerNo = s1[6];
+                    _scanData.BoxPosNo = s1[7];
+
+                    if (s[1].Contains(","))
+                    {
+                        var s2 = s[1].Split(',');
+
+                        GlobalVariables.IdLabel = s2[1];
+                        _scanData.IdLable = GlobalVariables.IdLabel;
+                        _scanData.Location = Convert.ToInt32(s2[0]);
+                    }
+                    else
+                    {
+                        _scanData.Location = Convert.ToInt32(s[1]);
+                    }
                 }
                 else
                 {
-                    _scanData.Location = Convert.ToInt32(s[1]);
+                    var s1 = _scanData.BarcodeString.Split(',');
+                    _plr = s1[4];//get Thung này đóng theo đôi (P) hay L/R
+                    _scanData.OcNo = s1[0];
+                    _scanData.ProductNumber = s1[1];
+
+                    _scanData.Quantity = Convert.ToInt32(s1[2]);
+                    _scanData.LinePosNo = s1[3];
+                    _scanData.BoxNo = s1[5];
                 }
                 #endregion
 
@@ -322,7 +338,7 @@ namespace WeightChecking
                         _scanData.AveWeight1Prs = res.AveWeight1Prs;
 
                         //Xét điều kiện để lấy boxWeight. Nếu là hàng đi sơn thì dùng thùng nhựa
-                        if (_scanData.Decoration == 0)
+                        if (_scanData.Decoration == 0 || (_scanData.Decoration == 1 && _scanData.OcNo.Contains("OPRT")))
                         {
                             if (_scanData.Quantity <= res.BoxQtyBx4)
                             {
@@ -338,22 +354,39 @@ namespace WeightChecking
                             }
                             else if (_scanData.Quantity > res.BoxQtyBx2 && _scanData.Quantity <= res.BoxQtyBx1)
                             {
-                                _scanData.BoxWeight = res.BoxWeightBx4;
+                                _scanData.BoxWeight = res.BoxWeightBx1;
                             }
 
-                            if (labDecoration.InvokeRequired)
+                            if (_scanData.Decoration == 0)
                             {
-                                labDecoration.Invoke(new Action(() =>
+                                if (labDecoration.InvokeRequired)
+                                {
+                                    labDecoration.Invoke(new Action(() =>
+                                    {
+                                        labDecoration.BackColor = Color.Gray;
+                                    }));
+                                }
+                                else
                                 {
                                     labDecoration.BackColor = Color.Gray;
-                                }));
+                                }
                             }
                             else
                             {
-                                labDecoration.BackColor = Color.Gray;
+                                if (labDecoration.InvokeRequired)
+                                {
+                                    labDecoration.Invoke(new Action(() =>
+                                    {
+                                        labDecoration.BackColor = Color.Green;
+                                    }));
+                                }
+                                else
+                                {
+                                    labDecoration.BackColor = Color.Green;
+                                }
                             }
                         }
-                        else
+                        else if (_scanData.Decoration == 1 && _scanData.OcNo.Contains("PRT"))
                         {
                             _scanData.BoxWeight = res.PlasicBoxWeight;
 
@@ -361,19 +394,56 @@ namespace WeightChecking
                             {
                                 labDecoration.Invoke(new Action(() =>
                                 {
-                                    labDecoration.BackColor = Color.Green;
+                                    labDecoration.BackColor = Color.OrangeRed;
                                 }));
                             }
                             else
                             {
-                                labDecoration.BackColor = Color.Green;
+                                labDecoration.BackColor = Color.OrangeRed;
+                            }
+                        }
+
+                        if (_scanData.MetalScan == 0)
+                        {
+                            if (labMetalScan.InvokeRequired)
+                            {
+                                labMetalScan.Invoke(new Action(() =>
+                                {
+                                    labMetalScan.BackColor = Color.Gray;
+                                }));
+                            }
+                            else
+                            {
+                                labMetalScan.BackColor = Color.Gray;
+                            }
+                        }
+                        else
+                        {
+                            if (labMetalScan.InvokeRequired)
+                            {
+                                labMetalScan.Invoke(new Action(() =>
+                                {
+                                    labMetalScan.BackColor = Color.OrangeRed;
+                                }));
+                            }
+                            else
+                            {
+                                labMetalScan.BackColor = Color.OrangeRed;
                             }
                         }
 
                         _scanData.NetWeight = Math.Round(_scanData.Quantity * _scanData.AveWeight1Prs, 3);
                         _scanData.Tolerance = Math.Round(_scanData.NetWeight * (res.Tolerance / 100), 3);
-                        _scanData.AccessoriesWeight = Math.Round((res.PartitionQty * res.PartitionWeight) + (res.PlasicBagWeight * res.PlasicBagQty) + (res.WrapSheetQty * res.WrapSheetWeight), 3);
-                        _scanData.GrossdWeight = Math.Round(_scanData.NetWeight + _scanData.AccessoriesWeight, 3);
+
+                        //luu ý các Quantity partition-Plasic-WrapSheet trên DB nó là tính số Prs
+                        //sau khi đọc về phải lấy QtyPrs quét trên label / Quantity partition-Plasic-WrapSheet ==> qty * weight ==> Weight packing accessories
+                        var partitionWeight = res.PartitionQty != 0 ? (int)(_scanData.Quantity / res.PartitionQty) * res.PartitionWeight : 0;
+                        var plasicBagWeight = res.PlasicBagQty != 0 ? (int)(_scanData.Quantity / res.PlasicBagQty) * res.PlasicBagWeight : 0;
+                        var wrapSheetWeight = res.WrapSheetQty != 0 ? (int)(_scanData.Quantity / res.WrapSheetQty) * res.WrapSheetWeight : 0;
+
+                        _scanData.AccessoriesWeight = Math.Round(partitionWeight + plasicBagWeight + wrapSheetWeight, 3);
+
+                        _scanData.GrossdWeight = Math.Round(_scanData.NetWeight + _scanData.AccessoriesWeight + _scanData.BoxWeight, 3);
 
                         #region tinh toán standardWeight theo Pair/Left/Right. lưu ý để sau này có áp dụng thì làm
                         //if (_plr == "P")
@@ -490,15 +560,14 @@ namespace WeightChecking
                             labGrossWeight.Invoke(new Action(() => { labGrossWeight.Text = _scanData.GrossdWeight.ToString(); }));
                         }
                         else labGrossWeight.Text = _scanData.GrossdWeight.ToString();
-
-
                         #endregion
 
                         #region xử lý so sánh khối lượng cân thực tế với kế hoạch để xử lý
                         _scanData.RealNetWeight = Math.Round(_scanData.RealWeight - _scanData.BoxWeight - _scanData.AccessoriesWeight, 3);
                         _scanData.Deviation = Math.Round(_scanData.RealNetWeight - _scanData.NetWeight, 3);
+
                         //thung hang Pass
-                        if (_scanData.Deviation >= (-1)*_scanData.Tolerance
+                        if (_scanData.Deviation >= (-1) * _scanData.Tolerance
                             && _scanData.Deviation <= _scanData.Tolerance)
                         {
                             if (_scanData.Decoration == 1)
@@ -511,7 +580,8 @@ namespace WeightChecking
                                 GlobalVariables.RememberInfo.GoodBoxNoPrinting += 1;
                                 _scanData.Status = 2;
                             }
-                            //hien thi mau label
+
+                            #region hien thi mau label
                             if (labRealWeight.InvokeRequired)
                             {
                                 labRealWeight.Invoke(new Action(() =>
@@ -525,14 +595,60 @@ namespace WeightChecking
                                 labRealWeight.BackColor = Color.Green;
                                 labRealWeight.ForeColor = Color.White;
                             }
+
+                            if (labNetRealWeight.InvokeRequired)
+                            {
+                                labNetRealWeight.Invoke(new Action(() =>
+                                {
+                                    labNetRealWeight.BackColor = Color.Green;
+                                    labNetRealWeight.ForeColor = Color.White;
+                                }));
+                            }
+                            else
+                            {
+                                labNetRealWeight.BackColor = Color.Green;
+                                labNetRealWeight.ForeColor = Color.White;
+                            }
+
+                            if (labDeviation.InvokeRequired)
+                            {
+                                labDeviation.Invoke(new Action(() =>
+                                {
+                                    labDeviation.BackColor = Color.Green;
+                                    labDeviation.ForeColor = Color.White;
+                                }));
+                            }
+                            else
+                            {
+                                labDeviation.BackColor = Color.Green;
+                                labDeviation.ForeColor = Color.White;
+                            }
+                            #endregion
                             _scanData.Pass = 1;
                             //Printing
-                            GlobalVariables.Printing(_scanData.RealWeight, GlobalVariables.IdLabel);
+                            GlobalVariables.Printing(_scanData.RealWeight
+                                        , !string.IsNullOrEmpty(GlobalVariables.IdLabel) ? GlobalVariables.IdLabel : $"{_scanData.OcNo}|{_scanData.BoxNo}");
                             GlobalVariables.RealWeight = _scanData.RealWeight;
                             GlobalVariables.PrintApprove = true;
                         }
                         else//thung fail
                         {
+                            #region tính toán số pairs bị thiếu và hiển thị label
+                            _scanData.MissingPairs = _scanData.AveWeight1Prs != 0 ? Math.Round(_scanData.Deviation / _scanData.AveWeight1Prs, 2) : 0;
+
+                            if (labMissingPairs.InvokeRequired)
+                            {
+                                labMissingPairs.Invoke(new Action(() =>
+                                {
+                                    labMissingPairs.Text = _scanData.MissingPairs.ToString();
+                                }));
+                            }
+                            else
+                            {
+                                labMissingPairs.Text = _scanData.MissingPairs.ToString();
+                            }
+                            #endregion
+
                             GlobalVariables.PrintApprove = false;
                             if (_scanData.Decoration == 1)
                             {
@@ -543,7 +659,7 @@ namespace WeightChecking
                                 GlobalVariables.RememberInfo.FailBoxNoPrinting += 1;
                             }
 
-                            //hien thi mau label
+                            #region hien thi mau label
                             if (labRealWeight.InvokeRequired)
                             {
                                 labRealWeight.Invoke(new Action(() =>
@@ -558,6 +674,35 @@ namespace WeightChecking
                                 labRealWeight.ForeColor = Color.White;
                             }
 
+                            if (labNetRealWeight.InvokeRequired)
+                            {
+                                labNetRealWeight.Invoke(new Action(() =>
+                                {
+                                    labNetRealWeight.BackColor = Color.Red;
+                                    labNetRealWeight.ForeColor = Color.White;
+                                }));
+                            }
+                            else
+                            {
+                                labNetRealWeight.BackColor = Color.Red;
+                                labNetRealWeight.ForeColor = Color.White;
+                            }
+
+                            if (labDeviation.InvokeRequired)
+                            {
+                                labDeviation.Invoke(new Action(() =>
+                                {
+                                    labDeviation.BackColor = Color.Red;
+                                    labDeviation.ForeColor = Color.White;
+                                }));
+                            }
+                            else
+                            {
+                                labDeviation.BackColor = Color.Red;
+                                labDeviation.ForeColor = Color.White;
+                            }
+                            #endregion
+
                             _scanData.Pass = 0;
                             _scanData.Status = 0;
                         }
@@ -568,7 +713,6 @@ namespace WeightChecking
                         XtraMessageBox.Show($"Product number {_scanData.ProductNumber} không có trong hệ thống. Xin hãy kiểm tra lại thông tin.", "CẢNH BÁO.", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     }
 
-                    #region tính toán các thông số cộng dồn số lượng và luu vao file remember
                     #region hien thi cac thong so dem
                     if (labGoodBox.InvokeRequired)
                     {
@@ -638,6 +782,15 @@ namespace WeightChecking
                         }));
                     }
                     else labDeviation.Text = _scanData.Deviation.ToString();
+
+                    if (labNetRealWeight.InvokeRequired)
+                    {
+                        labNetRealWeight.Invoke(new Action(() =>
+                        {
+                            labNetRealWeight.Text = _scanData.RealNetWeight.ToString();
+                        }));
+                    }
+                    else labNetRealWeight.Text = _scanData.RealNetWeight.ToString();
                     #endregion
 
                     #region Log data
@@ -670,13 +823,13 @@ namespace WeightChecking
                     para.Add("@Deviation", _scanData.Deviation);
                     para.Add("@Pass", _scanData.Pass);
                     para.Add("Status", _scanData.Status);
+                    para.Add("MissingPairs", _scanData.MissingPairs);
 
                     var insertResult = connection.Execute("sp_tblScanDataInsert", para, commandType: CommandType.StoredProcedure);
                     #endregion
 
                     string json = JsonConvert.SerializeObject(GlobalVariables.RememberInfo);
                     File.WriteAllText(@"./RememberInfo.json", json);
-                    #endregion
                 }
                 #endregion
 
