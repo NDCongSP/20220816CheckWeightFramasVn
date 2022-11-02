@@ -62,6 +62,8 @@ namespace WeightChecking
 
         public static double RealWeight { get; set; } = 0;
         public static string IdLabel { get; set; } = null;
+        public static string OcNo { get; set; } = null;
+        public static string BoxNo { get; set; } = null;
         public static bool PrintApprove { get; set; } = false;
         #endregion
     }

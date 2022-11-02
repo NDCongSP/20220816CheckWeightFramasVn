@@ -272,7 +272,8 @@ namespace WeightChecking
         {
             if (GlobalVariables.PrintApprove)
             {
-                GlobalVariables.Printing(25.68, "3000000000.2022");
+                GlobalVariables.Printing(GlobalVariables.RealWeight
+                                       , !string.IsNullOrEmpty(GlobalVariables.IdLabel) ? GlobalVariables.IdLabel : $"{GlobalVariables.OcNo}|{GlobalVariables.BoxNo}");
             }
         }
 
