@@ -158,20 +158,20 @@ namespace WeightChecking
             #endregion
 
             #region Ket noi modbus RTU PLC metalScan counter
-            //GlobalVariables.ModbusStatus = GlobalVariables.MyDriver.ModbusRTUMaster.KetNoi(GlobalVariables.ComPort, 9600, 8, System.IO.Ports.Parity.None, System.IO.Ports.StopBits.One);
+            GlobalVariables.ModbusStatus = GlobalVariables.MyDriver.ModbusRTUMaster.KetNoi(GlobalVariables.ComPort, 9600, 8, System.IO.Ports.Parity.None, System.IO.Ports.StopBits.One);
 
-            //Console.WriteLine($"PLC Status: {GlobalVariables.ModbusStatus}");
+            Console.WriteLine($"PLC Status: {GlobalVariables.ModbusStatus}");
 
-            //if (GlobalVariables.ModbusStatus)
-            //{
-            //    _tskModbus = new System.Threading.Tasks.Task(() => ReadModbus());
-            //    _tskModbus.Start();
-            //}
-            //else
-            //{
-            //    MessageBox.Show($"Không thể kết nối được bộ đếm dò kim loại.{Environment.NewLine}Tắt phần mềm, kiểm tra lại kết nối với PLC rồi mở lại phần mềm.",
-            //                    "CẢNH BÁO", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            //}
+            if (GlobalVariables.ModbusStatus)
+            {
+                _tskModbus = new System.Threading.Tasks.Task(() => ReadModbus());
+                _tskModbus.Start();
+            }
+            else
+            {
+                MessageBox.Show($"Không thể kết nối được bộ đếm dò kim loại.{Environment.NewLine}Tắt phần mềm, kiểm tra lại kết nối với PLC rồi mở lại phần mềm.",
+                                "CẢNH BÁO", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
             #endregion
             _timer.Enabled = true;
             _timer.Tick += _timer_Tick;

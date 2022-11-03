@@ -89,7 +89,7 @@ namespace WeightChecking
                     Log.Error(ex, "Scale event error.");
                 }
             };
-            _scaleHelper.ScaleValue = 1;//tac động để đọc cân lần đầu tiên
+            _scaleHelper.ScaleValue = 5.545;//tac động để đọc cân lần đầu tiên
             #endregion
 
             #region hien thi cac thong so dem
@@ -359,7 +359,8 @@ namespace WeightChecking
                         _scanData.AveWeight1Prs = res.AveWeight1Prs;
 
                         //Xét điều kiện để lấy boxWeight. Nếu là hàng đi sơn thì dùng thùng nhựa
-                        if (_scanData.Decoration == 0 || (_scanData.Decoration == 1 && _scanData.OcNo.Contains("OPRT")))
+                        if (_scanData.Decoration == 0 || _scanData.Decoration == 1 && _scanData.OcNo.Contains("OPRT")
+                            || _scanData.Decoration == 1 && _scanData.OcNo.Contains("OCA"))
                         {
                             _scanData.Status = 2;//báo trạng thái hàng ko đi sơn, hoặc hàng sơn đã được sơn rồi
 
@@ -463,9 +464,9 @@ namespace WeightChecking
 
                         //luu ý các Quantity partition-Plasic-WrapSheet trên DB nó là tính số Prs
                         //sau khi đọc về phải lấy QtyPrs quét trên label / Quantity partition-Plasic-WrapSheet ==> qty * weight ==> Weight packing accessories
-                        var partitionWeight = res.PartitionQty != 0 ? (int)(_scanData.Quantity / res.PartitionQty) * res.PartitionWeight : 0;
-                        var plasicBagWeight = res.PlasicBagQty != 0 ? (int)(_scanData.Quantity / res.PlasicBagQty) * res.PlasicBagWeight : 0;
-                        var wrapSheetWeight = res.WrapSheetQty != 0 ? (int)(_scanData.Quantity / res.WrapSheetQty) * res.WrapSheetWeight : 0;
+                        var partitionWeight = res.PartitionQty != 0 ? (_scanData.Quantity / res.PartitionQty) * res.PartitionWeight : 0;
+                        var plasicBagWeight = res.PlasicBagQty != 0 ? (_scanData.Quantity / res.PlasicBagQty) * res.PlasicBagWeight : 0;
+                        var wrapSheetWeight = res.WrapSheetQty != 0 ? (_scanData.Quantity / res.WrapSheetQty) * res.WrapSheetWeight : 0;
 
                         _scanData.AccessoriesWeight = Math.Round(partitionWeight + plasicBagWeight + wrapSheetWeight, 3);
 
