@@ -88,7 +88,7 @@ namespace WeightChecking
                     Log.Error(ex, "Scale event error.");
                 }
             };
-            _scaleHelper.ScaleValue = 5.545;//tac động để đọc cân lần đầu tiên
+            _scaleHelper.ScaleValue = 1;// 5.545;//tac động để đọc cân lần đầu tiên
             #endregion
 
             #region hien thi cac thong so dem
