@@ -236,6 +236,18 @@
     <Compile Include="Enums\LocationEnum.cs" />
     <Compile Include="Enums\RolesEnum.cs" />
     <Compile Include="Events\RefreshEvent.cs" />
+    <Compile Include="Views\frmConfirmPrint.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Views\frmConfirmPrint.Designer.cs">
+      <DependentUpon>frmConfirmPrint.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Views\frmReports.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Views\frmReports.Designer.cs">
+      <DependentUpon>frmReports.cs</DependentUpon>
+    </Compile>
     <Compile Include="Models\ProductInfoModel.cs" />
     <Compile Include="Models\tblCoreDataCodeItemSizeModel.cs" />
     <Compile Include="Views\frmUpdateTolerance.cs">
@@ -302,8 +314,14 @@
     <Compile Include="rptLabel.Designer.cs">
       <DependentUpon>rptLabel.cs</DependentUpon>
     </Compile>
+    <EmbeddedResource Include="Views\frmConfirmPrint.resx">
+      <DependentUpon>frmConfirmPrint.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Views\frmMasterData.resx">
       <DependentUpon>frmMasterData.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\frmReports.resx">
+      <DependentUpon>frmReports.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Views\frmScale.resx">
       <DependentUpon>frmScale.cs</DependentUpon>

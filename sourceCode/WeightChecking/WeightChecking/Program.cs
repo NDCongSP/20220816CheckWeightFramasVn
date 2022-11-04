@@ -62,7 +62,7 @@ namespace WeightChecking
 
             bool createdNew;
 
-            Mutex m = new Mutex(true, "WHEx", out createdNew);
+            Mutex m = new Mutex(true, "SSFG", out createdNew);
 
             if (!createdNew)
             {
@@ -74,8 +74,8 @@ namespace WeightChecking
             {
                 AutoUpdater.RunUpdateAsAdmin = false;
                 AutoUpdater.DownloadPath = Environment.CurrentDirectory;
-                //AutoUpdater.ApplicationExitEvent += AutoUpdater_ApplicationExitEvent;
-                //AutoUpdater.CheckForUpdateEvent += AutoUpdater_CheckForUpdateEvent;
+                AutoUpdater.ApplicationExitEvent += AutoUpdater_ApplicationExitEvent;
+                AutoUpdater.CheckForUpdateEvent += AutoUpdater_CheckForUpdateEvent;
                 AutoUpdater.Start(Properties.Settings.Default.UpdatePath);
                 Application.Run(new Login());
 

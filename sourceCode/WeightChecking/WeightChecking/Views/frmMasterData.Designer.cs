@@ -38,11 +38,15 @@ namespace WeightChecking
             // grc
             // 
             this.grc.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.grc.EmbeddedNavigator.Buttons.Edit.Enabled = false;
+            this.grc.EmbeddedNavigator.Buttons.EndEdit.Enabled = false;
+            this.grc.EmbeddedNavigator.Buttons.Remove.Enabled = false;
             this.grc.Location = new System.Drawing.Point(0, 0);
             this.grc.MainView = this.grv;
             this.grc.Name = "grc";
             this.grc.Size = new System.Drawing.Size(1299, 817);
             this.grc.TabIndex = 0;
+            this.grc.UseEmbeddedNavigator = true;
             this.grc.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
             this.grv});
             // 

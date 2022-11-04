@@ -28,10 +28,12 @@ namespace WeightChecking
         frmScale _frmScale;
         frmSettings _frmSettings;
         frmMasterData _frmMasterData;
+        frmReports _frmReports;
 
         string _scale = null;
         string _settings = null;
         string _masterData = null;
+        string _report = null;
 
         Timer _timer = new Timer() { Interval = 500 };
 
@@ -74,7 +76,7 @@ namespace WeightChecking
             this.barButtonItemPrint.ItemClick += BarButtonItemPrint_ItemClick;
             //this.barButtonItemResetCountMetal.ItemClick += BarButtonItemResetCountMetal_ItemClick;
             this._barButtonItemUpVersion.ItemClick += _barButtonItemUpVersion_ItemClick;
-            this._barButtonItemUpVersion.Visibility = DevExpress.XtraBars.BarItemVisibility.Never;
+            this._barButtonItemRefreshReport.ItemClick += _barButtonItemRefreshReport_ItemClick;
 
             //chon chế độ chỉ hiển thị tab ribbon, ẩn chi tiết group
             //ribbonControl1.Minimized = true;//show tabs
@@ -136,8 +138,9 @@ namespace WeightChecking
                 #endregion
 
                 ribbonPageMasterData.Visible = false;
+                ribbonPageReports.Visible = false;
             }
-            else//Admin
+            else if (GlobalVariables.UserLoginInfo.Role == RolesEnum.Admin)//Admin
             {
                 if (_masterData == null)
                 {
@@ -154,7 +157,25 @@ namespace WeightChecking
 
                 ribbonControl1.SelectedPage = ribbonPageMasterData;
             }
+            else if (GlobalVariables.UserLoginInfo.Role == RolesEnum.Report)//report
+            {
+                if (_report == null)
+                {
+                    _report = "Actived";
 
+                    _frmReports = new frmReports();
+                    tabbedView1.AddDocument(_frmReports);
+                    tabbedView1.ActivateDocument(_frmReports);
+                }
+                else
+                {
+                    tabbedView1.ActivateDocument(_frmReports);
+                }
+
+                ribbonControl1.SelectedPage = ribbonPageReports;
+                ribbonPageMasterData.Visible = false;
+                ribbonPageGroupHome.Visible = false;
+            }
             #endregion
 
             #region Ket noi modbus RTU PLC metalScan counter
@@ -177,13 +198,47 @@ namespace WeightChecking
             _timer.Tick += _timer_Tick;
         }
 
+        private void _barButtonItemRefreshReport_ItemClick(object sender, DevExpress.XtraBars.ItemClickEventArgs e)
+        {
+            try
+            {
+                if (_report == null)
+                {
+                    _report = "Actived";
+
+                    SplashScreenManager.ShowForm(this, typeof(WaitForm1), true, true, false);
+                    SplashScreenManager.Default.SetWaitFormCaption("Vui lòng chờ trong giây lát");
+                    SplashScreenManager.Default.SetWaitFormDescription("Loading...");
+
+                    _frmReports = new frmReports();
+                    tabbedView1.AddDocument(_frmReports);
+                    tabbedView1.ActivateDocument(_frmReports);
+
+                    //SplashScreenManager.CloseForm(false);
+                }
+                else
+                {
+                    tabbedView1.ActivateDocument(_frmReports);
+                    GlobalVariables.MyEvent.RefreshStatus = true;
+                }
+            }
+            catch (Exception ex)
+            {
+                Log.Error(ex, "Lỗi MainForm ReFresh masterData exception.");
+                XtraMessageBox.Show("Lỗi MainForm: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            finally
+            {
+                SplashScreenManager.CloseForm(false);
+            }
+        }
+
         private void _barButtonItemUpVersion_ItemClick(object sender, DevExpress.XtraBars.ItemClickEventArgs e)
         {
             try
             {
                 isUpdateClicked = true;
-                string UUrl = "\\192.168.1.241\\FramasPublic\\PUBLIC_Able to deleted\\22 IT\\01-UpdateApp\\11-SSFG_IDC\\Update.xml";
-                XtraMessageBox.Show("Check version cái nhe. Chờ xíu...", "Taaa...daaa");
+                string UUrl = "\\\\192.168.1.241\\FramasPublic\\PUBLIC_Able to deleted\\22 IT\\01-UpdateApp\\11-SSFG_IDC\\1.Station1BeforePrint\\Update.xml";
                 SplashScreenManager.ShowForm(typeof(WaitForm1));
                 System.Threading.Thread.Sleep(3000);
                 AutoUpdater.Start(UUrl);
@@ -425,7 +480,8 @@ namespace WeightChecking
                                     {
                                         CodeItemSize = _row[$"A{i}"].Value.TextValue,
                                         MainItemName = _row[$"B{i}"].Value.TextValue,
-                                        MetalScan = (int)_row[$"c{i}"].Value.NumericValue,
+                                        MetalScan = (int)_row[$"C{i}"].Value.NumericValue,
+                                        Printing = (int)_row[$"E{i}"].Value.NumericValue,
                                         Date = _row[$"F{i}"].Value.DateTimeValue.ToString(),
                                         Size = _row[$"G{i}"].Value.TextValue,
                                         AveWeight1Prs = _row[$"M{i}"].Value.NumericValue,
@@ -466,6 +522,7 @@ namespace WeightChecking
                                 para.Add("@CodeItemSize", item.CodeItemSize);
                                 para.Add("@MainItemName", item.MainItemName);
                                 para.Add("@MetalScan", item.MetalScan);
+                                para.Add("@Printing", item.Printing);
                                 para.Add("@Date", item.Date);
                                 para.Add("@Size", item.Size);
                                 para.Add("@AveWeight1Prs", item.AveWeight1Prs);
@@ -493,6 +550,7 @@ namespace WeightChecking
                                 para.Add("@CodeItemSize", item.CodeItemSize);
                                 para.Add("@MainItemName", item.MainItemName);
                                 para.Add("@MetalScan", item.MetalScan);
+                                para.Add("@Printing", item.Printing);
                                 para.Add("@Date", item.Date);
                                 para.Add("@Size", item.Size);
                                 para.Add("@AveWeight1Prs", item.AveWeight1Prs);

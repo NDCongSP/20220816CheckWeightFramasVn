@@ -15,6 +15,7 @@ namespace WeightChecking
         public string Brand { get; set; }
         public int Decoration { get; set; }
         public int MetalScan { get; set; }
+        public int Printing { get; set; }//1 co; 0 ko
         public string MainProductNo { get; set; }
         public string MainProductName { get; set; }
         public string Color { get; set; }

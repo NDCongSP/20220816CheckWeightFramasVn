@@ -9,6 +9,7 @@ namespace WeightChecking
     public enum RolesEnum
     {
         Operator,
-        Admin
+        Admin,
+        Report
     }
 }

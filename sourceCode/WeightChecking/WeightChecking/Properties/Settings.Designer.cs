@@ -91,7 +91,7 @@ namespace WeightChecking.Properties {
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("\\\\192.168.1.241\\FramasPublic\\PUBLIC_Able to deleted\\22 IT\\01-UpdateApp\\11-SSFG_ID" +
-            "C\\Update.xml")]
+            "C\\1.Station1BeforePrint\\Update.xml")]
         public string UpdatePath {
             get {
                 return ((string)(this["UpdatePath"]));

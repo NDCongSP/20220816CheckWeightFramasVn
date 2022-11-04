@@ -41,7 +41,6 @@ namespace WeightChecking
 
         private void FrmScale_Load(object sender, EventArgs e)
         {
-            this.txtQrCode.Text = "aaa";
             this.txtQrCode.Focus();
             this.txtQrCode.KeyDown += TxtQrCode_KeyDown;
             //this.labWeight.TextChanged += LabWeight_TextChanged;

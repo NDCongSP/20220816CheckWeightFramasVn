@@ -172,7 +172,7 @@ namespace WeightChecking
             this.Controls.Add(this.labStatus);
             this.Controls.Add(this.panelControl1);
             this.DoubleBuffered = true;
-            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.IconOptions.ImageUri.Uri = "AlignCenter";
             this.MaximizeBox = false;
             this.Name = "Login";
