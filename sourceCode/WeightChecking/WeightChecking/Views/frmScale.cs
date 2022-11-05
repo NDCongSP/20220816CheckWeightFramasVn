@@ -44,6 +44,7 @@ namespace WeightChecking
             this.txtQrCode.Focus();
             this.txtQrCode.KeyDown += TxtQrCode_KeyDown;
             //this.labWeight.TextChanged += LabWeight_TextChanged;
+            txtTest.KeyDown += TxtTest_KeyDown1;
 
             #region Register events Scale value change
             _scaleHelper = new ScaleHelper()
@@ -258,12 +259,23 @@ namespace WeightChecking
             #endregion
         }
 
-        private void TxtTest_KeyDown(object sender, KeyEventArgs e)
+        private void TxtTest_KeyDown1(object sender, KeyEventArgs e)
         {
             if (e.KeyCode == Keys.Enter)
             {
                 TextEdit _txt = (TextEdit)sender;
-                _scaleHelper.ScaleValue = Convert.ToDouble(_txt.Text);
+
+                if (labRealWeight.InvokeRequired)
+                {
+                    labRealWeight.Invoke(new Action(() =>
+                    {
+                        labScaleValue.Text = _txt.Text;
+                    }));
+                }
+                else
+                {
+                    labScaleValue.Text = _txt.Text;
+                }
             }
         }
 
@@ -282,8 +294,11 @@ namespace WeightChecking
 
         private void TxtQrCode_KeyDown(object sender, KeyEventArgs e)
         {
-            //content of the QR code "OC283225,6112042007-P054-2902,42,13,P,1/56,160506,1/1|1,30.2022,0,0,1" no print
-            //content of the QR code "OC283226,6112042007-P054-2902,42,13,P,1/56,160506,1/1|1,30.2022,1,0,1" print
+            //content of the QR code "OC283225,6112042102-P237-2351,42,13,P,1/56,160506,1/1|1,30.2022,0,0,1" no print
+            //content of the QR code "OC283225,6112042102-P232-2351,42,13,P,1/56,160506,1/1|1,30.2022,1,0,1" no print
+            //content of the QR code "OCA6915,6112042103-PAJ2-3201,42,13,P,1/56,160506,1/1|1,30.2022,1,0,1" print
+            //content of the QR code "OPRT4383,6116322202-NAZG-0014,60,1,P,3/7,170000,3/4|1,,,," print
+            //content of the QR code "PRTA516,6117012206-2462-D213,100,5,P,31/86,170000,13/22|1,340.2022,1,1,99" print
             //|1,30.2022,1,0,1-->Location,IdLable,Decoration,MetalScan,Category(phân biệt hàng HC hay ko)
 
             _scanData.RealWeight = double.TryParse(labScaleValue.Text, out double value) ? value : 0;
@@ -350,557 +365,566 @@ namespace WeightChecking
 
                     if (res != null)
                     {
-                        #region Fill data from coreData to scanData, tính toán ra NetWeight và GrossWeight
                         _scanData.ProductName = res.ProductName;
                         _scanData.Decoration = res.Decoration;
                         _scanData.MetalScan = res.MetalScan;
                         _scanData.Brand = res.Brand;
                         _scanData.AveWeight1Prs = res.AveWeight1Prs;
 
-                        //Xét điều kiện để lấy boxWeight. Nếu là hàng đi sơn thì dùng thùng nhựa
-                        if (_scanData.Decoration == 0 || _scanData.Decoration == 1 && _scanData.OcNo.Contains("OPRT")
-                            || _scanData.Decoration == 1 && _scanData.OcNo.Contains("OCA"))
+                        if (_scanData.AveWeight1Prs != 0)
                         {
-                            _scanData.Status = 2;//báo trạng thái hàng ko đi sơn, hoặc hàng sơn đã được sơn rồi
 
-                            if (_scanData.Quantity <= res.BoxQtyBx4)
+                            #region Fill data from coreData to scanData, tính toán ra NetWeight và GrossWeight
+                            //Xét điều kiện để lấy boxWeight. Nếu là hàng đi sơn thì dùng thùng nhựa
+                            if (_scanData.Decoration == 0 || _scanData.Decoration == 1 && _scanData.OcNo.Contains("OPRT")
+                                || _scanData.Decoration == 1 && _scanData.OcNo.Contains("OCA"))
                             {
-                                _scanData.BoxWeight = res.BoxWeightBx4;
-                            }
-                            else if (_scanData.Quantity > res.BoxQtyBx4 && _scanData.Quantity <= res.BoxQtyBx3)
-                            {
-                                _scanData.BoxWeight = res.BoxWeightBx3;
-                            }
-                            else if (_scanData.Quantity > res.BoxQtyBx3 && _scanData.Quantity <= res.BoxQtyBx2)
-                            {
-                                _scanData.BoxWeight = res.BoxWeightBx2;
-                            }
-                            else if (_scanData.Quantity > res.BoxQtyBx2 && _scanData.Quantity <= res.BoxQtyBx1)
-                            {
-                                _scanData.BoxWeight = res.BoxWeightBx1;
-                            }
+                                _scanData.Status = 2;//báo trạng thái hàng ko đi sơn, hoặc hàng sơn đã được sơn rồi
 
-                            if (_scanData.Decoration == 0)
-                            {
-                                if (labDecoration.InvokeRequired)
+                                if (_scanData.Quantity <= res.BoxQtyBx4)
                                 {
-                                    labDecoration.Invoke(new Action(() =>
+                                    _scanData.BoxWeight = res.BoxWeightBx4;
+                                }
+                                else if (_scanData.Quantity > res.BoxQtyBx4 && _scanData.Quantity <= res.BoxQtyBx3)
+                                {
+                                    _scanData.BoxWeight = res.BoxWeightBx3;
+                                }
+                                else if (_scanData.Quantity > res.BoxQtyBx3 && _scanData.Quantity <= res.BoxQtyBx2)
+                                {
+                                    _scanData.BoxWeight = res.BoxWeightBx2;
+                                }
+                                else if (_scanData.Quantity > res.BoxQtyBx2 && _scanData.Quantity <= res.BoxQtyBx1)
+                                {
+                                    _scanData.BoxWeight = res.BoxWeightBx1;
+                                }
+
+                                if (_scanData.Decoration == 0)
+                                {
+                                    if (labDecoration.InvokeRequired)
+                                    {
+                                        labDecoration.Invoke(new Action(() =>
+                                        {
+                                            labDecoration.BackColor = Color.Gray;
+                                        }));
+                                    }
+                                    else
                                     {
                                         labDecoration.BackColor = Color.Gray;
-                                    }));
+                                    }
                                 }
                                 else
                                 {
-                                    labDecoration.BackColor = Color.Gray;
+                                    if (labDecoration.InvokeRequired)
+                                    {
+                                        labDecoration.Invoke(new Action(() =>
+                                        {
+                                            labDecoration.BackColor = Color.Green;
+                                        }));
+                                    }
+                                    else
+                                    {
+                                        labDecoration.BackColor = Color.Green;
+                                    }
                                 }
                             }
-                            else
+                            else if (_scanData.Decoration == 1 && _scanData.OcNo.Contains("PRT"))
                             {
+                                _scanData.Status = 1;// báo trạng thái hàng cần đưa đi sơn
+
+                                _scanData.BoxWeight = res.PlasicBoxWeight;
+
                                 if (labDecoration.InvokeRequired)
                                 {
                                     labDecoration.Invoke(new Action(() =>
                                     {
-                                        labDecoration.BackColor = Color.Green;
+                                        labDecoration.BackColor = Color.Gold;
                                     }));
                                 }
                                 else
                                 {
-                                    labDecoration.BackColor = Color.Green;
+                                    labDecoration.BackColor = Color.Gold;
                                 }
                             }
-                        }
-                        else if (_scanData.Decoration == 1 && _scanData.OcNo.Contains("PRT"))
-                        {
-                            _scanData.Status = 1;// báo trạng thái hàng cần đưa đi sơn
 
-                            _scanData.BoxWeight = res.PlasicBoxWeight;
-
-                            if (labDecoration.InvokeRequired)
+                            if (_scanData.MetalScan == 0)
                             {
-                                labDecoration.Invoke(new Action(() =>
+                                if (labMetalScan.InvokeRequired)
                                 {
-                                    labDecoration.BackColor = Color.Gold;
-                                }));
-                            }
-                            else
-                            {
-                                labDecoration.BackColor = Color.Gold;
-                            }
-                        }
-
-                        if (_scanData.MetalScan == 0)
-                        {
-                            if (labMetalScan.InvokeRequired)
-                            {
-                                labMetalScan.Invoke(new Action(() =>
+                                    labMetalScan.Invoke(new Action(() =>
+                                    {
+                                        labMetalScan.BackColor = Color.Gray;
+                                    }));
+                                }
+                                else
                                 {
                                     labMetalScan.BackColor = Color.Gray;
-                                }));
+                                }
                             }
                             else
                             {
-                                labMetalScan.BackColor = Color.Gray;
-                            }
-                        }
-                        else
-                        {
-                            GlobalVariables.RememberInfo.MetalScan += 1;
-                            if (labMetalScan.InvokeRequired)
-                            {
-                                labMetalScan.Invoke(new Action(() =>
+                                GlobalVariables.RememberInfo.MetalScan += 1;
+                                if (labMetalScan.InvokeRequired)
+                                {
+                                    labMetalScan.Invoke(new Action(() =>
+                                    {
+                                        labMetalScan.BackColor = Color.Gold;
+                                    }));
+                                }
+                                else
                                 {
                                     labMetalScan.BackColor = Color.Gold;
-                                }));
-                            }
-                            else
-                            {
-                                labMetalScan.BackColor = Color.Gold;
-                            }
-                        }
-
-                        _scanData.NetWeight = Math.Round(_scanData.Quantity * _scanData.AveWeight1Prs, 3);
-                        _scanData.Tolerance = Math.Round(_scanData.NetWeight * (res.Tolerance / 100), 3);
-
-                        //luu ý các Quantity partition-Plasic-WrapSheet trên DB nó là tính số Prs
-                        //sau khi đọc về phải lấy QtyPrs quét trên label / Quantity partition-Plasic-WrapSheet ==> qty * weight ==> Weight packing accessories
-                        var partitionWeight = res.PartitionQty != 0 ? (_scanData.Quantity / res.PartitionQty) * res.PartitionWeight : 0;
-                        var plasicBagWeight = res.PlasicBagQty != 0 ? (_scanData.Quantity / res.PlasicBagQty) * res.PlasicBagWeight : 0;
-                        var wrapSheetWeight = res.WrapSheetQty != 0 ? (_scanData.Quantity / res.WrapSheetQty) * res.WrapSheetWeight : 0;
-
-                        _scanData.AccessoriesWeight = Math.Round(partitionWeight + plasicBagWeight + wrapSheetWeight, 3);
-
-                        _scanData.GrossdWeight = Math.Round(_scanData.NetWeight + _scanData.AccessoriesWeight + _scanData.BoxWeight, 3);
-
-                        #region tinh toán standardWeight theo Pair/Left/Right. lưu ý để sau này có áp dụng thì làm
-                        //if (_plr == "P")
-                        //{
-                        //    _scanData.GrossdWeight = res.Weight * res.QtyPerbag + res.BagWeight;
-                        //}
-                        //else if (_plr == "L")
-                        //{
-                        //    if (res.LeftWeight == 0)
-                        //    {
-                        //        _scanData.StandardWeight = res.Weight * res.QtyPerbag + res.BagWeight;
-                        //    }
-                        //    else
-                        //    {
-                        //        _scanData.StandardWeight = res.LeftWeight * res.QtyPerbag + res.BagWeight;
-                        //    }
-                        //}
-                        //else if (_plr == "R")
-                        //{
-                        //    if (res.RightWeight == 0)
-                        //    {
-                        //        _scanData.StandardWeight = res.Weight * res.QtyPerbag + res.BagWeight;
-                        //    }
-                        //    else
-                        //    {
-                        //        _scanData.StandardWeight = res.RightWeight * res.QtyPerbag + res.BagWeight;
-                        //    }
-                        //}
-                        #endregion
-
-                        #endregion
-
-                        #region hiển thị thông tin
-                        if (labRealWeight.InvokeRequired)
-                        {
-                            labRealWeight.Invoke(new Action(() =>
-                            {
-                                labRealWeight.Text = _scanData.RealWeight.ToString();
-                            }));
-                        }
-                        else labRealWeight.Text = _scanData.RealWeight.ToString();
-
-                        if (labNetWeight.InvokeRequired)
-                        {
-                            labNetWeight.Invoke(new Action(() =>
-                            {
-                                labNetWeight.Text = _scanData.NetWeight.ToString();
-                            }));
-                        }
-                        else labNetWeight.Text = _scanData.NetWeight.ToString();
-
-                        if (labOcNo.InvokeRequired)
-                        {
-                            labOcNo.Invoke(new Action(() => { labOcNo.Text = _scanData.OcNo; }));
-                        }
-                        else labOcNo.Text = _scanData.OcNo;
-
-                        if (labProductCode.InvokeRequired)
-                        {
-                            labProductCode.Invoke(new Action(() => { labProductCode.Text = _scanData.ProductNumber; }));
-                        }
-                        else labProductCode.Text = _scanData.ProductNumber;
-
-                        if (labProductName.InvokeRequired)
-                        {
-                            labProductName.Invoke(new Action(() => { labProductName.Text = _scanData.ProductName; }));
-                        }
-                        else labProductName.Text = _scanData.ProductName;
-
-                        if (labQuantity.InvokeRequired)
-                        {
-                            labQuantity.Invoke(new Action(() => { labQuantity.Text = _scanData.Quantity.ToString(); }));
-                        }
-                        else labQuantity.Text = _scanData.Quantity.ToString();
-
-                        if (labColor.InvokeRequired)
-                        {
-                            labColor.Invoke(new Action(() => { labColor.Text = res.Color; }));
-                        }
-                        else labColor.Text = res.Color;
-
-                        if (labSize.InvokeRequired)
-                        {
-                            labSize.Invoke(new Action(() => { labSize.Text = res.SizeName; }));
-                        }
-                        else labSize.Text = res.SizeName;
-
-                        if (labAveWeight.InvokeRequired)
-                        {
-                            labAveWeight.Invoke(new Action(() => { labAveWeight.Text = _scanData.AveWeight1Prs.ToString(); }));
-                        }
-                        else labAveWeight.Text = _scanData.AveWeight1Prs.ToString();
-
-                        if (labToloren.InvokeRequired)
-                        {
-                            labToloren.Invoke(new Action(() => { labToloren.Text = _scanData.Tolerance.ToString(); }));
-                        }
-                        else labToloren.Text = _scanData.Tolerance.ToString();
-
-                        if (labBoxWeight.InvokeRequired)
-                        {
-                            labBoxWeight.Invoke(new Action(() => { labBoxWeight.Text = _scanData.BoxWeight.ToString(); }));
-                        }
-                        else labBoxWeight.Text = _scanData.BoxWeight.ToString();
-
-                        if (labAccessoriesWeight.InvokeRequired)
-                        {
-                            labAccessoriesWeight.Invoke(new Action(() => { labAccessoriesWeight.Text = _scanData.AccessoriesWeight.ToString(); }));
-                        }
-                        else labAccessoriesWeight.Text = _scanData.AccessoriesWeight.ToString();
-
-                        if (labGrossWeight.InvokeRequired)
-                        {
-                            labGrossWeight.Invoke(new Action(() => { labGrossWeight.Text = _scanData.GrossdWeight.ToString(); }));
-                        }
-                        else labGrossWeight.Text = _scanData.GrossdWeight.ToString();
-                        #endregion
-
-                        #region xử lý so sánh khối lượng cân thực tế với kế hoạch để xử lý
-                        _scanData.RealNetWeight = Math.Round(_scanData.RealWeight - _scanData.BoxWeight - _scanData.AccessoriesWeight, 3);
-                        _scanData.Deviation = Math.Round(_scanData.RealNetWeight - _scanData.NetWeight, 3);
-
-                        #region tính toán số pairs chênh lệch và hiển thị label
-                        var nwPlus = _scanData.NetWeight + _scanData.Tolerance;
-                        var nwSub = _scanData.NetWeight - _scanData.Tolerance;
-
-                        if (((_scanData.RealNetWeight > nwPlus) && (_scanData.RealNetWeight - nwPlus < _scanData.AveWeight1Prs / 2))
-                            || ((_scanData.RealNetWeight < nwSub) && (nwSub - _scanData.RealNetWeight < _scanData.AveWeight1Prs / 2))
-                            )
-                        {
-                            _scanData.CalculatedPairs = _scanData.Quantity;
-                        }
-                        else if (_scanData.RealNetWeight > nwPlus)//roundDown
-                        {
-                            _scanData.CalculatedPairs = (int)(_scanData.Quantity + Math.Floor((_scanData.RealNetWeight - nwPlus) / _scanData.AveWeight1Prs));
-                        }
-                        else if (_scanData.RealNetWeight < nwSub)//RoundUp
-                        {
-                            _scanData.CalculatedPairs = (int)(_scanData.Quantity - Math.Ceiling((nwSub- _scanData.RealNetWeight) / _scanData.AveWeight1Prs));
-                        }
-                        else
-                        {
-                            _scanData.CalculatedPairs = _scanData.Quantity;
-                        }
-
-                        _scanData.DeviationPairs = _scanData.CalculatedPairs - _scanData.Quantity;
-
-
-                        if (labCalculatedPairs.InvokeRequired)
-                        {
-                            labCalculatedPairs.Invoke(new Action(() =>
-                            {
-                                labCalculatedPairs.Text = _scanData.CalculatedPairs.ToString();
-                            }));
-                        }
-                        else
-                        {
-                            labCalculatedPairs.Text = _scanData.CalculatedPairs.ToString();
-                        }
-
-                        if (labDeviationPairs.InvokeRequired)
-                        {
-                            labDeviationPairs.Invoke(new Action(() =>
-                            {
-                                labDeviationPairs.Text = _scanData.DeviationPairs.ToString();
-                            }));
-                        }
-                        else
-                        {
-                            labDeviationPairs.Text = _scanData.DeviationPairs.ToString();
-                        }
-                        #endregion
-
-                        //thung hang Pass
-                        if (_scanData.Deviation >= (-1) * _scanData.Tolerance
-                            && _scanData.Deviation <= _scanData.Tolerance)
-                        {
-                            if (_scanData.Decoration == 0)
-                            {
-                                GlobalVariables.RememberInfo.GoodBoxPrinting += 1;
-                                //_scanData.Status = 1;
-                            }
-                            else
-                            {
-                                GlobalVariables.RememberInfo.GoodBoxNoPrinting += 1;
-                                //_scanData.Status = 2;
+                                }
                             }
 
-                            #region hien thi mau label
+                            _scanData.NetWeight = Math.Round(_scanData.Quantity * _scanData.AveWeight1Prs, 3);
+                            _scanData.Tolerance = Math.Round(_scanData.NetWeight * (res.Tolerance / 100), 3);
+
+                            //luu ý các Quantity partition-Plasic-WrapSheet trên DB nó là tính số Prs
+                            //sau khi đọc về phải lấy QtyPrs quét trên label / Quantity partition-Plasic-WrapSheet ==> qty * weight ==> Weight packing accessories
+                            var partitionWeight = res.PartitionQty != 0 ? (_scanData.Quantity / res.PartitionQty) * res.PartitionWeight : 0;
+                            var plasicBagWeight = res.PlasicBagQty != 0 ? (_scanData.Quantity / res.PlasicBagQty) * res.PlasicBagWeight : 0;
+                            var wrapSheetWeight = res.WrapSheetQty != 0 ? (_scanData.Quantity / res.WrapSheetQty) * res.WrapSheetWeight : 0;
+
+                            _scanData.AccessoriesWeight = Math.Round(partitionWeight + plasicBagWeight + wrapSheetWeight, 3);
+
+                            _scanData.GrossdWeight = Math.Round(_scanData.NetWeight + _scanData.AccessoriesWeight + _scanData.BoxWeight, 3);
+
+                            #region tinh toán standardWeight theo Pair/Left/Right. lưu ý để sau này có áp dụng thì làm
+                            //if (_plr == "P")
+                            //{
+                            //    _scanData.GrossdWeight = res.Weight * res.QtyPerbag + res.BagWeight;
+                            //}
+                            //else if (_plr == "L")
+                            //{
+                            //    if (res.LeftWeight == 0)
+                            //    {
+                            //        _scanData.StandardWeight = res.Weight * res.QtyPerbag + res.BagWeight;
+                            //    }
+                            //    else
+                            //    {
+                            //        _scanData.StandardWeight = res.LeftWeight * res.QtyPerbag + res.BagWeight;
+                            //    }
+                            //}
+                            //else if (_plr == "R")
+                            //{
+                            //    if (res.RightWeight == 0)
+                            //    {
+                            //        _scanData.StandardWeight = res.Weight * res.QtyPerbag + res.BagWeight;
+                            //    }
+                            //    else
+                            //    {
+                            //        _scanData.StandardWeight = res.RightWeight * res.QtyPerbag + res.BagWeight;
+                            //    }
+                            //}
+                            #endregion
+
+                            #endregion
+
+                            #region hiển thị thông tin
                             if (labRealWeight.InvokeRequired)
                             {
                                 labRealWeight.Invoke(new Action(() =>
+                                {
+                                    labRealWeight.Text = _scanData.RealWeight.ToString();
+                                }));
+                            }
+                            else labRealWeight.Text = _scanData.RealWeight.ToString();
+
+                            if (labNetWeight.InvokeRequired)
+                            {
+                                labNetWeight.Invoke(new Action(() =>
+                                {
+                                    labNetWeight.Text = _scanData.NetWeight.ToString();
+                                }));
+                            }
+                            else labNetWeight.Text = _scanData.NetWeight.ToString();
+
+                            if (labOcNo.InvokeRequired)
+                            {
+                                labOcNo.Invoke(new Action(() => { labOcNo.Text = _scanData.OcNo; }));
+                            }
+                            else labOcNo.Text = _scanData.OcNo;
+
+                            if (labProductCode.InvokeRequired)
+                            {
+                                labProductCode.Invoke(new Action(() => { labProductCode.Text = _scanData.ProductNumber; }));
+                            }
+                            else labProductCode.Text = _scanData.ProductNumber;
+
+                            if (labProductName.InvokeRequired)
+                            {
+                                labProductName.Invoke(new Action(() => { labProductName.Text = _scanData.ProductName; }));
+                            }
+                            else labProductName.Text = _scanData.ProductName;
+
+                            if (labQuantity.InvokeRequired)
+                            {
+                                labQuantity.Invoke(new Action(() => { labQuantity.Text = _scanData.Quantity.ToString(); }));
+                            }
+                            else labQuantity.Text = _scanData.Quantity.ToString();
+
+                            if (labColor.InvokeRequired)
+                            {
+                                labColor.Invoke(new Action(() => { labColor.Text = res.Color; }));
+                            }
+                            else labColor.Text = res.Color;
+
+                            if (labSize.InvokeRequired)
+                            {
+                                labSize.Invoke(new Action(() => { labSize.Text = res.SizeName; }));
+                            }
+                            else labSize.Text = res.SizeName;
+
+                            if (labAveWeight.InvokeRequired)
+                            {
+                                labAveWeight.Invoke(new Action(() => { labAveWeight.Text = _scanData.AveWeight1Prs.ToString(); }));
+                            }
+                            else labAveWeight.Text = _scanData.AveWeight1Prs.ToString();
+
+                            if (labToloren.InvokeRequired)
+                            {
+                                labToloren.Invoke(new Action(() => { labToloren.Text = _scanData.Tolerance.ToString(); }));
+                            }
+                            else labToloren.Text = _scanData.Tolerance.ToString();
+
+                            if (labBoxWeight.InvokeRequired)
+                            {
+                                labBoxWeight.Invoke(new Action(() => { labBoxWeight.Text = _scanData.BoxWeight.ToString(); }));
+                            }
+                            else labBoxWeight.Text = _scanData.BoxWeight.ToString();
+
+                            if (labAccessoriesWeight.InvokeRequired)
+                            {
+                                labAccessoriesWeight.Invoke(new Action(() => { labAccessoriesWeight.Text = _scanData.AccessoriesWeight.ToString(); }));
+                            }
+                            else labAccessoriesWeight.Text = _scanData.AccessoriesWeight.ToString();
+
+                            if (labGrossWeight.InvokeRequired)
+                            {
+                                labGrossWeight.Invoke(new Action(() => { labGrossWeight.Text = _scanData.GrossdWeight.ToString(); }));
+                            }
+                            else labGrossWeight.Text = _scanData.GrossdWeight.ToString();
+                            #endregion
+
+                            #region xử lý so sánh khối lượng cân thực tế với kế hoạch để xử lý
+                            _scanData.RealNetWeight = Math.Round(_scanData.RealWeight - _scanData.BoxWeight - _scanData.AccessoriesWeight, 3);
+                            _scanData.Deviation = Math.Round(_scanData.RealNetWeight - _scanData.NetWeight, 3);
+
+                            #region tính toán số pairs chênh lệch và hiển thị label
+                            var nwPlus = _scanData.NetWeight + _scanData.Tolerance;
+                            var nwSub = _scanData.NetWeight - _scanData.Tolerance;
+
+                            if (((_scanData.RealNetWeight > nwPlus) && (_scanData.RealNetWeight - nwPlus < _scanData.AveWeight1Prs / 2))
+                            || ((_scanData.RealNetWeight < nwSub) && (nwSub - _scanData.RealNetWeight < _scanData.AveWeight1Prs / 2))
+                            )
+                            {
+                                _scanData.CalculatedPairs = _scanData.Quantity;
+                            }
+                            else if (_scanData.RealNetWeight > nwPlus)//roundDown
+                            {
+                                _scanData.CalculatedPairs = (int)(_scanData.Quantity + Math.Floor((_scanData.RealNetWeight - nwPlus) / _scanData.AveWeight1Prs));
+                            }
+                            else if (_scanData.RealNetWeight < nwSub)//RoundUp
+                            {
+                                _scanData.CalculatedPairs = (int)(_scanData.Quantity - Math.Ceiling((nwSub - _scanData.RealNetWeight) / _scanData.AveWeight1Prs));
+                            }
+                            else
+                            {
+                                _scanData.CalculatedPairs = _scanData.Quantity;
+                            }
+
+                            _scanData.DeviationPairs = _scanData.CalculatedPairs - _scanData.Quantity;
+
+                            if (labCalculatedPairs.InvokeRequired)
+                            {
+                                labCalculatedPairs.Invoke(new Action(() =>
+                                {
+                                    labCalculatedPairs.Text = _scanData.CalculatedPairs.ToString();
+                                }));
+                            }
+                            else
+                            {
+                                labCalculatedPairs.Text = _scanData.CalculatedPairs.ToString();
+                            }
+
+                            if (labDeviationPairs.InvokeRequired)
+                            {
+                                labDeviationPairs.Invoke(new Action(() =>
+                                {
+                                    labDeviationPairs.Text = _scanData.DeviationPairs.ToString();
+                                }));
+                            }
+                            else
+                            {
+                                labDeviationPairs.Text = _scanData.DeviationPairs.ToString();
+                            }
+                            #endregion
+
+                            //thung hang Pass
+                            if (_scanData.Deviation >= (-1) * _scanData.Tolerance
+                                && _scanData.Deviation <= _scanData.Tolerance)
+                            {
+                                if (_scanData.Decoration == 0)
+                                {
+                                    GlobalVariables.RememberInfo.GoodBoxPrinting += 1;
+                                    //_scanData.Status = 1;
+                                }
+                                else
+                                {
+                                    GlobalVariables.RememberInfo.GoodBoxNoPrinting += 1;
+                                    //_scanData.Status = 2;
+                                }
+
+                                #region hien thi mau label
+                                if (labRealWeight.InvokeRequired)
+                                {
+                                    labRealWeight.Invoke(new Action(() =>
+                                    {
+                                        labRealWeight.BackColor = Color.Green;
+                                        labRealWeight.ForeColor = Color.White;
+                                    }));
+                                }
+                                else
                                 {
                                     labRealWeight.BackColor = Color.Green;
                                     labRealWeight.ForeColor = Color.White;
-                                }));
-                            }
-                            else
-                            {
-                                labRealWeight.BackColor = Color.Green;
-                                labRealWeight.ForeColor = Color.White;
-                            }
+                                }
 
-                            if (labNetRealWeight.InvokeRequired)
-                            {
-                                labNetRealWeight.Invoke(new Action(() =>
+                                if (labNetRealWeight.InvokeRequired)
+                                {
+                                    labNetRealWeight.Invoke(new Action(() =>
+                                    {
+                                        labNetRealWeight.BackColor = Color.Green;
+                                        labNetRealWeight.ForeColor = Color.White;
+                                    }));
+                                }
+                                else
                                 {
                                     labNetRealWeight.BackColor = Color.Green;
                                     labNetRealWeight.ForeColor = Color.White;
+                                }
+
+                                if (labDeviation.InvokeRequired)
+                                {
+                                    labDeviation.Invoke(new Action(() =>
+                                    {
+                                        labDeviation.BackColor = Color.Green;
+                                        labDeviation.ForeColor = Color.White;
+                                    }));
+                                }
+                                else
+                                {
+                                    labDeviation.BackColor = Color.Green;
+                                    labDeviation.ForeColor = Color.White;
+                                }
+                                #endregion
+                                _scanData.Pass = 1;
+                                //Printing
+                                GlobalVariables.Printing(_scanData.RealWeight
+                                            , !string.IsNullOrEmpty(GlobalVariables.IdLabel) ? GlobalVariables.IdLabel : $"{_scanData.OcNo}|{_scanData.BoxNo}");
+                                GlobalVariables.RealWeight = _scanData.RealWeight;
+                                GlobalVariables.PrintApprove = true;
+                            }
+                            else//thung fail
+                            {
+                                _scanData.Pass = 0;
+                                _scanData.Status = 0;
+
+                                GlobalVariables.PrintApprove = false;
+                                if (_scanData.Decoration == 1)
+                                {
+                                    GlobalVariables.RememberInfo.FailBoxPrinting += 1;
+                                }
+                                else
+                                {
+                                    GlobalVariables.RememberInfo.FailBoxNoPrinting += 1;
+                                }
+
+                                #region hien thi mau label
+                                if (labRealWeight.InvokeRequired)
+                                {
+                                    labRealWeight.Invoke(new Action(() =>
+                                    {
+                                        labRealWeight.BackColor = Color.Red;
+                                        labRealWeight.ForeColor = Color.White;
+                                    }));
+                                }
+                                else
+                                {
+                                    labRealWeight.BackColor = Color.Red;
+                                    labRealWeight.ForeColor = Color.White;
+                                }
+
+                                if (labNetRealWeight.InvokeRequired)
+                                {
+                                    labNetRealWeight.Invoke(new Action(() =>
+                                    {
+                                        labNetRealWeight.BackColor = Color.Red;
+                                        labNetRealWeight.ForeColor = Color.White;
+                                    }));
+                                }
+                                else
+                                {
+                                    labNetRealWeight.BackColor = Color.Red;
+                                    labNetRealWeight.ForeColor = Color.White;
+                                }
+
+                                if (labDeviation.InvokeRequired)
+                                {
+                                    labDeviation.Invoke(new Action(() =>
+                                    {
+                                        labDeviation.BackColor = Color.Red;
+                                        labDeviation.ForeColor = Color.White;
+                                    }));
+                                }
+                                else
+                                {
+                                    labDeviation.BackColor = Color.Red;
+                                    labDeviation.ForeColor = Color.White;
+                                }
+                                #endregion
+                            }
+                            #endregion
+
+                            #region hien thi cac thong so dem
+                            if (labGoodBox.InvokeRequired)
+                            {
+                                labGoodBox.Invoke(new Action(() => { labGoodBox.Text = (GlobalVariables.RememberInfo.GoodBoxNoPrinting + GlobalVariables.RememberInfo.GoodBoxPrinting).ToString(); }));
+                            }
+                            else labGoodBox.Text = (GlobalVariables.RememberInfo.GoodBoxNoPrinting + GlobalVariables.RememberInfo.GoodBoxPrinting).ToString();
+
+                            if (labGoodNoPrint.InvokeRequired)
+                            {
+                                labGoodNoPrint.Invoke(new Action(() =>
+                                {
+                                    labGoodNoPrint.Text = GlobalVariables.RememberInfo.GoodBoxNoPrinting.ToString();
                                 }));
                             }
-                            else
+                            else labGoodNoPrint.Text = GlobalVariables.RememberInfo.GoodBoxNoPrinting.ToString();
+
+                            if (labGoodPrint.InvokeRequired)
                             {
-                                labNetRealWeight.BackColor = Color.Green;
-                                labNetRealWeight.ForeColor = Color.White;
+                                labGoodPrint.Invoke(new Action(() =>
+                                {
+                                    labGoodPrint.Text = GlobalVariables.RememberInfo.GoodBoxPrinting.ToString();
+                                }));
                             }
+                            else labGoodPrint.Text = GlobalVariables.RememberInfo.GoodBoxPrinting.ToString();
+
+                            if (labFailBox.InvokeRequired)
+                            {
+                                labFailBox.Invoke(new Action(() =>
+                                {
+                                    labFailBox.Text = (GlobalVariables.RememberInfo.FailBoxNoPrinting
+                                    + GlobalVariables.RememberInfo.FailBoxPrinting).ToString();
+                                }));
+                            }
+                            else labFailBox.Text = (GlobalVariables.RememberInfo.FailBoxNoPrinting + GlobalVariables.RememberInfo.FailBoxPrinting).ToString();
+
+                            if (labFailNoPrint.InvokeRequired)
+                            {
+                                labFailNoPrint.Invoke(new Action(() =>
+                                {
+                                    labFailNoPrint.Text = GlobalVariables.RememberInfo.FailBoxNoPrinting.ToString();
+                                }));
+                            }
+                            else labFailNoPrint.Text = GlobalVariables.RememberInfo.FailBoxNoPrinting.ToString();
+                            if (labFailPrint.InvokeRequired)
+                            {
+                                labFailPrint.Invoke(new Action(() =>
+                                {
+                                    labFailPrint.Text = GlobalVariables.RememberInfo.FailBoxPrinting.ToString();
+                                }));
+                            }
+                            else labFailPrint.Text = GlobalVariables.RememberInfo.FailBoxPrinting.ToString();
+
+                            if (labMetalScanBox.InvokeRequired)
+                            {
+                                labMetalScanBox.Invoke(new Action(() =>
+                                {
+                                    labMetalScanBox.Text = GlobalVariables.RememberInfo.MetalScan.ToString();
+                                }));
+                            }
+                            else labMetalScanBox.Text = GlobalVariables.RememberInfo.MetalScan.ToString();
+
+                            if (labMetalScanCount.InvokeRequired)
+                            {
+                                labMetalScanCount.Invoke(new Action(() =>
+                                {
+                                    labMetalScanCount.Text = GlobalVariables.RememberInfo.CountMetalScan.ToString();
+                                }));
+                            }
+                            else labMetalScanCount.Text = GlobalVariables.RememberInfo.CountMetalScan.ToString();
 
                             if (labDeviation.InvokeRequired)
                             {
                                 labDeviation.Invoke(new Action(() =>
                                 {
-                                    labDeviation.BackColor = Color.Green;
-                                    labDeviation.ForeColor = Color.White;
+                                    labDeviation.Text = _scanData.Deviation.ToString();
                                 }));
                             }
-                            else
-                            {
-                                labDeviation.BackColor = Color.Green;
-                                labDeviation.ForeColor = Color.White;
-                            }
-                            #endregion
-                            _scanData.Pass = 1;
-                            //Printing
-                            GlobalVariables.Printing(_scanData.RealWeight
-                                        , !string.IsNullOrEmpty(GlobalVariables.IdLabel) ? GlobalVariables.IdLabel : $"{_scanData.OcNo}|{_scanData.BoxNo}");
-                            GlobalVariables.RealWeight = _scanData.RealWeight;
-                            GlobalVariables.PrintApprove = true;
-                        }
-                        else//thung fail
-                        {
-                            _scanData.Pass = 0;
-                            _scanData.Status = 0;
-
-                            GlobalVariables.PrintApprove = false;
-                            if (_scanData.Decoration == 1)
-                            {
-                                GlobalVariables.RememberInfo.FailBoxPrinting += 1;
-                            }
-                            else
-                            {
-                                GlobalVariables.RememberInfo.FailBoxNoPrinting += 1;
-                            }
-
-                            #region hien thi mau label
-                            if (labRealWeight.InvokeRequired)
-                            {
-                                labRealWeight.Invoke(new Action(() =>
-                                {
-                                    labRealWeight.BackColor = Color.Red;
-                                    labRealWeight.ForeColor = Color.White;
-                                }));
-                            }
-                            else
-                            {
-                                labRealWeight.BackColor = Color.Red;
-                                labRealWeight.ForeColor = Color.White;
-                            }
+                            else labDeviation.Text = _scanData.Deviation.ToString();
 
                             if (labNetRealWeight.InvokeRequired)
                             {
                                 labNetRealWeight.Invoke(new Action(() =>
                                 {
-                                    labNetRealWeight.BackColor = Color.Red;
-                                    labNetRealWeight.ForeColor = Color.White;
+                                    labNetRealWeight.Text = _scanData.RealNetWeight.ToString();
                                 }));
                             }
-                            else
-                            {
-                                labNetRealWeight.BackColor = Color.Red;
-                                labNetRealWeight.ForeColor = Color.White;
-                            }
-
-                            if (labDeviation.InvokeRequired)
-                            {
-                                labDeviation.Invoke(new Action(() =>
-                                {
-                                    labDeviation.BackColor = Color.Red;
-                                    labDeviation.ForeColor = Color.White;
-                                }));
-                            }
-                            else
-                            {
-                                labDeviation.BackColor = Color.Red;
-                                labDeviation.ForeColor = Color.White;
-                            }
+                            else labNetRealWeight.Text = _scanData.RealNetWeight.ToString();
                             #endregion
+
+                            #region Log data
+                            para = null;
+                            para = new DynamicParameters();
+                            para.Add("@BarcodeString", _scanData.BarcodeString);
+                            para.Add("@IdLable", _scanData.IdLable);
+                            para.Add("@OcNo", _scanData.OcNo);
+                            para.Add("@ProductNumber", _scanData.ProductNumber);
+                            para.Add("@ProductName", _scanData.ProductName);
+                            para.Add("@Quantity", _scanData.Quantity);
+                            para.Add("@LinePosNo", _scanData.LinePosNo);
+                            para.Add("@Unit", _scanData.Unit);
+                            para.Add("@BoxNo", _scanData.BoxNo);
+                            para.Add("@CustomerNo", _scanData.CustomerNo);
+                            para.Add("@Location", _scanData.Location);
+                            para.Add("@BoxPosNo", _scanData.BoxPosNo);
+                            para.Add("@Note", _scanData.Note);
+                            para.Add("@Brand", _scanData.Brand);
+                            para.Add("@Decoration", _scanData.Decoration);
+                            para.Add("@MetalScan", _scanData.MetalScan);
+                            para.Add("@AveWeight1Prs", _scanData.AveWeight1Prs);
+                            para.Add("@NetWeight", _scanData.NetWeight);
+                            para.Add("@Tolerance", _scanData.Tolerance);
+                            para.Add("@Boxweight", _scanData.BoxWeight);
+                            para.Add("@AccessoriesWeight", _scanData.AccessoriesWeight);
+                            para.Add("@Grossweight", _scanData.GrossdWeight);
+                            para.Add("@RealWeight", _scanData.RealWeight);
+                            para.Add("@RealNetWeight", _scanData.RealNetWeight);
+                            para.Add("@Deviation", _scanData.Deviation);
+                            para.Add("@Pass", _scanData.Pass);
+                            para.Add("Status", _scanData.Status);
+                            para.Add("CalculatedPairs", _scanData.CalculatedPairs);
+                            para.Add("DeviationPairs", _scanData.DeviationPairs);
+
+                            var insertResult = connection.Execute("sp_tblScanDataInsert", para, commandType: CommandType.StoredProcedure);
+                            #endregion
+
+                            string json = JsonConvert.SerializeObject(GlobalVariables.RememberInfo);
+                            File.WriteAllText(@"./RememberInfo.json", json);
                         }
-                        #endregion
+                        else
+                        {
+                            XtraMessageBox.Show($"Item '{_scanData.ProductNumber}' không có khối lượng/1 đôi. Xin hãy kiểm tra lại thông tin."
+                                , "CẢNH BÁO.", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                        }
                     }
                     else
                     {
-                        XtraMessageBox.Show($"Product number {_scanData.ProductNumber} không có trong hệ thống. Xin hãy kiểm tra lại thông tin.", "CẢNH BÁO.", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                        XtraMessageBox.Show($"Product number {_scanData.ProductNumber} không có trong hệ thống. Xin hãy kiểm tra lại thông tin."
+                            , "CẢNH BÁO.", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     }
-
-                    #region hien thi cac thong so dem
-                    if (labGoodBox.InvokeRequired)
-                    {
-                        labGoodBox.Invoke(new Action(() => { labGoodBox.Text = (GlobalVariables.RememberInfo.GoodBoxNoPrinting + GlobalVariables.RememberInfo.GoodBoxPrinting).ToString(); }));
-                    }
-                    else labGoodBox.Text = (GlobalVariables.RememberInfo.GoodBoxNoPrinting + GlobalVariables.RememberInfo.GoodBoxPrinting).ToString();
-
-                    if (labGoodNoPrint.InvokeRequired)
-                    {
-                        labGoodNoPrint.Invoke(new Action(() =>
-                        {
-                            labGoodNoPrint.Text = GlobalVariables.RememberInfo.GoodBoxNoPrinting.ToString();
-                        }));
-                    }
-                    else labGoodNoPrint.Text = GlobalVariables.RememberInfo.GoodBoxNoPrinting.ToString();
-
-                    if (labGoodPrint.InvokeRequired)
-                    {
-                        labGoodPrint.Invoke(new Action(() =>
-                        {
-                            labGoodPrint.Text = GlobalVariables.RememberInfo.GoodBoxPrinting.ToString();
-                        }));
-                    }
-                    else labGoodPrint.Text = GlobalVariables.RememberInfo.GoodBoxPrinting.ToString();
-
-                    if (labFailBox.InvokeRequired)
-                    {
-                        labFailBox.Invoke(new Action(() =>
-                        {
-                            labFailBox.Text = (GlobalVariables.RememberInfo.FailBoxNoPrinting
-                            + GlobalVariables.RememberInfo.FailBoxPrinting).ToString();
-                        }));
-                    }
-                    else labFailBox.Text = (GlobalVariables.RememberInfo.FailBoxNoPrinting + GlobalVariables.RememberInfo.FailBoxPrinting).ToString();
-
-                    if (labFailNoPrint.InvokeRequired)
-                    {
-                        labFailNoPrint.Invoke(new Action(() =>
-                        {
-                            labFailNoPrint.Text = GlobalVariables.RememberInfo.FailBoxNoPrinting.ToString();
-                        }));
-                    }
-                    else labFailNoPrint.Text = GlobalVariables.RememberInfo.FailBoxNoPrinting.ToString();
-                    if (labFailPrint.InvokeRequired)
-                    {
-                        labFailPrint.Invoke(new Action(() =>
-                        {
-                            labFailPrint.Text = GlobalVariables.RememberInfo.FailBoxPrinting.ToString();
-                        }));
-                    }
-                    else labFailPrint.Text = GlobalVariables.RememberInfo.FailBoxPrinting.ToString();
-
-                    if (labMetalScanBox.InvokeRequired)
-                    {
-                        labMetalScanBox.Invoke(new Action(() =>
-                        {
-                            labMetalScanBox.Text = GlobalVariables.RememberInfo.MetalScan.ToString();
-                        }));
-                    }
-                    else labMetalScanBox.Text = GlobalVariables.RememberInfo.MetalScan.ToString();
-
-                    if (labMetalScanCount.InvokeRequired)
-                    {
-                        labMetalScanCount.Invoke(new Action(() =>
-                        {
-                            labMetalScanCount.Text = GlobalVariables.RememberInfo.CountMetalScan.ToString();
-                        }));
-                    }
-                    else labMetalScanCount.Text = GlobalVariables.RememberInfo.CountMetalScan.ToString();
-
-                    if (labDeviation.InvokeRequired)
-                    {
-                        labDeviation.Invoke(new Action(() =>
-                        {
-                            labDeviation.Text = _scanData.Deviation.ToString();
-                        }));
-                    }
-                    else labDeviation.Text = _scanData.Deviation.ToString();
-
-                    if (labNetRealWeight.InvokeRequired)
-                    {
-                        labNetRealWeight.Invoke(new Action(() =>
-                        {
-                            labNetRealWeight.Text = _scanData.RealNetWeight.ToString();
-                        }));
-                    }
-                    else labNetRealWeight.Text = _scanData.RealNetWeight.ToString();
-                    #endregion
-
-                    #region Log data
-                    para = null;
-                    para = new DynamicParameters();
-                    para.Add("@BarcodeString", _scanData.BarcodeString);
-                    para.Add("@IdLable", _scanData.IdLable);
-                    para.Add("@OcNo", _scanData.OcNo);
-                    para.Add("@ProductNumber", _scanData.ProductNumber);
-                    para.Add("@ProductName", _scanData.ProductName);
-                    para.Add("@Quantity", _scanData.Quantity);
-                    para.Add("@LinePosNo", _scanData.LinePosNo);
-                    para.Add("@Unit", _scanData.Unit);
-                    para.Add("@BoxNo", _scanData.BoxNo);
-                    para.Add("@CustomerNo", _scanData.CustomerNo);
-                    para.Add("@Location", _scanData.Location);
-                    para.Add("@BoxPosNo", _scanData.BoxPosNo);
-                    para.Add("@Note", _scanData.Note);
-                    para.Add("@Brand", _scanData.Brand);
-                    para.Add("@Decoration", _scanData.Decoration);
-                    para.Add("@MetalScan", _scanData.MetalScan);
-                    para.Add("@AveWeight1Prs", _scanData.AveWeight1Prs);
-                    para.Add("@NetWeight", _scanData.NetWeight);
-                    para.Add("@Tolerance", _scanData.Tolerance);
-                    para.Add("@Boxweight", _scanData.BoxWeight);
-                    para.Add("@AccessoriesWeight", _scanData.AccessoriesWeight);
-                    para.Add("@Grossweight", _scanData.GrossdWeight);
-                    para.Add("@RealWeight", _scanData.RealWeight);
-                    para.Add("@RealNetWeight", _scanData.RealNetWeight);
-                    para.Add("@Deviation", _scanData.Deviation);
-                    para.Add("@Pass", _scanData.Pass);
-                    para.Add("Status", _scanData.Status);
-                    para.Add("CalculatedPairs", _scanData.CalculatedPairs);
-                    para.Add("DeviationPairs", _scanData.DeviationPairs);
-
-                    var insertResult = connection.Execute("sp_tblScanDataInsert", para, commandType: CommandType.StoredProcedure);
-                    #endregion
-
-                    string json = JsonConvert.SerializeObject(GlobalVariables.RememberInfo);
-                    File.WriteAllText(@"./RememberInfo.json", json);
                 }
                 #endregion
 
