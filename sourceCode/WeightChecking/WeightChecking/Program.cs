@@ -76,7 +76,7 @@ namespace WeightChecking
                 AutoUpdater.DownloadPath = Environment.CurrentDirectory;
                 AutoUpdater.ApplicationExitEvent += AutoUpdater_ApplicationExitEvent;
                 AutoUpdater.CheckForUpdateEvent += AutoUpdater_CheckForUpdateEvent;
-                AutoUpdater.Start(Properties.Settings.Default.UpdatePath);
+                //AutoUpdater.Start(Properties.Settings.Default.UpdatePath);
                 Application.Run(new Login());
 
             }

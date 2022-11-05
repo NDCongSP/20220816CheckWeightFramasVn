@@ -471,7 +471,7 @@ namespace WeightChecking
                             int _rowUsed = _usedRange.RowCount;
                             int _colUsed = _usedRange.ColumnCount;
 
-                            for (int i = 5; i < _rowUsed - 5; i++)
+                            for (int i = 5; i < _rowUsed; i++)
                             {
                                 Row _row = ws.Rows[i];
                                 if (!string.IsNullOrEmpty(_row[$"A{i}"].Value.TextValue))
@@ -516,7 +516,8 @@ namespace WeightChecking
                         {
                             var para = new DynamicParameters();
 
-                            var sfdsf = con.Query<tblCoreDataCodeItemSizeModel>($"select * from tblCoreDataCodeItemSize where CodeItemSize = '{item.CodeItemSize}'").FirstOrDefault();
+                            var sfdsf = con.Query<tblCoreDataCodeItemSizeModel>($"select * from tblCoreDataCodeItemSize " +
+                                $"where CodeItemSize = '{item.CodeItemSize}' and Printing = {item.Printing}").FirstOrDefault();
                             if (sfdsf == null)
                             {
                                 para.Add("@CodeItemSize", item.CodeItemSize);
