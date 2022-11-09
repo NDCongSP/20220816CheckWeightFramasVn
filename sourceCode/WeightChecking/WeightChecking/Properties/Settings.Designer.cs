@@ -100,5 +100,17 @@ namespace WeightChecking.Properties {
                 this["UpdatePath"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool IsScale {
+            get {
+                return ((bool)(this["IsScale"]));
+            }
+            set {
+                this["IsScale"] = value;
+            }
+        }
     }
 }

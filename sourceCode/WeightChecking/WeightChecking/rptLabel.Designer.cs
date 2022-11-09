@@ -140,11 +140,11 @@ namespace WeightChecking
             this.xrLabel2.Multiline = true;
             this.xrLabel2.Name = "xrLabel2";
             this.xrLabel2.Padding = new DevExpress.XtraPrinting.PaddingInfo(5, 0, 0, 0, 254F);
-            this.xrLabel2.SizeF = new System.Drawing.SizeF(75F, 108.0501F);
+            this.xrLabel2.SizeF = new System.Drawing.SizeF(86.90624F, 108.0501F);
             this.xrLabel2.StylePriority.UseBorders = false;
             this.xrLabel2.StylePriority.UsePadding = false;
             this.xrLabel2.StylePriority.UseTextAlignment = false;
-            this.xrLabel2.Text = "RW:";
+            this.xrLabel2.Text = "GW:";
             this.xrLabel2.TextAlignment = DevExpress.XtraPrinting.TextAlignment.MiddleLeft;
             // 
             // xrLabel1
@@ -155,11 +155,11 @@ namespace WeightChecking
             this.xrLabel1.ExpressionBindings.AddRange(new DevExpress.XtraReports.UI.ExpressionBinding[] {
             new DevExpress.XtraReports.UI.ExpressionBinding("BeforePrint", "Text", "?Weight")});
             this.xrLabel1.Font = new System.Drawing.Font("Arial", 20F, System.Drawing.FontStyle.Bold);
-            this.xrLabel1.LocationFloat = new DevExpress.Utils.PointFloat(75F, 0F);
+            this.xrLabel1.LocationFloat = new DevExpress.Utils.PointFloat(86.90624F, 0F);
             this.xrLabel1.Multiline = true;
             this.xrLabel1.Name = "xrLabel1";
             this.xrLabel1.Padding = new DevExpress.XtraPrinting.PaddingInfo(0, 0, 0, 0, 254F);
-            this.xrLabel1.SizeF = new System.Drawing.SizeF(220F, 108.0501F);
+            this.xrLabel1.SizeF = new System.Drawing.SizeF(208.0938F, 108.0501F);
             this.xrLabel1.StylePriority.UseBorders = false;
             this.xrLabel1.StylePriority.UseBorderWidth = false;
             this.xrLabel1.StylePriority.UseFont = false;

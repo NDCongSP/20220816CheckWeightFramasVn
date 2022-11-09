@@ -17,6 +17,8 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 using AutoUpdaterDotNET;
+using System.Diagnostics;
+using DevExpress.XtraPrinting;
 
 namespace WeightChecking
 {
@@ -77,6 +79,7 @@ namespace WeightChecking
             //this.barButtonItemResetCountMetal.ItemClick += BarButtonItemResetCountMetal_ItemClick;
             this._barButtonItemUpVersion.ItemClick += _barButtonItemUpVersion_ItemClick;
             this._barButtonItemRefreshReport.ItemClick += _barButtonItemRefreshReport_ItemClick;
+            this._barButtonItemExportExcel.ItemClick += _barButtonItemExportExcel_ItemClick;
 
             //chon chế độ chỉ hiển thị tab ribbon, ẩn chi tiết group
             //ribbonControl1.Minimized = true;//show tabs
@@ -109,6 +112,13 @@ namespace WeightChecking
                         if (_masterData != null)
                         {
                             _masterData = null;
+                        }
+                    }
+                    else if (o.Document.Caption == "Report")
+                    {
+                        if (_report != null)
+                        {
+                            _report = null;
                         }
                     }
                 }
@@ -179,29 +189,175 @@ namespace WeightChecking
             #endregion
 
             #region Ket noi modbus RTU PLC metalScan counter
-            //GlobalVariables.ModbusStatus = GlobalVariables.MyDriver.ModbusRTUMaster.KetNoi(GlobalVariables.ComPort, 9600, 8, System.IO.Ports.Parity.None, System.IO.Ports.StopBits.One);
+            if (GlobalVariables.IsScale)
+            {
+                GlobalVariables.ModbusStatus = GlobalVariables.MyDriver.ModbusRTUMaster.KetNoi(GlobalVariables.ComPort, 9600, 8, System.IO.Ports.Parity.None, System.IO.Ports.StopBits.One);
 
-            //Console.WriteLine($"PLC Status: {GlobalVariables.ModbusStatus}");
+                Console.WriteLine($"PLC Status: {GlobalVariables.ModbusStatus}");
 
-            //if (GlobalVariables.ModbusStatus)
-            //{
-            //    _tskModbus = new System.Threading.Tasks.Task(() => ReadModbus());
-            //    _tskModbus.Start();
-            //}
-            //else
-            //{
-            //    MessageBox.Show($"Không thể kết nối được bộ đếm dò kim loại.{Environment.NewLine}Tắt phần mềm, kiểm tra lại kết nối với PLC rồi mở lại phần mềm.",
-            //                    "CẢNH BÁO", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            //}
+                if (GlobalVariables.ModbusStatus)
+                {
+                    _tskModbus = new System.Threading.Tasks.Task(() => ReadModbus());
+                    _tskModbus.Start();
+                }
+                else
+                {
+                    MessageBox.Show($"Không thể kết nối được bộ đếm dò kim loại.{Environment.NewLine}Tắt phần mềm, kiểm tra lại kết nối với PLC rồi mở lại phần mềm.",
+                                    "CẢNH BÁO", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            }
             #endregion
+
+            this._barEditItemFromDate.EditValue = this._barEditItemToDate.EditValue = DateTime.Now;
             _timer.Enabled = true;
             _timer.Tick += _timer_Tick;
+        }
+
+        private void _barButtonItemExportExcel_ItemClick(object sender, DevExpress.XtraBars.ItemClickEventArgs e)
+        {
+            try
+            {
+                using (SaveFileDialog sfd = new SaveFileDialog())
+                {
+                    sfd.Filter = "Excel File|*.xlsx";
+                    sfd.Title = "Chọn chổ để xuất";
+                    sfd.FileName = $"{DateTime.Now.ToString("yyyyMMddHHmmss")}SSFGReport.xlsx";
+                    if (sfd.ShowDialog() == DialogResult.OK)
+                    {
+
+                        SplashScreenManager.ShowForm(this, typeof(WaitForm1), true, true, false);
+                        SplashScreenManager.Default.SetWaitFormCaption("Vui lòng chờ trong giây lát");
+                        SplashScreenManager.Default.SetWaitFormDescription("Loading...");
+
+                        var fromDate = (DateTime)_barEditItemFromDate.EditValue;
+                        var toDate = (DateTime)_barEditItemToDate.EditValue;
+
+                        using (var connection = GlobalVariables.GetDbConnection())
+                        {
+                            var parametters = new DynamicParameters();
+                            parametters.Add("FromDate", fromDate.ToString("yyyy/MM/dd 00:00:00"));
+                            parametters.Add("ToDate", toDate.ToString("yyyy/MM/dd 23:59:59"));
+
+                            var reportModel = new List<ScanDataReport1Model>();
+                            var res = connection.Query<ScanDataReportModel>("sp_tblScanDataGets", parametters, commandType: CommandType.StoredProcedure).ToList();
+
+                            using (Workbook wb = new Workbook())
+                            {
+                                //wb.Worksheets.Remove(wb.Worksheets["Sheet1"]);
+                                wb.Worksheets["Sheet1"].Name = "DataScan";
+
+                                Worksheet ws = wb.Worksheets["DataScan"];
+
+                                ws.Cells[0, 0].Value = "Barcode String";
+                                ws.Cells[0, 1].Value = "IdLable";
+                                ws.Cells[0, 2].Value = "OcNo";
+                                ws.Cells[0, 3].Value = "ProductNumber";
+                                ws.Cells[0, 4].Value = "ProductName";
+                                ws.Cells[0, 5].Value = "Quantity";
+                                ws.Cells[0, 6].Value = "LinePosNo";
+                                ws.Cells[0, 7].Value = "Unit";
+                                ws.Cells[0, 8].Value = "BoxNo";
+                                ws.Cells[0, 9].Value = "CustomerNo";
+                                ws.Cells[0, 10].Value = "Location";
+                                ws.Cells[0, 11].Value = "BoxPosNo";
+                                ws.Cells[0, 12].Value = "Note";
+                                ws.Cells[0, 13].Value = "Brand";
+                                ws.Cells[0, 14].Value = "Decoration";
+                                ws.Cells[0, 15].Value = "MetalScan";
+                                ws.Cells[0, 16].Value = "AveWeight1Prs";
+                                ws.Cells[0, 17].Value = "StdNetWeight";
+                                ws.Cells[0, 18].Value = "Tolerance";
+                                ws.Cells[0, 19].Value = "BoxWeight";
+                                ws.Cells[0, 20].Value = "PackageWeight";
+                                ws.Cells[0, 21].Value = "StdGrossWeight";
+                                ws.Cells[0, 22].Value = "GrossWeight";
+                                ws.Cells[0, 23].Value = "NetWeight";
+                                ws.Cells[0, 24].Value = "Deviation (g)";
+                                ws.Cells[0, 25].Value = "Pass";
+                                ws.Cells[0, 26].Value = "Status";
+                                ws.Cells[0, 27].Value = "CalculatedPairs";
+                                ws.Cells[0, 28].Value = "DeviationPairs";
+                                ws.Cells[0, 29].Value = "CreatedDate";
+
+                                CellRange rHeader = ws.Range.FromLTRB(0, 0, 29, 0);//Col-Row;Col-Row. do created new WB nen ko lây theo hàng cot chũ cái đc
+                                rHeader.FillColor = Color.Orange;
+                                rHeader.Alignment.Horizontal = SpreadsheetHorizontalAlignment.Center;
+                                rHeader.Alignment.Vertical = SpreadsheetVerticalAlignment.Center;
+                                rHeader.Font.Bold = true;
+
+                                foreach (var item in res)
+                                {
+                                    reportModel.Add(new ScanDataReport1Model()
+                                    {
+                                        BarcodeString=item.BarcodeString,
+                                        IdLable=item.IdLable,
+                                        OcNo=item.OcNo,
+                                        ProductNumber=item.ProductNumber,
+                                        ProductName=item.ProductName,
+                                        Quantity=item.Quantity,
+                                        LinePosNo=item.LinePosNo,
+                                        Unit=item.Unit,
+                                        BoxNo=item.BoxNo,
+                                        CustomerNo=item.CustomerNo,
+                                        Location=item.Location.ToString(),
+                                        BoxPosNo=item.BoxPosNo,
+                                        Note=item.Note,
+                                        Brand=item.Brand,
+                                        Decoration=item.Decoration,
+                                        MetalScan=item.MetalScan,
+                                        AveWeight1Prs=item.AveWeight1Prs,
+                                        StdNetWeight=item.StdNetWeight,
+                                        Tolerance=item.Tolerance,
+                                        BoxWeight=item.BoxWeight,
+                                        PackageWeight=item.PackageWeight,
+                                        StdGrossWeight=item.StdGrossWeight,
+                                        GrossWeight=item.GrossWeight,
+                                        NetWeight=item.NetWeight,
+                                        Deviation=item.Deviation,
+                                        Pass=item.Pass,
+                                        Status=item.Status,
+                                        CalculatedPairs=item.CalculatedPairs,
+                                        DeviationPairs=item.DeviationPairs,
+                                        CreatedDate=item.CreatedDate
+                                    });
+                                }
+                                ws.Import(reportModel, 1, 0);
+
+                                ws.Range[$"G2:G{res.Count}"].NumberFormat = "#,#0.00";
+                                ws.Range[$"AB2:AB{res.Count}"].NumberFormat = "yyyy/MM/dd HH:mm:ss";
+
+                                ws.Range.FromLTRB(0, 0, 29, res.Count).Borders.SetAllBorders(Color.Black, BorderLineStyle.Thin);
+                                //ws.FreezeRows(0);
+                                //ws.FreezeColumns(3);
+                                ws.FreezePanes(0, 3);
+                                ws.Columns.AutoFit(0, 29);
+
+                                wb.SaveDocument(sfd.FileName);
+
+                                Process.Start(sfd.FileName);
+                            }
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Log.Error(ex, "Lỗi Report exception.");
+                XtraMessageBox.Show("Lỗi Report: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            finally
+            {
+                SplashScreenManager.CloseForm(false);
+            }
         }
 
         private void _barButtonItemRefreshReport_ItemClick(object sender, DevExpress.XtraBars.ItemClickEventArgs e)
         {
             try
             {
+                var fromDate = (DateTime)_barEditItemFromDate.EditValue;
+                var toDate = (DateTime)_barEditItemToDate.EditValue;
+
                 if (_report == null)
                 {
                     _report = "Actived";
@@ -211,15 +367,17 @@ namespace WeightChecking
                     SplashScreenManager.Default.SetWaitFormDescription("Loading...");
 
                     _frmReports = new frmReports();
+                    _frmReports.FromDate = fromDate.ToString("yyyy/MM/dd 00:00:00");
+                    _frmReports.ToDate = toDate.ToString("yyyy/MM/dd 23:59:59");
                     tabbedView1.AddDocument(_frmReports);
                     tabbedView1.ActivateDocument(_frmReports);
-
-                    //SplashScreenManager.CloseForm(false);
                 }
                 else
                 {
+                    _frmReports.FromDate = fromDate.ToString("yyyy/MM/dd 00:00:00");
+                    _frmReports.ToDate = toDate.ToString("yyyy/MM/dd 23:59:59");
                     tabbedView1.ActivateDocument(_frmReports);
-                    GlobalVariables.MyEvent.RefreshStatus = true;
+                    GlobalVariables.MyEvent.RefreshReport = true;
                 }
             }
             catch (Exception ex)
@@ -404,8 +562,6 @@ namespace WeightChecking
                     _frmMasterData = new frmMasterData();
                     tabbedView1.AddDocument(_frmMasterData);
                     tabbedView1.ActivateDocument(_frmMasterData);
-
-                    //SplashScreenManager.CloseForm(false);
                 }
                 else
                 {
@@ -481,6 +637,7 @@ namespace WeightChecking
                                         CodeItemSize = _row[$"A{i}"].Value.TextValue,
                                         MainItemName = _row[$"B{i}"].Value.TextValue,
                                         MetalScan = (int)_row[$"C{i}"].Value.NumericValue,
+                                        Color = _row[$"D{i}"].Value.TextValue,
                                         Printing = (int)_row[$"E{i}"].Value.NumericValue,
                                         Date = _row[$"F{i}"].Value.DateTimeValue.ToString(),
                                         Size = _row[$"G{i}"].Value.TextValue,
@@ -498,7 +655,7 @@ namespace WeightChecking
                                         WrapSheetQty = (int)_row[$"Y{i}"].Value.NumericValue,
                                         PlasicBagWeight = _row[$"AB{i}"].Value.NumericValue,
                                         WrapSheetWeight = _row[$"AC{i}"].Value.NumericValue
-                                    });
+                                    }); ;
                                 }
                             }
                         }
@@ -523,6 +680,7 @@ namespace WeightChecking
                                 para.Add("@CodeItemSize", item.CodeItemSize);
                                 para.Add("@MainItemName", item.MainItemName);
                                 para.Add("@MetalScan", item.MetalScan);
+                                para.Add("@Color", item.Color);
                                 para.Add("@Printing", item.Printing);
                                 para.Add("@Date", item.Date);
                                 para.Add("@Size", item.Size);
@@ -551,6 +709,7 @@ namespace WeightChecking
                                 para.Add("@CodeItemSize", item.CodeItemSize);
                                 para.Add("@MainItemName", item.MainItemName);
                                 para.Add("@MetalScan", item.MetalScan);
+                                para.Add("@Color", item.Color);
                                 para.Add("@Printing", item.Printing);
                                 para.Add("@Date", item.Date);
                                 para.Add("@Size", item.Size);

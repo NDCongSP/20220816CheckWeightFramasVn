@@ -19,20 +19,20 @@ namespace WeightChecking
         public string Unit { get; set; } = "Prs";
         public string BoxNo { get; set; } = null;
         public string CustomerNo { get; set; } = null;
-        public int Location { get; set; }
+        public LocationEnum Location { get; set; }
         public string BoxPosNo { get; set; } = null;
         public string Note { get; set; } = null;
         public string Brand { get; set; } = null;
         public int Decoration { get; set; }
         public int MetalScan { get; set; }
         public double AveWeight1Prs { get; set; }
-        public double NetWeight { get; set; }
+        public double StdNetWeight { get; set; }
         public double Tolerance { get; set; }
         public double BoxWeight { get; set; }
-        public double AccessoriesWeight { get; set; }
-        public double GrossdWeight { get; set; }
-        public double RealWeight { get; set; }
-        public double RealNetWeight { get; set; }
+        public double PackageWeight { get; set; }
+        public double StdGrossWeight { get; set; }
+        public double GrossWeight { get; set; }
+        public double NetWeight { get; set; }
         public double Deviation { get; set; }
         public int Pass { get; set; }
         //Báo trạng thái: 0- thùng fail; 1- chờ đi sơn; 2- Done hàng FG qua kho Kerry.

@@ -63,7 +63,7 @@ namespace WeightChecking
             this.ClientSize = new System.Drawing.Size(1410, 785);
             this.Controls.Add(this.grcReports);
             this.Name = "frmReports";
-            this.Text = "frmReports";
+            this.Text = "Report";
             ((System.ComponentModel.ISupportInitialize)(this.grcReports)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.grvReports)).EndInit();
             this.ResumeLayout(false);

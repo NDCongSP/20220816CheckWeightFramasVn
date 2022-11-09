@@ -29,6 +29,7 @@ namespace WeightChecking
             GlobalVariables.ConStringWinline = EncodeMD5.DecryptString(Properties.Settings.Default.conStringWL, "ITFramasBDVN");
             GlobalVariables.IpScale = Properties.Settings.Default.ipScale;
             GlobalVariables.UnitScale = int.TryParse(Properties.Settings.Default.UnitScale, out int value) ? value : 0;
+            GlobalVariables.IsScale = Properties.Settings.Default.IsScale;
 
             Console.WriteLine($"Path app: {Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location)}");
 
@@ -67,7 +68,8 @@ namespace WeightChecking
             if (!createdNew)
             {
                 // myApp is already running...
-                MessageBox.Show("App đang chạy, chế cứ từ từ!", "Bình tĩnh");
+                MessageBox.Show("Ứng dụng đã đưuọc mở. Chờ trong giây lát...", "THÔNG BÁO", MessageBoxButtons.OK,
+                          MessageBoxIcon.Information);
                 return;
             }
             else
@@ -76,7 +78,7 @@ namespace WeightChecking
                 AutoUpdater.DownloadPath = Environment.CurrentDirectory;
                 AutoUpdater.ApplicationExitEvent += AutoUpdater_ApplicationExitEvent;
                 AutoUpdater.CheckForUpdateEvent += AutoUpdater_CheckForUpdateEvent;
-                //AutoUpdater.Start(Properties.Settings.Default.UpdatePath);
+                AutoUpdater.Start(Properties.Settings.Default.UpdatePath);
                 Application.Run(new Login());
 
             }

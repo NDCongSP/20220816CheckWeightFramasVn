@@ -65,6 +65,8 @@ namespace WeightChecking
         public static string OcNo { get; set; } = null;
         public static string BoxNo { get; set; } = null;
         public static bool PrintApprove { get; set; } = false;
+
+        public static bool IsScale { get; set; } = false;
         #endregion
     }
 }

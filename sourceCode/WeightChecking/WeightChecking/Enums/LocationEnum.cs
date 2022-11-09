@@ -8,7 +8,9 @@ namespace WeightChecking
 {
     public enum LocationEnum
     {
-        fVn,
-        fFT
+        Empty,
+        fVN,
+        fFT,
+        fKV
     }
 }

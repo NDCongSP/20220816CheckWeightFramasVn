@@ -143,11 +143,11 @@ namespace WeightChecking
             this.labelControl1.Appearance.ForeColor = System.Drawing.Color.White;
             this.labelControl1.Appearance.Options.UseFont = true;
             this.labelControl1.Appearance.Options.UseForeColor = true;
-            this.labelControl1.Location = new System.Drawing.Point(657, 68);
+            this.labelControl1.Location = new System.Drawing.Point(895, 68);
             this.labelControl1.Name = "labelControl1";
-            this.labelControl1.Size = new System.Drawing.Size(667, 81);
+            this.labelControl1.Size = new System.Drawing.Size(173, 81);
             this.labelControl1.TabIndex = 2;
-            this.labelControl1.Text = "WEIGHT CHECKING";
+            this.labelControl1.Text = "SSFG";
             // 
             // labTime
             // 

@@ -236,6 +236,8 @@
     <Compile Include="Enums\LocationEnum.cs" />
     <Compile Include="Enums\RolesEnum.cs" />
     <Compile Include="Events\RefreshEvent.cs" />
+    <Compile Include="Models\ScanDataReport1Model.cs" />
+    <Compile Include="Models\ScanDataReportModel.cs" />
     <Compile Include="Views\frmConfirmPrint.cs">
       <SubType>Form</SubType>
     </Compile>

@@ -28,7 +28,7 @@ namespace WeightChecking
 
         private void FrmMasterData_Load(object sender, EventArgs e)
         {
-            GlobalVariables.MyEvent.RefreshActionevent += MyEvent_RefreshActionevent;
+            GlobalVariables.MyEvent.EventHandlerRefreshMasterData += MyEvent_RefreshActionevent;
             this.grv.PopupMenuShowing += Grv_PopupMenuShowing;
 
             GlobalVariables.MyEvent.RefreshStatus = true;

@@ -34,7 +34,6 @@ namespace WeightChecking
             this.ribbonControl1 = new DevExpress.XtraBars.Ribbon.RibbonControl();
             this.barButtonItemMain = new DevExpress.XtraBars.BarButtonItem();
             this.barButtonItemSettings = new DevExpress.XtraBars.BarButtonItem();
-            this.barStaticItemVersion = new DevExpress.XtraBars.BarStaticItem();
             this.barStaticItemStatus = new DevExpress.XtraBars.BarStaticItem();
             this.barButtonItemPrint = new DevExpress.XtraBars.BarButtonItem();
             this.barButtonItemResetCountMetal = new DevExpress.XtraBars.BarButtonItem();
@@ -42,19 +41,30 @@ namespace WeightChecking
             this.barButtonItemRefreshData = new DevExpress.XtraBars.BarButtonItem();
             this.barButtonItemImport = new DevExpress.XtraBars.BarButtonItem();
             this._barButtonItemUpVersion = new DevExpress.XtraBars.BarButtonItem();
+            this._barButtonItemRefreshReport = new DevExpress.XtraBars.BarButtonItem();
+            this._barButtonItemExportExcel = new DevExpress.XtraBars.BarButtonItem();
+            this._barEditItemFromDate = new DevExpress.XtraBars.BarEditItem();
+            this.repositoryItemDateEdit1 = new DevExpress.XtraEditors.Repository.RepositoryItemDateEdit();
+            this._barEditItemToDate = new DevExpress.XtraBars.BarEditItem();
+            this.repositoryItemDateEdit2 = new DevExpress.XtraEditors.Repository.RepositoryItemDateEdit();
+            this.barStaticItemVersion = new DevExpress.XtraBars.BarStaticItem();
             this.ribbonPageHome = new DevExpress.XtraBars.Ribbon.RibbonPage();
             this.ribbonPageGroupHome = new DevExpress.XtraBars.Ribbon.RibbonPageGroup();
             this.ribbonPageMasterData = new DevExpress.XtraBars.Ribbon.RibbonPage();
             this.ribbonPageGroupMasterData = new DevExpress.XtraBars.Ribbon.RibbonPageGroup();
+            this.ribbonPageReports = new DevExpress.XtraBars.Ribbon.RibbonPage();
+            this.ribbonPageGroupFilter = new DevExpress.XtraBars.Ribbon.RibbonPageGroup();
+            this._ribbonPageGroupActions = new DevExpress.XtraBars.Ribbon.RibbonPageGroup();
             this.ribbonStatusBar1 = new DevExpress.XtraBars.Ribbon.RibbonStatusBar();
             this.ribbonPage2 = new DevExpress.XtraBars.Ribbon.RibbonPage();
             this.documentManager1 = new DevExpress.XtraBars.Docking2010.DocumentManager(this.components);
             this.tabbedView1 = new DevExpress.XtraBars.Docking2010.Views.Tabbed.TabbedView(this.components);
             this.dockManager1 = new DevExpress.XtraBars.Docking.DockManager(this.components);
-            this.ribbonPageReports = new DevExpress.XtraBars.Ribbon.RibbonPage();
-            this._barButtonItemRefreshReport = new DevExpress.XtraBars.BarButtonItem();
-            this.ribbonPageGroupReports = new DevExpress.XtraBars.Ribbon.RibbonPageGroup();
             ((System.ComponentModel.ISupportInitialize)(this.ribbonControl1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.repositoryItemDateEdit1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.repositoryItemDateEdit1.CalendarTimeProperties)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.repositoryItemDateEdit2)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.repositoryItemDateEdit2.CalendarTimeProperties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.documentManager1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.tabbedView1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dockManager1)).BeginInit();
@@ -68,7 +78,6 @@ namespace WeightChecking
             this.ribbonControl1.SearchEditItem,
             this.barButtonItemMain,
             this.barButtonItemSettings,
-            this.barStaticItemVersion,
             this.barStaticItemStatus,
             this.barButtonItemPrint,
             this.barButtonItemResetCountMetal,
@@ -76,14 +85,21 @@ namespace WeightChecking
             this.barButtonItemRefreshData,
             this.barButtonItemImport,
             this._barButtonItemUpVersion,
-            this._barButtonItemRefreshReport});
+            this._barButtonItemRefreshReport,
+            this._barButtonItemExportExcel,
+            this._barEditItemFromDate,
+            this._barEditItemToDate,
+            this.barStaticItemVersion});
             this.ribbonControl1.Location = new System.Drawing.Point(0, 0);
-            this.ribbonControl1.MaxItemId = 13;
+            this.ribbonControl1.MaxItemId = 18;
             this.ribbonControl1.Name = "ribbonControl1";
             this.ribbonControl1.Pages.AddRange(new DevExpress.XtraBars.Ribbon.RibbonPage[] {
             this.ribbonPageHome,
             this.ribbonPageMasterData,
             this.ribbonPageReports});
+            this.ribbonControl1.RepositoryItems.AddRange(new DevExpress.XtraEditors.Repository.RepositoryItem[] {
+            this.repositoryItemDateEdit1,
+            this.repositoryItemDateEdit2});
             this.ribbonControl1.Size = new System.Drawing.Size(1918, 177);
             this.ribbonControl1.StatusBar = this.ribbonStatusBar1;
             // 
@@ -100,13 +116,6 @@ namespace WeightChecking
             this.barButtonItemSettings.Id = 2;
             this.barButtonItemSettings.ImageOptions.SvgImage = ((DevExpress.Utils.Svg.SvgImage)(resources.GetObject("barButtonItemSettings.ImageOptions.SvgImage")));
             this.barButtonItemSettings.Name = "barButtonItemSettings";
-            // 
-            // barStaticItemVersion
-            // 
-            this.barStaticItemVersion.Alignment = DevExpress.XtraBars.BarItemLinkAlignment.Right;
-            this.barStaticItemVersion.Caption = "Version";
-            this.barStaticItemVersion.Id = 3;
-            this.barStaticItemVersion.Name = "barStaticItemVersion";
             // 
             // barStaticItemStatus
             // 
@@ -161,6 +170,83 @@ namespace WeightChecking
             this._barButtonItemUpVersion.LargeWidth = 100;
             this._barButtonItemUpVersion.Name = "_barButtonItemUpVersion";
             // 
+            // _barButtonItemRefreshReport
+            // 
+            this._barButtonItemRefreshReport.Caption = "Refresh";
+            this._barButtonItemRefreshReport.Id = 12;
+            this._barButtonItemRefreshReport.ImageOptions.SvgImage = ((DevExpress.Utils.Svg.SvgImage)(resources.GetObject("_barButtonItemRefreshReport.ImageOptions.SvgImage")));
+            this._barButtonItemRefreshReport.Name = "_barButtonItemRefreshReport";
+            // 
+            // _barButtonItemExportExcel
+            // 
+            this._barButtonItemExportExcel.ActAsDropDown = true;
+            this._barButtonItemExportExcel.ButtonStyle = DevExpress.XtraBars.BarButtonStyle.DropDown;
+            this._barButtonItemExportExcel.Caption = "Export Excel";
+            this._barButtonItemExportExcel.Id = 13;
+            this._barButtonItemExportExcel.ImageOptions.SvgImage = ((DevExpress.Utils.Svg.SvgImage)(resources.GetObject("_barButtonItemExportExcel.ImageOptions.SvgImage")));
+            this._barButtonItemExportExcel.LargeWidth = 200;
+            this._barButtonItemExportExcel.Name = "_barButtonItemExportExcel";
+            // 
+            // _barEditItemFromDate
+            // 
+            this._barEditItemFromDate.Caption = "FromDate";
+            this._barEditItemFromDate.Edit = this.repositoryItemDateEdit1;
+            this._barEditItemFromDate.EditWidth = 200;
+            this._barEditItemFromDate.Id = 15;
+            this._barEditItemFromDate.ImageOptions.SvgImage = ((DevExpress.Utils.Svg.SvgImage)(resources.GetObject("_barEditItemFromDate.ImageOptions.SvgImage")));
+            this._barEditItemFromDate.Name = "_barEditItemFromDate";
+            // 
+            // repositoryItemDateEdit1
+            // 
+            this.repositoryItemDateEdit1.AutoHeight = false;
+            this.repositoryItemDateEdit1.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
+            new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
+            this.repositoryItemDateEdit1.CalendarTimeProperties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
+            new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
+            this.repositoryItemDateEdit1.CalendarTimeProperties.DisplayFormat.FormatString = "yyyy/MM/dd";
+            this.repositoryItemDateEdit1.CalendarTimeProperties.DisplayFormat.FormatType = DevExpress.Utils.FormatType.DateTime;
+            this.repositoryItemDateEdit1.CalendarTimeProperties.EditFormat.FormatString = "yyyy/MM/dd";
+            this.repositoryItemDateEdit1.CalendarTimeProperties.EditFormat.FormatType = DevExpress.Utils.FormatType.DateTime;
+            this.repositoryItemDateEdit1.DisplayFormat.FormatString = "yyyy/MM/dd";
+            this.repositoryItemDateEdit1.DisplayFormat.FormatType = DevExpress.Utils.FormatType.DateTime;
+            this.repositoryItemDateEdit1.EditFormat.FormatString = "yyyy/MM/dd 00:00:00";
+            this.repositoryItemDateEdit1.EditFormat.FormatType = DevExpress.Utils.FormatType.DateTime;
+            this.repositoryItemDateEdit1.MaskSettings.Set("mask", "yyyy/MM/dd");
+            this.repositoryItemDateEdit1.Name = "repositoryItemDateEdit1";
+            // 
+            // _barEditItemToDate
+            // 
+            this._barEditItemToDate.Caption = "ToDate    ";
+            this._barEditItemToDate.Edit = this.repositoryItemDateEdit2;
+            this._barEditItemToDate.EditWidth = 200;
+            this._barEditItemToDate.Id = 16;
+            this._barEditItemToDate.ImageOptions.SvgImage = ((DevExpress.Utils.Svg.SvgImage)(resources.GetObject("_barEditItemToDate.ImageOptions.SvgImage")));
+            this._barEditItemToDate.Name = "_barEditItemToDate";
+            // 
+            // repositoryItemDateEdit2
+            // 
+            this.repositoryItemDateEdit2.AutoHeight = false;
+            this.repositoryItemDateEdit2.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
+            new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
+            this.repositoryItemDateEdit2.CalendarTimeProperties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
+            new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
+            this.repositoryItemDateEdit2.CalendarTimeProperties.DisplayFormat.FormatString = "yyyy/MM/dd";
+            this.repositoryItemDateEdit2.CalendarTimeProperties.DisplayFormat.FormatType = DevExpress.Utils.FormatType.DateTime;
+            this.repositoryItemDateEdit2.CalendarTimeProperties.EditFormat.FormatString = "yyyy/MM/dd";
+            this.repositoryItemDateEdit2.CalendarTimeProperties.EditFormat.FormatType = DevExpress.Utils.FormatType.DateTime;
+            this.repositoryItemDateEdit2.DisplayFormat.FormatString = "yyyy/MM/dd";
+            this.repositoryItemDateEdit2.DisplayFormat.FormatType = DevExpress.Utils.FormatType.DateTime;
+            this.repositoryItemDateEdit2.EditFormat.FormatString = "yyyy/MM/dd 23:59:59";
+            this.repositoryItemDateEdit2.EditFormat.FormatType = DevExpress.Utils.FormatType.DateTime;
+            this.repositoryItemDateEdit2.Name = "repositoryItemDateEdit2";
+            // 
+            // barStaticItemVersion
+            // 
+            this.barStaticItemVersion.Alignment = DevExpress.XtraBars.BarItemLinkAlignment.Right;
+            this.barStaticItemVersion.Caption = "barStaticItem1";
+            this.barStaticItemVersion.Id = 17;
+            this.barStaticItemVersion.Name = "barStaticItemVersion";
+            // 
             // ribbonPageHome
             // 
             this.ribbonPageHome.Groups.AddRange(new DevExpress.XtraBars.Ribbon.RibbonPageGroup[] {
@@ -195,10 +281,33 @@ namespace WeightChecking
             this.ribbonPageGroupMasterData.Name = "ribbonPageGroupMasterData";
             this.ribbonPageGroupMasterData.Text = "Master Data";
             // 
+            // ribbonPageReports
+            // 
+            this.ribbonPageReports.Groups.AddRange(new DevExpress.XtraBars.Ribbon.RibbonPageGroup[] {
+            this.ribbonPageGroupFilter,
+            this._ribbonPageGroupActions});
+            this.ribbonPageReports.ImageOptions.SvgImage = ((DevExpress.Utils.Svg.SvgImage)(resources.GetObject("ribbonPageReports.ImageOptions.SvgImage")));
+            this.ribbonPageReports.Name = "ribbonPageReports";
+            this.ribbonPageReports.Text = "Reports";
+            // 
+            // ribbonPageGroupFilter
+            // 
+            this.ribbonPageGroupFilter.ItemLinks.Add(this._barEditItemFromDate);
+            this.ribbonPageGroupFilter.ItemLinks.Add(this._barEditItemToDate);
+            this.ribbonPageGroupFilter.Name = "ribbonPageGroupFilter";
+            this.ribbonPageGroupFilter.Text = "Filters";
+            // 
+            // _ribbonPageGroupActions
+            // 
+            this._ribbonPageGroupActions.ItemLinks.Add(this._barButtonItemRefreshReport);
+            this._ribbonPageGroupActions.ItemLinks.Add(this._barButtonItemExportExcel);
+            this._ribbonPageGroupActions.Name = "_ribbonPageGroupActions";
+            this._ribbonPageGroupActions.Text = "Actions";
+            // 
             // ribbonStatusBar1
             // 
-            this.ribbonStatusBar1.ItemLinks.Add(this.barStaticItemVersion);
             this.ribbonStatusBar1.ItemLinks.Add(this.barStaticItemStatus);
+            this.ribbonStatusBar1.ItemLinks.Add(this.barStaticItemVersion);
             this.ribbonStatusBar1.Location = new System.Drawing.Point(0, 1055);
             this.ribbonStatusBar1.Name = "ribbonStatusBar1";
             this.ribbonStatusBar1.Ribbon = this.ribbonControl1;
@@ -234,27 +343,6 @@ namespace WeightChecking
             "DevExpress.XtraBars.FluentDesignSystem.FluentDesignFormControl",
             "DevExpress.XtraBars.ToolbarForm.ToolbarFormControl"});
             // 
-            // ribbonPageReports
-            // 
-            this.ribbonPageReports.Groups.AddRange(new DevExpress.XtraBars.Ribbon.RibbonPageGroup[] {
-            this.ribbonPageGroupReports});
-            this.ribbonPageReports.ImageOptions.SvgImage = ((DevExpress.Utils.Svg.SvgImage)(resources.GetObject("ribbonPage1.ImageOptions.SvgImage")));
-            this.ribbonPageReports.Name = "ribbonPageReports";
-            this.ribbonPageReports.Text = "Reports";
-            // 
-            // _barButtonItemRefreshReport
-            // 
-            this._barButtonItemRefreshReport.Caption = "Refresh";
-            this._barButtonItemRefreshReport.Id = 12;
-            this._barButtonItemRefreshReport.ImageOptions.SvgImage = ((DevExpress.Utils.Svg.SvgImage)(resources.GetObject("_barButtonItemRefreshReport.ImageOptions.SvgImage")));
-            this._barButtonItemRefreshReport.Name = "_barButtonItemRefreshReport";
-            // 
-            // ribbonPageGroupReports
-            // 
-            this.ribbonPageGroupReports.ItemLinks.Add(this._barButtonItemRefreshReport);
-            this.ribbonPageGroupReports.Name = "ribbonPageGroupReports";
-            this.ribbonPageGroupReports.Text = "Functions";
-            // 
             // frmMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -271,6 +359,10 @@ namespace WeightChecking
             this.StatusBar = this.ribbonStatusBar1;
             this.Text = "Main";
             ((System.ComponentModel.ISupportInitialize)(this.ribbonControl1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.repositoryItemDateEdit1.CalendarTimeProperties)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.repositoryItemDateEdit1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.repositoryItemDateEdit2.CalendarTimeProperties)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.repositoryItemDateEdit2)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.documentManager1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.tabbedView1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.dockManager1)).EndInit();
@@ -291,7 +383,6 @@ namespace WeightChecking
         private DevExpress.XtraBars.Docking.DockManager dockManager1;
         private DevExpress.XtraBars.BarButtonItem barButtonItemMain;
         private DevExpress.XtraBars.BarButtonItem barButtonItemSettings;
-        private DevExpress.XtraBars.BarStaticItem barStaticItemVersion;
         private DevExpress.XtraBars.BarStaticItem barStaticItemStatus;
         private DevExpress.XtraBars.BarButtonItem barButtonItemPrint;
         private DevExpress.XtraBars.BarButtonItem barButtonItemResetCountMetal;
@@ -303,7 +394,14 @@ namespace WeightChecking
         private DevExpress.XtraBars.BarButtonItem _barButtonItemUpVersion;
         private DevExpress.XtraBars.BarButtonItem _barButtonItemRefreshReport;
         private DevExpress.XtraBars.Ribbon.RibbonPage ribbonPageReports;
-        private DevExpress.XtraBars.Ribbon.RibbonPageGroup ribbonPageGroupReports;
+        private DevExpress.XtraBars.Ribbon.RibbonPageGroup ribbonPageGroupFilter;
+        private DevExpress.XtraBars.BarButtonItem _barButtonItemExportExcel;
+        private DevExpress.XtraBars.BarEditItem _barEditItemFromDate;
+        private DevExpress.XtraEditors.Repository.RepositoryItemDateEdit repositoryItemDateEdit1;
+        private DevExpress.XtraBars.BarEditItem _barEditItemToDate;
+        private DevExpress.XtraEditors.Repository.RepositoryItemDateEdit repositoryItemDateEdit2;
+        private DevExpress.XtraBars.Ribbon.RibbonPageGroup _ribbonPageGroupActions;
+        private DevExpress.XtraBars.BarStaticItem barStaticItemVersion;
     }
 }
 

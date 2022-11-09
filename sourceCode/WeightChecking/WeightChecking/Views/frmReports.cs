@@ -1,5 +1,7 @@
 ﻿using Dapper;
+using DevExpress.XtraEditors;
 using DevExpress.XtraSplashScreen;
+using Serilog;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -14,6 +16,9 @@ namespace WeightChecking
 {
     public partial class frmReports : Form
     {
+        public string FromDate { get; set; }
+        public string ToDate { get; set; }
+
         public frmReports()
         {
             InitializeComponent();
@@ -22,7 +27,7 @@ namespace WeightChecking
 
         private void FrmReports_Load(object sender, EventArgs e)
         {
-            GlobalVariables.MyEvent.RefreshActionevent += (s, o) => {
+            GlobalVariables.MyEvent.EventHandlerRefreshReport += (s, o) => {
                 RefreshData();
             };
 
@@ -32,9 +37,17 @@ namespace WeightChecking
         void RefreshData() {
             try
             {
+                SplashScreenManager.ShowForm(this, typeof(WaitForm1), true, true, false);
+                SplashScreenManager.Default.SetWaitFormCaption("Vui lòng chờ trong giây lát");
+                SplashScreenManager.Default.SetWaitFormDescription("Loading...");
+
                 using (var connection = GlobalVariables.GetDbConnection())
                 {
-                    var res = connection.Query<tblScanDataModel>("sp_tblScanDataGets").ToList();
+                    var parametters = new DynamicParameters();
+                    parametters.Add("FromDate", FromDate);
+                    parametters.Add("ToDate", ToDate);
+
+                    var res = connection.Query<tblScanDataModel>("sp_tblScanDataGets",parametters,commandType:CommandType.StoredProcedure).ToList();
 
                     if (grcReports.InvokeRequired)
                     {
@@ -50,11 +63,12 @@ namespace WeightChecking
             }
             catch (Exception ex)
             {
-
+                Log.Error(ex, "Lỗi Report exception.");
+                XtraMessageBox.Show("Lỗi Report: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
             finally
             {
-                
+                SplashScreenManager.CloseForm(false);
             }
         }
     }

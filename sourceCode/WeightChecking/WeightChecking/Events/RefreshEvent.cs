@@ -23,22 +23,52 @@ namespace WeightChecking
             }
         }
 
-        private event EventHandler _refreshActionevent;
-        public event EventHandler RefreshActionevent
+        private event EventHandler _eventHandlerRefreshMasterData;
+        public event EventHandler EventHandlerRefreshMasterData
         {
             add
             {
-                _refreshActionevent += value;
+                _eventHandlerRefreshMasterData += value;
             }
             remove
             {
-                _refreshActionevent -= value;
+                _eventHandlerRefreshMasterData -= value;
             }
         }
 
         void OnRefreshAction()
         {
-            _refreshActionevent?.Invoke(this, new EventArgs());
+            _eventHandlerRefreshMasterData?.Invoke(this, new EventArgs());
+        }
+
+        private bool _refreshReport = false;
+        public bool RefreshReport {
+            get => _refreshReport;
+            set
+            {
+                _refreshReport = value;
+                if (value)
+                {
+                    OnRefreshReportAction();
+                }
+            }
+        }
+
+        private event EventHandler _eventHandlerRefreshReport;
+        public event  EventHandler EventHandlerRefreshReport {
+            add
+            {
+                _eventHandlerRefreshReport += value;
+            }
+            remove
+            {
+                _eventHandlerRefreshReport -= value;
+            }
+        }
+
+        private void OnRefreshReportAction()
+        {
+            _eventHandlerRefreshReport?.Invoke(this, new EventArgs());
         }
 
 

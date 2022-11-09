@@ -12,6 +12,7 @@ namespace WeightChecking
         public string CodeItemSize { get; set; }
         public string MainItemName { get; set; }
         public int MetalScan { get; set; } //1 co; 0 ko
+        public string Color { get; set; } = null;
         public int Printing { get; set; }//1 co; 0 ko
         public string Date { get; set; }
         public string Size { get; set; }
