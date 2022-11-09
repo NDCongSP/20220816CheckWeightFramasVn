@@ -8,37 +8,78 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using BC = BCrypt.Net.BCrypt;
 
 namespace WeightChecking
 {
     public partial class frmConfirmPrint : Form
     {
         public ConfirmPrintModel ConfirmPrintInfo = new ConfirmPrintModel();
+        string _code = null;
         public frmConfirmPrint()
         {
             InitializeComponent();
             Load += FrmConfirmPrint_Load;
             btnConfirm.Click += BtnConfirm_Click;
+            txtQrCode.KeyDown += TxtQrCode_KeyDown;
+        }
+
+        private void TxtQrCode_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter)
+            {
+                CheckingInfoUpdate();
+            }
         }
 
         private void BtnConfirm_Click(object sender, EventArgs e)
         {
-           using(var connection = GlobalVariables.GetDbConnection())
-            {
-                var res = connection.Query<tblUsers>("").FirstOrDefault();
-                if (res!=null)
-                {
+            CheckingInfoUpdate();
+        }
 
+        private void CheckingInfoUpdate()
+        {
+            try
+            {
+                using (var connection = GlobalVariables.GetDbConnection())
+                {
+                    var para = new DynamicParameters();
+                    para.Add("Id", txtQrCode.Text);
+
+                    var res = connection.Query<tblUsers>("sp_tblUserGet", para, commandType: CommandType.StoredProcedure).FirstOrDefault();
+                    if (res != null)
+                    {
+                        if (res.Approved == 1)
+                        {
+                            GlobalVariables.Printing((GlobalVariables.RealWeight / 1000).ToString("#,#0.00")
+                                                   , !string.IsNullOrEmpty(GlobalVariables.IdLabel) ? GlobalVariables.IdLabel : $"{GlobalVariables.OcNo}|{GlobalVariables.BoxNo}");
+                        }
+                        else
+                        {
+                            MessageBox.Show("Bạn không có quyền thực hiện chức năng này", "THÔNG BÁO", MessageBoxButtons.OK
+                                , MessageBoxIcon.Warning);
+                        }
+                    }
+                    else
+                    {
+                        MessageBox.Show("Không tìm thấy thông tin.", "THÔNG BÁO", MessageBoxButtons.OK
+                            , MessageBoxIcon.Warning);
+                    }
                 }
+            }
+            catch { }
+            finally
+            {
+                this.Close();
             }
         }
 
         private void FrmConfirmPrint_Load(object sender, EventArgs e)
         {
-            labIdLabel.Text = ConfirmPrintInfo.IdLabel;
-            labOcNo.Text = ConfirmPrintInfo.OcNo;
-            labBoxNo.Text = ConfirmPrintInfo.BoxNo;
-            labWeight.Text = ConfirmPrintInfo.Weight.ToString();
+            labIdLabel.Text = GlobalVariables.IdLabel;
+            labOcNo.Text = GlobalVariables.OcNo;
+            labBoxNo.Text = GlobalVariables.BoxNo;
+            labWeight.Text = (GlobalVariables.RealWeight/1000).ToString("#,#0.00");
         }
     }
 

@@ -51,12 +51,12 @@ namespace WeightChecking
                 TableName = "tblLog",
                 AutoCreateSqlTable = true,
             };
-            //Log.Logger = new LoggerConfiguration().WriteTo.MSSqlServer(
+            Log.Logger = new LoggerConfiguration().WriteTo.MSSqlServer(
 
-            //  connectionString: GlobalVariables.ConnectionString,
-            //  sinkOptions: sinkOption
+              connectionString: GlobalVariables.ConnectionString,
+              sinkOptions: sinkOption
 
-            //  ).MinimumLevel.Error().CreateLogger();
+              ).MinimumLevel.Error().CreateLogger();
 
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
@@ -68,7 +68,7 @@ namespace WeightChecking
             if (!createdNew)
             {
                 // myApp is already running...
-                MessageBox.Show("Ứng dụng đã đưuọc mở. Chờ trong giây lát...", "THÔNG BÁO", MessageBoxButtons.OK,
+                MessageBox.Show("Ứng dụng đã được mở. Chờ trong giây lát...", "THÔNG BÁO", MessageBoxButtons.OK,
                           MessageBoxIcon.Information);
                 return;
             }

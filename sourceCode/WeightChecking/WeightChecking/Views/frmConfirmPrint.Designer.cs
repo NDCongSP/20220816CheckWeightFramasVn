@@ -51,6 +51,8 @@ namespace WeightChecking
             this.txtQrCode.Properties.Appearance.Font = new System.Drawing.Font("Tahoma", 15F);
             this.txtQrCode.Properties.Appearance.Options.UseFont = true;
             this.txtQrCode.Properties.AutoHeight = false;
+            this.txtQrCode.Properties.PasswordChar = '*';
+            this.txtQrCode.Properties.UseSystemPasswordChar = true;
             this.txtQrCode.Size = new System.Drawing.Size(587, 30);
             this.txtQrCode.TabIndex = 1;
             // 
@@ -101,7 +103,7 @@ namespace WeightChecking
             // 
             this.labelControl4.Appearance.Font = new System.Drawing.Font("Tahoma", 15F);
             this.labelControl4.Appearance.Options.UseFont = true;
-            this.labelControl4.Location = new System.Drawing.Point(13, 158);
+            this.labelControl4.Location = new System.Drawing.Point(276, 83);
             this.labelControl4.Name = "labelControl4";
             this.labelControl4.Size = new System.Drawing.Size(213, 24);
             this.labelControl4.TabIndex = 3;
@@ -114,9 +116,9 @@ namespace WeightChecking
             this.labWeight.Appearance.Options.UseTextOptions = true;
             this.labWeight.Appearance.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Far;
             this.labWeight.AutoSizeMode = DevExpress.XtraEditors.LabelAutoSizeMode.None;
-            this.labWeight.Location = new System.Drawing.Point(235, 158);
+            this.labWeight.Location = new System.Drawing.Point(508, 83);
             this.labWeight.Name = "labWeight";
-            this.labWeight.Size = new System.Drawing.Size(128, 24);
+            this.labWeight.Size = new System.Drawing.Size(90, 24);
             this.labWeight.TabIndex = 4;
             this.labWeight.Text = "0";
             // 

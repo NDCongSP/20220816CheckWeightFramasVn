@@ -42,7 +42,7 @@ namespace WeightChecking
 
         public DateTime CreatedDate { get; set; }
         public int Actived { get; set; }
-        public string CreatedBy { get; set; }
+        public Guid CreatedBy { get; set; }
         public int CalculatedPairs { get; set; }
         public int DeviationPairs { get; set; } = 0;//thể hiện số pairs bị thiếu.
 

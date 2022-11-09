@@ -46,13 +46,13 @@ namespace WeightChecking
 
         #region Printing
         // Print the file.
-        public static void Printing(double weight, string idLabel)
+        public static void Printing(string weight, string idLabel)
         {
             //content of the QR code "OC283225,6112012227-2094-2651,28,13,P,1/56,160506,1/1|1,30.2022"
             var rptRe = new rptLabel();
             //rptRe.DataSource = ds;
 
-            rptRe.Parameters["Weight"].Value = weight/1000;
+            rptRe.Parameters["Weight"].Value = weight;
             rptRe.Parameters["IdLabel"].Value = idLabel;
 
             rptRe.CreateDocument();

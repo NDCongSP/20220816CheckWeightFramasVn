@@ -15,6 +15,6 @@ namespace WeightChecking
         public int? Actived { get; set; }
         public DateTime? CreatedBy { get; set; }
         public string Note { get; set; }
-
+        public int Approved { get; set; }
     }
 }

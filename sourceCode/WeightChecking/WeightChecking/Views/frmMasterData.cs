@@ -38,7 +38,7 @@ namespace WeightChecking
         {
             try
             {
-                e.Menu.Items.Add(new DXMenuItem("Update Tolerance", new EventHandler(UpdateTolerance)));
+                e.Menu.Items.Add(new DXMenuItem("Update Item Infomation", new EventHandler(UpdateItemInfomation)));
             }
             catch (Exception ex)
             {
@@ -46,7 +46,7 @@ namespace WeightChecking
             }
         }
 
-        private void UpdateTolerance(object sender, EventArgs e)
+        private void UpdateItemInfomation(object sender, EventArgs e)
         {
             try
             {
@@ -122,9 +122,15 @@ namespace WeightChecking
         private void grv_RowClick(object sender, DevExpress.XtraGrid.Views.Grid.RowClickEventArgs e)
         {
             GridView gv = (GridView)sender;
+            try
+            {
+                _productNumber = gv.GetRowCellValue(gv.FocusedRowHandle, "ProductNumber").ToString();
+                _codeItemZise = gv.GetRowCellValue(gv.FocusedRowHandle, "CodeItemSize").ToString();
+            }
+            catch (Exception ex)
+            {
 
-            _productNumber = gv.GetRowCellValue(gv.FocusedRowHandle,"ProductNumber").ToString();
-            _codeItemZise = gv.GetRowCellValue(gv.FocusedRowHandle,"CodeItemSize").ToString();
+            }
         }
     }
 }

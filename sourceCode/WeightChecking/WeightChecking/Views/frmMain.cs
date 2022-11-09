@@ -483,11 +483,12 @@ namespace WeightChecking
 
         private void BarButtonItemPrint_ItemClick(object sender, DevExpress.XtraBars.ItemClickEventArgs e)
         {
-            if (GlobalVariables.PrintApprove)
-            {
-                GlobalVariables.Printing(GlobalVariables.RealWeight
-                                       , !string.IsNullOrEmpty(GlobalVariables.IdLabel) ? GlobalVariables.IdLabel : $"{GlobalVariables.OcNo}|{GlobalVariables.BoxNo}");
-            }
+            frmConfirmPrint nf = new frmConfirmPrint();
+            //nf.ConfirmPrintInfo.IdLabel = GlobalVariables.IdLabel;
+            //nf.ConfirmPrintInfo.OcNo = GlobalVariables.OcNo;
+            //nf.ConfirmPrintInfo.BoxNo = GlobalVariables.BoxNo;
+            //nf.ConfirmPrintInfo.Weight = GlobalVariables.RealWeight;
+            nf.ShowDialog();
         }
 
         private void BarButtonItemResetCountMetal_ItemClick(object sender, DevExpress.XtraBars.ItemClickEventArgs e)
