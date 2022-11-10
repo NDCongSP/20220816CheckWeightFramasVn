@@ -879,6 +879,17 @@ namespace WeightChecking
                         {
                             XtraMessageBox.Show($"Item '{_scanData.ProductNumber}' không có khối lượng/1 đôi. Xin hãy kiểm tra lại thông tin."
                                 , "CẢNH BÁO.", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+
+                            ResetControl();
+
+                            para = null;
+                            para = new DynamicParameters();
+                            para.Add("ProductNumber", _scanData.ProductNumber);
+                            para.Add("ProductName", _scanData.ProductName);
+                            para.Add("OcNum", _scanData.OcNo);
+                            para.Add("Note", ".");
+
+                            connection.Execute("sp_tblItemMissingInfoInsert", para, commandType: CommandType.StoredProcedure);
                         }
                     }
                     else
@@ -887,6 +898,15 @@ namespace WeightChecking
                             , "CẢNH BÁO.", MessageBoxButtons.OK, MessageBoxIcon.Warning);
 
                         ResetControl();
+
+                        para = null;
+                        para = new DynamicParameters();
+                        para.Add("ProductNumber", _scanData.ProductNumber);
+                        para.Add("ProductName", _scanData.ProductName);
+                        para.Add("OcNum", _scanData.OcNo);
+                        para.Add("Note", "Không có data hệ thống.");
+
+                        connection.Execute("sp_tblItemMissingInfoInsert", para, commandType: CommandType.StoredProcedure);
                     }
                 }
                 #endregion
