@@ -282,10 +282,10 @@ namespace WeightChecking
 
         private void TxtQrCode_KeyDown(object sender, KeyEventArgs e)
         {
-            //content of the QR code "OC283225,6112042102-P237-2351,42,13,P,1/56,160506,1/1|1,30.2022,0,0,1" no print
+            //content of the QR code "OC283225,6112012228-1768-2951,42,13,P,1/56,160506,1/1|1,30.2022,0,0,1" no print
             //content of the QR code "OC283225,6112042102-P232-2351,42,13,P,1/56,160506,1/1|1,30.2022,1,0,1" no print
             //content of the QR code "OCA6915,6112042103-PAJ2-3201,42,13,P,1/56,160506,1/1|1,30.2022,1,0,1" print
-            //content of the QR code "OPRT4383,6116322202-NAZG-0014,60,1,P,3/7,170000,3/4|1,,,," print
+            //content of the QR code "OPRT4383,6112012228-1768-2951,60,1,P,3/7,170000,3/4|1,,,," print
             //content of the QR code "PRTA516,6117012206-2462-D213,100,5,P,31/86,170000,13/22|1,340.2022,1,1,99" print
             //|1,30.2022,1,0,1-->Location,IdLable,Decoration,MetalScan,Category(phân biệt hàng HC hay ko)
 
@@ -887,7 +887,8 @@ namespace WeightChecking
                             para.Add("ProductNumber", _scanData.ProductNumber);
                             para.Add("ProductName", _scanData.ProductName);
                             para.Add("OcNum", _scanData.OcNo);
-                            para.Add("Note", ".");
+                            para.Add("Note", "Chưa có data trong file QC.");
+                            para.Add("QrCode", _scanData.BarcodeString);
 
                             connection.Execute("sp_tblItemMissingInfoInsert", para, commandType: CommandType.StoredProcedure);
                         }
@@ -905,6 +906,7 @@ namespace WeightChecking
                         para.Add("ProductName", _scanData.ProductName);
                         para.Add("OcNum", _scanData.OcNo);
                         para.Add("Note", "Không có data hệ thống.");
+                        para.Add("QrCode", _scanData.BarcodeString);
 
                         connection.Execute("sp_tblItemMissingInfoInsert", para, commandType: CommandType.StoredProcedure);
                     }
