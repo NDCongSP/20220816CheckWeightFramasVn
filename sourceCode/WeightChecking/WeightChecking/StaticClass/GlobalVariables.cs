@@ -46,18 +46,33 @@ namespace WeightChecking
 
         #region Printing
         // Print the file.
-        public static void Printing(string weight, string idLabel)
+        public static void Printing(string content, string idLabel,bool pass)
         {
             //content of the QR code "OC283225,6112012227-2094-2651,28,13,P,1/56,160506,1/1|1,30.2022"
-            var rptRe = new rptLabel();
-            //rptRe.DataSource = ds;
+            if (pass)
+            {
+                var rptRe = new rptLabel();
+                //rptRe.DataSource = ds;
 
-            rptRe.Parameters["Weight"].Value = weight;
-            rptRe.Parameters["IdLabel"].Value = idLabel;
+                rptRe.Parameters["Weight"].Value = content;
+                rptRe.Parameters["IdLabel"].Value = idLabel;
 
-            rptRe.CreateDocument();
-            ReportPrintTool printToolCrush = new ReportPrintTool(rptRe);
-            printToolCrush.Print();
+                rptRe.CreateDocument();
+                ReportPrintTool printToolCrush = new ReportPrintTool(rptRe);
+                printToolCrush.Print();
+            }
+            else
+            {
+                var rptRe = new rptLabelFail();
+                //rptRe.DataSource = ds;
+
+                rptRe.Parameters["DeviationPrs"].Value = content;
+                rptRe.Parameters["IdLabel"].Value = idLabel;
+
+                rptRe.CreateDocument();
+                ReportPrintTool printToolCrush = new ReportPrintTool(rptRe);
+                printToolCrush.Print();
+            }
         }
 
         public static double RealWeight { get; set; } = 0;
@@ -67,6 +82,7 @@ namespace WeightChecking
         public static bool PrintApprove { get; set; } = false;
 
         public static bool IsScale { get; set; } = false;
+        public static bool IsCounter { get; set; } = false;
         #endregion
     }
 }

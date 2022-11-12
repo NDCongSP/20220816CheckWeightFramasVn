@@ -52,7 +52,7 @@ namespace WeightChecking
                         if (res.Approved == 1)
                         {
                             GlobalVariables.Printing((GlobalVariables.RealWeight / 1000).ToString("#,#0.00")
-                                                   , !string.IsNullOrEmpty(GlobalVariables.IdLabel) ? GlobalVariables.IdLabel : $"{GlobalVariables.OcNo}|{GlobalVariables.BoxNo}");
+                                                   , !string.IsNullOrEmpty(GlobalVariables.IdLabel) ? GlobalVariables.IdLabel : $"{GlobalVariables.OcNo}|{GlobalVariables.BoxNo}", true);
                         }
                         else
                         {
@@ -79,7 +79,7 @@ namespace WeightChecking
             labIdLabel.Text = GlobalVariables.IdLabel;
             labOcNo.Text = GlobalVariables.OcNo;
             labBoxNo.Text = GlobalVariables.BoxNo;
-            labWeight.Text = (GlobalVariables.RealWeight/1000).ToString("#,#0.00");
+            labWeight.Text = (GlobalVariables.RealWeight / 1000).ToString("#,#0.00");
         }
     }
 

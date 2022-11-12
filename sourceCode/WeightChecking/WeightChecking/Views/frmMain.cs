@@ -189,7 +189,7 @@ namespace WeightChecking
             #endregion
 
             #region Ket noi modbus RTU PLC metalScan counter
-            if (GlobalVariables.IsScale)
+            if (GlobalVariables.IsCounter)
             {
                 GlobalVariables.ModbusStatus = GlobalVariables.MyDriver.ModbusRTUMaster.KetNoi(GlobalVariables.ComPort, 9600, 8, System.IO.Ports.Parity.None, System.IO.Ports.StopBits.One);
 

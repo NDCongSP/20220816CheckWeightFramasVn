@@ -206,6 +206,12 @@ namespace WeightChecking
                 {
                     var para = new DynamicParameters();
                     para.Add("@CodeItemSize", _info.CodeItemSize);
+                    para.Add("@MainItemName", _info.MainItemName);
+                    para.Add("@MetalScan", _info.MetalScan);
+                    para.Add("@Color", _info.Color);
+                    para.Add("@Printing", _info.Printing);
+                    para.Add("@Size", _info.SizeName);
+                    //para.Add("@Date", _info.date);
                     para.Add("@AveWeight1Prs", _info.AveWeight1Prs);
                     para.Add("@BoxQtyBx1", _info.BoxQtyBx1);
                     para.Add("@BoxQtyBx2", _info.BoxQtyBx2);
@@ -225,7 +231,7 @@ namespace WeightChecking
                     para.Add("@Tolerance", _info.Tolerance);
                     para.Add("@ToleranceAfterPrint", _info.ToleranceAfterPrint);
 
-                    var res = connection.Execute("sp_tblCodeItemSizeUpdate", para, commandType: CommandType.StoredProcedure);
+                    var res = connection.Execute("sp_tblCoreDataCodeItemSizeUpdate", para, commandType: CommandType.StoredProcedure);
 
                     XtraMessageBox.Show("Update tolerance successfull.", "Info", MessageBoxButtons.OK, MessageBoxIcon.Information);
 

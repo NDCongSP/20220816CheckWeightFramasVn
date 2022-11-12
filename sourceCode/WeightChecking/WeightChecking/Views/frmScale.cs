@@ -707,7 +707,7 @@ namespace WeightChecking
                                 _scanData.Pass = 1;
                                 //Printing
                                 GlobalVariables.Printing((_scanData.GrossWeight / 1000).ToString("#,#0.00")
-                                            , !string.IsNullOrEmpty(GlobalVariables.IdLabel) ? GlobalVariables.IdLabel : $"{_scanData.OcNo}|{_scanData.BoxNo}");
+                                            , !string.IsNullOrEmpty(GlobalVariables.IdLabel) ? GlobalVariables.IdLabel : $"{_scanData.OcNo}|{_scanData.BoxNo}", true);
                                 //GlobalVariables.RealWeight = _scanData.GrossWeight;
                                 //GlobalVariables.PrintApprove = true;
                             }
@@ -743,6 +743,9 @@ namespace WeightChecking
                                     labResult.ForeColor = Color.White;
                                 }
                                 #endregion
+
+                                GlobalVariables.Printing(_scanData.DeviationPairs.ToString()
+                                            , !string.IsNullOrEmpty(GlobalVariables.IdLabel) ? GlobalVariables.IdLabel : $"{_scanData.OcNo}|{_scanData.BoxNo}", false);
                             }
                             #endregion
 

@@ -30,6 +30,7 @@ namespace WeightChecking
             GlobalVariables.IpScale = Properties.Settings.Default.ipScale;
             GlobalVariables.UnitScale = int.TryParse(Properties.Settings.Default.UnitScale, out int value) ? value : 0;
             GlobalVariables.IsScale = Properties.Settings.Default.IsScale;
+            GlobalVariables.IsCounter = Properties.Settings.Default.IsCounter;
 
             Console.WriteLine($"Path app: {Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location)}");
 

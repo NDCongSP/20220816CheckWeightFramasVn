@@ -112,5 +112,17 @@ namespace WeightChecking.Properties {
                 this["IsScale"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool IsCounter {
+            get {
+                return ((bool)(this["IsCounter"]));
+            }
+            set {
+                this["IsCounter"] = value;
+            }
+        }
     }
 }
