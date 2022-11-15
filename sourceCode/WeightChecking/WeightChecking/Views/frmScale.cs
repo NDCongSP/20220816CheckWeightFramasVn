@@ -708,8 +708,9 @@ namespace WeightChecking
                                 //Printing
                                 GlobalVariables.Printing((_scanData.GrossWeight / 1000).ToString("#,#0.00")
                                             , !string.IsNullOrEmpty(GlobalVariables.IdLabel) ? GlobalVariables.IdLabel : $"{_scanData.OcNo}|{_scanData.BoxNo}", true);
-                                //GlobalVariables.RealWeight = _scanData.GrossWeight;
-                                //GlobalVariables.PrintApprove = true;
+                                
+                                //bật tín hiệu để PLC on đèn xanh
+
                             }
                             else//thung fail
                             {
@@ -871,6 +872,7 @@ namespace WeightChecking
                             para.Add("CalculatedPairs", _scanData.CalculatedPairs);
                             para.Add("DeviationPairs", _scanData.DeviationPairs);
                             para.Add("CreatedBy", _scanData.CreatedBy);
+                            para.Add("Station", _scanData.CreatedBy);
 
                             var insertResult = connection.Execute("sp_tblScanDataInsert", para, commandType: CommandType.StoredProcedure);
                             #endregion

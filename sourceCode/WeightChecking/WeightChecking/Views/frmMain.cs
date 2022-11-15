@@ -19,6 +19,7 @@ using System.Windows.Forms;
 using AutoUpdaterDotNET;
 using System.Diagnostics;
 using DevExpress.XtraPrinting;
+using DevExpress.XtraBars;
 
 namespace WeightChecking
 {
@@ -80,6 +81,8 @@ namespace WeightChecking
             this._barButtonItemUpVersion.ItemClick += _barButtonItemUpVersion_ItemClick;
             this._barButtonItemRefreshReport.ItemClick += _barButtonItemRefreshReport_ItemClick;
             this._barButtonItemExportExcel.ItemClick += _barButtonItemExportExcel_ItemClick;
+
+            barButtonItemResetCountMetal.Visibility = BarItemVisibility.Never;//hide
 
             //chon chế độ chỉ hiển thị tab ribbon, ẩn chi tiết group
             //ribbonControl1.Minimized = true;//show tabs
@@ -197,6 +200,8 @@ namespace WeightChecking
 
                 if (GlobalVariables.ModbusStatus)
                 {
+                    //reset output
+                    GlobalVariables.MyDriver.ModbusRTUMaster.WriteMultipleCoils(1, 2048, 2, new bool[] { false, false });
                     _tskModbus = new System.Threading.Tasks.Task(() => ReadModbus());
                     _tskModbus.Start();
                 }
@@ -205,12 +210,26 @@ namespace WeightChecking
                     MessageBox.Show($"Không thể kết nối được bộ đếm dò kim loại.{Environment.NewLine}Tắt phần mềm, kiểm tra lại kết nối với PLC rồi mở lại phần mềm.",
                                     "CẢNH BÁO", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
+
+                GlobalVariables.MyEvent.EventHandleStatusLightPLC += MyEvent_EventHandleStatusLightPLC;
             }
             #endregion
 
             this._barEditItemFromDate.EditValue = this._barEditItemToDate.EditValue = DateTime.Now;
             _timer.Enabled = true;
             _timer.Tick += _timer_Tick;
+        }
+
+        private void MyEvent_EventHandleStatusLightPLC(object sender, CountValueChangedEventArgs e)
+        {
+            if (e.StatusLight)
+            {
+                GlobalVariables.ModbusStatus = GlobalVariables.MyDriver.ModbusRTUMaster.WriteMultipleCoils(1, 2048, 2, new bool[] { false, true });
+            }
+            else
+            {
+                GlobalVariables.ModbusStatus = GlobalVariables.MyDriver.ModbusRTUMaster.WriteMultipleCoils(1, 2048, 2, new bool[] { true, false });
+            }
         }
 
         private void _barButtonItemExportExcel_ItemClick(object sender, DevExpress.XtraBars.ItemClickEventArgs e)
@@ -289,36 +308,36 @@ namespace WeightChecking
                                 {
                                     reportModel.Add(new ScanDataReport1Model()
                                     {
-                                        BarcodeString=item.BarcodeString,
-                                        IdLable=item.IdLable,
-                                        OcNo=item.OcNo,
-                                        ProductNumber=item.ProductNumber,
-                                        ProductName=item.ProductName,
-                                        Quantity=item.Quantity,
-                                        LinePosNo=item.LinePosNo,
-                                        Unit=item.Unit,
-                                        BoxNo=item.BoxNo,
-                                        CustomerNo=item.CustomerNo,
-                                        Location=item.Location.ToString(),
-                                        BoxPosNo=item.BoxPosNo,
-                                        Note=item.Note,
-                                        Brand=item.Brand,
-                                        Decoration=item.Decoration,
-                                        MetalScan=item.MetalScan,
-                                        AveWeight1Prs=item.AveWeight1Prs,
-                                        StdNetWeight=item.StdNetWeight,
-                                        Tolerance=item.Tolerance,
-                                        BoxWeight=item.BoxWeight,
-                                        PackageWeight=item.PackageWeight,
-                                        StdGrossWeight=item.StdGrossWeight,
-                                        GrossWeight=item.GrossWeight,
-                                        NetWeight=item.NetWeight,
-                                        Deviation=item.Deviation,
-                                        Pass=item.Pass,
-                                        Status=item.Status,
-                                        CalculatedPairs=item.CalculatedPairs,
-                                        DeviationPairs=item.DeviationPairs,
-                                        CreatedDate=item.CreatedDate
+                                        BarcodeString = item.BarcodeString,
+                                        IdLable = item.IdLable,
+                                        OcNo = item.OcNo,
+                                        ProductNumber = item.ProductNumber,
+                                        ProductName = item.ProductName,
+                                        Quantity = item.Quantity,
+                                        LinePosNo = item.LinePosNo,
+                                        Unit = item.Unit,
+                                        BoxNo = item.BoxNo,
+                                        CustomerNo = item.CustomerNo,
+                                        Location = item.Location.ToString(),
+                                        BoxPosNo = item.BoxPosNo,
+                                        Note = item.Note,
+                                        Brand = item.Brand,
+                                        Decoration = item.Decoration,
+                                        MetalScan = item.MetalScan,
+                                        AveWeight1Prs = item.AveWeight1Prs,
+                                        StdNetWeight = item.StdNetWeight,
+                                        Tolerance = item.Tolerance,
+                                        BoxWeight = item.BoxWeight,
+                                        PackageWeight = item.PackageWeight,
+                                        StdGrossWeight = item.StdGrossWeight,
+                                        GrossWeight = item.GrossWeight,
+                                        NetWeight = item.NetWeight,
+                                        Deviation = item.Deviation,
+                                        Pass = item.Pass,
+                                        Status = item.Status,
+                                        CalculatedPairs = item.CalculatedPairs,
+                                        DeviationPairs = item.DeviationPairs,
+                                        CreatedDate = item.CreatedDate
                                     });
                                 }
                                 ws.Import(reportModel, 1, 0);
@@ -813,27 +832,27 @@ namespace WeightChecking
             while (true)
             {
                 #region Đọc các giá trị từ PLC
-                if (GlobalVariables.ModbusStatus)
-                {
-                    if (_resetCounter)
-                    {
-                        if (GlobalVariables.MyDriver.ModbusRTUMaster.WriteSingleCoil(1, 2, true))
-                        {
-                            System.Threading.Thread.Sleep(10);
-                            if (GlobalVariables.MyDriver.ModbusRTUMaster.WriteSingleCoil(1, 2, false))
-                            {
-                                _resetCounter = false;
-                            }
-                        }
-                    }
-                    //thanh ghi D0 cua PLC Delta DPV14SS2 co dia chi la 4596
-                    GlobalVariables.ModbusStatus = GlobalVariables.MyDriver.ModbusRTUMaster.ReadHoldingRegisters(1, 4596, 1, ref _readHoldingRegisterArr);
+                //if (GlobalVariables.ModbusStatus)
+                //{
+                //    //if (_resetCounter)
+                //    //{
+                //    //    if (GlobalVariables.MyDriver.ModbusRTUMaster.WriteSingleCoil(1, 2, true))
+                //    //    {
+                //    //        System.Threading.Thread.Sleep(10);
+                //    //        if (GlobalVariables.MyDriver.ModbusRTUMaster.WriteSingleCoil(1, 2, false))
+                //    //        {
+                //    //            _resetCounter = false;
+                //    //        }
+                //    //    }
+                //    //}
+                //    //thanh ghi D0 cua PLC Delta DPV14SS2 co dia chi la 4596
+                //    //GlobalVariables.ModbusStatus = GlobalVariables.MyDriver.ModbusRTUMaster.ReadHoldingRegisters(1, 4596, 1, ref _readHoldingRegisterArr);
 
-                    GlobalVariables.RememberInfo.CountMetalScan = GlobalVariables.MyDriver.GetUshortAt(_readHoldingRegisterArr, 0);
-                    //update gia tri count vao sự kiện để trong frmScal  nó update lên giao diện
-                    GlobalVariables.MyEvent.CountValue = GlobalVariables.RememberInfo.CountMetalScan;
-                }
-                else
+                //    //GlobalVariables.RememberInfo.CountMetalScan = GlobalVariables.MyDriver.GetUshortAt(_readHoldingRegisterArr, 0);
+                //    ////update gia tri count vao sự kiện để trong frmScal  nó update lên giao diện
+                //    //GlobalVariables.MyEvent.CountValue = GlobalVariables.RememberInfo.CountMetalScan;
+                //}
+                if (!GlobalVariables.ModbusStatus)
                 {
                     _countDisconnectPlc += 1;
                     if (_countDisconnectPlc >= 3)
@@ -845,7 +864,7 @@ namespace WeightChecking
                 }
                 #endregion
 
-                System.Threading.Thread.Sleep(100);
+                System.Threading.Thread.Sleep(1000);
             }
         }
     }

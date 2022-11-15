@@ -9,7 +9,6 @@ namespace WeightChecking
     public class RefreshEvent
     {
         private bool _refreshStatus = false;
-
         public bool RefreshStatus
         {
             get => _refreshStatus;
@@ -42,7 +41,8 @@ namespace WeightChecking
         }
 
         private bool _refreshReport = false;
-        public bool RefreshReport {
+        public bool RefreshReport
+        {
             get => _refreshReport;
             set
             {
@@ -55,7 +55,8 @@ namespace WeightChecking
         }
 
         private event EventHandler _eventHandlerRefreshReport;
-        public event  EventHandler EventHandlerRefreshReport {
+        public event EventHandler EventHandlerRefreshReport
+        {
             add
             {
                 _eventHandlerRefreshReport += value;
@@ -105,6 +106,37 @@ namespace WeightChecking
             _eventHandlerCount?.Invoke(this, new CountValueChangedEventArgs(value));
         }
         #endregion
+
+        #region Event PLC on/off light
+        private bool _statusLightPLC = false;
+        public bool StatusLightPLC
+        {
+            get => _statusLightPLC;
+            set
+            {
+                _statusLightPLC = value;
+                OnStatusLightPlcAction(value);
+            }
+        }
+
+        private event EventHandler<CountValueChangedEventArgs> _eventHandleStatusLightPLC;
+        public event EventHandler<CountValueChangedEventArgs> EventHandleStatusLightPLC
+        {
+            add
+            {
+                _eventHandleStatusLightPLC += value;
+            }
+            remove
+            {
+                _eventHandleStatusLightPLC -= value;
+            }
+        }
+
+        void OnStatusLightPlcAction(bool value)
+        {
+            _eventHandleStatusLightPLC?.Invoke(this, new CountValueChangedEventArgs(value));
+        }
+        #endregion
     }
 
     public class CountValueChangedEventArgs : EventArgs
@@ -112,9 +144,17 @@ namespace WeightChecking
         private int _countValue = 0;
         public int CountValue { get => _countValue; set => _countValue = value; }
 
+        private bool _statusLight = false;
+        public bool StatusLight { get => _statusLight; set => _statusLight = value; }
+
         public CountValueChangedEventArgs(int value)
         {
             _countValue = value;
+        }
+
+        public CountValueChangedEventArgs(bool value)
+        {
+            _statusLight = value;
         }
     }
 }
