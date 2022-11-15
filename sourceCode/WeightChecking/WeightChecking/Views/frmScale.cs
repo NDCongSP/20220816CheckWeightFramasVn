@@ -292,6 +292,7 @@ namespace WeightChecking
             _scanData.GrossWeight = double.TryParse(labScaleValue.Text, out double value) ? value : 0;
             GlobalVariables.RealWeight = _scanData.GrossWeight;
             _scanData.CreatedBy = GlobalVariables.UserLoginInfo.Id;
+            _scanData.Station = StationEnum.fVNKerry;
 
             if (e.KeyCode == Keys.Enter)
             {
@@ -675,7 +676,10 @@ namespace WeightChecking
 
                             //thung hang Pass
                             if (_scanData.DeviationPairs == 0)
-                            {
+                            {  
+                                //bật tín hiệu để PLC on đèn xanh
+                                GlobalVariables.MyEvent.StatusLightPLC = true;
+
                                 if (_scanData.Decoration == 0)
                                 {
                                     GlobalVariables.RememberInfo.GoodBoxPrinting += 1;
@@ -708,12 +712,12 @@ namespace WeightChecking
                                 //Printing
                                 GlobalVariables.Printing((_scanData.GrossWeight / 1000).ToString("#,#0.00")
                                             , !string.IsNullOrEmpty(GlobalVariables.IdLabel) ? GlobalVariables.IdLabel : $"{_scanData.OcNo}|{_scanData.BoxNo}", true);
-                                
-                                //bật tín hiệu để PLC on đèn xanh
-
                             }
                             else//thung fail
                             {
+                                //bat event báo den loi
+                                GlobalVariables.MyEvent.StatusLightPLC = false;
+
                                 _scanData.Pass = 0;
                                 _scanData.Status = 0;
 
@@ -872,7 +876,7 @@ namespace WeightChecking
                             para.Add("CalculatedPairs", _scanData.CalculatedPairs);
                             para.Add("DeviationPairs", _scanData.DeviationPairs);
                             para.Add("CreatedBy", _scanData.CreatedBy);
-                            para.Add("Station", _scanData.CreatedBy);
+                            para.Add("Station", _scanData.Station);
 
                             var insertResult = connection.Execute("sp_tblScanDataInsert", para, commandType: CommandType.StoredProcedure);
                             #endregion
