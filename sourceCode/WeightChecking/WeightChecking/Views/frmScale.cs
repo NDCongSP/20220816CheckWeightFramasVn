@@ -292,7 +292,7 @@ namespace WeightChecking
             _scanData.GrossWeight = double.TryParse(labScaleValue.Text, out double value) ? value : 0;
             GlobalVariables.RealWeight = _scanData.GrossWeight;
             _scanData.CreatedBy = GlobalVariables.UserLoginInfo.Id;
-            _scanData.Station = StationEnum.fVNAfterPrinting;
+            _scanData.Station = StationEnum.fVNBeforePrinting;
 
             if (e.KeyCode == Keys.Enter)
             {
