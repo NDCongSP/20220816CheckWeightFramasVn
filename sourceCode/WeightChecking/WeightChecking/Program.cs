@@ -80,7 +80,8 @@ namespace WeightChecking
                 AutoUpdater.ApplicationExitEvent += AutoUpdater_ApplicationExitEvent;
                 AutoUpdater.CheckForUpdateEvent += AutoUpdater_CheckForUpdateEvent;
                 AutoUpdater.Start(Properties.Settings.Default.UpdatePath);
-                Application.Run(new Login());
+                //Application.Run(new Login());
+                Application.Run(new frmMain());
 
             }
         }
