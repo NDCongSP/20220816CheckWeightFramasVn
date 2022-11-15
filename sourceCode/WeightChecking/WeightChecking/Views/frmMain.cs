@@ -712,7 +712,7 @@ namespace WeightChecking
                                 para.Add("@MetalScan", item.MetalScan);
                                 para.Add("@Color", item.Color);
                                 para.Add("@Printing", item.Printing);
-                                para.Add("@Date", item.Date);
+                                //para.Add("@Date", item.Date);
                                 para.Add("@Size", item.Size);
                                 para.Add("@AveWeight1Prs", item.AveWeight1Prs);
                                 para.Add("@BoxQtyBx1", item.BoxQtyBx1);
@@ -737,6 +737,8 @@ namespace WeightChecking
                         }
                     }
                     #endregion
+
+                    GlobalVariables.MyEvent.RefreshStatus = true;
                 }
             }
             catch (Exception ex)
