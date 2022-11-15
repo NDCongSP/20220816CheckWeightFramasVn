@@ -292,6 +292,7 @@ namespace WeightChecking
             _scanData.GrossWeight = double.TryParse(labScaleValue.Text, out double value) ? value : 0;
             GlobalVariables.RealWeight = _scanData.GrossWeight;
             _scanData.CreatedBy = GlobalVariables.UserLoginInfo.Id;
+            _scanData.Station = StationEnum.fVNAfterPrinting;
 
             if (e.KeyCode == Keys.Enter)
             {
@@ -871,6 +872,7 @@ namespace WeightChecking
                             para.Add("CalculatedPairs", _scanData.CalculatedPairs);
                             para.Add("DeviationPairs", _scanData.DeviationPairs);
                             para.Add("CreatedBy", _scanData.CreatedBy);
+                            para.Add("Station", _scanData.Station);
 
                             var insertResult = connection.Execute("sp_tblScanDataInsert", para, commandType: CommandType.StoredProcedure);
                             #endregion
