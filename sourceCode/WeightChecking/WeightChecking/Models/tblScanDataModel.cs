@@ -46,6 +46,5 @@ namespace WeightChecking
         public int CalculatedPairs { get; set; }
         public int DeviationPairs { get; set; } = 0;//thể hiện số pairs bị thiếu.
         public StationEnum Station { get; set; }
-
     }
 }

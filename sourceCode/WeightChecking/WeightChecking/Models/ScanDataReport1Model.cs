@@ -39,9 +39,9 @@ namespace WeightChecking
         //Khi hàng đi sơn về, vào trạm check afterPrinting, quét OK set =2
         public int Status { get; set; }
 
-        public DateTime CreatedDate { get; set; }
         public int CalculatedPairs { get; set; }
         public int DeviationPairs { get; set; } = 0;//thể hiện số pairs bị thiếu.
-
+        public DateTime CreatedDate { get; set; }
+        public string Station { get; set; }
     }
 }
