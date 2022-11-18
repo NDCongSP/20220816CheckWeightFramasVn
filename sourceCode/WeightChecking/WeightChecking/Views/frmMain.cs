@@ -184,7 +184,6 @@ namespace WeightChecking
 
                 ribbonControl1.SelectedPage = ribbonPageReports;
                 ribbonPageMasterData.Visible = false;
-                ribbonPageGroupHome.Visible = false;
             }
             #endregion
 
