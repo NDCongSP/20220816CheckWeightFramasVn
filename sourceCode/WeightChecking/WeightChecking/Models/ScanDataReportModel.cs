@@ -37,11 +37,10 @@ namespace WeightChecking
         //Báo trạng thái: 0- thùng fail; 1- chờ đi sơn; 2- Done hàng FG qua kho Kerry.
         //Ở trạm IDC check nêu hàng noPrinting thì set =2. nếu printing set =1.
         //Khi hàng đi sơn về, vào trạm check afterPrinting, quét OK set =2
-        public int Status { get; set; }
-
-        public DateTime CreatedDate { get; set; }
+        public int Status { get; set; }        
         public int CalculatedPairs { get; set; }
         public int DeviationPairs { get; set; } = 0;//thể hiện số pairs bị thiếu.
-
+        public DateTime CreatedDate { get; set; }
+        public StationEnum Station { get; set; }
     }
 }

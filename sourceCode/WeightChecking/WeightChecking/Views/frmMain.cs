@@ -278,8 +278,9 @@ namespace WeightChecking
                                 ws.Cells[0, 27].Value = "CalculatedPairs";
                                 ws.Cells[0, 28].Value = "DeviationPairs";
                                 ws.Cells[0, 29].Value = "CreatedDate";
+                                ws.Cells[0, 30].Value = "Station";
 
-                                CellRange rHeader = ws.Range.FromLTRB(0, 0, 29, 0);//Col-Row;Col-Row. do created new WB nen ko lây theo hàng cot chũ cái đc
+                                CellRange rHeader = ws.Range.FromLTRB(0, 0, 30, 0);//Col-Row;Col-Row. do created new WB nen ko lây theo hàng cot chũ cái đc
                                 rHeader.FillColor = Color.Orange;
                                 rHeader.Alignment.Horizontal = SpreadsheetHorizontalAlignment.Center;
                                 rHeader.Alignment.Vertical = SpreadsheetVerticalAlignment.Center;
@@ -318,19 +319,21 @@ namespace WeightChecking
                                         Status=item.Status,
                                         CalculatedPairs=item.CalculatedPairs,
                                         DeviationPairs=item.DeviationPairs,
-                                        CreatedDate=item.CreatedDate
+                                        CreatedDate=item.CreatedDate,
+                                        Station = item.Station.ToString(),
                                     });
                                 }
                                 ws.Import(reportModel, 1, 0);
 
-                                ws.Range[$"G2:G{res.Count}"].NumberFormat = "#,#0.00";
-                                ws.Range[$"AB2:AB{res.Count}"].NumberFormat = "yyyy/MM/dd HH:mm:ss";
+                                ws.Range[$"Q2:Y{res.Count}"].NumberFormat = "#,#0.00";
+                                ws.Range[$"AB2:AC{res.Count}"].NumberFormat = "#,#0";
+                                ws.Range[$"AD2:AD{res.Count}"].NumberFormat = "yyyy/MM/dd HH:mm:ss";
 
-                                ws.Range.FromLTRB(0, 0, 29, res.Count).Borders.SetAllBorders(Color.Black, BorderLineStyle.Thin);
+                                ws.Range.FromLTRB(0, 0, 30, res.Count).Borders.SetAllBorders(Color.Black, BorderLineStyle.Thin);
                                 //ws.FreezeRows(0);
                                 //ws.FreezeColumns(3);
                                 ws.FreezePanes(0, 3);
-                                ws.Columns.AutoFit(0, 29);
+                                ws.Columns.AutoFit(0, 30);
 
                                 wb.SaveDocument(sfd.FileName);
 
