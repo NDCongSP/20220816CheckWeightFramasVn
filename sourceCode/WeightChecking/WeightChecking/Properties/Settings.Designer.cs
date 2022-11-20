@@ -124,5 +124,17 @@ namespace WeightChecking.Properties {
                 this["IsCounter"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("0")]
+        public int Station {
+            get {
+                return ((int)(this["Station"]));
+            }
+            set {
+                this["Station"] = value;
+            }
+        }
     }
 }

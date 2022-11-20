@@ -32,11 +32,15 @@ namespace WeightChecking
         public double BoxWeightBx3 { get; set; }
         public double BoxWeightBx4 { get; set; }
         public int PartitionQty { get; set; }
-        public int PlasicBagQty { get; set; }
+        public int PlasicBag1Qty { get; set; }
+        public int PlasicBag2Qty { get; set; }
         public int WrapSheetQty { get; set; }
+        public int FoamSheetQty { get; set; }
         public double PartitionWeight { get; set; }
-        public double PlasicBagWeight { get; set; }
+        public double PlasicBag1Weight { get; set; }
+        public double PlasicBag2Weight { get; set; }
         public double WrapSheetWeight { get; set; }
+        public double FoamSheetWeight { get; set; }
         public double PlasicBoxWeight { get; set; }
         public double Tolerance { get; set; }
         public double ToleranceAfterPrint { get; set; }

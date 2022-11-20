@@ -32,6 +32,19 @@ namespace WeightChecking
             GlobalVariables.IsScale = Properties.Settings.Default.IsScale;
             GlobalVariables.IsCounter = Properties.Settings.Default.IsCounter;
 
+            if (Properties.Settings.Default.Station ==0)
+            {
+                GlobalVariables.Station = StationEnum.fVNAfterPrinting;
+            }
+            else if (Properties.Settings.Default.Station == 1)
+            {
+                GlobalVariables.Station = StationEnum.fVNBeforePrinting;
+            }
+           else if (Properties.Settings.Default.Station == 2)
+            {
+                GlobalVariables.Station = StationEnum.fVNKerry;
+            }
+
             Console.WriteLine($"Path app: {Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location)}");
 
             GlobalVariables.RememberInfo = JsonConvert.DeserializeObject<RememberInfo>(File.ReadAllText(@"./RememberInfo.json"));

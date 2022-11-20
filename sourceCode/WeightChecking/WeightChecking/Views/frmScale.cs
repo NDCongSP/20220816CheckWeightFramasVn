@@ -292,7 +292,10 @@ namespace WeightChecking
             _scanData.GrossWeight = double.TryParse(labScaleValue.Text, out double value) ? value : 0;
             GlobalVariables.RealWeight = _scanData.GrossWeight;
             _scanData.CreatedBy = GlobalVariables.UserLoginInfo.Id;
-            _scanData.Station = StationEnum.fVNBeforePrinting;
+            _scanData.Station = GlobalVariables.Station;
+
+            bool specialCase = false;//dùng có các trường hợp hàng PU, trên WL decpration là 0, nhưng QC phân ra printing 0-1. beforePrinting thì get theo
+                                     //printing=0; afterPrinting thì get theo printing=1. 6112012228
 
             if (e.KeyCode == Keys.Enter)
             {
@@ -308,6 +311,11 @@ namespace WeightChecking
                     _plr = s1[4];//get Thung này đóng theo đôi (P) hay L/R
                     _scanData.OcNo = s1[0];
                     _scanData.ProductNumber = s1[1];
+
+                    if (_scanData.ProductNumber.Contains("6112012228-"))
+                    {
+                        specialCase = true;
+                    }
 
                     _scanData.Quantity = Convert.ToInt32(s1[2]);
                     _scanData.LinePosNo = s1[3];
@@ -374,6 +382,21 @@ namespace WeightChecking
                 {
                     var para = new DynamicParameters();
                     para.Add("@ProductNumber", _scanData.ProductNumber);
+                    para.Add("@SpecialCase", specialCase);
+
+                    if (specialCase)
+                    {
+                        //after printing
+                        if (_scanData.OcNo.Contains("OPRT") || _scanData.OcNo.Contains("OC") || _scanData.OcNo.Contains("CLA"))
+                        {
+                            para.Add("@Printing", 1);//0 or 1, tùy theo hàng trước sơn hay sau sơn
+                        }
+                        //before printing
+                        else if (_scanData.OcNo.Contains("PRT"))
+                        {
+                            para.Add("@Printing", 0);//0 or 1, tùy theo hàng trước sơn hay sau sơn
+                        }
+                    }
 
                     var res = connection.Query<ProductInfoModel>("sp_vProductItemInfoGet", para, commandType: CommandType.StoredProcedure).FirstOrDefault();
 
@@ -496,10 +519,11 @@ namespace WeightChecking
                             //luu ý các Quantity partition-Plasic-WrapSheet trên DB nó là tính số Prs
                             //sau khi đọc về phải lấy QtyPrs quét trên label / Quantity partition-Plasic-WrapSheet ==> qty * weight ==> Weight packing accessories
                             var partitionWeight = res.PartitionQty != 0 ? (_scanData.Quantity / res.PartitionQty) * res.PartitionWeight : 0;
-                            var plasicBagWeight = res.PlasicBagQty != 0 ? (_scanData.Quantity / res.PlasicBagQty) * res.PlasicBagWeight : 0;
+                            var plasicBagWeight = res.PlasicBag1Qty != 0 ? (_scanData.Quantity / res.PlasicBag1Qty) * res.PlasicBag1Weight : 0;
                             var wrapSheetWeight = res.WrapSheetQty != 0 ? (_scanData.Quantity / res.WrapSheetQty) * res.WrapSheetWeight : 0;
+                            var foamSheetWeight = res.FoamSheetQty != 0 ? (_scanData.Quantity / res.FoamSheetQty) * res.FoamSheetWeight : 0;
 
-                            _scanData.PackageWeight = Math.Round(partitionWeight + plasicBagWeight + wrapSheetWeight, 3);
+                            _scanData.PackageWeight = Math.Round(partitionWeight + plasicBagWeight + wrapSheetWeight + foamSheetWeight, 3);
 
                             _scanData.StdGrossWeight = Math.Round(_scanData.StdNetWeight + _scanData.PackageWeight + _scanData.BoxWeight, 3);
 

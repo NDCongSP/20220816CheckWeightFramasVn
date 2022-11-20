@@ -83,6 +83,7 @@ namespace WeightChecking
 
         public static bool IsScale { get; set; } = false;
         public static bool IsCounter { get; set; } = false;
+        public static StationEnum Station { get; set; }
         #endregion
     }
 }

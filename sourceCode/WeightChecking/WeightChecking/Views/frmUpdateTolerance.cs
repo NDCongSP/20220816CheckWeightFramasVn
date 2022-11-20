@@ -53,8 +53,8 @@ namespace WeightChecking
                     txtBoxWeightBx4.Text = _info.BoxWeightBx4.ToString();
                     txtPartitionQty.Text = _info.PartitionQty.ToString();
                     txtPartitionWeight.Text = _info.PartitionWeight.ToString();
-                    txtPlasicQty.Text = _info.PlasicBagQty.ToString();
-                    txtPlasicWeight.Text = _info.PlasicBagWeight.ToString();
+                    txtPlasicQty.Text = _info.PlasicBag1Qty.ToString();
+                    txtPlasicWeight.Text = _info.PlasicBag1Weight.ToString();
                     txtWrapSheetQty.Text = _info.WrapSheetQty.ToString();
                     txtWrapSheetWeight.Text = _info.WrapSheetWeight.ToString();
                     txtPlasicBoxWeight.Text = _info.PlasicBoxWeight.ToString();
@@ -149,7 +149,7 @@ namespace WeightChecking
                 TextEdit t = (TextEdit)s;
                 if (!string.IsNullOrEmpty(t.Text))
                 {
-                    _info.PlasicBagQty = int.TryParse(t.Text, out int value) ? value : 0;
+                    _info.PlasicBag1Qty = int.TryParse(t.Text, out int value) ? value : 0;
                 }
             };
             this.txtWrapSheetQty.TextChanged += (s, o) => {
@@ -171,7 +171,7 @@ namespace WeightChecking
                 TextEdit t = (TextEdit)s;
                 if (!string.IsNullOrEmpty(t.Text))
                 {
-                    _info.PlasicBagWeight = double.TryParse(t.Text, out double value) ? value : 0;
+                    _info.PlasicBag1Weight = double.TryParse(t.Text, out double value) ? value : 0;
                 }
             };
             this.txtWrapSheetWeight.TextChanged += (s, o) => {
@@ -222,10 +222,10 @@ namespace WeightChecking
                     para.Add("@BoxWeightBx3", _info.BoxWeightBx3);
                     para.Add("@BoxWeightBx4", _info.BoxWeightBx4);
                     para.Add("@PartitionQty", _info.PartitionQty);
-                    para.Add("@PlasicBagQty", _info.PlasicBagQty);
+                    para.Add("@PlasicBagQty", _info.PlasicBag1Qty);
                     para.Add("@WrapSheetQty", _info.WrapSheetQty);
                     para.Add("@PartitionWeight", _info.PartitionWeight);
-                    para.Add("@PlasicBagWeight", _info.PlasicBagWeight);
+                    para.Add("@PlasicBagWeight", _info.PlasicBag1Weight);
                     para.Add("@WrapSheetWeight", _info.WrapSheetWeight);
                     para.Add("@PlasicBoxWeight", _info.PlasicBoxWeight);
                     para.Add("@Tolerance", _info.Tolerance);

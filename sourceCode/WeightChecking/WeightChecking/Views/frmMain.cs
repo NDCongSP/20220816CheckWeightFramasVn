@@ -654,10 +654,14 @@ namespace WeightChecking
                                         BoxWeightBx3 = _row[$"U{i}"].Value.NumericValue,
                                         BoxWeightBx4 = _row[$"V{i}"].Value.NumericValue,
                                         PartitionQty = (int)_row[$"W{i}"].Value.NumericValue,
-                                        PlasicBagQty = (int)_row[$"X{i}"].Value.NumericValue,
-                                        WrapSheetQty = (int)_row[$"Y{i}"].Value.NumericValue,
-                                        PlasicBagWeight = _row[$"AB{i}"].Value.NumericValue,
-                                        WrapSheetWeight = _row[$"AC{i}"].Value.NumericValue
+                                        PlasicBag1Qty = (int)_row[$"X{i}"].Value.NumericValue,
+                                        PlasicBag2Qty = (int)_row[$"Y{i}"].Value.NumericValue,
+                                        WrapSheetQty = (int)_row[$"Z{i}"].Value.NumericValue,
+                                        FoamSheetQty = (int)_row[$"AA{i}"].Value.NumericValue,
+                                        PlasicBag1Weight = _row[$"AF{i}"].Value.NumericValue,
+                                        PlasicBag2Weight = _row[$"AG{i}"].Value.NumericValue,
+                                        WrapSheetWeight = _row[$"AH{i}"].Value.NumericValue,
+                                        FoamSheetWeight = _row[$"AI{i}"].Value.NumericValue
                                     }); ;
                                 }
                             }
@@ -697,11 +701,15 @@ namespace WeightChecking
                                 para.Add("@BoxWeightBx3", item.BoxWeightBx3);
                                 para.Add("@BoxWeightBx4", item.BoxWeightBx4);
                                 para.Add("@PartitionQty", item.PartitionQty);
-                                para.Add("@PlasicBagQty", item.PlasicBagQty);
+                                para.Add("@PlasicBag1Qty", item.PlasicBag1Qty);
+                                para.Add("@PlasicBag2Qty", item.PlasicBag2Qty);
                                 para.Add("@WrapSheetQty", item.WrapSheetQty);
+                                para.Add("@FoamSheetQty", item.FoamSheetQty);
                                 para.Add("@PartitionWeight", item.PartitionWeight);
-                                para.Add("@PlasicBagWeight", item.PlasicBagWeight);
+                                para.Add("@PlasicBag1Weight", item.PlasicBag1Weight);
+                                para.Add("@PlasicBag2Weight", item.PlasicBag2Weight);
                                 para.Add("@WrapSheetWeight", item.WrapSheetWeight);
+                                para.Add("@FoamSheetWeight", item.FoamSheetWeight);
                                 para.Add("@PlasicBoxWeight", item.PlasicBoxWeight);
                                 para.Add("@Tolerance", item.Tolerance);
                                 para.Add("@ToleranceAfterPrint", item.ToleranceAfterPrint);
@@ -726,11 +734,15 @@ namespace WeightChecking
                                 para.Add("@BoxWeightBx3", item.BoxWeightBx3);
                                 para.Add("@BoxWeightBx4", item.BoxWeightBx4);
                                 para.Add("@PartitionQty", item.PartitionQty);
-                                para.Add("@PlasicBagQty", item.PlasicBagQty);
+                                para.Add("@PlasicBag1Qty", item.PlasicBag1Qty);
+                                para.Add("@PlasicBag2Qty", item.PlasicBag2Qty);
                                 para.Add("@WrapSheetQty", item.WrapSheetQty);
+                                para.Add("@FoamSheetQty", item.FoamSheetQty);
                                 para.Add("@PartitionWeight", item.PartitionWeight);
-                                para.Add("@PlasicBagWeight", item.PlasicBagWeight);
+                                para.Add("@PlasicBag1Weight", item.PlasicBag1Weight);
+                                para.Add("@PlasicBag2Weight", item.PlasicBag2Weight);
                                 para.Add("@WrapSheetWeight", item.WrapSheetWeight);
+                                para.Add("@FoamSheetWeight", item.FoamSheetWeight);
                                 para.Add("@PlasicBoxWeight", item.PlasicBoxWeight);
                                 para.Add("@Tolerance", item.Tolerance);
                                 para.Add("@ToleranceAfterPrint", item.ToleranceAfterPrint);
