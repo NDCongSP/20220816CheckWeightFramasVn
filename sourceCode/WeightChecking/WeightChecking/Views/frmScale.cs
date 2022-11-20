@@ -312,6 +312,7 @@ namespace WeightChecking
                     _scanData.OcNo = s1[0];
                     _scanData.ProductNumber = s1[1];
 
+                    //Special case
                     if (_scanData.ProductNumber.Contains("6112012228-"))
                     {
                         specialCase = true;
