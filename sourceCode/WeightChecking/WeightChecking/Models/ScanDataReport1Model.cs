@@ -42,5 +42,6 @@ namespace WeightChecking
         public int DeviationPairs { get; set; } = 0;//thể hiện số pairs bị thiếu.
         public DateTime CreatedDate { get; set; }
         public string Station { get; set; }
+        public string UserName { get; set; }
     }
 }

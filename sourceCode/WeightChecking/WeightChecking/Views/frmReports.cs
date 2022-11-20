@@ -18,6 +18,7 @@ namespace WeightChecking
     {
         public string FromDate { get; set; }
         public string ToDate { get; set; }
+        public string Station { get; set; } = "All";
 
         public frmReports()
         {
@@ -46,6 +47,7 @@ namespace WeightChecking
                     var parametters = new DynamicParameters();
                     parametters.Add("FromDate", FromDate);
                     parametters.Add("ToDate", ToDate);
+                    parametters.Add("Station", Station);
 
                     var res = connection.Query<tblScanDataModel>("sp_tblScanDataGets",parametters,commandType:CommandType.StoredProcedure).ToList();
 

@@ -44,6 +44,8 @@ namespace WeightChecking
         private System.Threading.Tasks.Task _tskModbus;
 
         private bool _resetCounter = false;
+
+        string _stationReport = "All";
         #endregion
 
         public frmMain()
@@ -208,8 +210,16 @@ namespace WeightChecking
             #endregion
 
             this._barEditItemFromDate.EditValue = this._barEditItemToDate.EditValue = DateTime.Now;
+
+            this._barEditItemCombStation.EditValueChanged += _barEditItemCombStation_EditValueChanged;
+            this._barEditItemCombStation.EditValue ="All";
             _timer.Enabled = true;
             _timer.Tick += _timer_Tick;
+        }
+
+        private void _barEditItemCombStation_EditValueChanged(object sender, EventArgs e)
+        {
+            _stationReport = _barEditItemCombStation.EditValue.ToString();
         }
 
         private void _barButtonItemExportExcel_ItemClick(object sender, DevExpress.XtraBars.ItemClickEventArgs e)
@@ -230,12 +240,14 @@ namespace WeightChecking
 
                         var fromDate = (DateTime)_barEditItemFromDate.EditValue;
                         var toDate = (DateTime)_barEditItemToDate.EditValue;
+                        //var station = _barEditItemCombStation.EditValue.ToString();
 
                         using (var connection = GlobalVariables.GetDbConnection())
                         {
                             var parametters = new DynamicParameters();
                             parametters.Add("FromDate", fromDate.ToString("yyyy/MM/dd 00:00:00"));
                             parametters.Add("ToDate", toDate.ToString("yyyy/MM/dd 23:59:59"));
+                            parametters.Add("Station", _stationReport);
 
                             var reportModel = new List<ScanDataReport1Model>();
                             var res = connection.Query<ScanDataReportModel>("sp_tblScanDataGets", parametters, commandType: CommandType.StoredProcedure).ToList();
@@ -278,8 +290,9 @@ namespace WeightChecking
                                 ws.Cells[0, 28].Value = "DeviationPairs";
                                 ws.Cells[0, 29].Value = "CreatedDate";
                                 ws.Cells[0, 30].Value = "Station";
+                                ws.Cells[0, 31].Value = "UserName";
 
-                                CellRange rHeader = ws.Range.FromLTRB(0, 0, 30, 0);//Col-Row;Col-Row. do created new WB nen ko lây theo hàng cot chũ cái đc
+                                CellRange rHeader = ws.Range.FromLTRB(0, 0, 31, 0);//Col-Row;Col-Row. do created new WB nen ko lây theo hàng cot chũ cái đc
                                 rHeader.FillColor = Color.Orange;
                                 rHeader.Alignment.Horizontal = SpreadsheetHorizontalAlignment.Center;
                                 rHeader.Alignment.Vertical = SpreadsheetVerticalAlignment.Center;
@@ -320,6 +333,7 @@ namespace WeightChecking
                                         DeviationPairs=item.DeviationPairs,
                                         CreatedDate=item.CreatedDate,
                                         Station = item.Station.ToString(),
+                                        UserName=item.UserName
                                     });
                                 }
                                 ws.Import(reportModel, 1, 0);
@@ -328,11 +342,11 @@ namespace WeightChecking
                                 ws.Range[$"AB2:AC{res.Count}"].NumberFormat = "#,#0";
                                 ws.Range[$"AD2:AD{res.Count}"].NumberFormat = "yyyy/MM/dd HH:mm:ss";
 
-                                ws.Range.FromLTRB(0, 0, 30, res.Count).Borders.SetAllBorders(Color.Black, BorderLineStyle.Thin);
+                                ws.Range.FromLTRB(0, 0, 31, res.Count).Borders.SetAllBorders(Color.Black, BorderLineStyle.Thin);
                                 //ws.FreezeRows(0);
                                 //ws.FreezeColumns(3);
                                 ws.FreezePanes(0, 3);
-                                ws.Columns.AutoFit(0, 30);
+                                ws.Columns.AutoFit(0, 31);
 
                                 wb.SaveDocument(sfd.FileName);
 
@@ -371,6 +385,8 @@ namespace WeightChecking
                     _frmReports = new frmReports();
                     _frmReports.FromDate = fromDate.ToString("yyyy/MM/dd 00:00:00");
                     _frmReports.ToDate = toDate.ToString("yyyy/MM/dd 23:59:59");
+                    _frmReports.Station = _stationReport;
+
                     tabbedView1.AddDocument(_frmReports);
                     tabbedView1.ActivateDocument(_frmReports);
                 }
@@ -378,6 +394,8 @@ namespace WeightChecking
                 {
                     _frmReports.FromDate = fromDate.ToString("yyyy/MM/dd 00:00:00");
                     _frmReports.ToDate = toDate.ToString("yyyy/MM/dd 23:59:59");
+                    _frmReports.Station = _stationReport;
+
                     tabbedView1.ActivateDocument(_frmReports);
                     GlobalVariables.MyEvent.RefreshReport = true;
                 }

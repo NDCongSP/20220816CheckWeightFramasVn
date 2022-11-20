@@ -60,6 +60,8 @@ namespace WeightChecking
             this.documentManager1 = new DevExpress.XtraBars.Docking2010.DocumentManager(this.components);
             this.tabbedView1 = new DevExpress.XtraBars.Docking2010.Views.Tabbed.TabbedView(this.components);
             this.dockManager1 = new DevExpress.XtraBars.Docking.DockManager(this.components);
+            this._barEditItemCombStation = new DevExpress.XtraBars.BarEditItem();
+            this.repositoryItemComboBox1 = new DevExpress.XtraEditors.Repository.RepositoryItemComboBox();
             ((System.ComponentModel.ISupportInitialize)(this.ribbonControl1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.repositoryItemDateEdit1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.repositoryItemDateEdit1.CalendarTimeProperties)).BeginInit();
@@ -68,6 +70,7 @@ namespace WeightChecking
             ((System.ComponentModel.ISupportInitialize)(this.documentManager1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.tabbedView1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dockManager1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.repositoryItemComboBox1)).BeginInit();
             this.SuspendLayout();
             // 
             // ribbonControl1
@@ -89,9 +92,10 @@ namespace WeightChecking
             this._barButtonItemExportExcel,
             this._barEditItemFromDate,
             this._barEditItemToDate,
-            this.barStaticItemVersion});
+            this.barStaticItemVersion,
+            this._barEditItemCombStation});
             this.ribbonControl1.Location = new System.Drawing.Point(0, 0);
-            this.ribbonControl1.MaxItemId = 18;
+            this.ribbonControl1.MaxItemId = 19;
             this.ribbonControl1.Name = "ribbonControl1";
             this.ribbonControl1.Pages.AddRange(new DevExpress.XtraBars.Ribbon.RibbonPage[] {
             this.ribbonPageHome,
@@ -99,7 +103,8 @@ namespace WeightChecking
             this.ribbonPageReports});
             this.ribbonControl1.RepositoryItems.AddRange(new DevExpress.XtraEditors.Repository.RepositoryItem[] {
             this.repositoryItemDateEdit1,
-            this.repositoryItemDateEdit2});
+            this.repositoryItemDateEdit2,
+            this.repositoryItemComboBox1});
             this.ribbonControl1.Size = new System.Drawing.Size(1918, 177);
             this.ribbonControl1.StatusBar = this.ribbonStatusBar1;
             // 
@@ -294,6 +299,7 @@ namespace WeightChecking
             // 
             this.ribbonPageGroupFilter.ItemLinks.Add(this._barEditItemFromDate);
             this.ribbonPageGroupFilter.ItemLinks.Add(this._barEditItemToDate);
+            this.ribbonPageGroupFilter.ItemLinks.Add(this._barEditItemCombStation);
             this.ribbonPageGroupFilter.Name = "ribbonPageGroupFilter";
             this.ribbonPageGroupFilter.Text = "Filters";
             // 
@@ -343,6 +349,28 @@ namespace WeightChecking
             "DevExpress.XtraBars.FluentDesignSystem.FluentDesignFormControl",
             "DevExpress.XtraBars.ToolbarForm.ToolbarFormControl"});
             // 
+            // _barEditItemCombStation
+            // 
+            this._barEditItemCombStation.Caption = "Station    ";
+            this._barEditItemCombStation.Edit = this.repositoryItemComboBox1;
+            this._barEditItemCombStation.EditWidth = 200;
+            this._barEditItemCombStation.Id = 18;
+            this._barEditItemCombStation.ImageOptions.SvgImage = ((DevExpress.Utils.Svg.SvgImage)(resources.GetObject("_barEditItemCombStation.ImageOptions.SvgImage")));
+            this._barEditItemCombStation.Name = "_barEditItemCombStation";
+            // 
+            // repositoryItemComboBox1
+            // 
+            this.repositoryItemComboBox1.AutoHeight = false;
+            this.repositoryItemComboBox1.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
+            new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
+            this.repositoryItemComboBox1.Items.AddRange(new object[] {
+            "All",
+            "fVN After Printing",
+            "fVN Before Printing",
+            "fVN Kerry"});
+            this.repositoryItemComboBox1.Name = "repositoryItemComboBox1";
+            this.repositoryItemComboBox1.TextEditStyle = DevExpress.XtraEditors.Controls.TextEditStyles.DisableTextEditor;
+            // 
             // frmMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -366,6 +394,7 @@ namespace WeightChecking
             ((System.ComponentModel.ISupportInitialize)(this.documentManager1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.tabbedView1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.dockManager1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.repositoryItemComboBox1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -402,6 +431,8 @@ namespace WeightChecking
         private DevExpress.XtraEditors.Repository.RepositoryItemDateEdit repositoryItemDateEdit2;
         private DevExpress.XtraBars.Ribbon.RibbonPageGroup _ribbonPageGroupActions;
         private DevExpress.XtraBars.BarStaticItem barStaticItemVersion;
+        private DevExpress.XtraBars.BarEditItem _barEditItemCombStation;
+        private DevExpress.XtraEditors.Repository.RepositoryItemComboBox repositoryItemComboBox1;
     }
 }
 

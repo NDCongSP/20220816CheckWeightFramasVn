@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -41,8 +42,11 @@ namespace WeightChecking
         public int Status { get; set; }
 
         public DateTime CreatedDate { get; set; }
+        [Browsable(false)]
         public int Actived { get; set; }
+        [Browsable(false)]
         public Guid CreatedBy { get; set; }
+        public string UserName { get; set; }
         public int CalculatedPairs { get; set; }
         public int DeviationPairs { get; set; } = 0;//thể hiện số pairs bị thiếu.
         public StationEnum Station { get; set; }
