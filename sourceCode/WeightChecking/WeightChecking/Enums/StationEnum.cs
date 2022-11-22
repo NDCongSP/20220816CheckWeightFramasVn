@@ -8,8 +8,8 @@ namespace WeightChecking
 {
     public enum StationEnum
     {
-        fVNBeforePrinting,
-        fVNAfterPrinting,
-        fVNKerry
+        IDC_1,
+        IDC_2,
+        Kerry_3
     }
 }

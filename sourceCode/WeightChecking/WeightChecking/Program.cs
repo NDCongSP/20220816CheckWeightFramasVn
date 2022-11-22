@@ -34,15 +34,15 @@ namespace WeightChecking
 
             if (Properties.Settings.Default.Station ==0)
             {
-                GlobalVariables.Station = StationEnum.fVNAfterPrinting;
+                GlobalVariables.Station = StationEnum.IDC_2;
             }
             else if (Properties.Settings.Default.Station == 1)
             {
-                GlobalVariables.Station = StationEnum.fVNBeforePrinting;
+                GlobalVariables.Station = StationEnum.IDC_1;
             }
            else if (Properties.Settings.Default.Station == 2)
             {
-                GlobalVariables.Station = StationEnum.fVNKerry;
+                GlobalVariables.Station = StationEnum.Kerry_3;
             }
 
             Console.WriteLine($"Path app: {Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location)}");
