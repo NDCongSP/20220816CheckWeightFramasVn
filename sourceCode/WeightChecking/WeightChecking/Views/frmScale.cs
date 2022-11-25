@@ -518,13 +518,24 @@ namespace WeightChecking
                             _scanData.Tolerance = Math.Round(_scanData.StdNetWeight * (res.Tolerance / 100), 3);
 
                             //luu ý các Quantity partition-Plasic-WrapSheet trên DB nó là tính số Prs
-                            //sau khi đọc về phải lấy QtyPrs quét trên label / Quantity partition-Plasic-WrapSheet ==> qty * weight ==> Weight packing accessories
-                            var partitionWeight = res.PartitionQty != 0 ? (_scanData.Quantity / res.PartitionQty) * res.PartitionWeight : 0;
-                            var plasicBagWeight = res.PlasicBag1Qty != 0 ? (_scanData.Quantity / res.PlasicBag1Qty) * res.PlasicBag1Weight : 0;
-                            var wrapSheetWeight = res.WrapSheetQty != 0 ? (_scanData.Quantity / res.WrapSheetQty) * res.WrapSheetWeight : 0;
-                            var foamSheetWeight = res.FoamSheetQty != 0 ? (_scanData.Quantity / res.FoamSheetQty) * res.FoamSheetWeight : 0;
+                            //sau khi đọc về phải lấy QtyPrs quét trên label / Quantity partition-Plasic-WrapSheet ==> qty * weight ==> Weight package weight
+                            double partitionWeight = 0;
+                            var p = res.PartitionQty != 0 ? ((double)_scanData.Quantity / (double)res.PartitionQty) : 0;
+                            if (_scanData.Quantity <= res.BoxQtyBx3 || p < 1)
+                            {
+                                partitionWeight = 0;
+                            }
+                            else if (p >= 1)
+                            {
+                                partitionWeight = Math.Floor(p) * res.PartitionWeight;
+                            }
+                            //partitionWeight = res.PartitionQty != 0 ? (_scanData.Quantity / res.PartitionQty) * res.PartitionWeight : 0;
+                            var plasicBag1Weight = res.PlasicBag1Qty != 0 ? Math.Ceiling(((double)_scanData.Quantity / (double)res.PlasicBag1Qty)) * res.PlasicBag1Weight : 0;
+                            var plasicBag2Weight = res.PlasicBag2Qty != 0 ? Math.Ceiling(((double)_scanData.Quantity / (double)res.PlasicBag2Qty)) * res.PlasicBag2Weight : 0;
+                            var wrapSheetWeight = res.WrapSheetQty != 0 ? Math.Ceiling(((double)_scanData.Quantity / (double)res.WrapSheetQty)) * res.WrapSheetWeight : 0;
+                            var foamSheetWeight = res.FoamSheetQty != 0 ? Math.Ceiling(((double)_scanData.Quantity / (double)res.FoamSheetQty)) * res.FoamSheetWeight : 0;
 
-                            _scanData.PackageWeight = Math.Round(partitionWeight + plasicBagWeight + wrapSheetWeight + foamSheetWeight, 3);
+                            _scanData.PackageWeight = Math.Round(partitionWeight + plasicBag1Weight + plasicBag2Weight + wrapSheetWeight + foamSheetWeight, 3);
 
                             _scanData.StdGrossWeight = Math.Round(_scanData.StdNetWeight + _scanData.PackageWeight + _scanData.BoxWeight, 3);
 
