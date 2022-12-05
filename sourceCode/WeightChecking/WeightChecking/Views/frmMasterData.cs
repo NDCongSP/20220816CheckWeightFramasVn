@@ -2,11 +2,13 @@
 using DevExpress.Utils.Menu;
 using DevExpress.XtraEditors;
 using DevExpress.XtraGrid.Views.Grid;
+using DevExpress.XtraPrinting;
 using Serilog;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Diagnostics;
 using System.Drawing;
 using System.Linq;
 using System.Text;
@@ -38,6 +40,7 @@ namespace WeightChecking
         {
             try
             {
+                e.Menu.Items.Add(new DXMenuItem("Export Excel", new EventHandler(ExportExcelGrid)));
                 e.Menu.Items.Add(new DXMenuItem("Update Item Infomation", new EventHandler(UpdateItemInfomation)));
             }
             catch (Exception ex)
@@ -55,6 +58,57 @@ namespace WeightChecking
                 frmUpdate._info.CodeItemSize = _codeItemZise;
 
                 frmUpdate.ShowDialog();
+            }
+            catch (Exception ex)
+            {
+                XtraMessageBox.Show("Lỗi MixingLisr: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void ExportExcelGrid(object sender, EventArgs e)
+        {
+            try
+            {
+                using (SaveFileDialog sfd = new SaveFileDialog())
+                {
+                    sfd.Filter = "Excel File|*.xlsx";
+                    sfd.Title = "Chọn chổ để lưu.";
+                    sfd.FileName = $"{DateTime.Now.ToString("yyyyMMddHHmmss")}MasterData.xlsx";
+                    if (sfd.ShowDialog() == DialogResult.OK)
+                    {
+                        #region cach 1
+                        //grcForecast.DefaultView.ExportToXlsx(sfd.FileName);
+                        //if (File.Exists(sfd.FileName))
+                        //{
+                        //    var mbr = XtraMessageBox.Show("Export thành công !!!\n Bạn có muốn mở file?", "Thông báo", MessageBoxButtons.YesNo);
+                        //    if (mbr == DialogResult.Yes)
+                        //    {
+                        //        Process.Start(sfd.FileName);
+                        //    }
+                        //}
+                        //else
+                        //{
+                        //    XtraMessageBox.Show("Không tìm thấy file.");
+                        //}
+                        #endregion
+
+                        // Create a PrintingSystem component.
+                        DevExpress.XtraPrinting.PrintingSystem ps = new DevExpress.XtraPrinting.PrintingSystem();
+
+                        // Create a link that will print a control.
+                        DevExpress.XtraPrinting.PrintableComponentLink link = new PrintableComponentLink(ps);
+
+                        // Specify the control to be printed.
+                        link.Component = grc;
+                        // Generate a report.
+                        link.CreateDocument();
+
+                        // Export the report to a PDF file.
+                        link.PrintingSystem.ExportToXlsx(sfd.FileName);
+
+                        Process.Start(sfd.FileName);//open file
+                    }
+                }
             }
             catch (Exception ex)
             {

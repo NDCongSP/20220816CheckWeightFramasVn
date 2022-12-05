@@ -32,15 +32,15 @@ namespace WeightChecking
             GlobalVariables.IsScale = Properties.Settings.Default.IsScale;
             GlobalVariables.IsCounter = Properties.Settings.Default.IsCounter;
 
-            if (Properties.Settings.Default.Station ==0)
-            {
-                GlobalVariables.Station = StationEnum.IDC_2;
-            }
-            else if (Properties.Settings.Default.Station == 1)
+            if (Properties.Settings.Default.Station == 0)
             {
                 GlobalVariables.Station = StationEnum.IDC_1;
             }
-           else if (Properties.Settings.Default.Station == 2)
+            else if (Properties.Settings.Default.Station == 1)
+            {
+                GlobalVariables.Station = StationEnum.IDC_2;
+            }
+            else if (Properties.Settings.Default.Station == 2)
             {
                 GlobalVariables.Station = StationEnum.Kerry_3;
             }

@@ -62,6 +62,7 @@ namespace WeightChecking
             this.documentManager1 = new DevExpress.XtraBars.Docking2010.DocumentManager(this.components);
             this.tabbedView1 = new DevExpress.XtraBars.Docking2010.Views.Tabbed.TabbedView(this.components);
             this.dockManager1 = new DevExpress.XtraBars.Docking.DockManager(this.components);
+            this._barButtonItemExportMasterData = new DevExpress.XtraBars.BarButtonItem();
             ((System.ComponentModel.ISupportInitialize)(this.ribbonControl1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.repositoryItemDateEdit1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.repositoryItemDateEdit1.CalendarTimeProperties)).BeginInit();
@@ -93,9 +94,10 @@ namespace WeightChecking
             this._barEditItemFromDate,
             this._barEditItemToDate,
             this.barStaticItemVersion,
-            this._barEditItemCombStation});
+            this._barEditItemCombStation,
+            this._barButtonItemExportMasterData});
             this.ribbonControl1.Location = new System.Drawing.Point(0, 0);
-            this.ribbonControl1.MaxItemId = 19;
+            this.ribbonControl1.MaxItemId = 20;
             this.ribbonControl1.Name = "ribbonControl1";
             this.ribbonControl1.Pages.AddRange(new DevExpress.XtraBars.Ribbon.RibbonPage[] {
             this.ribbonPageHome,
@@ -148,6 +150,7 @@ namespace WeightChecking
             this.barButtonItemGetDataWL.Caption = "Get";
             this.barButtonItemGetDataWL.Id = 8;
             this.barButtonItemGetDataWL.ImageOptions.SvgImage = ((DevExpress.Utils.Svg.SvgImage)(resources.GetObject("barButtonItemGetDataWL.ImageOptions.SvgImage")));
+            this.barButtonItemGetDataWL.LargeWidth = 100;
             this.barButtonItemGetDataWL.Name = "barButtonItemGetDataWL";
             this.barButtonItemGetDataWL.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(this.barButtonItemGetDataWL_ItemClick);
             // 
@@ -156,6 +159,7 @@ namespace WeightChecking
             this.barButtonItemRefreshData.Caption = "Refresh";
             this.barButtonItemRefreshData.Id = 9;
             this.barButtonItemRefreshData.ImageOptions.SvgImage = ((DevExpress.Utils.Svg.SvgImage)(resources.GetObject("barButtonItemRefreshData.ImageOptions.SvgImage")));
+            this.barButtonItemRefreshData.LargeWidth = 100;
             this.barButtonItemRefreshData.Name = "barButtonItemRefreshData";
             this.barButtonItemRefreshData.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(this.barButtonItemRefreshData_ItemClick);
             // 
@@ -164,6 +168,7 @@ namespace WeightChecking
             this.barButtonItemImport.Caption = "Import Template Settings";
             this.barButtonItemImport.Id = 10;
             this.barButtonItemImport.ImageOptions.SvgImage = ((DevExpress.Utils.Svg.SvgImage)(resources.GetObject("barButtonItemImport.ImageOptions.SvgImage")));
+            this.barButtonItemImport.LargeWidth = 150;
             this.barButtonItemImport.Name = "barButtonItemImport";
             this.barButtonItemImport.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(this.barButtonItemImport_ItemClick);
             // 
@@ -180,6 +185,7 @@ namespace WeightChecking
             this._barButtonItemRefreshReport.Caption = "Refresh";
             this._barButtonItemRefreshReport.Id = 12;
             this._barButtonItemRefreshReport.ImageOptions.SvgImage = ((DevExpress.Utils.Svg.SvgImage)(resources.GetObject("_barButtonItemRefreshReport.ImageOptions.SvgImage")));
+            this._barButtonItemRefreshReport.LargeWidth = 100;
             this._barButtonItemRefreshReport.Name = "_barButtonItemRefreshReport";
             // 
             // _barButtonItemExportExcel
@@ -305,6 +311,7 @@ namespace WeightChecking
             this.ribbonPageGroupMasterData.ItemLinks.Add(this.barButtonItemRefreshData);
             this.ribbonPageGroupMasterData.ItemLinks.Add(this.barButtonItemGetDataWL);
             this.ribbonPageGroupMasterData.ItemLinks.Add(this.barButtonItemImport);
+            this.ribbonPageGroupMasterData.ItemLinks.Add(this._barButtonItemExportMasterData);
             this.ribbonPageGroupMasterData.Name = "ribbonPageGroupMasterData";
             this.ribbonPageGroupMasterData.Text = "Master Data";
             // 
@@ -371,6 +378,15 @@ namespace WeightChecking
             "DevExpress.XtraBars.FluentDesignSystem.FluentDesignFormControl",
             "DevExpress.XtraBars.ToolbarForm.ToolbarFormControl"});
             // 
+            // _barButtonItemExportMasterData
+            // 
+            this._barButtonItemExportMasterData.Caption = "Export Excel";
+            this._barButtonItemExportMasterData.Id = 19;
+            this._barButtonItemExportMasterData.ImageOptions.SvgImage = ((DevExpress.Utils.Svg.SvgImage)(resources.GetObject("_barButtonItemExportMasterData.ImageOptions.SvgImage")));
+            this._barButtonItemExportMasterData.LargeWidth = 100;
+            this._barButtonItemExportMasterData.Name = "_barButtonItemExportMasterData";
+            this._barButtonItemExportMasterData.Visibility = DevExpress.XtraBars.BarItemVisibility.Never;
+            // 
             // frmMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -433,6 +449,7 @@ namespace WeightChecking
         private DevExpress.XtraBars.BarStaticItem barStaticItemVersion;
         private DevExpress.XtraBars.BarEditItem _barEditItemCombStation;
         private DevExpress.XtraEditors.Repository.RepositoryItemComboBox repositoryItemComboBox1;
+        private DevExpress.XtraBars.BarButtonItem _barButtonItemExportMasterData;
     }
 }
 

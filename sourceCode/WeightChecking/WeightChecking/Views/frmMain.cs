@@ -82,6 +82,7 @@ namespace WeightChecking
             this._barButtonItemUpVersion.ItemClick += _barButtonItemUpVersion_ItemClick;
             this._barButtonItemRefreshReport.ItemClick += _barButtonItemRefreshReport_ItemClick;
             this._barButtonItemExportExcel.ItemClick += _barButtonItemExportExcel_ItemClick;
+            this._barButtonItemExportMasterData.ItemClick += _barButtonItemExportMasterData_ItemClick;
 
             //chon chế độ chỉ hiển thị tab ribbon, ẩn chi tiết group
             //ribbonControl1.Minimized = true;//show tabs
@@ -212,9 +213,53 @@ namespace WeightChecking
             this._barEditItemFromDate.EditValue = this._barEditItemToDate.EditValue = DateTime.Now;
 
             this._barEditItemCombStation.EditValueChanged += _barEditItemCombStation_EditValueChanged;
-            this._barEditItemCombStation.EditValue ="All";
+            this._barEditItemCombStation.EditValue = "All";
             _timer.Enabled = true;
             _timer.Tick += _timer_Tick;
+        }
+
+        private void _barButtonItemExportMasterData_ItemClick(object sender, DevExpress.XtraBars.ItemClickEventArgs e)
+        {
+            using (SaveFileDialog sfd = new SaveFileDialog())
+            {
+                sfd.Filter = "Excel File|*.xlsx";
+                sfd.Title = "Chọn chổ để xuất";
+                sfd.FileName = $"{DateTime.Now.ToString("yyyyMMddHHmmss")}FinalToBuy.xlsx";
+                if (sfd.ShowDialog() == DialogResult.OK)
+                {
+                    #region cach 1
+                    //grcForecast.DefaultView.ExportToXlsx(sfd.FileName);
+                    //if (File.Exists(sfd.FileName))
+                    //{
+                    //    var mbr = XtraMessageBox.Show("Export thành công !!!\n Bạn có muốn mở file?", "Thông báo", MessageBoxButtons.YesNo);
+                    //    if (mbr == DialogResult.Yes)
+                    //    {
+                    //        Process.Start(sfd.FileName);
+                    //    }
+                    //}
+                    //else
+                    //{
+                    //    XtraMessageBox.Show("Không tìm thấy file.");
+                    //}
+                    #endregion
+
+                    //// Create a PrintingSystem component.
+                    //DevExpress.XtraPrinting.PrintingSystem ps = new DevExpress.XtraPrinting.PrintingSystem();
+
+                    //// Create a link that will print a control.
+                    //DevExpress.XtraPrinting.PrintableComponentLink link = new PrintableComponentLink(ps);
+
+                    //// Specify the control to be printed.
+                    //link.Component = grcForecast;
+                    //// Generate a report.
+                    //link.CreateDocument();
+
+                    //// Export the report to a PDF file.
+                    //link.PrintingSystem.ExportToXlsx(sfd.FileName);
+
+                    //Process.Start(sfd.FileName);//open file
+                }
+            }
         }
 
         private void _barEditItemCombStation_EditValueChanged(object sender, EventArgs e)
@@ -252,11 +297,16 @@ namespace WeightChecking
                             var reportModel = new List<ScanDataReport1Model>();
                             var res = connection.Query<ScanDataReportModel>("sp_tblScanDataGets", parametters, commandType: CommandType.StoredProcedure).ToList();
 
+                            var reportApproved = new List<ApprovedReportModel>();
+                            var resApproved = connection.Query<ApprovedModel>("sp_tblApprovedPrintLableSelect",parametters,commandType:CommandType.StoredProcedure).ToList();
+
                             using (Workbook wb = new Workbook())
                             {
                                 //wb.Worksheets.Remove(wb.Worksheets["Sheet1"]);
                                 wb.Worksheets["Sheet1"].Name = "DataScan";
+                                wb.Worksheets.Add("ApprovedPrintLable");
 
+                                #region Data scan
                                 Worksheet ws = wb.Worksheets["DataScan"];
 
                                 ws.Cells[0, 0].Value = "Barcode String";
@@ -302,38 +352,38 @@ namespace WeightChecking
                                 {
                                     reportModel.Add(new ScanDataReport1Model()
                                     {
-                                        BarcodeString=item.BarcodeString,
-                                        IdLable=item.IdLable,
-                                        OcNo=item.OcNo,
-                                        ProductNumber=item.ProductNumber,
-                                        ProductName=item.ProductName,
-                                        Quantity=item.Quantity,
-                                        LinePosNo=item.LinePosNo,
-                                        Unit=item.Unit,
-                                        BoxNo=item.BoxNo,
-                                        CustomerNo=item.CustomerNo,
-                                        Location=item.Location.ToString(),
-                                        BoxPosNo=item.BoxPosNo,
-                                        Note=item.Note,
-                                        Brand=item.Brand,
-                                        Decoration=item.Decoration,
-                                        MetalScan=item.MetalScan,
-                                        AveWeight1Prs=item.AveWeight1Prs,
-                                        StdNetWeight=item.StdNetWeight,
-                                        Tolerance=item.Tolerance,
-                                        BoxWeight=item.BoxWeight,
-                                        PackageWeight=item.PackageWeight,
-                                        StdGrossWeight=item.StdGrossWeight,
-                                        GrossWeight=item.GrossWeight,
-                                        NetWeight=item.NetWeight,
-                                        Deviation=item.Deviation,
-                                        Pass=item.Pass,
-                                        Status=item.Status,
-                                        CalculatedPairs=item.CalculatedPairs,
-                                        DeviationPairs=item.DeviationPairs,
-                                        CreatedDate=item.CreatedDate,
+                                        BarcodeString = item.BarcodeString,
+                                        IdLable = item.IdLable,
+                                        OcNo = item.OcNo,
+                                        ProductNumber = item.ProductNumber,
+                                        ProductName = item.ProductName,
+                                        Quantity = item.Quantity,
+                                        LinePosNo = item.LinePosNo,
+                                        Unit = item.Unit,
+                                        BoxNo = item.BoxNo,
+                                        CustomerNo = item.CustomerNo,
+                                        Location = item.Location.ToString(),
+                                        BoxPosNo = item.BoxPosNo,
+                                        Note = item.Note,
+                                        Brand = item.Brand,
+                                        Decoration = item.Decoration,
+                                        MetalScan = item.MetalScan,
+                                        AveWeight1Prs = item.AveWeight1Prs,
+                                        StdNetWeight = item.StdNetWeight,
+                                        Tolerance = item.Tolerance,
+                                        BoxWeight = item.BoxWeight,
+                                        PackageWeight = item.PackageWeight,
+                                        StdGrossWeight = item.StdGrossWeight,
+                                        GrossWeight = item.GrossWeight,
+                                        NetWeight = item.NetWeight,
+                                        Deviation = item.Deviation,
+                                        Pass = item.Pass,
+                                        Status = item.Status,
+                                        CalculatedPairs = item.CalculatedPairs,
+                                        DeviationPairs = item.DeviationPairs,
+                                        CreatedDate = item.CreatedDate,
                                         Station = item.Station.ToString(),
-                                        UserName=item.UserName
+                                        UserName = item.UserName
                                     });
                                 }
                                 ws.Import(reportModel, 1, 0);
@@ -347,6 +397,52 @@ namespace WeightChecking
                                 //ws.FreezeColumns(3);
                                 ws.FreezePanes(0, 3);
                                 ws.Columns.AutoFit(0, 31);
+                                #endregion
+
+                                #region Approved print lable
+                                 ws = wb.Worksheets["ApprovedPrintLable"];
+
+                                ws.Cells[0, 0].Value = "User Name";
+                                ws.Cells[0, 1].Value = "ID Lable";
+                                ws.Cells[0, 2].Value = "OC";
+                                ws.Cells[0, 3].Value = "Box No";
+                                ws.Cells[0, 4].Value = "Gross Weight";
+                                ws.Cells[0, 5].Value = "Station";
+                                ws.Cells[0, 6].Value = "Created Date";
+                                ws.Cells[0, 7].Value = "Created Machine";
+
+                                 rHeader = ws.Range.FromLTRB(0, 0, 7, 0);//Col-Row;Col-Row. do created new WB nen ko lây theo hàng cot chũ cái đc
+                                rHeader.FillColor = Color.Orange;
+                                rHeader.Alignment.Horizontal = SpreadsheetHorizontalAlignment.Center;
+                                rHeader.Alignment.Vertical = SpreadsheetVerticalAlignment.Center;
+                                rHeader.Font.Bold = true;
+
+                                foreach (var itemApproved in resApproved)
+                                {
+                                    reportApproved.Add(new ApprovedReportModel()
+                                    {
+                                        UserName=itemApproved.UserName,
+                                        IdLable=itemApproved.IdLable,
+                                        OC=itemApproved.OC,
+                                        BoxNo=itemApproved.BoxNo,
+                                        GrossWeight=itemApproved.GrossWeight,
+                                        Station=itemApproved.Station.ToString(),
+                                        CreatedDate=itemApproved.CreatedDate,
+                                        CreatedMachine=itemApproved.CreatedMachine
+                                    });
+                                }
+                                ws.Import(reportApproved, 1, 0);
+
+                                //ws.Range[$"Q2:Y{res.Count}"].NumberFormat = "#,#0.00";
+                                //ws.Range[$"AB2:AC{res.Count}"].NumberFormat = "#,#0";
+                                //ws.Range[$"AD2:AD{res.Count}"].NumberFormat = "yyyy/MM/dd HH:mm:ss";
+
+                                ws.Range.FromLTRB(0, 0, 7, reportApproved.Count).Borders.SetAllBorders(Color.Black, BorderLineStyle.Thin);
+                                //ws.FreezeRows(0);
+                                //ws.FreezeColumns(3);
+                                //ws.FreezePanes(0, 3);
+                                ws.Columns.AutoFit(0, 7);
+                                #endregion
 
                                 wb.SaveDocument(sfd.FileName);
 

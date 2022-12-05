@@ -53,6 +53,19 @@ namespace WeightChecking
                         {
                             GlobalVariables.Printing((GlobalVariables.RealWeight / 1000).ToString("#,#0.00")
                                                    , !string.IsNullOrEmpty(GlobalVariables.IdLabel) ? GlobalVariables.IdLabel : $"{GlobalVariables.OcNo}|{GlobalVariables.BoxNo}", true);
+
+                            #region Log
+                            para = null;
+                            para = new DynamicParameters();
+                            para.Add("QrCode", txtQrCode.Text);
+                            para.Add("IdLabel",GlobalVariables.IdLabel);
+                            para.Add("OC",GlobalVariables.OcNo);
+                            para.Add("BoxNo",GlobalVariables.BoxNo);
+                            para.Add("GrossWeight", (GlobalVariables.RealWeight / 1000).ToString("#,#0.00"));
+                            para.Add("Station", GlobalVariables.Station);
+
+                            connection.Execute("sp_tblApprovedPrintLabelInsert", para, commandType: CommandType.StoredProcedure);
+                            #endregion
                         }
                         else
                         {
@@ -67,7 +80,10 @@ namespace WeightChecking
                     }
                 }
             }
-            catch { }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error: {ex.Message}", "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
             finally
             {
                 this.Close();
