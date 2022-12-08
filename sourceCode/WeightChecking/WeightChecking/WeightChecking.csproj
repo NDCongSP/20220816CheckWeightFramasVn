@@ -245,6 +245,9 @@
     <Compile Include="Enums\RolesEnum.cs" />
     <Compile Include="Enums\StationEnum.cs" />
     <Compile Include="Events\RefreshEvent.cs" />
+    <Compile Include="Models\MissProItemModel.cs" />
+    <Compile Include="Models\ApprovedModel.cs" />
+    <Compile Include="Models\ApprovedReportModel.cs" />
     <Compile Include="Models\ScanDataReport1Model.cs" />
     <Compile Include="Models\ScanDataReportModel.cs" />
     <Compile Include="rptLabelFail.cs">

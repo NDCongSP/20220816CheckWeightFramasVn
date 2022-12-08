@@ -83,6 +83,7 @@ namespace WeightChecking
             this._barButtonItemRefreshReport.ItemClick += _barButtonItemRefreshReport_ItemClick;
             this._barButtonItemExportExcel.ItemClick += _barButtonItemExportExcel_ItemClick;
             this._barButtonItemExportMasterData.ItemClick += _barButtonItemExportMasterData_ItemClick;
+            this._barButtonItemExportMissItem.ItemClick += _barButtonItemExportMissItem_ItemClick;
 
             //chon chế độ chỉ hiển thị tab ribbon, ẩn chi tiết group
             //ribbonControl1.Minimized = true;//show tabs
@@ -216,6 +217,87 @@ namespace WeightChecking
             this._barEditItemCombStation.EditValue = "All";
             _timer.Enabled = true;
             _timer.Tick += _timer_Tick;
+        }
+
+        private void _barButtonItemExportMissItem_ItemClick(object sender, DevExpress.XtraBars.ItemClickEventArgs e)
+        {
+            try
+            {
+                using (SaveFileDialog sfd = new SaveFileDialog())
+                {
+                    sfd.Filter = "Excel File|*.xlsx";
+                    sfd.Title = "Chọn chổ để xuất";
+                    sfd.FileName = $"{DateTime.Now.ToString("yyyyMMddHHmmss")}SSFGReportMissItem.xlsx";
+                    if (sfd.ShowDialog() == DialogResult.OK)
+                    {
+
+                        SplashScreenManager.ShowForm(this, typeof(WaitForm1), true, true, false);
+                        SplashScreenManager.Default.SetWaitFormCaption("Vui lòng chờ trong giây lát");
+                        SplashScreenManager.Default.SetWaitFormDescription("Loading...");
+
+                        var fromDate = (DateTime)_barEditItemFromDate.EditValue;
+                        var toDate = (DateTime)_barEditItemToDate.EditValue;
+                        //var station = _barEditItemCombStation.EditValue.ToString();
+
+                        using (var connection = GlobalVariables.GetDbConnection())
+                        {
+                            var parametters = new DynamicParameters();
+                            parametters.Add("FromDate", fromDate.ToString("yyyy/MM/dd 00:00:00"));
+                            parametters.Add("ToDate", toDate.ToString("yyyy/MM/dd 23:59:59"));
+
+                            var res = connection.Query<MissProItemModel>("sp_MissingInfoGets", parametters, commandType: CommandType.StoredProcedure).ToList();
+
+                            using (Workbook wb = new Workbook())
+                            {
+                                //wb.Worksheets.Remove(wb.Worksheets["Sheet1"]);
+                                wb.Worksheets["Sheet1"].Name = "MissProItems";
+
+                                #region Data
+                                Worksheet ws = wb.Worksheets["MissProItems"];
+
+                                ws.Cells[0, 0].Value = "OC";
+                                ws.Cells[0, 1].Value = "Product Code";
+                                ws.Cells[0, 2].Value = "Product Name";
+                                ws.Cells[0, 3].Value = "QR Code";
+                                ws.Cells[0, 4].Value = "Created Date";
+
+                                CellRange rHeader = ws.Range.FromLTRB(0, 0, 4, 0);//Col-Row;Col-Row. do created new WB nen ko lây theo hàng cot chũ cái đc
+                                rHeader.FillColor = Color.Orange;
+                                rHeader.Alignment.Horizontal = SpreadsheetHorizontalAlignment.Center;
+                                rHeader.Alignment.Vertical = SpreadsheetVerticalAlignment.Center;
+                                rHeader.Font.Bold = true;
+
+                               
+                                ws.Import(res, 1, 0);
+
+                                //ws.Range[$"Q2:Y{res.Count}"].NumberFormat = "#,#0.00";
+                                //ws.Range[$"AB2:AC{res.Count}"].NumberFormat = "#,#0";
+                                ws.Range[$"E2:E{res.Count+1}"].NumberFormat = "yyyy/MM/dd HH:mm:ss";
+
+                                ws.Range.FromLTRB(0, 0, 4, res.Count).Borders.SetAllBorders(Color.Black, BorderLineStyle.Thin);
+                                //ws.FreezeRows(0);
+                                //ws.FreezeColumns(3);
+                                //ws.FreezePanes(0, 3);
+                                ws.Columns.AutoFit(0, 4);
+                                #endregion
+
+                                wb.SaveDocument(sfd.FileName);
+
+                                Process.Start(sfd.FileName);
+                            }
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Log.Error(ex, "Lỗi Report exception.");
+                XtraMessageBox.Show("Lỗi Report: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            finally
+            {
+                SplashScreenManager.CloseForm(false);
+            }
         }
 
         private void _barButtonItemExportMasterData_ItemClick(object sender, DevExpress.XtraBars.ItemClickEventArgs e)

@@ -60,6 +60,7 @@ namespace WeightChecking
             this.grv.Name = "grv";
             this.grv.OptionsBehavior.Editable = false;
             this.grv.OptionsPrint.AutoWidth = false;
+            this.grv.OptionsView.ColumnAutoWidth = false;
             this.grv.RowClick += new DevExpress.XtraGrid.Views.Grid.RowClickEventHandler(this.grv_RowClick);
             // 
             // frmMasterData

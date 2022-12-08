@@ -50,6 +50,7 @@ namespace WeightChecking
             this.barStaticItemVersion = new DevExpress.XtraBars.BarStaticItem();
             this._barEditItemCombStation = new DevExpress.XtraBars.BarEditItem();
             this.repositoryItemComboBox1 = new DevExpress.XtraEditors.Repository.RepositoryItemComboBox();
+            this._barButtonItemExportMasterData = new DevExpress.XtraBars.BarButtonItem();
             this.ribbonPageHome = new DevExpress.XtraBars.Ribbon.RibbonPage();
             this.ribbonPageGroupHome = new DevExpress.XtraBars.Ribbon.RibbonPageGroup();
             this.ribbonPageMasterData = new DevExpress.XtraBars.Ribbon.RibbonPage();
@@ -62,7 +63,7 @@ namespace WeightChecking
             this.documentManager1 = new DevExpress.XtraBars.Docking2010.DocumentManager(this.components);
             this.tabbedView1 = new DevExpress.XtraBars.Docking2010.Views.Tabbed.TabbedView(this.components);
             this.dockManager1 = new DevExpress.XtraBars.Docking.DockManager(this.components);
-            this._barButtonItemExportMasterData = new DevExpress.XtraBars.BarButtonItem();
+            this._barButtonItemExportMissItem = new DevExpress.XtraBars.BarButtonItem();
             ((System.ComponentModel.ISupportInitialize)(this.ribbonControl1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.repositoryItemDateEdit1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.repositoryItemDateEdit1.CalendarTimeProperties)).BeginInit();
@@ -95,9 +96,10 @@ namespace WeightChecking
             this._barEditItemToDate,
             this.barStaticItemVersion,
             this._barEditItemCombStation,
-            this._barButtonItemExportMasterData});
+            this._barButtonItemExportMasterData,
+            this._barButtonItemExportMissItem});
             this.ribbonControl1.Location = new System.Drawing.Point(0, 0);
-            this.ribbonControl1.MaxItemId = 20;
+            this.ribbonControl1.MaxItemId = 21;
             this.ribbonControl1.Name = "ribbonControl1";
             this.ribbonControl1.Pages.AddRange(new DevExpress.XtraBars.Ribbon.RibbonPage[] {
             this.ribbonPageHome,
@@ -190,12 +192,10 @@ namespace WeightChecking
             // 
             // _barButtonItemExportExcel
             // 
-            this._barButtonItemExportExcel.ActAsDropDown = true;
-            this._barButtonItemExportExcel.ButtonStyle = DevExpress.XtraBars.BarButtonStyle.DropDown;
             this._barButtonItemExportExcel.Caption = "Export Excel";
             this._barButtonItemExportExcel.Id = 13;
             this._barButtonItemExportExcel.ImageOptions.SvgImage = ((DevExpress.Utils.Svg.SvgImage)(resources.GetObject("_barButtonItemExportExcel.ImageOptions.SvgImage")));
-            this._barButtonItemExportExcel.LargeWidth = 200;
+            this._barButtonItemExportExcel.LargeWidth = 150;
             this._barButtonItemExportExcel.Name = "_barButtonItemExportExcel";
             // 
             // _barEditItemFromDate
@@ -280,6 +280,15 @@ namespace WeightChecking
             this.repositoryItemComboBox1.Name = "repositoryItemComboBox1";
             this.repositoryItemComboBox1.TextEditStyle = DevExpress.XtraEditors.Controls.TextEditStyles.DisableTextEditor;
             // 
+            // _barButtonItemExportMasterData
+            // 
+            this._barButtonItemExportMasterData.Caption = "Export Excel";
+            this._barButtonItemExportMasterData.Id = 19;
+            this._barButtonItemExportMasterData.ImageOptions.SvgImage = ((DevExpress.Utils.Svg.SvgImage)(resources.GetObject("_barButtonItemExportMasterData.ImageOptions.SvgImage")));
+            this._barButtonItemExportMasterData.LargeWidth = 100;
+            this._barButtonItemExportMasterData.Name = "_barButtonItemExportMasterData";
+            this._barButtonItemExportMasterData.Visibility = DevExpress.XtraBars.BarItemVisibility.Never;
+            // 
             // ribbonPageHome
             // 
             this.ribbonPageHome.Groups.AddRange(new DevExpress.XtraBars.Ribbon.RibbonPageGroup[] {
@@ -336,6 +345,7 @@ namespace WeightChecking
             // 
             this._ribbonPageGroupActions.ItemLinks.Add(this._barButtonItemRefreshReport);
             this._ribbonPageGroupActions.ItemLinks.Add(this._barButtonItemExportExcel);
+            this._ribbonPageGroupActions.ItemLinks.Add(this._barButtonItemExportMissItem);
             this._ribbonPageGroupActions.Name = "_ribbonPageGroupActions";
             this._ribbonPageGroupActions.Text = "Actions";
             // 
@@ -378,14 +388,13 @@ namespace WeightChecking
             "DevExpress.XtraBars.FluentDesignSystem.FluentDesignFormControl",
             "DevExpress.XtraBars.ToolbarForm.ToolbarFormControl"});
             // 
-            // _barButtonItemExportMasterData
+            // _barButtonItemExportMissItem
             // 
-            this._barButtonItemExportMasterData.Caption = "Export Excel";
-            this._barButtonItemExportMasterData.Id = 19;
-            this._barButtonItemExportMasterData.ImageOptions.SvgImage = ((DevExpress.Utils.Svg.SvgImage)(resources.GetObject("_barButtonItemExportMasterData.ImageOptions.SvgImage")));
-            this._barButtonItemExportMasterData.LargeWidth = 100;
-            this._barButtonItemExportMasterData.Name = "_barButtonItemExportMasterData";
-            this._barButtonItemExportMasterData.Visibility = DevExpress.XtraBars.BarItemVisibility.Never;
+            this._barButtonItemExportMissItem.Caption = "Export Miss Product Item";
+            this._barButtonItemExportMissItem.Id = 20;
+            this._barButtonItemExportMissItem.ImageOptions.SvgImage = ((DevExpress.Utils.Svg.SvgImage)(resources.GetObject("_barButtonItemExportMissItem.ImageOptions.SvgImage")));
+            this._barButtonItemExportMissItem.LargeWidth = 150;
+            this._barButtonItemExportMissItem.Name = "_barButtonItemExportMissItem";
             // 
             // frmMain
             // 
@@ -450,6 +459,7 @@ namespace WeightChecking
         private DevExpress.XtraBars.BarEditItem _barEditItemCombStation;
         private DevExpress.XtraEditors.Repository.RepositoryItemComboBox repositoryItemComboBox1;
         private DevExpress.XtraBars.BarButtonItem _barButtonItemExportMasterData;
+        private DevExpress.XtraBars.BarButtonItem _barButtonItemExportMissItem;
     }
 }
 

@@ -30,6 +30,7 @@ namespace WeightChecking
         private void InitializeComponent()
         {
             this.layoutControl1 = new DevExpress.XtraLayout.LayoutControl();
+            this.labDeviation = new DevExpress.XtraEditors.LabelControl();
             this.labResult = new DevExpress.XtraEditors.LabelControl();
             this.labMetalScanBox = new DevExpress.XtraEditors.LabelControl();
             this.labCalculatedPairs = new DevExpress.XtraEditors.LabelControl();
@@ -97,7 +98,6 @@ namespace WeightChecking
             this.layoutControlItem18 = new DevExpress.XtraLayout.LayoutControlItem();
             this.layoutControlItem27 = new DevExpress.XtraLayout.LayoutControlItem();
             this.layoutControlItem28 = new DevExpress.XtraLayout.LayoutControlItem();
-            this.labDeviation = new DevExpress.XtraEditors.LabelControl();
             this.layoutControlItem11 = new DevExpress.XtraLayout.LayoutControlItem();
             ((System.ComponentModel.ISupportInitialize)(this.layoutControl1)).BeginInit();
             this.layoutControl1.SuspendLayout();
@@ -183,6 +183,23 @@ namespace WeightChecking
             this.layoutControl1.Size = new System.Drawing.Size(1119, 794);
             this.layoutControl1.TabIndex = 0;
             this.layoutControl1.Text = "layoutControl1";
+            // 
+            // labDeviation
+            // 
+            this.labDeviation.Appearance.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
+            this.labDeviation.Appearance.Font = new System.Drawing.Font("Tahoma", 20F, System.Drawing.FontStyle.Bold);
+            this.labDeviation.Appearance.ForeColor = System.Drawing.Color.Blue;
+            this.labDeviation.Appearance.Options.UseBackColor = true;
+            this.labDeviation.Appearance.Options.UseFont = true;
+            this.labDeviation.Appearance.Options.UseForeColor = true;
+            this.labDeviation.Appearance.Options.UseTextOptions = true;
+            this.labDeviation.Appearance.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Far;
+            this.labDeviation.Location = new System.Drawing.Point(901, 569);
+            this.labDeviation.Name = "labDeviation";
+            this.labDeviation.Size = new System.Drawing.Size(194, 41);
+            this.labDeviation.StyleController = this.layoutControl1;
+            this.labDeviation.TabIndex = 38;
+            this.labDeviation.Text = "0";
             // 
             // labResult
             // 
@@ -622,6 +639,7 @@ namespace WeightChecking
             this.txtQrCode.Name = "txtQrCode";
             this.txtQrCode.Properties.Appearance.Font = new System.Drawing.Font("Tahoma", 15F);
             this.txtQrCode.Properties.Appearance.Options.UseFont = true;
+            this.txtQrCode.Properties.CharacterCasing = System.Windows.Forms.CharacterCasing.Upper;
             this.txtQrCode.Size = new System.Drawing.Size(883, 30);
             this.txtQrCode.StyleController = this.layoutControl1;
             this.txtQrCode.TabIndex = 1;
@@ -1143,23 +1161,6 @@ namespace WeightChecking
             this.layoutControlItem28.TextAlignMode = DevExpress.XtraLayout.TextAlignModeItem.CustomSize;
             this.layoutControlItem28.TextSize = new System.Drawing.Size(190, 20);
             this.layoutControlItem28.TextToControlDistance = 5;
-            // 
-            // labDeviation
-            // 
-            this.labDeviation.Appearance.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
-            this.labDeviation.Appearance.Font = new System.Drawing.Font("Tahoma", 20F, System.Drawing.FontStyle.Bold);
-            this.labDeviation.Appearance.ForeColor = System.Drawing.Color.Blue;
-            this.labDeviation.Appearance.Options.UseBackColor = true;
-            this.labDeviation.Appearance.Options.UseFont = true;
-            this.labDeviation.Appearance.Options.UseForeColor = true;
-            this.labDeviation.Appearance.Options.UseTextOptions = true;
-            this.labDeviation.Appearance.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Far;
-            this.labDeviation.Location = new System.Drawing.Point(901, 569);
-            this.labDeviation.Name = "labDeviation";
-            this.labDeviation.Size = new System.Drawing.Size(194, 41);
-            this.labDeviation.StyleController = this.layoutControl1;
-            this.labDeviation.TabIndex = 38;
-            this.labDeviation.Text = "0";
             // 
             // layoutControlItem11
             // 
