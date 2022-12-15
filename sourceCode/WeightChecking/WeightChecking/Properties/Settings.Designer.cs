@@ -136,5 +136,17 @@ namespace WeightChecking.Properties {
                 this["Station"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("0")]
+        public int AfterPrinting {
+            get {
+                return ((int)(this["AfterPrinting"]));
+            }
+            set {
+                this["AfterPrinting"] = value;
+            }
+        }
     }
 }

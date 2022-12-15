@@ -44,6 +44,13 @@ namespace WeightChecking
         public static bool ModbusStatus { get; set; }
         public static string ComPort { get; set; }
 
+        public static bool IsScale { get; set; } = false;
+        public static bool IsCounter { get; set; } = false;
+        public static StationEnum Station { get; set; }
+
+        //bao can o tram truoc son hay sau son
+        public static int AfterPrinting { get; set; } = 0;
+
         #region Printing
         // Print the file.
         public static void Printing(string content, string idLabel,bool pass)
@@ -80,10 +87,6 @@ namespace WeightChecking
         public static string OcNo { get; set; } = null;
         public static string BoxNo { get; set; } = null;
         public static bool PrintApprove { get; set; } = false;
-
-        public static bool IsScale { get; set; } = false;
-        public static bool IsCounter { get; set; } = false;
-        public static StationEnum Station { get; set; }
         #endregion
     }
 }

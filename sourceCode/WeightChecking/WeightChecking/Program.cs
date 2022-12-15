@@ -31,6 +31,7 @@ namespace WeightChecking
             GlobalVariables.UnitScale = int.TryParse(Properties.Settings.Default.UnitScale, out int value) ? value : 0;
             GlobalVariables.IsScale = Properties.Settings.Default.IsScale;
             GlobalVariables.IsCounter = Properties.Settings.Default.IsCounter;
+            GlobalVariables.AfterPrinting = Properties.Settings.Default.AfterPrinting;
 
             if (Properties.Settings.Default.Station == 0)
             {
