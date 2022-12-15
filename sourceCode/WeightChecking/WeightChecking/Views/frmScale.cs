@@ -371,7 +371,6 @@ namespace WeightChecking
                     GlobalVariables.BoxNo = _scanData.BoxNo;
                     #endregion
 
-
                     #region truy vấn data và xử lý
                     //truy vấn thông tin 
                     using (var connection = GlobalVariables.GetDbConnection())
@@ -406,7 +405,6 @@ namespace WeightChecking
 
                             if (_scanData.AveWeight1Prs != 0)
                             {
-
                                 #region Fill data from coreData to scanData, tính toán ra NetWeight và GrossWeight
                                 //Xét điều kiện để lấy boxWeight. Nếu là hàng đi sơn thì dùng thùng nhựa
                                 if (_scanData.Decoration == 0
@@ -753,10 +751,13 @@ namespace WeightChecking
                                         labResult.ForeColor = Color.White;
                                     }
                                     #endregion
+
                                     _scanData.Pass = 1;
+                                    _scanData.CreatedDate = GlobalVariables.CreatedDate = DateTime.Now;//lấy thời gian để đồng bộ giữa in tem và log DB
                                     //Printing
                                     GlobalVariables.Printing((_scanData.GrossWeight / 1000).ToString("#,#0.00")
-                                                , !string.IsNullOrEmpty(GlobalVariables.IdLabel) ? GlobalVariables.IdLabel : $"{_scanData.OcNo}|{_scanData.BoxNo}", true);
+                                                , !string.IsNullOrEmpty(GlobalVariables.IdLabel) ? GlobalVariables.IdLabel : $"{_scanData.OcNo}|{_scanData.BoxNo}", true
+                                                 , _scanData.CreatedDate.ToString("yyyy-MM-dd HH:mm:ss"));
                                     //GlobalVariables.RealWeight = _scanData.GrossWeight;
                                     //GlobalVariables.PrintApprove = true;
                                 }
@@ -793,9 +794,51 @@ namespace WeightChecking
                                     }
                                     #endregion
 
+                                    _scanData.CreatedDate = GlobalVariables.CreatedDate = DateTime.Now;//lấy thời gian để đồng bộ giữa in tem và log DB
+
                                     GlobalVariables.Printing(_scanData.DeviationPairs.ToString()
-                                                , !string.IsNullOrEmpty(GlobalVariables.IdLabel) ? GlobalVariables.IdLabel : $"{_scanData.OcNo}|{_scanData.BoxNo}", false);
+                                                , !string.IsNullOrEmpty(GlobalVariables.IdLabel) ? GlobalVariables.IdLabel : $"{_scanData.OcNo}|{_scanData.BoxNo}", false
+                                                , _scanData.CreatedDate.ToString("yyyy-MM-dd HH:mm:ss"));
                                 }
+                                #endregion
+
+                                #region Log data
+                                para = null;
+                                para = new DynamicParameters();
+                                para.Add("@BarcodeString", _scanData.BarcodeString);
+                                para.Add("@IdLable", _scanData.IdLable);
+                                para.Add("@OcNo", _scanData.OcNo);
+                                para.Add("@ProductNumber", _scanData.ProductNumber);
+                                para.Add("@ProductName", _scanData.ProductName);
+                                para.Add("@Quantity", _scanData.Quantity);
+                                para.Add("@LinePosNo", _scanData.LinePosNo);
+                                para.Add("@Unit", _scanData.Unit);
+                                para.Add("@BoxNo", _scanData.BoxNo);
+                                para.Add("@CustomerNo", _scanData.CustomerNo);
+                                para.Add("@Location", _scanData.Location);
+                                para.Add("@BoxPosNo", _scanData.BoxPosNo);
+                                para.Add("@Note", _scanData.Note);
+                                para.Add("@Brand", _scanData.Brand);
+                                para.Add("@Decoration", _scanData.Decoration);
+                                para.Add("@MetalScan", _scanData.MetalScan);
+                                para.Add("@AveWeight1Prs", _scanData.AveWeight1Prs);
+                                para.Add("@StdNetWeight", _scanData.StdNetWeight);
+                                para.Add("@Tolerance", _scanData.Tolerance);
+                                para.Add("@Boxweight", _scanData.BoxWeight);
+                                para.Add("@PackageWeight", _scanData.PackageWeight);
+                                para.Add("@StdGrossWeight", _scanData.StdGrossWeight);
+                                para.Add("@GrossWeight", _scanData.GrossWeight);
+                                para.Add("@NetWeight", _scanData.NetWeight);
+                                para.Add("@Deviation", _scanData.Deviation);
+                                para.Add("@Pass", _scanData.Pass);
+                                para.Add("Status", _scanData.Status);
+                                para.Add("CalculatedPairs", _scanData.CalculatedPairs);
+                                para.Add("DeviationPairs", _scanData.DeviationPairs);
+                                para.Add("CreatedBy", _scanData.CreatedBy);
+                                para.Add("Station", _scanData.Station);
+                                para.Add("CreatedDate", _scanData.CreatedDate);
+
+                                var insertResult = connection.Execute("sp_tblScanDataInsert", para, commandType: CommandType.StoredProcedure);
                                 #endregion
 
                                 #region hien thi cac thong so dem
@@ -887,44 +930,6 @@ namespace WeightChecking
                                 else labNetRealWeight.Text = _scanData.NetWeight.ToString();
                                 #endregion
 
-                                #region Log data
-                                para = null;
-                                para = new DynamicParameters();
-                                para.Add("@BarcodeString", _scanData.BarcodeString);
-                                para.Add("@IdLable", _scanData.IdLable);
-                                para.Add("@OcNo", _scanData.OcNo);
-                                para.Add("@ProductNumber", _scanData.ProductNumber);
-                                para.Add("@ProductName", _scanData.ProductName);
-                                para.Add("@Quantity", _scanData.Quantity);
-                                para.Add("@LinePosNo", _scanData.LinePosNo);
-                                para.Add("@Unit", _scanData.Unit);
-                                para.Add("@BoxNo", _scanData.BoxNo);
-                                para.Add("@CustomerNo", _scanData.CustomerNo);
-                                para.Add("@Location", _scanData.Location);
-                                para.Add("@BoxPosNo", _scanData.BoxPosNo);
-                                para.Add("@Note", _scanData.Note);
-                                para.Add("@Brand", _scanData.Brand);
-                                para.Add("@Decoration", _scanData.Decoration);
-                                para.Add("@MetalScan", _scanData.MetalScan);
-                                para.Add("@AveWeight1Prs", _scanData.AveWeight1Prs);
-                                para.Add("@StdNetWeight", _scanData.StdNetWeight);
-                                para.Add("@Tolerance", _scanData.Tolerance);
-                                para.Add("@Boxweight", _scanData.BoxWeight);
-                                para.Add("@PackageWeight", _scanData.PackageWeight);
-                                para.Add("@StdGrossWeight", _scanData.StdGrossWeight);
-                                para.Add("@GrossWeight", _scanData.GrossWeight);
-                                para.Add("@NetWeight", _scanData.NetWeight);
-                                para.Add("@Deviation", _scanData.Deviation);
-                                para.Add("@Pass", _scanData.Pass);
-                                para.Add("Status", _scanData.Status);
-                                para.Add("CalculatedPairs", _scanData.CalculatedPairs);
-                                para.Add("DeviationPairs", _scanData.DeviationPairs);
-                                para.Add("CreatedBy", _scanData.CreatedBy);
-                                para.Add("Station", _scanData.Station);
-
-                                var insertResult = connection.Execute("sp_tblScanDataInsert", para, commandType: CommandType.StoredProcedure);
-                                #endregion
-
                                 string json = JsonConvert.SerializeObject(GlobalVariables.RememberInfo);
                                 File.WriteAllText(@"./RememberInfo.json", json);
                             }
@@ -982,7 +987,7 @@ namespace WeightChecking
                     #endregion
                 }
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
 
             }

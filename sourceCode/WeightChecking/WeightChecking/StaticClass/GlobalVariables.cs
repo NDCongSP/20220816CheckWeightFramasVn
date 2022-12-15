@@ -53,7 +53,7 @@ namespace WeightChecking
 
         #region Printing
         // Print the file.
-        public static void Printing(string content, string idLabel,bool pass)
+        public static void Printing(string content, string idLabel,bool pass,string createdDate)
         {
             //content of the QR code "OC283225,6112012227-2094-2651,28,13,P,1/56,160506,1/1|1,30.2022"
             if (pass)
@@ -63,6 +63,7 @@ namespace WeightChecking
 
                 rptRe.Parameters["Weight"].Value = content;
                 rptRe.Parameters["IdLabel"].Value = idLabel;
+                rptRe.Parameters["CreatedDate"].Value = createdDate;
 
                 rptRe.CreateDocument();
                 ReportPrintTool printToolCrush = new ReportPrintTool(rptRe);
@@ -75,6 +76,7 @@ namespace WeightChecking
 
                 rptRe.Parameters["DeviationPrs"].Value = content;
                 rptRe.Parameters["IdLabel"].Value = idLabel;
+                rptRe.Parameters["CreatedDate"].Value = createdDate;
 
                 rptRe.CreateDocument();
                 ReportPrintTool printToolCrush = new ReportPrintTool(rptRe);
@@ -87,6 +89,7 @@ namespace WeightChecking
         public static string OcNo { get; set; } = null;
         public static string BoxNo { get; set; } = null;
         public static bool PrintApprove { get; set; } = false;
+        public static DateTime CreatedDate { get; set; }//dung de chua thoi gian tạo, để đồng bộ giữa in tem và log DB. dung trong Confirm in tem
         #endregion
     }
 }

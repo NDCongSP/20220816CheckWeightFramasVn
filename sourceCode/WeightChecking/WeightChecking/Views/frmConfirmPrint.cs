@@ -52,7 +52,8 @@ namespace WeightChecking
                         if (res.Approved == 1)
                         {
                             GlobalVariables.Printing((GlobalVariables.RealWeight / 1000).ToString("#,#0.00")
-                                                   , !string.IsNullOrEmpty(GlobalVariables.IdLabel) ? GlobalVariables.IdLabel : $"{GlobalVariables.OcNo}|{GlobalVariables.BoxNo}", true);
+                                                   , !string.IsNullOrEmpty(GlobalVariables.IdLabel) ? GlobalVariables.IdLabel : $"{GlobalVariables.OcNo}|{GlobalVariables.BoxNo}", true
+                                                   ,GlobalVariables.CreatedDate.ToString("yyyy/MM/dd HH:mm:ss"));
 
                             #region Log
                             para = null;
@@ -105,5 +106,6 @@ namespace WeightChecking
         public string OcNo { get; set; } = null;
         public string BoxNo { get; set; } = null;
         public double Weight { get; set; } = 0;
+        public string CreatedDate { get; set; }
     }
 }
