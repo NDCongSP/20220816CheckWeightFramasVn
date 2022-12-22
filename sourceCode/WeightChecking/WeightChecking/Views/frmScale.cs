@@ -66,6 +66,7 @@ namespace WeightChecking
                     try
                     {
                         var w = o.Value * GlobalVariables.UnitScale;
+                        GlobalVariables.RealWeight = w;
                         //if (w.ToString().Length >= 4 || w == 0)
                         {
                             if (labRealWeight.InvokeRequired)
@@ -292,6 +293,11 @@ namespace WeightChecking
                 bool specialCase = false;//dùng có các trường hợp hàng PU, trên WL decpration là 0, nhưng QC phân ra printing 0-1. beforePrinting thì get theo
                                          //printing=0; afterPrinting thì get theo printing=1. 6112012228
 
+                //biến dùng để check xem thùng đó có trong bảng scanData hay chưa.
+                int statusLogData = 0;//0-chưa có;1-đã có dòng fail;2-đã có dòng pass;3-đã có cả fail và pass
+                bool isFail = false;
+                bool isPass = false;
+
                 if (e.KeyCode == Keys.Enter)
                 {
                     TextEdit _sen = sender as TextEdit;
@@ -304,7 +310,37 @@ namespace WeightChecking
                         var s = _sen.Text.Split('|');
                         var s1 = s[0].Split(',');
                         _plr = s1[4];//get Thung này đóng theo đôi (P) hay L/R
-                        _scanData.OcNo = s1[0];
+
+                        var ocFirstChar = s1[0].Substring(0, 2);
+                        if (ocFirstChar == "OS" || ocFirstChar == "CS" || ocFirstChar == "OC" || ocFirstChar == "RE" || ocFirstChar == "LA" ||
+                            ocFirstChar == "CL" || ocFirstChar == "PB" || ocFirstChar == "OL" || ocFirstChar == "SZ" || ocFirstChar == "OP"
+                            || ocFirstChar == "PR"
+                            )
+                        {
+                            _scanData.OcNo = s1[0];
+                        }
+                        else
+                        {
+                            MessageBox.Show("QR code bị sai, xóa đi rồi scan lại", "LỖI", MessageBoxButtons.OK, MessageBoxIcon.Error);
+
+                            #region reset txtQrcode để quét mã tiếp
+                            if (_sen.InvokeRequired)
+                            {
+                                _sen?.Invoke(new Action(() =>
+                                {
+                                    _sen.Text = null;
+                                }));
+                            }
+                            else
+                            {
+                                _sen.Text = null;
+                            }
+                            _sen.Focus();
+                            #endregion
+
+                            return;
+                        }
+
                         _scanData.ProductNumber = s1[1];
 
                         //Special case
@@ -324,7 +360,7 @@ namespace WeightChecking
                             var s2 = s[1].Split(',');
 
                             GlobalVariables.IdLabel = s2[1];
-                            _scanData.IdLable = GlobalVariables.IdLabel;
+                            _scanData.IdLabel = GlobalVariables.IdLabel;
 
                             if (s2[0] == "1")
                             {
@@ -359,7 +395,38 @@ namespace WeightChecking
                     {
                         var s1 = _scanData.BarcodeString.Split(',');
                         _plr = s1[4];//get Thung này đóng theo đôi (P) hay L/R
-                        _scanData.OcNo = s1[0];
+
+                        var ocFirstChar = s1[0].Substring(0, 2);
+                        if (ocFirstChar == "OS" || ocFirstChar == "CS" || ocFirstChar == "OC" || ocFirstChar == "RE" || ocFirstChar == "LA" ||
+                            ocFirstChar == "CL" || ocFirstChar == "PB" || ocFirstChar == "OL" || ocFirstChar == "SZ" || ocFirstChar == "OP" 
+                            || ocFirstChar == "PR"
+                            )
+                        {
+                            _scanData.OcNo = s1[0];
+                        }
+                        else
+                        {
+                            MessageBox.Show("QR code bị sai, xóa đi rồi scan lại", "LỖI", MessageBoxButtons.OK, MessageBoxIcon.Error);
+
+                            #region reset txtQrcode để quét mã tiếp
+                            if (_sen.InvokeRequired)
+                            {
+                                _sen?.Invoke(new Action(() =>
+                                {
+                                    _sen.Text = null;
+                                }));
+                            }
+                            else
+                            {
+                                _sen.Text = null;
+                            }
+                            _sen.Focus();
+                            #endregion
+
+                            return;
+                        }
+
+                        //_scanData.OcNo = s1[0];
                         _scanData.ProductNumber = s1[1];
 
                         _scanData.Quantity = Convert.ToInt32(s1[2]);
@@ -376,13 +443,61 @@ namespace WeightChecking
                     using (var connection = GlobalVariables.GetDbConnection())
                     {
                         var para = new DynamicParameters();
+
+                        #region Kiểm tra xem thùng này đã được log vào scanData chưa
+                        para.Add("QRLabel", _scanData.BarcodeString);
+
+                        var checkInfo = connection.Query<tblScanDataCheckModel>("sp_tblScanDataCheck", para, commandType: CommandType.StoredProcedure).ToList();
+                        var countRow = checkInfo.Count;
+                        foreach (var item in checkInfo)
+                        {
+                            if (item.Pass == 1 || (item.Pass == 0 && item.ActualDeviationPairs == 0 && item.ApprovedBy != Guid.Empty))
+                            {
+                                isPass = true;
+                            }
+                            else if (item.Pass == 0)// && item.ActualDeviationPairs != 0 && item.ApprovedBy != Guid.Empty)
+                            {
+                                isFail = true;
+                            }
+                        }
+
+                        if (!isPass && !isFail)
+                        {
+                            statusLogData = 0;
+                        }
+                        else if (!isPass && isFail)
+                        {
+                            statusLogData = 1;
+                        }
+                        else if (isPass && !isFail)
+                        {
+                            statusLogData = 2;
+                        }
+                        else if (isPass && isFail)
+                        {
+                            statusLogData = 3;
+                        }
+                        #endregion
+
+                        para = new DynamicParameters();
                         para.Add("@ProductNumber", _scanData.ProductNumber);
                         para.Add("@SpecialCase", specialCase);
 
                         if (specialCase)
                         {
                             //after printing
-                            if (_scanData.OcNo.Contains("OPRT") || _scanData.OcNo.Contains("OC") || _scanData.OcNo.Contains("CLA"))
+                            if (
+                                _scanData.OcNo.Contains("OS")
+                                || _scanData.OcNo.Contains("CS")
+                                || _scanData.OcNo.Contains("OC")
+                                || _scanData.OcNo.Contains("RE")
+                                || _scanData.OcNo.Contains("LA")
+                                || _scanData.OcNo.Contains("CL")
+                                || _scanData.OcNo.Contains("PBF")
+                                || _scanData.OcNo.Contains("OL")
+                                || _scanData.OcNo.Contains("SZ")
+                                || _scanData.OcNo.Contains("OP")
+                                )
                             {
                                 para.Add("@Printing", 1);//0 or 1, tùy theo hàng trước sơn hay sau sơn
                             }
@@ -416,8 +531,8 @@ namespace WeightChecking
                                     || (_scanData.Decoration == 1 && _scanData.OcNo.Contains("CL"))
                                     || (_scanData.Decoration == 1 && _scanData.OcNo.Contains("PBF"))
                                     || (_scanData.Decoration == 1 && _scanData.OcNo.Contains("OL"))
-                                    || (_scanData.Decoration == 1 && _scanData.OcNo.Contains("SZO"))
-                                    || (_scanData.Decoration == 1 && _scanData.OcNo.Contains("OPR"))
+                                    || (_scanData.Decoration == 1 && _scanData.OcNo.Contains("SZ"))
+                                    || (_scanData.Decoration == 1 && _scanData.OcNo.Contains("OP"))
                                     )
                                 {
                                     _scanData.Status = 2;//báo trạng thái hàng ko đi sơn, hoặc hàng sơn đã được sơn rồi
@@ -435,6 +550,10 @@ namespace WeightChecking
                                         _scanData.BoxWeight = res.BoxWeightBx2;
                                     }
                                     else if (_scanData.Quantity > res.BoxQtyBx2 && _scanData.Quantity <= res.BoxQtyBx1)
+                                    {
+                                        _scanData.BoxWeight = res.BoxWeightBx1;
+                                    }
+                                    else if (_scanData.Quantity > res.BoxQtyBx1)
                                     {
                                         _scanData.BoxWeight = res.BoxWeightBx1;
                                     }
@@ -752,12 +871,23 @@ namespace WeightChecking
                                     }
                                     #endregion
 
-                                    _scanData.Pass = 1;
-                                    _scanData.CreatedDate = GlobalVariables.CreatedDate = DateTime.Now;//lấy thời gian để đồng bộ giữa in tem và log DB
-                                    //Printing
-                                    GlobalVariables.Printing((_scanData.GrossWeight / 1000).ToString("#,#0.00")
-                                                , !string.IsNullOrEmpty(GlobalVariables.IdLabel) ? GlobalVariables.IdLabel : $"{_scanData.OcNo}|{_scanData.BoxNo}", true
-                                                 , _scanData.CreatedDate.ToString("yyyy-MM-dd HH:mm:ss"));
+                                    //kiểm tra xem data đã có trên hệ thống hay chưa
+                                    if (statusLogData == 0 || statusLogData == 1)
+                                    {
+                                        _scanData.Pass = 1;
+                                        _scanData.CreatedDate = GlobalVariables.CreatedDate = DateTime.Now;//lấy thời gian để đồng bộ giữa in tem và log DB
+                                                                                                           //Printing
+                                        GlobalVariables.Printing((_scanData.GrossWeight / 1000).ToString("#,#0.00")
+                                                    , !string.IsNullOrEmpty(GlobalVariables.IdLabel) ? GlobalVariables.IdLabel : $"{_scanData.OcNo}|{_scanData.BoxNo}", true
+                                                     , _scanData.CreatedDate.ToString("yyyy-MM-dd HH:mm:ss"));
+                                    }
+                                    else
+                                    {
+                                        MessageBox.Show($"Thùng này đã được quét ghi nhận khối lượng OK rồi, không được phép cân lại." +
+                                            $"{Environment.NewLine}Quét thùng khác.", "THÔNG BÁO", MessageBoxButtons.OK, MessageBoxIcon.Information); ;
+
+                                        goto returnLoop;
+                                    }
                                     //GlobalVariables.RealWeight = _scanData.GrossWeight;
                                     //GlobalVariables.PrintApprove = true;
                                 }
@@ -794,19 +924,32 @@ namespace WeightChecking
                                     }
                                     #endregion
 
-                                    _scanData.CreatedDate = GlobalVariables.CreatedDate = DateTime.Now;//lấy thời gian để đồng bộ giữa in tem và log DB
+                                    if (statusLogData == 0)
+                                    {
+                                        _scanData.CreatedDate = GlobalVariables.CreatedDate = DateTime.Now;//lấy thời gian để đồng bộ giữa in tem và log DB
 
-                                    GlobalVariables.Printing(_scanData.DeviationPairs.ToString()
-                                                , !string.IsNullOrEmpty(GlobalVariables.IdLabel) ? GlobalVariables.IdLabel : $"{_scanData.OcNo}|{_scanData.BoxNo}", false
-                                                , _scanData.CreatedDate.ToString("yyyy-MM-dd HH:mm:ss"));
+                                        GlobalVariables.Printing(_scanData.DeviationPairs.ToString()
+                                                    , !string.IsNullOrEmpty(GlobalVariables.IdLabel) ? GlobalVariables.IdLabel : $"{_scanData.OcNo}|{_scanData.BoxNo}", false
+                                                    , _scanData.CreatedDate.ToString("yyyy-MM-dd HH:mm:ss"));
+                                    }
+                                    else
+                                    {
+                                        MessageBox.Show($"Thùng này đã được quét ghi nhận khối lượng lỗi rồi, không được phép cân lại." +
+                                            $"{Environment.NewLine}Quét thùng khác.", "THÔNG BÁO", MessageBoxButtons.OK, MessageBoxIcon.Information); ;
+
+                                        goto returnLoop;
+                                    }
                                 }
                                 #endregion
 
                                 #region Log data
+                                //mỗi thùng chỉ cho log vào tối da là 2 dòng trong scanData, 1 dòng pass và fail (nếu có)
+
+                                #region Log scanData
                                 para = null;
                                 para = new DynamicParameters();
                                 para.Add("@BarcodeString", _scanData.BarcodeString);
-                                para.Add("@IdLable", _scanData.IdLable);
+                                para.Add("@IdLable", _scanData.IdLabel);
                                 para.Add("@OcNo", _scanData.OcNo);
                                 para.Add("@ProductNumber", _scanData.ProductNumber);
                                 para.Add("@ProductName", _scanData.ProductName);
@@ -837,8 +980,15 @@ namespace WeightChecking
                                 para.Add("CreatedBy", _scanData.CreatedBy);
                                 para.Add("Station", _scanData.Station);
                                 para.Add("CreatedDate", _scanData.CreatedDate);
+                                para.Add("ApprovedBy", _scanData.ApprovedBy);
+                                para.Add("ActualDeviationPairs", _scanData.ActualDeviationPairs);
+                                //para.Add("Id", ParameterDirection.Output, DbType.Guid);
 
                                 var insertResult = connection.Execute("sp_tblScanDataInsert", para, commandType: CommandType.StoredProcedure);
+
+                                //var id = para.Get<string>("Id");
+                                #endregion
+
                                 #endregion
 
                                 #region hien thi cac thong so dem
@@ -969,8 +1119,9 @@ namespace WeightChecking
                             connection.Execute("sp_tblItemMissingInfoInsert", para, commandType: CommandType.StoredProcedure);
                         }
                     }
-                    #endregion
+                #endregion
 
+                returnLoop:
                     #region reset txtQrcode để quét mã tiếp
                     if (_sen.InvokeRequired)
                     {
@@ -989,19 +1140,12 @@ namespace WeightChecking
             }
             catch (Exception ex)
             {
-
+                Log.Error(ex.Message, "Lỗi scale form");
             }
             finally
             {
 
             }
-
-            //content of the QR code "OC283225,6112012228-1768-2951,42,13,P,1/56,160506,1/1|1,30.2022,0,0,1" no print
-            //content of the QR code "OC283225,6112042102-P232-2351,42,13,P,1/56,160506,1/1|1,30.2022,1,0,1" no print
-            //content of the QR code "OCA6915,6112042103-PAJ2-3201,42,13,P,1/56,160506,1/1|1,30.2022,1,0,1" print
-            //content of the QR code "OPRT4383,6112012228-1768-2951,60,1,P,3/7,170000,3/4|1,,,," print
-            //content of the QR code "PRTA516,6117012206-2462-D213,100,5,P,31/86,170000,13/22|1,340.2022,1,1,99" print
-            //|1,30.2022,1,0,1-->Location,IdLable,Decoration,MetalScan,Category(phân biệt hàng HC hay ko)
         }
 
         private void frmScale_FormClosing(object sender, FormClosingEventArgs e)

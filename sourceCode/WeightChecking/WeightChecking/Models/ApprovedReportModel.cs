@@ -16,5 +16,7 @@ namespace WeightChecking
         public string Station { get; set; }
         public DateTime CreatedDate { get; set; }
         public string CreatedMachine { get; set; }
+        public string QRLabel { get; set; }
+        public string ApproveType { get; set; }
     }
 }

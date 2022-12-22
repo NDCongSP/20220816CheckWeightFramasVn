@@ -11,7 +11,7 @@ namespace WeightChecking
     {
         public Guid Id { get; set; }
         public string BarcodeString { get; set; } = null;
-        public string IdLable { get; set; } = null;
+        public string IdLabel { get; set; } = null;
         public string OcNo { get; set; } = null;
         public string ProductNumber { get; set; } = null;
         public string ProductName { get; set; } = null;
@@ -50,5 +50,7 @@ namespace WeightChecking
         public int CalculatedPairs { get; set; }
         public int DeviationPairs { get; set; } = 0;//thể hiện số pairs bị thiếu.
         public StationEnum Station { get; set; }
+        public Guid ApprovedBy { get; set; } = Guid.Empty;
+        public int ActualDeviationPairs { get; set; } = 0;
     }
 }
