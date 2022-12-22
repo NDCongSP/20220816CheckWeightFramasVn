@@ -398,7 +398,7 @@ namespace WeightChecking
 
                         var ocFirstChar = s1[0].Substring(0, 2);
                         if (ocFirstChar == "OS" || ocFirstChar == "CS" || ocFirstChar == "OC" || ocFirstChar == "RE" || ocFirstChar == "LA" ||
-                            ocFirstChar == "CL" || ocFirstChar == "PB" || ocFirstChar == "OL" || ocFirstChar == "SZ" || ocFirstChar == "OP" 
+                            ocFirstChar == "CL" || ocFirstChar == "PB" || ocFirstChar == "OL" || ocFirstChar == "SZ" || ocFirstChar == "OP"
                             || ocFirstChar == "PR"
                             )
                         {
@@ -451,9 +451,21 @@ namespace WeightChecking
                         var countRow = checkInfo.Count;
                         foreach (var item in checkInfo)
                         {
+
                             if (item.Pass == 1 || (item.Pass == 0 && item.ActualDeviationPairs == 0 && item.ApprovedBy != Guid.Empty))
                             {
-                                isPass = true;
+                                if (!_scanData.OcNo.Contains("PR"))
+                                {
+                                    isPass = true;
+                                }
+                                else if (_scanData.OcNo.Contains("PR") && GlobalVariables.AfterPrinting == 0 && item.Status == 1)
+                                {
+                                    isPass = true;
+                                }
+                                else if (_scanData.OcNo.Contains("PR") && GlobalVariables.AfterPrinting == 1 && item.Status == 2)
+                                {
+                                    isPass = true;
+                                }
                             }
                             else if (item.Pass == 0)// && item.ActualDeviationPairs != 0 && item.ApprovedBy != Guid.Empty)
                             {
