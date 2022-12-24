@@ -261,26 +261,6 @@ namespace WeightChecking
             this.txtQrCode.KeyDown += TxtQrCode_KeyDown;
         }
 
-        private void TxtTest_KeyDown1(object sender, KeyEventArgs e)
-        {
-            if (e.KeyCode == Keys.Enter)
-            {
-                TextEdit _txt = (TextEdit)sender;
-
-                if (labRealWeight.InvokeRequired)
-                {
-                    labRealWeight.Invoke(new Action(() =>
-                    {
-                        labScaleValue.Text = _txt.Text;
-                    }));
-                }
-                else
-                {
-                    labScaleValue.Text = _txt.Text;
-                }
-            }
-        }
-
         private void TxtQrCode_KeyDown(object sender, KeyEventArgs e)
         {
             try
@@ -305,6 +285,7 @@ namespace WeightChecking
 
                     #region xử lý barcode lấy ra các giá trị theo code
                     _scanData.BarcodeString = _sen.Text;
+
                     if (_scanData.BarcodeString.Contains("|"))
                     {
                         var s = _sen.Text.Split('|');
@@ -342,12 +323,6 @@ namespace WeightChecking
                         }
 
                         _scanData.ProductNumber = s1[1];
-
-                        //Special case
-                        if (_scanData.ProductNumber.Contains("6112012228-"))
-                        {
-                            specialCase = true;
-                        }
 
                         _scanData.Quantity = Convert.ToInt32(s1[2]);
                         _scanData.LinePosNo = s1[3];
@@ -432,6 +407,12 @@ namespace WeightChecking
                         _scanData.Quantity = Convert.ToInt32(s1[2]);
                         _scanData.LinePosNo = s1[3];
                         _scanData.BoxNo = s1[5];
+                    }
+
+                    //Special case
+                    if (_scanData.ProductNumber.Contains("6112012228-"))
+                    {
+                        specialCase = true;
                     }
 
                     GlobalVariables.OcNo = _scanData.OcNo;
@@ -520,12 +501,13 @@ namespace WeightChecking
                                 || _scanData.OcNo.Contains("OL")
                                 || _scanData.OcNo.Contains("SZ")
                                 || _scanData.OcNo.Contains("OP")
+                                || (_scanData.OcNo.Contains("PR") && GlobalVariables.AfterPrinting != 0)
                                 )
                             {
                                 para.Add("@Printing", 1);//0 or 1, tùy theo hàng trước sơn hay sau sơn
                             }
                             //before printing
-                            else if (_scanData.OcNo.Contains("PRT"))
+                            else if (_scanData.OcNo.Contains("PRT") && GlobalVariables.AfterPrinting == 0)
                             {
                                 para.Add("@Printing", 0);//0 or 1, tùy theo hàng trước sơn hay sau sơn
                             }
@@ -578,7 +560,7 @@ namespace WeightChecking
                                     }
                                     else if (_scanData.Quantity > res.BoxQtyBx1)
                                     {
-                                        MessageBox.Show($"Số lượng vượt quá giới hạn thùng BX1 ({res.BoxQtyBx1})","CẢNH BÁO",MessageBoxButtons.OK,MessageBoxIcon.Warning);
+                                        MessageBox.Show($"Số lượng vượt quá giới hạn thùng BX1 ({res.BoxQtyBx1})", "CẢNH BÁO", MessageBoxButtons.OK, MessageBoxIcon.Warning);
 
                                         para = null;
                                         para = new DynamicParameters();
@@ -1151,7 +1133,7 @@ namespace WeightChecking
                             para.Add("ProductNumber", _scanData.ProductNumber);
                             para.Add("ProductName", _scanData.ProductName);
                             para.Add("OcNum", _scanData.OcNo);
-                            para.Add("Note", "Không có data hệ thống.");
+                            para.Add("Note", $"Product item '{_scanData.ProductNumber}' không có data hệ thống.");
                             para.Add("QrCode", _scanData.BarcodeString);
 
                             connection.Execute("sp_tblItemMissingInfoInsert", para, commandType: CommandType.StoredProcedure);

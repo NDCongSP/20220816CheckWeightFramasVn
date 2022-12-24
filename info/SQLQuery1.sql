@@ -1,6 +1,6 @@
 USE [IDCScaleSystem]
 
-select * from tblScanData where IdLable = '66281.2022' order by CreatedDate desc
+select * from tblScanData order by CreatedDate desc
 
 select * from tblScanData where OcNo= 'PRTA742'  order by CreatedDate desc
 
