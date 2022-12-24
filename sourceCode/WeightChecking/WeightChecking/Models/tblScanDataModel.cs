@@ -9,6 +9,7 @@ namespace WeightChecking
 {
     public class tblScanDataModel
     {
+        [Browsable(false)]
         public Guid Id { get; set; }
         public string BarcodeString { get; set; } = null;
         public string IdLabel { get; set; } = null;
@@ -50,6 +51,7 @@ namespace WeightChecking
         public int CalculatedPairs { get; set; }
         public int DeviationPairs { get; set; } = 0;//thể hiện số pairs bị thiếu.
         public StationEnum Station { get; set; }
+        [Browsable(false)]
         public Guid ApprovedBy { get; set; } = Guid.Empty;
         public string ApprovedName { get; set; }
         public int ActualDeviationPairs { get; set; } = 0;

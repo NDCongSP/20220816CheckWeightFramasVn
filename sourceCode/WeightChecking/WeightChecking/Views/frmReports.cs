@@ -28,14 +28,16 @@ namespace WeightChecking
 
         private void FrmReports_Load(object sender, EventArgs e)
         {
-            GlobalVariables.MyEvent.EventHandlerRefreshReport += (s, o) => {
+            GlobalVariables.MyEvent.EventHandlerRefreshReport += (s, o) =>
+            {
                 RefreshData();
             };
 
             RefreshData();
         }
 
-        void RefreshData() {
+        void RefreshData()
+        {
             try
             {
                 SplashScreenManager.ShowForm(this, typeof(WaitForm1), true, true, false);
@@ -50,11 +52,12 @@ namespace WeightChecking
                     parametters.Add("Station", Station);
 
                     #region Scan Data
-                    var res = connection.Query<tblScanDataModel>("sp_tblScanDataGets",parametters,commandType:CommandType.StoredProcedure).ToList();
+                    var res = connection.Query<tblScanDataModel>("sp_tblScanDataGets", parametters, commandType: CommandType.StoredProcedure).ToList();
 
                     if (grcReports.InvokeRequired)
                     {
-                        grcReports.Invoke(new Action(() => {
+                        grcReports.Invoke(new Action(() =>
+                        {
                             grcReports.DataSource = res;
                         }));
                     }
@@ -62,6 +65,18 @@ namespace WeightChecking
                     {
                         grcReports.DataSource = res;
                     }
+
+                    grvReports.Columns["CreatedDate"].DisplayFormat.FormatString = "YYYY-MM-dd HH:mm:ss";
+                    grvReports.Columns["ProductNumber"].Fixed = DevExpress.XtraGrid.Columns.FixedStyle.Left;
+                    grvReports.Columns["IdLabel"].Fixed = DevExpress.XtraGrid.Columns.FixedStyle.Left;
+                    grvReports.Columns["OcNo"].Fixed = DevExpress.XtraGrid.Columns.FixedStyle.Left;
+                    grvReports.Columns["BoxNo"].Fixed = DevExpress.XtraGrid.Columns.FixedStyle.Left;
+
+                    grvReports.Columns["Station"].Fixed = DevExpress.XtraGrid.Columns.FixedStyle.Right;
+                    grvReports.Columns["ApprovedName"].Fixed = DevExpress.XtraGrid.Columns.FixedStyle.Right;
+                    grvReports.Columns["ActualDeviationPairs"].Fixed = DevExpress.XtraGrid.Columns.FixedStyle.Right;
+                    grvReports.Columns["DeviationPairs"].Fixed = DevExpress.XtraGrid.Columns.FixedStyle.Right;
+                    grvReports.Columns["CalculatedPairs"].Fixed = DevExpress.XtraGrid.Columns.FixedStyle.Right;
                     #endregion
 
                     #region Approved Print
@@ -69,7 +84,8 @@ namespace WeightChecking
 
                     if (grcApprove.InvokeRequired)
                     {
-                        grcApprove.Invoke(new Action(() => {
+                        grcApprove.Invoke(new Action(() =>
+                        {
                             grcApprove.DataSource = resApproved;
                         }));
                     }
@@ -84,7 +100,8 @@ namespace WeightChecking
 
                     if (grcMissInfo.InvokeRequired)
                     {
-                        grcMissInfo.Invoke(new Action(() => {
+                        grcMissInfo.Invoke(new Action(() =>
+                        {
                             grcMissInfo.DataSource = resMissInfo;
                         }));
                     }

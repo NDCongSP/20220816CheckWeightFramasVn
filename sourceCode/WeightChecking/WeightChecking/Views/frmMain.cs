@@ -473,7 +473,9 @@ namespace WeightChecking
                                         DeviationPairs = item.DeviationPairs,
                                         CreatedDate = item.CreatedDate,
                                         Station = item.Station.ToString(),
-                                        UserName = item.UserName
+                                        UserName = item.UserName,
+                                        ApprovedName=item.ApprovedName,
+                                        ActualDeviationPairs=item.ActualDeviationPairs
                                     });
                                 }
                                 ws.Import(reportModel, 1, 0);
