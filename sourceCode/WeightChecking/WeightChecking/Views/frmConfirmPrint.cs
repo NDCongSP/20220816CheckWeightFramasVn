@@ -37,173 +37,180 @@ namespace WeightChecking
         {
             if (e.KeyCode == Keys.Enter)
             {
-                TextEdit _sen = sender as TextEdit;
-
-                _actualDeviation = int.TryParse(txtActualDeviation.Text, out int valueI) ? valueI : 0;
-
-                if (_checkCount == 0)
+                try
                 {
-                    #region xử lý barcode lấy ra các giá trị theo code
-                    _scanData.BarcodeString = _sen.Text;
-                    if (_scanData.BarcodeString.Contains("|"))
+                    TextEdit _sen = sender as TextEdit;
+
+                    _actualDeviation = int.TryParse(txtActualDeviation.Text, out int valueI) ? valueI : 0;
+
+                    if (_checkCount == 0)
                     {
-                        var s = _sen.Text.Split('|');
-                        var s1 = s[0].Split(',');
-                        _scanData.OcNo = s1[0];
-                        _scanData.ProductNumber = s1[1];
-
-                        _scanData.Quantity = Convert.ToInt32(s1[2]);
-                        _scanData.LinePosNo = s1[3];
-                        _scanData.BoxNo = s1[5];
-                        _scanData.CustomerNo = s1[6];
-                        _scanData.BoxPosNo = s1[7];
-
-                        if (s[1].Contains(","))
+                        #region xử lý barcode lấy ra các giá trị theo code
+                        _scanData.BarcodeString = _sen.Text;
+                        if (_scanData.BarcodeString.Contains("|"))
                         {
-                            var s2 = s[1].Split(',');
+                            var s = _sen.Text.Split('|');
+                            var s1 = s[0].Split(',');
+                            _scanData.OcNo = s1[0];
+                            _scanData.ProductNumber = s1[1];
 
-                            GlobalVariables.IdLabel = s2[1];
-                            _scanData.IdLabel = GlobalVariables.IdLabel;
+                            _scanData.Quantity = Convert.ToInt32(s1[2]);
+                            _scanData.LinePosNo = s1[3];
+                            _scanData.BoxNo = s1[5];
+                            _scanData.CustomerNo = s1[6];
+                            _scanData.BoxPosNo = s1[7];
 
-                            if (s2[0] == "1")
+                            if (s[1].Contains(","))
                             {
-                                _scanData.Location = LocationEnum.fVN;
+                                var s2 = s[1].Split(',');
+
+                                GlobalVariables.IdLabel = s2[1];
+                                _scanData.IdLabel = GlobalVariables.IdLabel;
+
+                                if (s2[0] == "1")
+                                {
+                                    _scanData.Location = LocationEnum.fVN;
+                                }
+                                else if (s2[0] == "2")
+                                {
+                                    _scanData.Location = LocationEnum.fFT;
+                                }
+                                else if (s2[0] == "3")
+                                {
+                                    _scanData.Location = LocationEnum.fKV;
+                                }
                             }
-                            else if (s2[0] == "2")
+                            else
                             {
-                                _scanData.Location = LocationEnum.fFT;
-                            }
-                            else if (s2[0] == "3")
-                            {
-                                _scanData.Location = LocationEnum.fKV;
+                                if (s[1] == "1")
+                                {
+                                    _scanData.Location = LocationEnum.fVN;
+                                }
+                                else if (s[1] == "2")
+                                {
+                                    _scanData.Location = LocationEnum.fFT;
+                                }
+                                else if (s[1] == "3")
+                                {
+                                    _scanData.Location = LocationEnum.fKV;
+                                }
                             }
                         }
                         else
                         {
-                            if (s[1] == "1")
-                            {
-                                _scanData.Location = LocationEnum.fVN;
-                            }
-                            else if (s[1] == "2")
-                            {
-                                _scanData.Location = LocationEnum.fFT;
-                            }
-                            else if (s[1] == "3")
-                            {
-                                _scanData.Location = LocationEnum.fKV;
-                            }
+                            var s1 = _scanData.BarcodeString.Split(',');
+                            _scanData.OcNo = s1[0];
+                            _scanData.ProductNumber = s1[1];
+
+                            _scanData.Quantity = Convert.ToInt32(s1[2]);
+                            _scanData.LinePosNo = s1[3];
+                            _scanData.BoxNo = s1[5];
                         }
-                    }
-                    else
-                    {
-                        var s1 = _scanData.BarcodeString.Split(',');
-                        _scanData.OcNo = s1[0];
-                        _scanData.ProductNumber = s1[1];
+                        #endregion
 
-                        _scanData.Quantity = Convert.ToInt32(s1[2]);
-                        _scanData.LinePosNo = s1[3];
-                        _scanData.BoxNo = s1[5];
-                    }
-                    #endregion
-
-                    #region show info labels
-                    if (labProductCode.InvokeRequired)
-                    {
-                        labProductCode.Invoke(new Action(() =>
+                        #region show info labels
+                        if (labProductCode.InvokeRequired)
+                        {
+                            labProductCode.Invoke(new Action(() =>
+                            {
+                                labProductCode.Text = _scanData.ProductNumber;
+                            }));
+                        }
+                        else
                         {
                             labProductCode.Text = _scanData.ProductNumber;
-                        }));
-                    }
-                    else
-                    {
-                        labProductCode.Text = _scanData.ProductNumber;
-                    }
+                        }
 
-                    if (labIdLabel.InvokeRequired)
-                    {
-                        labIdLabel.Invoke(new Action(() =>
+                        if (labIdLabel.InvokeRequired)
+                        {
+                            labIdLabel.Invoke(new Action(() =>
+                            {
+                                labIdLabel.Text = _scanData.IdLabel;
+                            }));
+                        }
+                        else
                         {
                             labIdLabel.Text = _scanData.IdLabel;
-                        }));
-                    }
-                    else
-                    {
-                        labIdLabel.Text = _scanData.IdLabel;
-                    }
+                        }
 
-                    if (labOcNo.InvokeRequired)
-                    {
-                        labOcNo.Invoke(new Action(() =>
+                        if (labOcNo.InvokeRequired)
+                        {
+                            labOcNo.Invoke(new Action(() =>
+                            {
+                                labOcNo.Text = _scanData.OcNo;
+                            }));
+                        }
+                        else
                         {
                             labOcNo.Text = _scanData.OcNo;
-                        }));
-                    }
-                    else
-                    {
-                        labOcNo.Text = _scanData.OcNo;
-                    }
+                        }
 
-                    if (labBoxNo.InvokeRequired)
-                    {
-                        labBoxNo.Invoke(new Action(() =>
+                        if (labBoxNo.InvokeRequired)
+                        {
+                            labBoxNo.Invoke(new Action(() =>
+                            {
+                                labBoxNo.Text = _scanData.BoxNo;
+                            }));
+                        }
+                        else
                         {
                             labBoxNo.Text = _scanData.BoxNo;
-                        }));
-                    }
-                    else
-                    {
-                        labBoxNo.Text = _scanData.BoxNo;
-                    }
+                        }
 
-                    if (labQty.InvokeRequired)
-                    {
-                        labQty.Invoke(new Action(() =>
+                        if (labQty.InvokeRequired)
+                        {
+                            labQty.Invoke(new Action(() =>
+                            {
+                                labQty.Text = _scanData.Quantity.ToString();
+                            }));
+                        }
+                        else
                         {
                             labQty.Text = _scanData.Quantity.ToString();
-                        }));
-                    }
-                    else
-                    {
-                        labQty.Text = _scanData.Quantity.ToString();
-                    }
-                    #endregion
+                        }
+                        #endregion
 
-                    if (labQrCode.InvokeRequired)
-                    {
-                        labQrCode.Invoke(new Action(() =>
+                        if (labQrCode.InvokeRequired)
+                        {
+                            labQrCode.Invoke(new Action(() =>
+                            {
+                                labQrCode.Text = "Scan QR Code Approve:";
+                            }));
+                        }
+                        else
                         {
                             labQrCode.Text = "Scan QR Code Approve:";
+                        }
+                        _checkCount = 1;
+                    }
+                    else if (_checkCount == 1)
+                    {
+                        _qrApproved = Guid.TryParse(_sen.Text, out Guid valueD) ? valueD : Guid.Empty;
+
+                        CheckingInfoUpdate();
+
+                        _checkCount = 0;
+                    }
+
+                    #region reset txtQrcode để quét mã tiếp
+                    if (_sen.InvokeRequired)
+                    {
+                        _sen?.Invoke(new Action(() =>
+                        {
+                            _sen.Text = null;
                         }));
                     }
                     else
                     {
-                        labQrCode.Text = "Scan QR Code Approve:";
-                    }
-                    _checkCount = 1;
-                }
-                else if (_checkCount == 1)
-                {
-                    _qrApproved = Guid.TryParse(_sen.Text, out Guid valueD) ? valueD : Guid.Empty;
-
-                    CheckingInfoUpdate();
-
-                    _checkCount = 0;
-                }
-
-                #region reset txtQrcode để quét mã tiếp
-                if (_sen.InvokeRequired)
-                {
-                    _sen?.Invoke(new Action(() =>
-                    {
                         _sen.Text = null;
-                    }));
+                    }
+                    _sen.Focus();
+                    #endregion
                 }
-                else
+                catch (Exception ex)
                 {
-                    _sen.Text = null;
+                    MessageBox.Show("Quét sai mã QR. Mời quét lại.","CẢNH BÁO",MessageBoxButtons.OK,MessageBoxIcon.Warning);
                 }
-                _sen.Focus();
-                #endregion
             }
         }
 
@@ -274,9 +281,9 @@ namespace WeightChecking
 
                                     if (dialogResult == DialogResult.Yes)
                                     {
-                                        GlobalVariables.Printing(_scaleValue.ToString("#,#0.00")
-                                                  , !string.IsNullOrEmpty(_scanData.IdLabel) ? _scanData.IdLabel : $"{_scanData.OcNo}|{_scanData.BoxNo}", true
-                                                  , scandataDetail.CreatedDate.ToString("yyyy/MM/dd HH:mm:ss"));
+                                        //GlobalVariables.Printing(_scaleValue.ToString("#,#0.00")
+                                        //          , !string.IsNullOrEmpty(_scanData.IdLabel) ? _scanData.IdLabel : $"{_scanData.OcNo}|{_scanData.BoxNo}", true
+                                        //          , scandataDetail.CreatedDate.ToString("yyyy/MM/dd HH:mm:ss"));
 
                                         para = null;
                                         para = new DynamicParameters();

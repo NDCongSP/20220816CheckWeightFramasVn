@@ -43,5 +43,7 @@ namespace WeightChecking
         public DateTime CreatedDate { get; set; }
         public StationEnum Station { get; set; }
         public string UserName { get; set; }
+        public string ApprovedName { get; set; }
+        public int ActualDeviationPairs { get; set; } = 0;
     }
 }

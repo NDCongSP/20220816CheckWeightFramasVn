@@ -211,6 +211,7 @@ namespace WeightChecking
             }
             #endregion
 
+            _barButtonItemExportMissItem.Visibility = DevExpress.XtraBars.BarItemVisibility.Never;
             this._barEditItemFromDate.EditValue = this._barEditItemToDate.EditValue = DateTime.Now;
 
             this._barEditItemCombStation.EditValueChanged += _barEditItemCombStation_EditValueChanged;
@@ -244,6 +245,7 @@ namespace WeightChecking
                             var parametters = new DynamicParameters();
                             parametters.Add("FromDate", fromDate.ToString("yyyy/MM/dd 00:00:00"));
                             parametters.Add("ToDate", toDate.ToString("yyyy/MM/dd 23:59:59"));
+                            parametters.Add("Station", _stationReport);
 
                             var res = connection.Query<MissProItemModel>("sp_MissingInfoGets", parametters, commandType: CommandType.StoredProcedure).ToList();
 
@@ -259,26 +261,27 @@ namespace WeightChecking
                                 ws.Cells[0, 1].Value = "Product Code";
                                 ws.Cells[0, 2].Value = "Product Name";
                                 ws.Cells[0, 3].Value = "QR Code";
-                                ws.Cells[0, 4].Value = "Created Date";
+                                ws.Cells[0, 4].Value = "Note";
+                                ws.Cells[0, 5].Value = "Created Date";
 
-                                CellRange rHeader = ws.Range.FromLTRB(0, 0, 4, 0);//Col-Row;Col-Row. do created new WB nen ko lây theo hàng cot chũ cái đc
+                                CellRange rHeader = ws.Range.FromLTRB(0, 0, 5, 0);//Col-Row;Col-Row. do created new WB nen ko lây theo hàng cot chũ cái đc
                                 rHeader.FillColor = Color.Orange;
                                 rHeader.Alignment.Horizontal = SpreadsheetHorizontalAlignment.Center;
                                 rHeader.Alignment.Vertical = SpreadsheetVerticalAlignment.Center;
                                 rHeader.Font.Bold = true;
 
-                               
+
                                 ws.Import(res, 1, 0);
 
                                 //ws.Range[$"Q2:Y{res.Count}"].NumberFormat = "#,#0.00";
                                 //ws.Range[$"AB2:AC{res.Count}"].NumberFormat = "#,#0";
-                                ws.Range[$"E2:E{res.Count+1}"].NumberFormat = "yyyy/MM/dd HH:mm:ss";
+                                ws.Range[$"E2:E{res.Count + 1}"].NumberFormat = "yyyy/MM/dd HH:mm:ss";
 
-                                ws.Range.FromLTRB(0, 0, 4, res.Count).Borders.SetAllBorders(Color.Black, BorderLineStyle.Thin);
+                                ws.Range.FromLTRB(0, 0, 5, res.Count).Borders.SetAllBorders(Color.Black, BorderLineStyle.Thin);
                                 //ws.FreezeRows(0);
                                 //ws.FreezeColumns(3);
                                 //ws.FreezePanes(0, 3);
-                                ws.Columns.AutoFit(0, 4);
+                                ws.Columns.AutoFit(0, 5);
                                 #endregion
 
                                 wb.SaveDocument(sfd.FileName);
@@ -380,18 +383,21 @@ namespace WeightChecking
                             var res = connection.Query<ScanDataReportModel>("sp_tblScanDataGets", parametters, commandType: CommandType.StoredProcedure).ToList();
 
                             var reportApproved = new List<ApprovedReportModel>();
-                            var resApproved = connection.Query<ApprovedModel>("sp_tblApprovedPrintLableSelect",parametters,commandType:CommandType.StoredProcedure).ToList();
+                            var resApproved = connection.Query<ApprovedModel>("sp_tblApprovedPrintLableSelect", parametters, commandType: CommandType.StoredProcedure).ToList();
+
+                            var resMissInfo = connection.Query<MissProItemModel>("sp_MissingInfoGets", parametters, commandType: CommandType.StoredProcedure).ToList();
 
                             using (Workbook wb = new Workbook())
                             {
                                 //wb.Worksheets.Remove(wb.Worksheets["Sheet1"]);
                                 wb.Worksheets["Sheet1"].Name = "DataScan";
                                 wb.Worksheets.Add("ApprovedPrintLable");
+                                wb.Worksheets.Add("MissProItems");
 
                                 #region Data scan
                                 Worksheet ws = wb.Worksheets["DataScan"];
 
-                                ws.Cells[0, 0].Value = "Barcode String";
+                                ws.Cells[0, 0].Value = "BarcodeString";
                                 ws.Cells[0, 1].Value = "IdLable";
                                 ws.Cells[0, 2].Value = "OcNo";
                                 ws.Cells[0, 3].Value = "ProductNumber";
@@ -407,24 +413,26 @@ namespace WeightChecking
                                 ws.Cells[0, 13].Value = "Brand";
                                 ws.Cells[0, 14].Value = "Decoration";
                                 ws.Cells[0, 15].Value = "MetalScan";
-                                ws.Cells[0, 16].Value = "AveWeight1Prs";
-                                ws.Cells[0, 17].Value = "StdNetWeight";
-                                ws.Cells[0, 18].Value = "Tolerance";
-                                ws.Cells[0, 19].Value = "BoxWeight";
-                                ws.Cells[0, 20].Value = "PackageWeight";
-                                ws.Cells[0, 21].Value = "StdGrossWeight";
-                                ws.Cells[0, 22].Value = "GrossWeight";
-                                ws.Cells[0, 23].Value = "NetWeight";
+                                ws.Cells[0, 16].Value = "AveWeight1Prs (g)";
+                                ws.Cells[0, 17].Value = "StdNetWeight (g)";
+                                ws.Cells[0, 18].Value = "Tolerance (g)";
+                                ws.Cells[0, 19].Value = "BoxWeight (g)";
+                                ws.Cells[0, 20].Value = "PackageWeight (g)";
+                                ws.Cells[0, 21].Value = "StdGrossWeight (g)";
+                                ws.Cells[0, 22].Value = "GrossWeight (g)";
+                                ws.Cells[0, 23].Value = "NetWeight (g)";
                                 ws.Cells[0, 24].Value = "Deviation (g)";
                                 ws.Cells[0, 25].Value = "Pass";
                                 ws.Cells[0, 26].Value = "Status";
-                                ws.Cells[0, 27].Value = "CalculatedPairs";
+                                ws.Cells[0, 27].Value = "Calculated (prs)";
                                 ws.Cells[0, 28].Value = "DeviationPairs";
                                 ws.Cells[0, 29].Value = "CreatedDate";
                                 ws.Cells[0, 30].Value = "Station";
                                 ws.Cells[0, 31].Value = "UserName";
+                                ws.Cells[0, 32].Value = "ApprovedName";
+                                ws.Cells[0, 33].Value = "ActualDeviationPairs";
 
-                                CellRange rHeader = ws.Range.FromLTRB(0, 0, 31, 0);//Col-Row;Col-Row. do created new WB nen ko lây theo hàng cot chũ cái đc
+                                CellRange rHeader = ws.Range.FromLTRB(0, 0, 33, 0);//Col-Row;Col-Row. do created new WB nen ko lây theo hàng cot chũ cái đc
                                 rHeader.FillColor = Color.Orange;
                                 rHeader.Alignment.Horizontal = SpreadsheetHorizontalAlignment.Center;
                                 rHeader.Alignment.Vertical = SpreadsheetVerticalAlignment.Center;
@@ -474,15 +482,15 @@ namespace WeightChecking
                                 ws.Range[$"AB2:AC{res.Count}"].NumberFormat = "#,#0";
                                 ws.Range[$"AD2:AD{res.Count}"].NumberFormat = "yyyy/MM/dd HH:mm:ss";
 
-                                ws.Range.FromLTRB(0, 0, 31, res.Count).Borders.SetAllBorders(Color.Black, BorderLineStyle.Thin);
+                                ws.Range.FromLTRB(0, 0, 33, res.Count).Borders.SetAllBorders(Color.Black, BorderLineStyle.Thin);
                                 //ws.FreezeRows(0);
                                 //ws.FreezeColumns(3);
                                 ws.FreezePanes(0, 3);
-                                ws.Columns.AutoFit(0, 31);
+                                ws.Columns.AutoFit(0, 33);
                                 #endregion
 
                                 #region Approved print lable
-                                 ws = wb.Worksheets["ApprovedPrintLable"];
+                                ws = wb.Worksheets["ApprovedPrintLable"];
 
                                 ws.Cells[0, 0].Value = "User Name";
                                 ws.Cells[0, 1].Value = "ID Lable";
@@ -491,9 +499,10 @@ namespace WeightChecking
                                 ws.Cells[0, 4].Value = "Gross Weight";
                                 ws.Cells[0, 5].Value = "Station";
                                 ws.Cells[0, 6].Value = "Created Date";
-                                ws.Cells[0, 7].Value = "Created Machine";
+                                ws.Cells[0, 7].Value = "QR Label";
+                                ws.Cells[0, 8].Value = "Aprrove Type";
 
-                                 rHeader = ws.Range.FromLTRB(0, 0, 7, 0);//Col-Row;Col-Row. do created new WB nen ko lây theo hàng cot chũ cái đc
+                                rHeader = ws.Range.FromLTRB(0, 0, 8, 0);//Col-Row;Col-Row. do created new WB nen ko lây theo hàng cot chũ cái đc
                                 rHeader.FillColor = Color.Orange;
                                 rHeader.Alignment.Horizontal = SpreadsheetHorizontalAlignment.Center;
                                 rHeader.Alignment.Vertical = SpreadsheetVerticalAlignment.Center;
@@ -503,14 +512,15 @@ namespace WeightChecking
                                 {
                                     reportApproved.Add(new ApprovedReportModel()
                                     {
-                                        UserName=itemApproved.UserName,
-                                        IdLable=itemApproved.IdLable,
-                                        OC=itemApproved.OC,
-                                        BoxNo=itemApproved.BoxNo,
-                                        GrossWeight=itemApproved.GrossWeight,
-                                        Station=itemApproved.Station.ToString(),
-                                        CreatedDate=itemApproved.CreatedDate,
-                                        CreatedMachine=itemApproved.CreatedMachine
+                                        UserName = itemApproved.UserName,
+                                        IdLable = itemApproved.IdLable,
+                                        OC = itemApproved.OC,
+                                        BoxNo = itemApproved.BoxNo,
+                                        GrossWeight = itemApproved.GrossWeight,
+                                        Station = itemApproved.Station.ToString(),
+                                        CreatedDate = itemApproved.CreatedDate,
+                                        QRLabel = itemApproved.QRLabel,
+                                        ApproveType = itemApproved.ApproveType,
                                     });
                                 }
                                 ws.Import(reportApproved, 1, 0);
@@ -519,12 +529,44 @@ namespace WeightChecking
                                 //ws.Range[$"AB2:AC{res.Count}"].NumberFormat = "#,#0";
                                 //ws.Range[$"AD2:AD{res.Count}"].NumberFormat = "yyyy/MM/dd HH:mm:ss";
 
-                                ws.Range.FromLTRB(0, 0, 7, reportApproved.Count).Borders.SetAllBorders(Color.Black, BorderLineStyle.Thin);
+                                ws.Range.FromLTRB(0, 0, 8, reportApproved.Count).Borders.SetAllBorders(Color.Black, BorderLineStyle.Thin);
                                 //ws.FreezeRows(0);
                                 //ws.FreezeColumns(3);
                                 //ws.FreezePanes(0, 3);
-                                ws.Columns.AutoFit(0, 7);
+                                ws.Columns.AutoFit(0, 8);
                                 #endregion
+
+                                #region Missing infomation
+                                ws = wb.Worksheets["MissProItems"];
+
+                                ws.Cells[0, 0].Value = "OC";
+                                ws.Cells[0, 1].Value = "Product Code";
+                                ws.Cells[0, 2].Value = "Product Name";
+                                ws.Cells[0, 3].Value = "QR Code";
+                                ws.Cells[0, 4].Value = "Note";
+                                ws.Cells[0, 5].Value = "Created Date";
+
+                                rHeader = ws.Range.FromLTRB(0, 0, 5, 0);//Col-Row;Col-Row. do created new WB nen ko lây theo hàng cot chũ cái đc
+                                rHeader.FillColor = Color.Orange;
+                                rHeader.Alignment.Horizontal = SpreadsheetHorizontalAlignment.Center;
+                                rHeader.Alignment.Vertical = SpreadsheetVerticalAlignment.Center;
+                                rHeader.Font.Bold = true;
+
+
+                                ws.Import(resMissInfo, 1, 0);
+
+                                //ws.Range[$"Q2:Y{res.Count}"].NumberFormat = "#,#0.00";
+                                //ws.Range[$"AB2:AC{res.Count}"].NumberFormat = "#,#0";
+                                ws.Range[$"E2:E{resMissInfo.Count + 1}"].NumberFormat = "yyyy/MM/dd HH:mm:ss";
+
+                                ws.Range.FromLTRB(0, 0, 5, resMissInfo.Count).Borders.SetAllBorders(Color.Black, BorderLineStyle.Thin);
+                                //ws.FreezeRows(0);
+                                //ws.FreezeColumns(3);
+                                //ws.FreezePanes(0, 3);
+                                ws.Columns.AutoFit(0, 5);
+                                #endregion
+
+                                wb.Worksheets.ActiveWorksheet = wb.Worksheets["DataScan"];
 
                                 wb.SaveDocument(sfd.FileName);
 

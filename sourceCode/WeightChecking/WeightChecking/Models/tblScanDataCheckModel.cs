@@ -12,5 +12,6 @@ namespace WeightChecking
         public Guid ApprovedBy { get; set; }
         public int ActualDeviationPairs { get; set; } = 0;
         public int Status { get; set; } = 0;
+        public int Station { get; set; } = 0;
     }
 }

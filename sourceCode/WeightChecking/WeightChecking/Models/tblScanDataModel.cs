@@ -51,6 +51,7 @@ namespace WeightChecking
         public int DeviationPairs { get; set; } = 0;//thể hiện số pairs bị thiếu.
         public StationEnum Station { get; set; }
         public Guid ApprovedBy { get; set; } = Guid.Empty;
+        public string ApprovedName { get; set; }
         public int ActualDeviationPairs { get; set; } = 0;
     }
 }

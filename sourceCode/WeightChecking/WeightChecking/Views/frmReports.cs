@@ -49,6 +49,7 @@ namespace WeightChecking
                     parametters.Add("ToDate", ToDate);
                     parametters.Add("Station", Station);
 
+                    #region Scan Data
                     var res = connection.Query<tblScanDataModel>("sp_tblScanDataGets",parametters,commandType:CommandType.StoredProcedure).ToList();
 
                     if (grcReports.InvokeRequired)
@@ -61,6 +62,37 @@ namespace WeightChecking
                     {
                         grcReports.DataSource = res;
                     }
+                    #endregion
+
+                    #region Approved Print
+                    var resApproved = connection.Query<ApprovedModel>("sp_tblApprovedPrintLableSelect", parametters, commandType: CommandType.StoredProcedure).ToList();
+
+                    if (grcApprove.InvokeRequired)
+                    {
+                        grcApprove.Invoke(new Action(() => {
+                            grcApprove.DataSource = resApproved;
+                        }));
+                    }
+                    else
+                    {
+                        grcApprove.DataSource = resApproved;
+                    }
+                    #endregion
+
+                    #region Missing infomation
+                    var resMissInfo = connection.Query<MissProItemModel>("sp_MissingInfoGets", parametters, commandType: CommandType.StoredProcedure).ToList();
+
+                    if (grcMissInfo.InvokeRequired)
+                    {
+                        grcMissInfo.Invoke(new Action(() => {
+                            grcMissInfo.DataSource = resMissInfo;
+                        }));
+                    }
+                    else
+                    {
+                        grcMissInfo.DataSource = resMissInfo;
+                    }
+                    #endregion
                 }
             }
             catch (Exception ex)

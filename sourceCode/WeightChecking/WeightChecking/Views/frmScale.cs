@@ -469,7 +469,18 @@ namespace WeightChecking
                             }
                             else if (item.Pass == 0)// && item.ActualDeviationPairs != 0 && item.ApprovedBy != Guid.Empty)
                             {
-                                isFail = true;
+                                if (!_scanData.OcNo.Contains("PR"))
+                                {
+                                    isFail = true;
+                                }
+                                else if (_scanData.OcNo.Contains("PR") && GlobalVariables.AfterPrinting == 0 && item.Station == 0)
+                                {
+                                    isFail = true;
+                                }
+                                else if (_scanData.OcNo.Contains("PR") && GlobalVariables.AfterPrinting == 1 && item.Station != 0)
+                                {
+                                    isFail = true;
+                                }
                             }
                         }
 
@@ -567,7 +578,20 @@ namespace WeightChecking
                                     }
                                     else if (_scanData.Quantity > res.BoxQtyBx1)
                                     {
-                                        _scanData.BoxWeight = res.BoxWeightBx1;
+                                        MessageBox.Show($"Số lượng vượt quá giới hạn thùng BX1 ({res.BoxQtyBx1})","CẢNH BÁO",MessageBoxButtons.OK,MessageBoxIcon.Warning);
+
+                                        para = null;
+                                        para = new DynamicParameters();
+                                        para.Add("ProductNumber", _scanData.ProductNumber);
+                                        para.Add("ProductName", _scanData.ProductName);
+                                        para.Add("OcNum", _scanData.OcNo);
+                                        para.Add("Note", $"Số lượng vượt quá giới hạn thùng BX1 ({res.BoxQtyBx1})");
+                                        para.Add("QrCode", _scanData.BarcodeString);
+
+                                        connection.Execute("sp_tblItemMissingInfoInsert", para, commandType: CommandType.StoredProcedure);
+
+                                        ResetControl();
+                                        goto returnLoop;
                                     }
 
                                     if (_scanData.Decoration == 0)
@@ -599,7 +623,7 @@ namespace WeightChecking
                                         }
                                     }
                                 }
-                                else if (_scanData.Decoration == 1 && _scanData.OcNo.Contains("PRT"))//hàng trước sơn. chỉ có trạm SSFG01 mới nhảy vào đây
+                                else if (_scanData.Decoration == 1 && _scanData.OcNo.Contains("PR"))//hàng trước sơn. chỉ có trạm SSFG01 mới nhảy vào đây
                                 {
                                     if (GlobalVariables.AfterPrinting == 0)
                                     {
@@ -898,6 +922,7 @@ namespace WeightChecking
                                         MessageBox.Show($"Thùng này đã được quét ghi nhận khối lượng OK rồi, không được phép cân lại." +
                                             $"{Environment.NewLine}Quét thùng khác.", "THÔNG BÁO", MessageBoxButtons.OK, MessageBoxIcon.Information); ;
 
+                                        ResetControl();
                                         goto returnLoop;
                                     }
                                     //GlobalVariables.RealWeight = _scanData.GrossWeight;
@@ -949,6 +974,7 @@ namespace WeightChecking
                                         MessageBox.Show($"Thùng này đã được quét ghi nhận khối lượng lỗi rồi, không được phép cân lại." +
                                             $"{Environment.NewLine}Quét thùng khác.", "THÔNG BÁO", MessageBoxButtons.OK, MessageBoxIcon.Information); ;
 
+                                        ResetControl();
                                         goto returnLoop;
                                     }
                                 }
