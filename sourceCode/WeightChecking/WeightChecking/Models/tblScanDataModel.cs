@@ -27,6 +27,7 @@ namespace WeightChecking
         public string Brand { get; set; } = null;
         public int Decoration { get; set; }
         public int MetalScan { get; set; }
+        public int ActualMetalScan { get; set; } = 0;
         public double AveWeight1Prs { get; set; }
         public double StdNetWeight { get; set; }
         public double Tolerance { get; set; }

@@ -32,6 +32,8 @@ namespace WeightChecking
 
         private double _weight = 0, _boxWeight = 0, _accessoriesWeight = 0;
 
+        private bool _approveUpdateActMetalScan = false;
+
         public frmScale()
         {
             InitializeComponent();
@@ -166,6 +168,27 @@ namespace WeightChecking
             #region đăng ký sự kiện cập nhật giá trị MetalScan counter
             GlobalVariables.MyEvent.EventHandlerCount += (s, o) =>
             {
+                #region check Actual metal scan
+                if (_approveUpdateActMetalScan && o.CountValue != GlobalVariables.RememberInfo.CountMetalScan && o.CountValue != 0)
+                {
+                    _scanData.ActualMetalScan = 1;
+
+                    #region update actualMetalScan vào thùng vừa được cân
+                    var para = new DynamicParameters();
+                    para.Add("QrCode", _scanData.BarcodeString);
+                    para.Add("ActualMetalScan", _scanData.ActualMetalScan);
+
+                    using (var con = GlobalVariables.GetDbConnection())
+                    {
+                        con.Execute("sp_tblScanDataUpdateActualMetalScan", para, commandType: CommandType.StoredProcedure);
+                    }
+                    #endregion
+
+                    _approveUpdateActMetalScan = false;
+                }
+                _scanData.ActualMetalScan = 0;
+                #endregion
+
                 GlobalVariables.RememberInfo.CountMetalScan = o.CountValue;
 
                 if (labMetalScanCount.InvokeRequired)
@@ -545,18 +568,62 @@ namespace WeightChecking
                                     if (_scanData.Quantity <= res.BoxQtyBx4)
                                     {
                                         _scanData.BoxWeight = res.BoxWeightBx4;
+
+                                        if (labBoxType.InvokeRequired)
+                                        {
+                                            labBoxType.Invoke(new Action(()=> {
+                                                labBoxType.Text = "BX4";
+                                            }));
+                                        }
+                                        else
+                                        {
+                                            labBoxType.Text = "BX4";
+                                        }
                                     }
                                     else if (_scanData.Quantity > res.BoxQtyBx4 && _scanData.Quantity <= res.BoxQtyBx3)
                                     {
                                         _scanData.BoxWeight = res.BoxWeightBx3;
+
+                                        if (labBoxType.InvokeRequired)
+                                        {
+                                            labBoxType.Invoke(new Action(() => {
+                                                labBoxType.Text = "BX3";
+                                            }));
+                                        }
+                                        else
+                                        {
+                                            labBoxType.Text = "BX3";
+                                        }
                                     }
                                     else if (_scanData.Quantity > res.BoxQtyBx3 && _scanData.Quantity <= res.BoxQtyBx2)
                                     {
                                         _scanData.BoxWeight = res.BoxWeightBx2;
+
+                                        if (labBoxType.InvokeRequired)
+                                        {
+                                            labBoxType.Invoke(new Action(() => {
+                                                labBoxType.Text = "BX2";
+                                            }));
+                                        }
+                                        else
+                                        {
+                                            labBoxType.Text = "BX2";
+                                        }
                                     }
                                     else if (_scanData.Quantity > res.BoxQtyBx2 && _scanData.Quantity <= res.BoxQtyBx1)
                                     {
                                         _scanData.BoxWeight = res.BoxWeightBx1;
+
+                                        if (labBoxType.InvokeRequired)
+                                        {
+                                            labBoxType.Invoke(new Action(() => {
+                                                labBoxType.Text = "BX1";
+                                            }));
+                                        }
+                                        else
+                                        {
+                                            labBoxType.Text = "BX1";
+                                        }
                                     }
                                     else if (_scanData.Quantity > res.BoxQtyBx1)
                                     {
@@ -633,6 +700,8 @@ namespace WeightChecking
 
                                 if (_scanData.MetalScan == 0)
                                 {
+                                    _approveUpdateActMetalScan = false;
+
                                     if (labMetalScan.InvokeRequired)
                                     {
                                         labMetalScan.Invoke(new Action(() =>
@@ -648,6 +717,9 @@ namespace WeightChecking
                                 else
                                 {
                                     GlobalVariables.RememberInfo.MetalScan += 1;
+
+                                    _approveUpdateActMetalScan = true;
+
                                     if (labMetalScan.InvokeRequired)
                                     {
                                         labMetalScan.Invoke(new Action(() =>
@@ -984,6 +1056,7 @@ namespace WeightChecking
                                 para.Add("@Brand", _scanData.Brand);
                                 para.Add("@Decoration", _scanData.Decoration);
                                 para.Add("@MetalScan", _scanData.MetalScan);
+                                para.Add("@ActualMetalScan", _scanData.ActualMetalScan);
                                 para.Add("@AveWeight1Prs", _scanData.AveWeight1Prs);
                                 para.Add("@StdNetWeight", _scanData.StdNetWeight);
                                 para.Add("@Tolerance", _scanData.Tolerance);

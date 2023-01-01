@@ -86,6 +86,7 @@ namespace WeightChecking
                             {
                                 GlobalVariables.RememberInfo.UserName = null;
                                 GlobalVariables.RememberInfo.Pass = null;
+                                GlobalVariables.RememberInfo.Remember = false;
 
                                 string json = JsonConvert.SerializeObject(GlobalVariables.RememberInfo);
 

@@ -21,7 +21,7 @@
       <Value Profile="(Default)">\\192.168.1.241\FramasPublic\PUBLIC_Able to deleted\22 IT\01-UpdateApp\11-SSFG_IDC\1.Station1BeforePrint\Update.xml</Value>
     </Setting>
     <Setting Name="IsScale" Type="System.Boolean" Scope="User">
-      <Value Profile="(Default)">True</Value>
+      <Value Profile="(Default)">False</Value>
     </Setting>
     <Setting Name="IsCounter" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">False</Value>

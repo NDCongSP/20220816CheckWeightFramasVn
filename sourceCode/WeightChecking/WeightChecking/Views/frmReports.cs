@@ -77,6 +77,7 @@ namespace WeightChecking
                     grvReports.Columns["ActualDeviationPairs"].Fixed = DevExpress.XtraGrid.Columns.FixedStyle.Right;
                     grvReports.Columns["DeviationPairs"].Fixed = DevExpress.XtraGrid.Columns.FixedStyle.Right;
                     grvReports.Columns["CalculatedPairs"].Fixed = DevExpress.XtraGrid.Columns.FixedStyle.Right;
+                    grvReports.Columns["CreatedDate"].Fixed = DevExpress.XtraGrid.Columns.FixedStyle.Right;
                     #endregion
 
                     #region Approved Print
@@ -93,6 +94,8 @@ namespace WeightChecking
                     {
                         grcApprove.DataSource = resApproved;
                     }
+
+                    grvApprove.Columns["CreatedDate"].DisplayFormat.FormatString = "YYYY-MM-dd HH:mm:ss";
                     #endregion
 
                     #region Missing infomation
@@ -109,6 +112,8 @@ namespace WeightChecking
                     {
                         grcMissInfo.DataSource = resMissInfo;
                     }
+
+                    grvMissInfo.Columns["CreatedDate"].DisplayFormat.FormatString = "YYYY-MM-dd HH:mm:ss";
                     #endregion
                 }
             }
