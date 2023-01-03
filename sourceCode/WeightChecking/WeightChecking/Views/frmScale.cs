@@ -169,7 +169,8 @@ namespace WeightChecking
             GlobalVariables.MyEvent.EventHandlerCount += (s, o) =>
             {
                 #region check Actual metal scan
-                if (_approveUpdateActMetalScan && o.CountValue != GlobalVariables.RememberInfo.CountMetalScan && o.CountValue != 0)
+                if (GlobalVariables.Station == StationEnum.IDC_1 && _approveUpdateActMetalScan 
+                && o.CountValue != GlobalVariables.RememberInfo.CountMetalScan && o.CountValue != 0)
                 {
                     _scanData.ActualMetalScan = 1;
 
@@ -571,7 +572,8 @@ namespace WeightChecking
 
                                         if (labBoxType.InvokeRequired)
                                         {
-                                            labBoxType.Invoke(new Action(()=> {
+                                            labBoxType.Invoke(new Action(() =>
+                                            {
                                                 labBoxType.Text = "BX4";
                                             }));
                                         }
@@ -586,7 +588,8 @@ namespace WeightChecking
 
                                         if (labBoxType.InvokeRequired)
                                         {
-                                            labBoxType.Invoke(new Action(() => {
+                                            labBoxType.Invoke(new Action(() =>
+                                            {
                                                 labBoxType.Text = "BX3";
                                             }));
                                         }
@@ -601,7 +604,8 @@ namespace WeightChecking
 
                                         if (labBoxType.InvokeRequired)
                                         {
-                                            labBoxType.Invoke(new Action(() => {
+                                            labBoxType.Invoke(new Action(() =>
+                                            {
                                                 labBoxType.Text = "BX2";
                                             }));
                                         }
@@ -616,7 +620,8 @@ namespace WeightChecking
 
                                         if (labBoxType.InvokeRequired)
                                         {
-                                            labBoxType.Invoke(new Action(() => {
+                                            labBoxType.Invoke(new Action(() =>
+                                            {
                                                 labBoxType.Text = "BX1";
                                             }));
                                         }

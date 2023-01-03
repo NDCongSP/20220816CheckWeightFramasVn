@@ -531,7 +531,8 @@ namespace WeightChecking
 
                                 //ws.Range[$"Q2:Y{res.Count}"].NumberFormat = "#,#0.00";
                                 //ws.Range[$"AB2:AC{res.Count}"].NumberFormat = "#,#0";
-                                ws.Range[$"G2:G{res.Count}"].NumberFormat = "yyyy/MM/dd HH:mm:ss";
+                                ws.Range[$"G2:G" +
+                                    $"{res.Count}"].NumberFormat = "yyyy/MM/dd HH:mm:ss";
 
                                 ws.Range.FromLTRB(0, 0, 8, reportApproved.Count).Borders.SetAllBorders(Color.Black, BorderLineStyle.Thin);
                                 //ws.FreezeRows(0);
@@ -1085,9 +1086,11 @@ namespace WeightChecking
                     //thanh ghi D0 cua PLC Delta DPV14SS2 co dia chi la 4596
                     GlobalVariables.ModbusStatus = GlobalVariables.MyDriver.ModbusRTUMaster.ReadHoldingRegisters(1, 4596, 1, ref _readHoldingRegisterArr);
 
-                    GlobalVariables.RememberInfo.CountMetalScan = GlobalVariables.MyDriver.GetUshortAt(_readHoldingRegisterArr, 0);
-                    //update gia tri count vao sự kiện để trong frmScal  nó update lên giao diện
-                    GlobalVariables.MyEvent.CountValue = GlobalVariables.RememberInfo.CountMetalScan;
+                    //GlobalVariables.RememberInfo.CountMetalScan = GlobalVariables.MyDriver.GetUshortAt(_readHoldingRegisterArr, 0);
+                    ////update gia tri count vao sự kiện để trong frmScal  nó update lên giao diện
+                    //GlobalVariables.MyEvent.CountValue = GlobalVariables.RememberInfo.CountMetalScan;
+
+                    GlobalVariables.MyEvent.CountValue = GlobalVariables.MyDriver.GetUshortAt(_readHoldingRegisterArr, 0);
                 }
                 else
                 {
