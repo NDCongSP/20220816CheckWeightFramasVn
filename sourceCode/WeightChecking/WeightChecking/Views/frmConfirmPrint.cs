@@ -264,7 +264,7 @@ namespace WeightChecking
                                         para.Add("Id", scandataDetail.Id);
                                         para.Add("ApproveBy", _qrApproved);
                                         para.Add("ActualDeviationPairs", _actualDeviation);
-                                        para.Add("GrossWeight", _scaleValue);
+                                        para.Add("GrossWeight", GlobalVariables.RealWeight);
 
                                         connection.Execute("sp_tblScanDataUpdateApproveBy", para, commandType: CommandType.StoredProcedure);
 
@@ -290,7 +290,7 @@ namespace WeightChecking
                                         para.Add("Id", scandataDetail.Id);
                                         para.Add("ApproveBy", _qrApproved);
                                         para.Add("ActualDeviationPairs", _actualDeviation);
-                                        para.Add("GrossWeight", _scaleValue);
+                                        para.Add("GrossWeight", GlobalVariables.RealWeight);
 
                                         connection.Execute("sp_tblScanDataUpdateApproveBy", para, commandType: CommandType.StoredProcedure);
 
