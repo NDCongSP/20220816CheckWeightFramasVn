@@ -41,7 +41,7 @@ namespace WeightChecking
                 {
                     TextEdit _sen = sender as TextEdit;
 
-                    _actualDeviation = int.TryParse(txtActualDeviation.Text, out int valueI) ? valueI : 0;
+                    _actualDeviation = short.TryParse(txtActualDeviation.Text, out short value) ? value : 0;
 
                     if (_checkCount == 0)
                     {
@@ -257,7 +257,7 @@ namespace WeightChecking
                                     {
                                         GlobalVariables.Printing(_scaleValue.ToString("#,#0.00")
                                                   , !string.IsNullOrEmpty(_scanData.IdLabel) ? _scanData.IdLabel : $"{_scanData.OcNo}|{_scanData.BoxNo}", true
-                                                  , scandataDetail.CreatedDate.ToString("yyyy/MM/dd HH:mm:ss"));
+                                                  , scandataDetail.CreatedDate.ToString("yyyy-MM-dd HH:mm:ss"));
 
                                         para = null;
                                         para = new DynamicParameters();
