@@ -873,7 +873,7 @@ namespace WeightChecking
                             int _rowUsed = _usedRange.RowCount;
                             int _colUsed = _usedRange.ColumnCount;
 
-                            for (int i = 5; i < _rowUsed; i++)
+                            for (int i = 5; i < _rowUsed + 5; i++)
                             {
                                 Row _row = ws.Rows[i];
                                 if (!string.IsNullOrEmpty(_row[$"A{i}"].Value.TextValue))
@@ -989,6 +989,12 @@ namespace WeightChecking
                                 para.Add("@PlasicBoxWeight", item.PlasicBoxWeight);
                                 para.Add("@Tolerance", item.Tolerance);
                                 para.Add("@ToleranceAfterPrint", item.ToleranceAfterPrint);
+
+                                //if (item.CodeItemSize == "7112321903-*-0018")
+                                //{
+                                //    var sx = 11;
+                                //}
+
                                 con.Execute("sp_tblCoreDataCodeitemSizeUpdate", para, commandType: CommandType.StoredProcedure);
                             }
                         }
