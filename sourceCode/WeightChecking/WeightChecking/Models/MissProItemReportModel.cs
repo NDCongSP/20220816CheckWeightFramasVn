@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace WeightChecking
 {
-    public class MissProItemModel
+    public class MissProItemReportModel
     {
         public string OcNum { get; set; }
         public string ProductNumber { get; set; }
@@ -14,6 +14,6 @@ namespace WeightChecking
         public string QRCode { get; set; }
         public string Note { get; set; }
         public DateTime CreatedDate { get; set; }
-        public StationEnum Station { get; set; }
+        public string Station { get; set; }
     }
 }

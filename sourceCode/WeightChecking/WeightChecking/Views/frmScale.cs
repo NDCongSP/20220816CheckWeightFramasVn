@@ -433,11 +433,22 @@ namespace WeightChecking
                         _scanData.BoxNo = s1[5];
                     }
 
-                    //Special case
-                    if (_scanData.ProductNumber.Contains("6112012228-"))
+                    #region check special case
+                    foreach (var item in GlobalVariables.SpecialCaseList)
                     {
-                        specialCase = true;
+                        if (_scanData.ProductNumber.Split('-')[0].Equals(item.MainItem))
+                        {
+                            specialCase = true;
+
+                            break;
+                        }
                     }
+
+                    //if (_scanData.ProductNumber.Contains("6112012228"))
+                    //{
+                    //    specialCase = true;
+                    //}
+                    #endregion
 
                     GlobalVariables.OcNo = _scanData.OcNo;
                     GlobalVariables.BoxNo = _scanData.BoxNo;

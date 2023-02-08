@@ -84,6 +84,7 @@ namespace WeightChecking
             this._barButtonItemExportExcel.ItemClick += _barButtonItemExportExcel_ItemClick;
             this._barButtonItemExportMasterData.ItemClick += _barButtonItemExportMasterData_ItemClick;
             this._barButtonItemExportMissItem.ItemClick += _barButtonItemExportMissItem_ItemClick;
+            this._barButtonItemAddSpecialCase.ItemClick += _barButtonItemAddSpecialCase_ItemClick;
 
             //chon chế độ chỉ hiển thị tab ribbon, ẩn chi tiết group
             //ribbonControl1.Minimized = true;//show tabs
@@ -218,6 +219,13 @@ namespace WeightChecking
             this._barEditItemCombStation.EditValue = "All";
             _timer.Enabled = true;
             _timer.Tick += _timer_Tick;
+        }
+
+        private void _barButtonItemAddSpecialCase_ItemClick(object sender, DevExpress.XtraBars.ItemClickEventArgs e)
+        {
+            frmAddSpecialCase frmAddSpecialCase = new frmAddSpecialCase();
+
+            frmAddSpecialCase.ShowDialog();
         }
 
         private void _barButtonItemExportMissItem_ItemClick(object sender, DevExpress.XtraBars.ItemClickEventArgs e)
@@ -386,6 +394,7 @@ namespace WeightChecking
                             var resApproved = connection.Query<ApprovedModel>("sp_tblApprovedPrintLableSelect", parametters, commandType: CommandType.StoredProcedure).ToList();
 
                             var resMissInfo = connection.Query<MissProItemModel>("sp_MissingInfoGets", parametters, commandType: CommandType.StoredProcedure).ToList();
+                            var reportMiss = new List<MissProItemReportModel>();
 
                             using (Workbook wb = new Workbook())
                             {
@@ -476,8 +485,8 @@ namespace WeightChecking
                                         CreatedDate = item.CreatedDate,
                                         Station = item.Station.ToString(),
                                         UserName = item.UserName,
-                                        ApprovedName=item.ApprovedName,
-                                        ActualDeviationPairs=item.ActualDeviationPairs
+                                        ApprovedName = item.ApprovedName,
+                                        ActualDeviationPairs = item.ActualDeviationPairs
                                     });
                                 }
                                 ws.Import(reportModel, 1, 0);
@@ -550,25 +559,38 @@ namespace WeightChecking
                                 ws.Cells[0, 3].Value = "QR Code";
                                 ws.Cells[0, 4].Value = "Note";
                                 ws.Cells[0, 5].Value = "Created Date";
+                                ws.Cells[0, 6].Value = "Station";
 
-                                rHeader = ws.Range.FromLTRB(0, 0, 5, 0);//Col-Row;Col-Row. do created new WB nen ko lây theo hàng cot chũ cái đc
+                                rHeader = ws.Range.FromLTRB(0, 0, 6, 0);//Col-Row;Col-Row. do created new WB nen ko lây theo hàng cot chũ cái đc
                                 rHeader.FillColor = Color.Orange;
                                 rHeader.Alignment.Horizontal = SpreadsheetHorizontalAlignment.Center;
                                 rHeader.Alignment.Vertical = SpreadsheetVerticalAlignment.Center;
                                 rHeader.Font.Bold = true;
 
-
-                                ws.Import(resMissInfo, 1, 0);
+                                foreach (var item in resMissInfo)
+                                {
+                                    reportMiss.Add(new MissProItemReportModel()
+                                    {
+                                        OcNum=item.OcNum,
+                                        ProductNumber=item.ProductNumber,
+                                        ProductName=item.ProductName,
+                                        QRCode=item.QRCode,
+                                        Note=item.Note,
+                                        CreatedDate=item.CreatedDate,
+                                        Station=item.Station.ToString()
+                                    });
+                                }
+                                ws.Import(reportMiss, 1, 0);
 
                                 //ws.Range[$"Q2:Y{res.Count}"].NumberFormat = "#,#0.00";
                                 //ws.Range[$"AB2:AC{res.Count}"].NumberFormat = "#,#0";
                                 ws.Range[$"F2:F{resMissInfo.Count + 1}"].NumberFormat = "yyyy/MM/dd HH:mm:ss";
 
-                                ws.Range.FromLTRB(0, 0, 5, resMissInfo.Count).Borders.SetAllBorders(Color.Black, BorderLineStyle.Thin);
+                                ws.Range.FromLTRB(0, 0, 6, resMissInfo.Count).Borders.SetAllBorders(Color.Black, BorderLineStyle.Thin);
                                 //ws.FreezeRows(0);
                                 //ws.FreezeColumns(3);
                                 //ws.FreezePanes(0, 3);
-                                ws.Columns.AutoFit(0, 5);
+                                ws.Columns.AutoFit(0, 6);
                                 #endregion
 
                                 wb.Worksheets.ActiveWorksheet = wb.Worksheets["DataScan"];

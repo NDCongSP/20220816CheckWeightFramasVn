@@ -355,7 +355,6 @@ namespace WeightChecking
             this.btnUpdate.Location = new System.Drawing.Point(12, 328);
             this.btnUpdate.Name = "btnUpdate";
             this.btnUpdate.Size = new System.Drawing.Size(1433, 45);
-            this.btnUpdate.StyleController = this.layoutControl1;
             this.btnUpdate.TabIndex = 9;
             this.btnUpdate.Text = "Update";
             this.btnUpdate.Click += new System.EventHandler(this.btnUpdate_Click);
@@ -377,7 +376,6 @@ namespace WeightChecking
             this.txtTolerance.Properties.Appearance.Font = new System.Drawing.Font("Tahoma", 15F);
             this.txtTolerance.Properties.Appearance.Options.UseFont = true;
             this.txtTolerance.Size = new System.Drawing.Size(475, 30);
-            this.txtTolerance.StyleController = this.layoutControl1;
             this.txtTolerance.TabIndex = 6;
             // 
             // labProductName

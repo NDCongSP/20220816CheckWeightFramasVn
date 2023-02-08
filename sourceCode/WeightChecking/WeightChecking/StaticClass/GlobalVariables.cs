@@ -90,6 +90,8 @@ namespace WeightChecking
         public static string BoxNo { get; set; } = null;
         public static bool PrintApprove { get; set; } = false;
         public static DateTime CreatedDate { get; set; }//dung de chua thoi gian tạo, để đồng bộ giữa in tem và log DB. dung trong Confirm in tem
+
+        public static List<tblSpecialCaseModel> SpecialCaseList { get; set; } = new List<tblSpecialCaseModel>();
         #endregion
     }
 }

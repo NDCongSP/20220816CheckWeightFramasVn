@@ -13,6 +13,7 @@ using Serilog.Sinks.MSSqlServer;
 using DevExpress.XtraSplashScreen;
 using AutoUpdaterDotNET;
 using System.Threading;
+using Dapper;
 
 namespace WeightChecking
 {
@@ -57,6 +58,13 @@ namespace WeightChecking
             }
 
             GlobalVariables.ComPort = Properties.Settings.Default.ComPort;
+            #endregion
+
+            #region Đọc DB lấy danh sách specialCase
+            using (var connection =GlobalVariables.GetDbConnection())
+            {
+                GlobalVariables.SpecialCaseList = connection.Query<tblSpecialCaseModel>("sp_tblSpecialCaseGets").ToList();
+            }
             #endregion
 
             //Log các hành động của user thì tự log bằng tay vào bảng tblLog

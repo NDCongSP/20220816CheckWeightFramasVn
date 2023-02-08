@@ -10,6 +10,7 @@ namespace WeightChecking
     {
         Operator,
         Admin,
-        Report
+        Report,
+        Observer
     }
 }

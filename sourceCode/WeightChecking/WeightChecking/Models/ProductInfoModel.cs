@@ -44,5 +44,6 @@ namespace WeightChecking
         public double PlasicBoxWeight { get; set; }
         public double Tolerance { get; set; }
         public double ToleranceAfterPrint { get; set; }
+        public DateTime CreatedDate { get; set; }//Thời gian item được get từ WL về
     }
 }

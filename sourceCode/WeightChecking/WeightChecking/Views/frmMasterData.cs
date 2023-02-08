@@ -32,8 +32,21 @@ namespace WeightChecking
         {
             GlobalVariables.MyEvent.EventHandlerRefreshMasterData += MyEvent_RefreshActionevent;
             this.grv.PopupMenuShowing += Grv_PopupMenuShowing;
+            //this.grvSpecialCase.PopupMenuShowing += GrvSpecialCase_PopupMenuShowing;
 
             GlobalVariables.MyEvent.RefreshStatus = true;
+        }
+
+        private void GrvSpecialCase_PopupMenuShowing(object sender, PopupMenuShowingEventArgs e)
+        {
+            try
+            {
+                e.Menu.Items.Add(new DXMenuItem("Update Item Infomation", new EventHandler(UpdateItemInfomation)));
+            }
+            catch (Exception ex)
+            {
+                XtraMessageBox.Show("Lỗi Get Data: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
 
         private void Grv_PopupMenuShowing(object sender, DevExpress.XtraGrid.Views.Grid.PopupMenuShowingEventArgs e)
@@ -122,6 +135,7 @@ namespace WeightChecking
             {
                 using (var connection = GlobalVariables.GetDbConnection())
                 {
+                    #region Master data
                     var winlineInfo = connection.Query<ProductInfoModel>("sp_vProductItemInfoGets").ToList();
 
                     if (winlineInfo != null && winlineInfo.Count > 0)
@@ -130,7 +144,8 @@ namespace WeightChecking
 
                         if (grc.InvokeRequired)
                         {
-                            grc.Invoke(new Action(()=> {
+                            grc.Invoke(new Action(() =>
+                            {
                                 grc.DataSource = null;
                                 grc.DataSource = winlineInfo;
 
@@ -144,12 +159,15 @@ namespace WeightChecking
                             grc.DataSource = null;
                             grc.DataSource = winlineInfo;
                         }
+
+                        grv.Columns["CreatedDate"].DisplayFormat.FormatString = "YYYY-MM-dd HH:mm:ss";
                     }
                     else
                     {
                         if (grc.InvokeRequired)
                         {
-                            grc.Invoke(new Action(() => {
+                            grc.Invoke(new Action(() =>
+                            {
                                 grc.DataSource = null;
                             }));
                         }
@@ -161,6 +179,19 @@ namespace WeightChecking
                         Console.WriteLine($"Refresh master data.");
                         Log.Error("Refresh master data fail.");
                     }
+                    #endregion
+
+                    #region Special case
+                    GlobalVariables.SpecialCaseList = connection.Query<tblSpecialCaseModel>("sp_tblSpecialCaseGets").ToList();
+
+                    this.Invoke((MethodInvoker)delegate
+                    {
+                        grcSpecialCase.DataSource = null;
+                        grcSpecialCase.DataSource = GlobalVariables.SpecialCaseList;
+
+                        grvSpecialCase.Columns["CreatedDate"].DisplayFormat.FormatString = "YYYY-MM-dd HH:mm:ss";
+                    });
+                    #endregion
                 }
             }
             catch (Exception ex)
@@ -178,8 +209,8 @@ namespace WeightChecking
             GridView gv = (GridView)sender;
             try
             {
-                _productNumber = gv.GetRowCellValue(gv.FocusedRowHandle, "ProductNumber").ToString();
-                _codeItemZise = gv.GetRowCellValue(gv.FocusedRowHandle, "CodeItemSize").ToString();
+                _productNumber = !string.IsNullOrEmpty(gv.GetRowCellValue(gv.FocusedRowHandle, "ProductNumber").ToString()) ? gv.GetRowCellValue(gv.FocusedRowHandle, "ProductNumber").ToString() : null;
+                _codeItemZise = !string.IsNullOrEmpty(gv.GetRowCellValue(gv.FocusedRowHandle, "CodeItemSize").ToString()) ? gv.GetRowCellValue(gv.FocusedRowHandle, "CodeItemSize").ToString() : null;
             }
             catch (Exception ex)
             {
