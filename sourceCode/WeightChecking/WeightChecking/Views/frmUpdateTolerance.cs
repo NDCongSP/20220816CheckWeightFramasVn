@@ -54,13 +54,17 @@ namespace WeightChecking
                     txtBoxWeightBx4.Text = _info.BoxWeightBx4.ToString();
                     txtPartitionQty.Text = _info.PartitionQty.ToString();
                     txtPartitionWeight.Text = _info.PartitionWeight.ToString();
-                    txtPlasicQty.Text = _info.PlasicBag1Qty.ToString();
-                    txtPlasicWeight.Text = _info.PlasicBag1Weight.ToString();
+                    txtPlasicBag1Qty.Text = _info.PlasicBag1Qty.ToString();
+                    txtPlasicBag1Weight.Text = _info.PlasicBag1Weight.ToString();
                     txtWrapSheetQty.Text = _info.WrapSheetQty.ToString();
                     txtWrapSheetWeight.Text = _info.WrapSheetWeight.ToString();
                     txtPlasicBoxWeight.Text = _info.PlasicBoxWeight.ToString();
                     txtTolerance.Text = _info.Tolerance.ToString();
                     txtToleranceAfterPrint.Text = _info.ToleranceAfterPrint.ToString();
+                    txtPlasicBag2Qty.Text = _info.PlasicBag2Qty.ToString();
+                    txtPlasicBag2Weight.Text = _info.PlasicBag2Weight.ToString();
+                    txtFoarmSheetQty.Text = _info.FoamSheetQty.ToString();
+                    txtFoarmSheetWeight.Text = _info.FoamSheetWeight.ToString();
                 }
             }
 
@@ -146,7 +150,7 @@ namespace WeightChecking
                     _info.PartitionQty = int.TryParse(t.Text, out int value) ? value : 0;
                 }
             };
-            this.txtPlasicQty.TextChanged += (s, o) => {
+            this.txtPlasicBag1Qty.TextChanged += (s, o) => {
                 TextEdit t = (TextEdit)s;
                 if (!string.IsNullOrEmpty(t.Text))
                 {
@@ -168,7 +172,7 @@ namespace WeightChecking
                     _info.PartitionWeight = double.TryParse(t.Text, out double value) ? value : 0;
                 }
             };
-            this.txtPlasicWeight.TextChanged += (s, o) => {
+            this.txtPlasicBag1Weight.TextChanged += (s, o) => {
                 TextEdit t = (TextEdit)s;
                 if (!string.IsNullOrEmpty(t.Text))
                 {
@@ -194,6 +198,37 @@ namespace WeightChecking
                 if (!string.IsNullOrEmpty(t.Text))
                 {
                     _info.ToleranceAfterPrint = double.TryParse(t.Text, out double value) ? value : 0;
+                }
+            };
+
+            this.txtPlasicBag2Qty.TextChanged += (s, o) => {
+                TextEdit t = (TextEdit)s;
+                if (!string.IsNullOrEmpty(t.Text))
+                {
+                    _info.PlasicBag2Qty= int.TryParse(t.Text, out int value) ? value : 0;
+                }
+            };
+
+            this.txtPlasicBag2Weight.TextChanged += (s, o) => {
+                TextEdit t = (TextEdit)s;
+                if (!string.IsNullOrEmpty(t.Text))
+                {
+                    _info.PlasicBag2Weight = int.TryParse(t.Text, out int value) ? value : 0;
+                }
+            };
+
+            this.txtFoarmSheetQty.TextChanged += (s, o) => {
+                TextEdit t = (TextEdit)s;
+                if (!string.IsNullOrEmpty(t.Text))
+                {
+                    _info.FoamSheetQty = int.TryParse(t.Text, out int value) ? value : 0;
+                }
+            };
+            this.txtFoarmSheetWeight.TextChanged += (s, o)=>{
+                TextEdit t = (TextEdit)s;
+                if (!string.IsNullOrEmpty(t.Text))
+                {
+                    _info.FoamSheetWeight = int.TryParse(t.Text, out int value) ? value : 0;
                 }
             };
             #endregion
@@ -223,11 +258,15 @@ namespace WeightChecking
                     para.Add("@BoxWeightBx3", _info.BoxWeightBx3);
                     para.Add("@BoxWeightBx4", _info.BoxWeightBx4);
                     para.Add("@PartitionQty", _info.PartitionQty);
-                    para.Add("@PlasicBagQty", _info.PlasicBag1Qty);
+                    para.Add("@PlasicBag1Qty", _info.PlasicBag1Qty);
+                    para.Add("@PlasicBag2Qty", _info.PlasicBag2Qty);
                     para.Add("@WrapSheetQty", _info.WrapSheetQty);
+                    para.Add("@FoamSheetQty", _info.FoamSheetQty);
                     para.Add("@PartitionWeight", _info.PartitionWeight);
-                    para.Add("@PlasicBagWeight", _info.PlasicBag1Weight);
+                    para.Add("@PlasicBag1Weight", _info.PlasicBag1Weight);
+                    para.Add("@PlasicBag2Weight", _info.PlasicBag2Weight);
                     para.Add("@WrapSheetWeight", _info.WrapSheetWeight);
+                    para.Add("@FoamSheetWeight", _info.FoamSheetWeight);
                     para.Add("@PlasicBoxWeight", _info.PlasicBoxWeight);
                     para.Add("@Tolerance", _info.Tolerance);
                     para.Add("@ToleranceAfterPrint", _info.ToleranceAfterPrint);
