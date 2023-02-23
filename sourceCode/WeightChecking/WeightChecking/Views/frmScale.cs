@@ -283,6 +283,8 @@ namespace WeightChecking
 
             this.txtQrCode.Focus();
             this.txtQrCode.KeyDown += TxtQrCode_KeyDown;
+
+            this.Invoke((MethodInvoker)delegate { labScaleValue.Text = "4945"; });
         }
 
         private void TxtQrCode_KeyDown(object sender, KeyEventArgs e)

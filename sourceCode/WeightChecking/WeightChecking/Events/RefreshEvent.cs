@@ -105,16 +105,55 @@ namespace WeightChecking
             _eventHandlerCount?.Invoke(this, new CountValueChangedEventArgs(value));
         }
         #endregion
+
+        #region Event PLC on/off light
+        private bool _statusLightPLC = false;
+        public bool StatusLightPLC
+        {
+            get => _statusLightPLC;
+            set
+            {
+                _statusLightPLC = value;
+                OnStatusLightPlcAction(value);
+            }
+        }
+
+        private event EventHandler<CountValueChangedEventArgs> _eventHandleStatusLightPLC;
+        public event EventHandler<CountValueChangedEventArgs> EventHandleStatusLightPLC
+        {
+            add
+            {
+                _eventHandleStatusLightPLC += value;
+            }
+            remove
+            {
+                _eventHandleStatusLightPLC -= value;
+            }
+        }
+
+        void OnStatusLightPlcAction(bool value)
+        {
+            _eventHandleStatusLightPLC?.Invoke(this, new CountValueChangedEventArgs(value));
+        }
+        #endregion
     }
 
     public class CountValueChangedEventArgs : EventArgs
     {
         private int _countValue = 0;
+        private bool _statusLight = false;
         public int CountValue { get => _countValue; set => _countValue = value; }
+
+        public bool StatusLight { get => _statusLight; set => _statusLight = value; }
 
         public CountValueChangedEventArgs(int value)
         {
             _countValue = value;
+        }
+
+        public CountValueChangedEventArgs(bool value)
+        {
+            _statusLight = value;
         }
     }
 }
