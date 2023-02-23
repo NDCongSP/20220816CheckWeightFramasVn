@@ -950,6 +950,9 @@ namespace WeightChecking
                                 //thung hang Pass
                                 if (_scanData.DeviationPairs == 0)
                                 {
+                                    //bật tín hiệu để PLC on đèn xanh
+                                    GlobalVariables.MyEvent.StatusLightPLC = true;
+
                                     if (_scanData.Decoration == 0)
                                     {
                                         GlobalVariables.RememberInfo.GoodBoxPrinting += 1;
@@ -1002,6 +1005,8 @@ namespace WeightChecking
                                 }
                                 else//thung fail
                                 {
+                                    GlobalVariables.MyEvent.StatusLightPLC = false;
+
                                     _scanData.Pass = 0;
                                     _scanData.Status = 0;
 

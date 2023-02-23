@@ -40,6 +40,7 @@ namespace WeightChecking
         Timer _timer = new Timer() { Interval = 500 };
 
         byte[] _readHoldingRegisterArr = { 0, 0 };
+        byte[] _writeHoldingRegisterArr = { 0, 0 };
         int _countDisconnectPlc = 0;
         private System.Threading.Tasks.Task _tskModbus;
 
@@ -208,6 +209,24 @@ namespace WeightChecking
                 {
                     MessageBox.Show($"Không thể kết nối được bộ đếm dò kim loại.{Environment.NewLine}Tắt phần mềm, kiểm tra lại kết nối với PLC rồi mở lại phần mềm.",
                                     "CẢNH BÁO", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+
+                //chi đăng ký sự kiện bật tắt đèn tháp báo thùng pass/fail cho trạm kerry
+                if (GlobalVariables.Station == StationEnum.Kerry_3)
+                {
+                    GlobalVariables.MyEvent.EventHandleStatusLightPLC += (s, o) =>
+                    {
+                        if (o.StatusLight)//thùng cân Pass
+                        {
+                            _writeHoldingRegisterArr[1] = 1;
+                            GlobalVariables.ModbusStatus = GlobalVariables.MyDriver.ModbusRTUMaster.WriteHoldingRegisters(1, 4602, 1, _writeHoldingRegisterArr);
+                        }
+                        else//thùng cân fail
+                        {
+                            _writeHoldingRegisterArr[1] = 0;
+                            GlobalVariables.ModbusStatus = GlobalVariables.MyDriver.ModbusRTUMaster.WriteHoldingRegisters(1, 4602, 1, _writeHoldingRegisterArr);
+                        }
+                    };
                 }
             }
             #endregion
@@ -571,13 +590,13 @@ namespace WeightChecking
                                 {
                                     reportMiss.Add(new MissProItemReportModel()
                                     {
-                                        OcNum=item.OcNum,
-                                        ProductNumber=item.ProductNumber,
-                                        ProductName=item.ProductName,
-                                        QRCode=item.QRCode,
-                                        Note=item.Note,
-                                        CreatedDate=item.CreatedDate,
-                                        Station=item.Station.ToString()
+                                        OcNum = item.OcNum,
+                                        ProductNumber = item.ProductNumber,
+                                        ProductName = item.ProductName,
+                                        QRCode = item.QRCode,
+                                        Note = item.Note,
+                                        CreatedDate = item.CreatedDate,
+                                        Station = item.Station.ToString()
                                     });
                                 }
                                 ws.Import(reportMiss, 1, 0);
