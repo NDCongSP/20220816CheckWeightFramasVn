@@ -1005,6 +1005,7 @@ namespace WeightChecking
                                 }
                                 else//thung fail
                                 {
+                                    //bật đèn đỏ
                                     GlobalVariables.MyEvent.StatusLightPLC = false;
 
                                     _scanData.Pass = 0;

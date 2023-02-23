@@ -48,7 +48,15 @@ namespace WeightChecking
         public static bool IsCounter { get; set; } = false;
         public static StationEnum Station { get; set; }
 
-        //bao can o tram truoc son hay sau son
+        /// <summary>
+        /// Tỉ lệ khối lượng calculate deviation / standar Gross weight.
+        /// % = [|CalculateDeviation (prs)| * AveWeight/Prs (g)]/SdtGrossWeight (g).
+        /// </summary>
+        public static double RatioFailWeight { get; set; } = 0;
+
+        /// <summary>
+        /// Bao can o tram truoc son hay sau son.0-trước sơn (IDC1); 1-sau sơn (IDC2,Kerry).
+        /// </summary>
         public static int AfterPrinting { get; set; } = 0;
 
         #region Printing

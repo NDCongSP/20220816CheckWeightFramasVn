@@ -148,5 +148,17 @@ namespace WeightChecking.Properties {
                 this["AfterPrinting"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("4")]
+        public double RatioFailWeight {
+            get {
+                return ((double)(this["RatioFailWeight"]));
+            }
+            set {
+                this["RatioFailWeight"] = value;
+            }
+        }
     }
 }

@@ -216,15 +216,13 @@ namespace WeightChecking
                 {
                     GlobalVariables.MyEvent.EventHandleStatusLightPLC += (s, o) =>
                     {
-                        if (o.StatusLight)//thùng cân Pass
+                        if (o.StatusLight)
                         {
-                            _writeHoldingRegisterArr[1] = 1;
-                            GlobalVariables.ModbusStatus = GlobalVariables.MyDriver.ModbusRTUMaster.WriteHoldingRegisters(1, 4602, 1, _writeHoldingRegisterArr);
+                            GlobalVariables.ModbusStatus = GlobalVariables.MyDriver.ModbusRTUMaster.WriteMultipleCoils(1, 2048, 2, new bool[] { false, true });
                         }
-                        else//thùng cân fail
+                        else
                         {
-                            _writeHoldingRegisterArr[1] = 0;
-                            GlobalVariables.ModbusStatus = GlobalVariables.MyDriver.ModbusRTUMaster.WriteHoldingRegisters(1, 4602, 1, _writeHoldingRegisterArr);
+                            GlobalVariables.ModbusStatus = GlobalVariables.MyDriver.ModbusRTUMaster.WriteMultipleCoils(1, 2048, 2, new bool[] { true, false });
                         }
                     };
                 }
@@ -777,11 +775,6 @@ namespace WeightChecking
             nf.ShowDialog();
         }
 
-        private void BarButtonItemResetCountMetal_ItemClick(object sender, DevExpress.XtraBars.ItemClickEventArgs e)
-        {
-
-        }
-
         //Get data from winline update to local Databases.
         private void barButtonItemGetDataWL_ItemClick(object sender, DevExpress.XtraBars.ItemClickEventArgs e)
         {
@@ -1130,14 +1123,18 @@ namespace WeightChecking
                             }
                         }
                     }
-                    //thanh ghi D0 cua PLC Delta DPV14SS2 co dia chi la 4596
-                    GlobalVariables.ModbusStatus = GlobalVariables.MyDriver.ModbusRTUMaster.ReadHoldingRegisters(1, 4596, 1, ref _readHoldingRegisterArr);
 
-                    //GlobalVariables.RememberInfo.CountMetalScan = GlobalVariables.MyDriver.GetUshortAt(_readHoldingRegisterArr, 0);
-                    ////update gia tri count vao sự kiện để trong frmScal  nó update lên giao diện
-                    //GlobalVariables.MyEvent.CountValue = GlobalVariables.RememberInfo.CountMetalScan;
+                    if (GlobalVariables.Station == StationEnum.IDC_1)
+                    {
+                        //thanh ghi D0 cua PLC Delta DPV14SS2 co dia chi la 4596
+                        GlobalVariables.ModbusStatus = GlobalVariables.MyDriver.ModbusRTUMaster.ReadHoldingRegisters(1, 4596, 1, ref _readHoldingRegisterArr);
 
-                    GlobalVariables.MyEvent.CountValue = GlobalVariables.MyDriver.GetUshortAt(_readHoldingRegisterArr, 0);
+                        //GlobalVariables.RememberInfo.CountMetalScan = GlobalVariables.MyDriver.GetUshortAt(_readHoldingRegisterArr, 0);
+                        ////update gia tri count vao sự kiện để trong frmScal  nó update lên giao diện
+                        //GlobalVariables.MyEvent.CountValue = GlobalVariables.RememberInfo.CountMetalScan;
+
+                        GlobalVariables.MyEvent.CountValue = GlobalVariables.MyDriver.GetUshortAt(_readHoldingRegisterArr, 0);
+                    }
                 }
                 else
                 {
