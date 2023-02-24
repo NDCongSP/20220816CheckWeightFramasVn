@@ -467,36 +467,38 @@ namespace WeightChecking
                         var countRow = checkInfo.Count;
                         foreach (var item in checkInfo)
                         {
-
                             if (item.Pass == 1 || (item.Pass == 0 && item.ActualDeviationPairs == 0 && item.ApprovedBy != Guid.Empty))
                             {
-                                if (!_scanData.OcNo.Contains("PR"))
-                                {
-                                    isPass = true;
-                                }
-                                else if (_scanData.OcNo.Contains("PR") && GlobalVariables.AfterPrinting == 0 && item.Status == 1)
-                                {
-                                    isPass = true;
-                                }
-                                else if (_scanData.OcNo.Contains("PR") && GlobalVariables.AfterPrinting == 1 && item.Status == 2)
-                                {
-                                    isPass = true;
-                                }
+                                isPass = true;
+                                //if (!_scanData.OcNo.Contains("PR"))
+                                //{
+                                //    isPass = true;
+                                //}
+                                //else if (_scanData.OcNo.Contains("PR") && GlobalVariables.AfterPrinting == 0 && item.Status == 1)
+                                //{
+                                //    isPass = true;
+                                //}
+                                //else if (_scanData.OcNo.Contains("PR") && item.Status == 2)//&& GlobalVariables.AfterPrinting == 1)
+                                //{
+                                //    isPass = true;
+                                //}
                             }
                             else if (item.Pass == 0)// && item.ActualDeviationPairs != 0 && item.ApprovedBy != Guid.Empty)
                             {
-                                if (!_scanData.OcNo.Contains("PR"))
-                                {
-                                    isFail = true;
-                                }
-                                else if (_scanData.OcNo.Contains("PR") && GlobalVariables.AfterPrinting == 0 && item.Station == 0)
-                                {
-                                    isFail = true;
-                                }
-                                else if (_scanData.OcNo.Contains("PR") && GlobalVariables.AfterPrinting == 1 && item.Station != 0)
-                                {
-                                    isFail = true;
-                                }
+                                isFail = true;
+
+                                //if (!_scanData.OcNo.Contains("PR"))
+                                //{
+                                //    isFail = true;
+                                //}
+                                //else if (_scanData.OcNo.Contains("PR") && GlobalVariables.AfterPrinting == 0 && item.Station == 0)
+                                //{
+                                //    isFail = true;
+                                //}
+                                //else if (_scanData.OcNo.Contains("PR") && GlobalVariables.AfterPrinting == 1 && item.Station != 0)
+                                //{
+                                //    isFail = true;
+                                //}
                             }
                         }
 
