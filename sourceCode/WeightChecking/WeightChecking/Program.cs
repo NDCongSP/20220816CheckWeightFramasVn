@@ -59,7 +59,7 @@ namespace WeightChecking
 
             GlobalVariables.ComPort = Properties.Settings.Default.ComPort;
 
-            //GlobalVariables.RatioFailWeight = Properties.Settings.Default.RatioFailWeight;
+            GlobalVariables.RatioFailWeight = Properties.Settings.Default.RatioFailWeight;
             #endregion
 
             #region Đọc DB lấy danh sách specialCase

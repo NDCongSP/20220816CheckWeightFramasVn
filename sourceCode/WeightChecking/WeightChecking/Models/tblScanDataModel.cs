@@ -56,5 +56,11 @@ namespace WeightChecking
         public Guid ApprovedBy { get; set; } = Guid.Empty;
         public string ApprovedName { get; set; }
         public int ActualDeviationPairs { get; set; } = 0;
+
+        /// <summary>
+        /// Tỉ lệ khối lượng calculate deviation / standar Gross weight.
+        /// % = [|CalculateDeviation (prs)| * AveWeight/Prs (g)]/SdtGrossWeight (g).
+        /// </summary>
+        public double RatioFailWeight { get; set; } = 0;
     }
 }

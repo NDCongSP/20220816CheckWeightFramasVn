@@ -28,7 +28,7 @@ namespace WeightChecking
         public int PartitionQty { get; set; }
         public int PlasicBag1Qty { get; set; }
         public int PlasicBag2Qty { get; set; }
-        public int WrapSheetQty { get; set; }
+        public double WrapSheetQty { get; set; }
         public int  FoamSheetQty { get; set; }
         public double PartitionWeight { get; set; } = 60;
         public double PlasicBag1Weight { get; set; }

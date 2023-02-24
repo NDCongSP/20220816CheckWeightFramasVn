@@ -169,7 +169,7 @@ namespace WeightChecking
             GlobalVariables.MyEvent.EventHandlerCount += (s, o) =>
             {
                 #region check Actual metal scan
-                if (GlobalVariables.Station == StationEnum.IDC_1 && _approveUpdateActMetalScan 
+                if (GlobalVariables.Station == StationEnum.IDC_1 && _approveUpdateActMetalScan
                 && o.CountValue != GlobalVariables.RememberInfo.CountMetalScan && o.CountValue != 0)
                 {
                     _scanData.ActualMetalScan = 1;
@@ -919,6 +919,8 @@ namespace WeightChecking
                                 }
 
                                 _scanData.DeviationPairs = _scanData.CalculatedPairs - _scanData.Quantity;
+                                //tính tỷ lệ khối lượng số đôi lỗi/ StdGrossWeight
+                                _scanData.RatioFailWeight = Math.Round((Math.Abs(_scanData.CalculatedPairs) * _scanData.AveWeight1Prs) / _scanData.StdGrossWeight, 3);
 
                                 if (labCalculatedPairs.InvokeRequired)
                                 {
@@ -981,7 +983,9 @@ namespace WeightChecking
                                     #endregion
 
                                     //kiểm tra xem data đã có trên hệ thống hay chưa
-                                    if (statusLogData == 0 || statusLogData == 1)
+                                    if (statusLogData == 0
+                                        || (statusLogData == 1 && _scanData.RatioFailWeight < GlobalVariables.RatioFailWeight)
+                                        )
                                     {
                                         _scanData.Pass = 1;
                                         _scanData.CreatedDate = GlobalVariables.CreatedDate = DateTime.Now;//lấy thời gian để đồng bộ giữa in tem và log DB
@@ -989,6 +993,27 @@ namespace WeightChecking
                                         GlobalVariables.Printing((_scanData.GrossWeight / 1000).ToString("#,#0.00")
                                                     , !string.IsNullOrEmpty(GlobalVariables.IdLabel) ? GlobalVariables.IdLabel : $"{_scanData.OcNo}|{_scanData.BoxNo}", true
                                                      , _scanData.CreatedDate.ToString("yyyy-MM-dd HH:mm:ss"));
+                                    }
+                                    //voi ty lệ lớn thì phải show form nhập actual deviation rồi mới cho in tem
+                                    if (statusLogData == 1 && _scanData.RatioFailWeight >= GlobalVariables.RatioFailWeight)
+                                    {
+                                        frmTypingDeviation nf = new frmTypingDeviation();
+                                        var dialogResult = nf.ShowDialog();
+
+                                        if (dialogResult == DialogResult.OK)
+                                        {
+                                            _scanData.Pass = 1;
+                                            _scanData.CreatedDate = GlobalVariables.CreatedDate = DateTime.Now;//lấy thời gian để đồng bộ giữa in tem và log DB
+                                                                                                               //Printing
+                                            GlobalVariables.Printing((_scanData.GrossWeight / 1000).ToString("#,#0.00")
+                                                        , !string.IsNullOrEmpty(GlobalVariables.IdLabel) ? GlobalVariables.IdLabel : $"{_scanData.OcNo}|{_scanData.BoxNo}", true
+                                                         , _scanData.CreatedDate.ToString("yyyy-MM-dd HH:mm:ss"));
+                                        }
+                                        else
+                                        {
+                                            ResetControl();
+                                            goto returnLoop;
+                                        }
                                     }
                                     else
                                     {

@@ -933,7 +933,7 @@ namespace WeightChecking
                                         PartitionQty = (int)_row[$"W{i}"].Value.NumericValue,
                                         PlasicBag1Qty = (int)_row[$"X{i}"].Value.NumericValue,
                                         PlasicBag2Qty = (int)_row[$"Y{i}"].Value.NumericValue,
-                                        WrapSheetQty = (int)_row[$"Z{i}"].Value.NumericValue,
+                                        WrapSheetQty = _row[$"Z{i}"].Value.NumericValue,
                                         FoamSheetQty = (int)_row[$"AA{i}"].Value.NumericValue,
                                         PlasicBag1Weight = _row[$"AF{i}"].Value.NumericValue,
                                         PlasicBag2Weight = _row[$"AG{i}"].Value.NumericValue,

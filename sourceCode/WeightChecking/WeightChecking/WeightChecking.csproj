@@ -249,6 +249,12 @@
     <Compile Include="Enums\RolesEnum.cs" />
     <Compile Include="Enums\StationEnum.cs" />
     <Compile Include="Events\RefreshEvent.cs" />
+    <Compile Include="Views\frmTypingDeviation.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Views\frmTypingDeviation.Designer.cs">
+      <DependentUpon>frmTypingDeviation.cs</DependentUpon>
+    </Compile>
     <Compile Include="Models\MissProItemModel.cs" />
     <Compile Include="Models\ApprovedModel.cs" />
     <Compile Include="Models\ApprovedReportModel.cs" />
@@ -387,6 +393,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Views\frmShowDetail.resx">
       <DependentUpon>frmShowDetail.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\frmTypingDeviation.resx">
+      <DependentUpon>frmTypingDeviation.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Views\frmUpdateTolerance.resx">
       <DependentUpon>frmUpdateTolerance.cs</DependentUpon>
