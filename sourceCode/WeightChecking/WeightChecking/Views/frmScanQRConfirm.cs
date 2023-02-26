@@ -7,69 +7,60 @@ using System.Data;
 using System.Drawing;
 using System.Linq;
 using System.Text;
-using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace WeightChecking
 {
-    public partial class frmTypingDeviation : DevExpress.XtraEditors.XtraForm
+    public partial class frmScanQRConfirm : DevExpress.XtraEditors.XtraForm
     {
-        bool _isClickButton = false;
-        public int ActualDeviation { get; set; } = 0;
-        public Guid QrConfirm { get; set; }
+        private bool _isOk = false;
+        public Guid QrApproved { get; set; }
 
-        public frmTypingDeviation()
+        public frmScanQRConfirm()
         {
             InitializeComponent();
 
-            FormClosing += FrmTypingDeviation_FormClosing;
-            this.btnSave.Click += BtnSave_Click;
-            txtQR.KeyDown += TxtQR_KeyDown;
+            btnConfirm.Click += BtnConfirm_Click;
+            this.FormClosing += FrmScanQRConfirm_FormClosing;
+            this.txtQrCode.KeyDown += TxtQrCode_KeyDown;
         }
 
-        private void TxtQR_KeyDown(object sender, KeyEventArgs e)
+        private void TxtQrCode_KeyDown(object sender, KeyEventArgs e)
         {
-            try
+            if (e.KeyCode==Keys.Enter)
             {
-                if (e.KeyCode == Keys.Enter)
-                {
-                    TextEdit _s = (TextEdit)sender;
-                    QrConfirm = Guid.TryParse(_s.Text, out Guid value) ? value : Guid.Empty;
+                TextEdit _sen = sender as TextEdit;
 
-                    CheckCode();
-                }
-            }
-            catch (Exception)
-            {
-                _isClickButton = false;
-                MessageBox.Show($"Lỗi.", "CẢNH BÁO", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                QrApproved= Guid.TryParse(_sen.Text, out Guid valueD) ? valueD : Guid.Empty;
+
+                CheckCode();
             }
         }
 
-        private void BtnSave_Click(object sender, EventArgs e)
+        private void FrmScanQRConfirm_FormClosing(object sender, FormClosingEventArgs e)
         {
-            CheckCode();
-        }
-
-        private void FrmTypingDeviation_FormClosing(object sender, FormClosingEventArgs e)
-        {
-            if (!_isClickButton)
+            if (!_isOk)
             {
                 this.DialogResult = DialogResult.Cancel;
-            }
+            } 
+        }
+
+        private void BtnConfirm_Click(object sender, EventArgs e)
+        {
+            CheckCode();
         }
 
         private void CheckCode()
         {
             try
             {
-                if (!string.IsNullOrEmpty(txtQR.Text) && !string.IsNullOrEmpty(txtActualDeviation.Text))
+                if (!string.IsNullOrEmpty(txtQrCode.Text))
                 {
                     using (var connection = GlobalVariables.GetDbConnection())
                     {
                         var para = new DynamicParameters();
-                        para.Add("Id", QrConfirm);
+                        para.Add("Id", QrApproved);
 
                         var res = connection.Query<tblUsers>("sp_tblUserGet", para, commandType: CommandType.StoredProcedure).FirstOrDefault();
 
@@ -77,18 +68,12 @@ namespace WeightChecking
                         {
                             if (res.Approved == 1)
                             {
-                                _isClickButton = true;
-                                ActualDeviation = Convert.ToInt32(txtActualDeviation.Text);
+                                _isOk = true;
                                 this.DialogResult = DialogResult.OK;
                                 this.Close();
                             }
                             else
                             {
-                                this.Invoke((MethodInvoker)delegate
-                                {
-                                    txtQR.Text = string.Empty;
-                                    txtQR.Focus();
-                                });
                                 MessageBox.Show("Bạn không có quyền thực hiện chức năng này", "THÔNG BÁO", MessageBoxButtons.OK
                                     , MessageBoxIcon.Warning);
                             }
@@ -102,13 +87,13 @@ namespace WeightChecking
                 }
                 else
                 {
-                    MessageBox.Show("Thiếu thông tin, mời quét lại.", "THÔNG BÁO", MessageBoxButtons.OK
+                    MessageBox.Show("Mã QR trống, mời quét lại.", "THÔNG BÁO", MessageBoxButtons.OK
                                 , MessageBoxIcon.Warning);
                 }
             }
             catch (Exception)
             {
-                _isClickButton = false;
+                _isOk = false;
                 MessageBox.Show($"Chỉ được nhập số, không nhập chữ ở đây.", "CẢNH BÁO", MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
         }

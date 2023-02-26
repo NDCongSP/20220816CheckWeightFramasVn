@@ -249,6 +249,12 @@
     <Compile Include="Enums\RolesEnum.cs" />
     <Compile Include="Enums\StationEnum.cs" />
     <Compile Include="Events\RefreshEvent.cs" />
+    <Compile Include="Views\frmScanQRConfirm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Views\frmScanQRConfirm.Designer.cs">
+      <DependentUpon>frmScanQRConfirm.cs</DependentUpon>
+    </Compile>
     <Compile Include="Views\frmTypingDeviation.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -388,6 +394,9 @@
       <DependentUpon>Resources.resx</DependentUpon>
       <DesignTime>True</DesignTime>
     </Compile>
+    <EmbeddedResource Include="Views\frmScanQRConfirm.resx">
+      <DependentUpon>frmScanQRConfirm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Views\frmSettings.resx">
       <DependentUpon>frmSettings.cs</DependentUpon>
     </EmbeddedResource>

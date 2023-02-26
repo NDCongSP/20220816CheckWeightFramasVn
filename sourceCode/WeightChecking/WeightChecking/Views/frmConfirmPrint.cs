@@ -209,7 +209,7 @@ namespace WeightChecking
                 }
                 catch (Exception ex)
                 {
-                    MessageBox.Show("Quét sai mã QR. Mời quét lại.","CẢNH BÁO",MessageBoxButtons.OK,MessageBoxIcon.Warning);
+                    MessageBox.Show("Quét sai mã QR. Mời quét lại.", "CẢNH BÁO", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 }
             }
         }
@@ -324,7 +324,7 @@ namespace WeightChecking
                                 para.Add("IdLabel", _scanData.IdLabel);
                                 para.Add("OC", _scanData.OcNo);
                                 para.Add("BoxNo", _scanData.BoxNo);
-                                para.Add("GrossWeight", _scaleValue.ToString("#,#0.00"));
+                                para.Add("GrossWeight", (scandataDetail.GrossWeight / 1000).ToString("#,#0.00"));
                                 para.Add("Station", GlobalVariables.Station);
                                 para.Add("QRLabel", _scanData.BarcodeString);
                                 para.Add("ApproveType", approveType);
