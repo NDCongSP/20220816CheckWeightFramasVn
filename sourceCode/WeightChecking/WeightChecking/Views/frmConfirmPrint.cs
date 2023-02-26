@@ -246,91 +246,117 @@ namespace WeightChecking
 
                             if (scandataDetail != null)
                             {
-                                //trường hợp xác định là false alarm, cho in lại tem và cập nhật ApprovedBy vào bảng tblScanData
-                                if (scandataDetail.ApprovedBy == Guid.Empty && scandataDetail.Pass == 0 && _actualDeviation == 0)
+                                var ratio = Math.Round((Math.Abs(scandataDetail.DeviationPairs) * scandataDetail.AveWeight1Prs) / scandataDetail.StdGrossWeight, 3);
+
+                                if (ratio<GlobalVariables.RatioFailWeight)
                                 {
-                                    var dialogResult = MessageBox.Show($"Bạn có chắc chắn xác nhận thùng với thông tin sau:" +
-                                         $"{Environment.NewLine}{scandataDetail.IdLabel}|{scandataDetail.OcNo}|{scandataDetail.BoxNo}{Environment.NewLine}" +
-                                         $" là cảnh báo sai và in lại tem?", "CẢNH BÁO", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
-
-                                    if (dialogResult == DialogResult.Yes)
+                                    //trường hợp xác định là false alarm, cho in lại tem và cập nhật ApprovedBy vào bảng tblScanData
+                                    if (scandataDetail.ApprovedBy == Guid.Empty && scandataDetail.Pass == 0 && _actualDeviation == 0)
                                     {
-                                        GlobalVariables.Printing(_scaleValue.ToString("#,#0.00")
-                                                  , !string.IsNullOrEmpty(_scanData.IdLabel) ? _scanData.IdLabel : $"{_scanData.OcNo}|{_scanData.BoxNo}", true
-                                                  , scandataDetail.CreatedDate.ToString("yyyy-MM-dd HH:mm:ss"));
+                                        var dialogResult = MessageBox.Show($"Bạn có chắc chắn xác nhận thùng với thông tin sau:" +
+                                             $"{Environment.NewLine}{scandataDetail.IdLabel}|{scandataDetail.OcNo}|{scandataDetail.BoxNo}{Environment.NewLine}" +
+                                             $" là cảnh báo sai và in lại tem?", "CẢNH BÁO", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
 
-                                        para = null;
-                                        para = new DynamicParameters();
-                                        para.Add("Id", scandataDetail.Id);
-                                        para.Add("ApproveBy", _qrApproved);
-                                        para.Add("ActualDeviationPairs", _actualDeviation);
-                                        para.Add("GrossWeight", GlobalVariables.RealWeight);
+                                        if (dialogResult == DialogResult.Yes)
+                                        {
+                                            GlobalVariables.Printing(_scaleValue.ToString("#,#0.00")
+                                                      , !string.IsNullOrEmpty(_scanData.IdLabel) ? _scanData.IdLabel : $"{_scanData.OcNo}|{_scanData.BoxNo}", true
+                                                      , scandataDetail.CreatedDate.ToString("yyyy-MM-dd HH:mm:ss"));
 
-                                        connection.Execute("sp_tblScanDataUpdateApproveBy", para, commandType: CommandType.StoredProcedure);
+                                            para = null;
+                                            para = new DynamicParameters();
+                                            para.Add("Id", scandataDetail.Id);
+                                            para.Add("ApproveBy", _qrApproved);
+                                            para.Add("ActualDeviationPairs", _actualDeviation);
+                                            para.Add("GrossWeight", GlobalVariables.RealWeight);
 
-                                        approveType = "False alarm";
+                                            connection.Execute("sp_tblScanDataUpdateApproveBy", para, commandType: CommandType.StoredProcedure);
+
+                                            approveType = "False alarm";
+
+                                            #region Log
+                                            para = null;
+                                            para = new DynamicParameters();
+                                            para.Add("QrCode", _qrApproved);
+                                            para.Add("IdLabel", _scanData.IdLabel);
+                                            para.Add("OC", _scanData.OcNo);
+                                            para.Add("BoxNo", _scanData.BoxNo);
+                                            para.Add("GrossWeight", (scandataDetail.GrossWeight / 1000).ToString("#,#0.00"));
+                                            para.Add("Station", GlobalVariables.Station);
+                                            para.Add("QRLabel", _scanData.BarcodeString);
+                                            para.Add("ApproveType", approveType);
+
+                                            connection.Execute("sp_tblApprovedPrintLabelInsert", para, commandType: CommandType.StoredProcedure);
+                                            #endregion
+                                        }
                                     }
+                                    //trường hợp này là true alarm, nhưng vào chỉnh sửa lại chênh lêch thực tế (actual deviation)
+                                    else if (scandataDetail.ApprovedBy == Guid.Empty && scandataDetail.Pass == 0 && _actualDeviation != 0)
+                                    {
+                                        var dialogResult = MessageBox.Show($"Bạn có chắc chắn xác nhận cập nhật số lượng chênh lệch thực tế cho thùng với thông tin sau:" +
+                                             $"{Environment.NewLine}{scandataDetail.IdLabel}|{scandataDetail.OcNo}|{scandataDetail.BoxNo}.{Environment.NewLine}" +
+                                             $"Số lượng lệch thực tế là: {_actualDeviation}?", "CẢNH BÁO", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
 
+                                        if (dialogResult == DialogResult.Yes)
+                                        {
+                                            //GlobalVariables.Printing(_scaleValue.ToString("#,#0.00")
+                                            //          , !string.IsNullOrEmpty(_scanData.IdLabel) ? _scanData.IdLabel : $"{_scanData.OcNo}|{_scanData.BoxNo}", true
+                                            //          , scandataDetail.CreatedDate.ToString("yyyy/MM/dd HH:mm:ss"));
+
+                                            para = null;
+                                            para = new DynamicParameters();
+                                            para.Add("Id", scandataDetail.Id);
+                                            para.Add("ApproveBy", _qrApproved);
+                                            para.Add("ActualDeviationPairs", _actualDeviation);
+                                            para.Add("GrossWeight", GlobalVariables.RealWeight);
+
+                                            connection.Execute("sp_tblScanDataUpdateApproveBy", para, commandType: CommandType.StoredProcedure);
+
+                                            approveType = "Actual deviation";
+
+                                            #region Log
+                                            para = null;
+                                            para = new DynamicParameters();
+                                            para.Add("QrCode", _qrApproved);
+                                            para.Add("IdLabel", _scanData.IdLabel);
+                                            para.Add("OC", _scanData.OcNo);
+                                            para.Add("BoxNo", _scanData.BoxNo);
+                                            para.Add("GrossWeight", (scandataDetail.GrossWeight / 1000).ToString("#,#0.00"));
+                                            para.Add("Station", GlobalVariables.Station);
+                                            para.Add("QRLabel", _scanData.BarcodeString);
+                                            para.Add("ApproveType", approveType);
+
+                                            connection.Execute("sp_tblApprovedPrintLabelInsert", para, commandType: CommandType.StoredProcedure);
+                                            #endregion
+                                        }
+                                    }
+                                    //trường hợp in lại tem. chỉ cho những thằng Pass, hoặc false alarm mới được phép in lại
+                                    //else if (
+                                    //            (scandataDetail.ApprovedBy != Guid.Empty && scandataDetail.Pass == 0 && scandataDetail.ActualDeviationPairs == 0) 
+                                    //            || scandataDetail.Pass == 1
+                                    //        )//reprint
+                                    //{
+                                    //    var dialogResult = MessageBox.Show($"Bạn có chắc chắn xác nhận in lại tem cho thùng với thông tin sau:" +
+                                    //           $"{Environment.NewLine}{scandataDetail.IdLabel}|{scandataDetail.OcNo}|{scandataDetail.BoxNo}?"
+                                    //           , "CẢNH BÁO", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+
+                                    //    if (dialogResult == DialogResult.Yes)
+                                    //    {
+                                    //        GlobalVariables.Printing(scandataDetail.GrossWeight.ToString("#,#0.00")
+                                    //              , !string.IsNullOrEmpty(_scanData.IdLabel) ? _scanData.IdLabel : $"{_scanData.OcNo}|{_scanData.BoxNo}", true
+                                    //              , scandataDetail.CreatedDate.ToString("yyyy/MM/dd HH:mm:ss"));
+
+                                    //        approveType = "Reprint";
+                                    //    }
+                                    //}
+
+                                    
                                 }
-                                //trường hợp này là true alarm, nhưng vào chỉnh sửa lại chênh lêch thực tế (actual deviation)
-                                else if (scandataDetail.ApprovedBy == Guid.Empty && scandataDetail.Pass == 0 && _actualDeviation != 0)
+                                else
                                 {
-                                    var dialogResult = MessageBox.Show($"Bạn có chắc chắn xác nhận cập nhật số lượng chênh lệch thực tế cho thùng với thông tin sau:" +
-                                         $"{Environment.NewLine}{scandataDetail.IdLabel}|{scandataDetail.OcNo}|{scandataDetail.BoxNo}.{Environment.NewLine}" +
-                                         $"Số lượng lệch thực tế là: {_actualDeviation}?", "CẢNH BÁO", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
-
-                                    if (dialogResult == DialogResult.Yes)
-                                    {
-                                        //GlobalVariables.Printing(_scaleValue.ToString("#,#0.00")
-                                        //          , !string.IsNullOrEmpty(_scanData.IdLabel) ? _scanData.IdLabel : $"{_scanData.OcNo}|{_scanData.BoxNo}", true
-                                        //          , scandataDetail.CreatedDate.ToString("yyyy/MM/dd HH:mm:ss"));
-
-                                        para = null;
-                                        para = new DynamicParameters();
-                                        para.Add("Id", scandataDetail.Id);
-                                        para.Add("ApproveBy", _qrApproved);
-                                        para.Add("ActualDeviationPairs", _actualDeviation);
-                                        para.Add("GrossWeight", GlobalVariables.RealWeight);
-
-                                        connection.Execute("sp_tblScanDataUpdateApproveBy", para, commandType: CommandType.StoredProcedure);
-
-                                        approveType = "Actual deviation";
-                                    }
+                                    MessageBox.Show($"Thùng này có trọng số là {ratio}% lớn hơn quy định là {GlobalVariables.RatioFailWeight}%." +
+                                        $"{Environment.NewLine}Yêu cầu kiểm tra lại thùng, rồi quét lại.","CẢNH BÁO",MessageBoxButtons.OK,MessageBoxIcon.Warning);
                                 }
-                                //trường hợp in lại tem. chỉ cho những thằng Pass, hoặc false alarm mới được phép in lại
-                                //else if (
-                                //            (scandataDetail.ApprovedBy != Guid.Empty && scandataDetail.Pass == 0 && scandataDetail.ActualDeviationPairs == 0) 
-                                //            || scandataDetail.Pass == 1
-                                //        )//reprint
-                                //{
-                                //    var dialogResult = MessageBox.Show($"Bạn có chắc chắn xác nhận in lại tem cho thùng với thông tin sau:" +
-                                //           $"{Environment.NewLine}{scandataDetail.IdLabel}|{scandataDetail.OcNo}|{scandataDetail.BoxNo}?"
-                                //           , "CẢNH BÁO", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
-
-                                //    if (dialogResult == DialogResult.Yes)
-                                //    {
-                                //        GlobalVariables.Printing(scandataDetail.GrossWeight.ToString("#,#0.00")
-                                //              , !string.IsNullOrEmpty(_scanData.IdLabel) ? _scanData.IdLabel : $"{_scanData.OcNo}|{_scanData.BoxNo}", true
-                                //              , scandataDetail.CreatedDate.ToString("yyyy/MM/dd HH:mm:ss"));
-
-                                //        approveType = "Reprint";
-                                //    }
-                                //}
-
-                                #region Log
-                                para = null;
-                                para = new DynamicParameters();
-                                para.Add("QrCode", _qrApproved);
-                                para.Add("IdLabel", _scanData.IdLabel);
-                                para.Add("OC", _scanData.OcNo);
-                                para.Add("BoxNo", _scanData.BoxNo);
-                                para.Add("GrossWeight", (scandataDetail.GrossWeight / 1000).ToString("#,#0.00"));
-                                para.Add("Station", GlobalVariables.Station);
-                                para.Add("QRLabel", _scanData.BarcodeString);
-                                para.Add("ApproveType", approveType);
-
-                                connection.Execute("sp_tblApprovedPrintLabelInsert", para, commandType: CommandType.StoredProcedure);
-                                #endregion
                             }
                         }
                         else
@@ -362,6 +388,9 @@ namespace WeightChecking
             //labOcNo.Text = GlobalVariables.OcNo;
             //labBoxNo.Text = GlobalVariables.BoxNo;
             //labWeight.Text = (GlobalVariables.RealWeight / 1000).ToString("#,#0.00");
+
+            txtActualDeviation.Visible = false;
+            labelControl1.Visible = false;
 
             txtQrCode.Focus();
 
