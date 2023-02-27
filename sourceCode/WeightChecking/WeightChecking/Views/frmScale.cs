@@ -470,7 +470,8 @@ namespace WeightChecking
                         var checkInfo = connection.Query<tblScanDataModel>("sp_tblScanDataGetByQrCode", para, commandType: CommandType.StoredProcedure).ToList();
                         foreach (var item in checkInfo)
                         {
-                            if (item.Pass == 1 || (item.Pass == 0 && item.ActualDeviationPairs == 0 && item.ApprovedBy != Guid.Empty))
+                            if ((item.Pass == 1 && (item.Status == 2 || GlobalVariables.Station == StationEnum.IDC_1))
+                                || (item.Pass == 0 && item.ActualDeviationPairs == 0 && item.ApprovedBy != Guid.Empty))
                             {
                                 //if (!_scanData.OcNo.Contains("PR"))
                                 //{
