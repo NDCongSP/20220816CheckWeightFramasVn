@@ -389,8 +389,8 @@ namespace WeightChecking
             //labBoxNo.Text = GlobalVariables.BoxNo;
             //labWeight.Text = (GlobalVariables.RealWeight / 1000).ToString("#,#0.00");
 
-            txtActualDeviation.Visible = false;
-            labelControl1.Visible = false;
+            //txtActualDeviation.Visible = false;
+            //labelControl1.Visible = false;
 
             txtQrCode.Focus();
 
