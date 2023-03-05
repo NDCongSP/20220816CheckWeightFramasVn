@@ -249,6 +249,12 @@
     <Compile Include="Enums\RolesEnum.cs" />
     <Compile Include="Enums\StationEnum.cs" />
     <Compile Include="Events\RefreshEvent.cs" />
+    <Compile Include="Views\frmDeviationForFalseAlarm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Views\frmDeviationForFalseAlarm.Designer.cs">
+      <DependentUpon>frmDeviationForFalseAlarm.cs</DependentUpon>
+    </Compile>
     <Compile Include="Views\frmScanQRConfirm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -367,6 +373,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Views\frmConfirmPrint.resx">
       <DependentUpon>frmConfirmPrint.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\frmDeviationForFalseAlarm.resx">
+      <DependentUpon>frmDeviationForFalseAlarm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Views\frmMasterData.resx">
       <DependentUpon>frmMasterData.cs</DependentUpon>
