@@ -159,7 +159,7 @@ namespace WeightChecking
                                 para.Add("ApproveBy", _qrApproved);
                                 para.Add("ActualDeviationPairs", _scanData.ActualDeviationPairs);
                                 para.Add("GrossWeight", _scaleValue);
-
+                                para.Add("Status", _scanData.OcNo.Substring(0, 2) == "PR" && GlobalVariables.Station == 0 ? 1 : 2);
                                 connection.Execute("sp_tblScanDataUpdateApproveBy", para, commandType: CommandType.StoredProcedure);
 
                                 #region Log

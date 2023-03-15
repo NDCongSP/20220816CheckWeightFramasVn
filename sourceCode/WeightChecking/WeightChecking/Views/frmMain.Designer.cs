@@ -52,6 +52,7 @@ namespace WeightChecking
             this.repositoryItemComboBox1 = new DevExpress.XtraEditors.Repository.RepositoryItemComboBox();
             this._barButtonItemExportMasterData = new DevExpress.XtraBars.BarButtonItem();
             this._barButtonItemExportMissItem = new DevExpress.XtraBars.BarButtonItem();
+            this._barButtonItemAddSpecialCase = new DevExpress.XtraBars.BarButtonItem();
             this.ribbonPageHome = new DevExpress.XtraBars.Ribbon.RibbonPage();
             this.ribbonPageGroupHome = new DevExpress.XtraBars.Ribbon.RibbonPageGroup();
             this.ribbonPageMasterData = new DevExpress.XtraBars.Ribbon.RibbonPage();
@@ -64,7 +65,6 @@ namespace WeightChecking
             this.documentManager1 = new DevExpress.XtraBars.Docking2010.DocumentManager(this.components);
             this.tabbedView1 = new DevExpress.XtraBars.Docking2010.Views.Tabbed.TabbedView(this.components);
             this.dockManager1 = new DevExpress.XtraBars.Docking.DockManager(this.components);
-            this._barButtonItemAddSpecialCase = new DevExpress.XtraBars.BarButtonItem();
             ((System.ComponentModel.ISupportInitialize)(this.ribbonControl1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.repositoryItemDateEdit1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.repositoryItemDateEdit1.CalendarTimeProperties)).BeginInit();
@@ -182,7 +182,7 @@ namespace WeightChecking
             this._barButtonItemUpVersion.Id = 11;
             this._barButtonItemUpVersion.ImageOptions.SvgImage = ((DevExpress.Utils.Svg.SvgImage)(resources.GetObject("_barButtonItemUpVersion.ImageOptions.SvgImage")));
             this._barButtonItemUpVersion.LargeWidth = 100;
-            this._barButtonItemUpVersion.Name = "_barButtonItemUpVersion";
+            this._barButtonItemUpVersion.Name = "_barButtonItemUpVersion";            
             // 
             // _barButtonItemRefreshReport
             // 
@@ -299,6 +299,14 @@ namespace WeightChecking
             this._barButtonItemExportMissItem.LargeWidth = 150;
             this._barButtonItemExportMissItem.Name = "_barButtonItemExportMissItem";
             // 
+            // _barButtonItemAddSpecialCase
+            // 
+            this._barButtonItemAddSpecialCase.Caption = "Add Special Case";
+            this._barButtonItemAddSpecialCase.Id = 21;
+            this._barButtonItemAddSpecialCase.ImageOptions.SvgImage = ((DevExpress.Utils.Svg.SvgImage)(resources.GetObject("_barButtonItemAddSpecialCase.ImageOptions.SvgImage")));
+            this._barButtonItemAddSpecialCase.LargeWidth = 150;
+            this._barButtonItemAddSpecialCase.Name = "_barButtonItemAddSpecialCase";
+            // 
             // ribbonPageHome
             // 
             this.ribbonPageHome.Groups.AddRange(new DevExpress.XtraBars.Ribbon.RibbonPageGroup[] {
@@ -398,14 +406,6 @@ namespace WeightChecking
             "DevExpress.XtraBars.TabFormControl",
             "DevExpress.XtraBars.FluentDesignSystem.FluentDesignFormControl",
             "DevExpress.XtraBars.ToolbarForm.ToolbarFormControl"});
-            // 
-            // _barButtonItemAddSpecialCase
-            // 
-            this._barButtonItemAddSpecialCase.Caption = "Add Special Case";
-            this._barButtonItemAddSpecialCase.Id = 21;
-            this._barButtonItemAddSpecialCase.ImageOptions.SvgImage = ((DevExpress.Utils.Svg.SvgImage)(resources.GetObject("_barButtonItemAddSpecialCase.ImageOptions.SvgImage")));
-            this._barButtonItemAddSpecialCase.LargeWidth = 150;
-            this._barButtonItemAddSpecialCase.Name = "_barButtonItemAddSpecialCase";
             // 
             // frmMain
             // 

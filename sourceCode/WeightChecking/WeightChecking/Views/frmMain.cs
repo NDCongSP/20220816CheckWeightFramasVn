@@ -680,7 +680,7 @@ namespace WeightChecking
             try
             {
                 isUpdateClicked = true;
-                string UUrl = "\\\\192.168.1.241\\FramasPublic\\PUBLIC_Able to deleted\\22 IT\\01-UpdateApp\\11-SSFG_IDC\\1.Station1BeforePrint\\Update.xml";
+                string UUrl = GlobalVariables.UpdatePath;
                 SplashScreenManager.ShowForm(typeof(WaitForm1));
                 System.Threading.Thread.Sleep(3000);
                 AutoUpdater.Start(UUrl);
@@ -1150,6 +1150,11 @@ namespace WeightChecking
 
                 System.Threading.Thread.Sleep(100);
             }
+        }
+
+        private void _barButtonItemUpVersion_ItemClick_1(object sender, DevExpress.XtraBars.ItemClickEventArgs e)
+        {
+
         }
     }
 }
