@@ -502,12 +502,10 @@ namespace WeightChecking
                                     )
                             {
                                 isFail = true;
-
                                 //tính tỷ lệ khối lượng số đôi lỗi/ StdGrossWeight
                                 ratioFailWeight = Math.Round((Math.Abs(item.DeviationPairs) * item.AveWeight1Prs) / item.StdGrossWeight, 3);
 
                                 //this.Invoke((MethodInvoker)delegate { labRatioFail.Text = ratioFailWeight.ToString(); });
-
                                 //if (!_scanData.OcNo.Contains("PR"))
                                 //{
                                 //    isFail = true;
