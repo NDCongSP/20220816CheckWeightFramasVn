@@ -63,6 +63,13 @@ namespace WeightChecking
             GlobalVariables.RatioFailWeight = Properties.Settings.Default.RatioFailWeight;
             #endregion
 
+            #region Get danh sách tất cả các OC đang sử dụng
+            using (var connection = GlobalVariables.GetDbConnectionWinline())
+            {
+                GlobalVariables.OcUsingList = connection.Query<OcUsingModel>("sp_IdcGetListOcName").ToList();
+            }
+            #endregion
+
             #region Đọc DB lấy danh sách specialCase
             using (var connection =GlobalVariables.GetDbConnection())
             {

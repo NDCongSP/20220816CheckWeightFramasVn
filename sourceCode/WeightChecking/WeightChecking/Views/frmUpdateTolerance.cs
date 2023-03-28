@@ -59,8 +59,10 @@ namespace WeightChecking
                     txtWrapSheetQty.Text = ItemInfo.WrapSheetQty.ToString();
                     txtWrapSheetWeight.Text = ItemInfo.WrapSheetWeight.ToString();
                     txtPlasicBoxWeight.Text = ItemInfo.PlasicBoxWeight.ToString();
-                    txtTolerance.Text = ItemInfo.Tolerance.ToString();
-                    txtToleranceAfterPrint.Text = ItemInfo.ToleranceAfterPrint.ToString();
+                    txtLowerToleranceCarton.Text = ItemInfo.LowerToleranceOfCartonBox.ToString();
+                    txtUpperToleranceCarton.Text = ItemInfo.UpperToleranceOfCartonBox.ToString();
+                    txtLowerTolerancePlastic.Text = ItemInfo.LowerToleranceOfPlasticBox.ToString();
+                    txtUpperTolerancePlastic.Text = ItemInfo.UpperToleranceOfPlasticBox.ToString();
                     txtPlasicBag2Qty.Text = ItemInfo.PlasicBag2Qty.ToString();
                     txtPlasicBag2Weight.Text = ItemInfo.PlasicBag2Weight.ToString();
                     txtFoarmSheetQty.Text = ItemInfo.FoamSheetQty.ToString();
@@ -206,19 +208,35 @@ namespace WeightChecking
                 }
             };
 
-            this.txtTolerance.TextChanged += (s, o) =>
+            this.txtLowerToleranceCarton.TextChanged += (s, o) =>
             {
                 TextEdit t = (TextEdit)s;
                 if (!string.IsNullOrEmpty(t.Text))
                 {
-                    ItemInfo.Tolerance = double.TryParse(t.Text, out double value) ? value : 0;
+                    ItemInfo.LowerToleranceOfCartonBox = double.TryParse(t.Text, out double value) ? value : 0;
                 }
-            }; this.txtToleranceAfterPrint.TextChanged += (s, o) =>
+            }; this.txtUpperToleranceCarton.TextChanged += (s, o) =>
             {
                 TextEdit t = (TextEdit)s;
                 if (!string.IsNullOrEmpty(t.Text))
                 {
-                    ItemInfo.ToleranceAfterPrint = double.TryParse(t.Text, out double value) ? value : 0;
+                    ItemInfo.UpperToleranceOfCartonBox = double.TryParse(t.Text, out double value) ? value : 0;
+                }
+            };
+
+            this.txtLowerTolerancePlastic.TextChanged += (s, o) =>
+            {
+                TextEdit t = (TextEdit)s;
+                if (!string.IsNullOrEmpty(t.Text))
+                {
+                    ItemInfo.LowerToleranceOfPlasticBox = double.TryParse(t.Text, out double value) ? value : 0;
+                }
+            }; this.txtUpperTolerancePlastic.TextChanged += (s, o) =>
+            {
+                TextEdit t = (TextEdit)s;
+                if (!string.IsNullOrEmpty(t.Text))
+                {
+                    ItemInfo.UpperToleranceOfPlasticBox = double.TryParse(t.Text, out double value) ? value : 0;
                 }
             };
 
@@ -305,8 +323,10 @@ namespace WeightChecking
                     para.Add("@WrapSheetWeight", ItemInfo.WrapSheetWeight);
                     para.Add("@FoamSheetWeight", ItemInfo.FoamSheetWeight);
                     para.Add("@PlasicBoxWeight", ItemInfo.PlasicBoxWeight);
-                    para.Add("@Tolerance", ItemInfo.Tolerance);
-                    para.Add("@ToleranceAfterPrint", ItemInfo.ToleranceAfterPrint);
+                    para.Add("@LowerToleranceOfCartonBox", ItemInfo.LowerToleranceOfCartonBox);
+                    para.Add("@UpperToleranceOfCartonBox", ItemInfo.UpperToleranceOfCartonBox);
+                    para.Add("@LowerToleranceOPlasticBox", ItemInfo.LowerToleranceOfPlasticBox);
+                    para.Add("@UpperToleranceOPlasticBox", ItemInfo.UpperToleranceOfPlasticBox);
 
                     var res = connection.Execute("sp_tblCoreDataCodeItemSizeUpdate", para, commandType: CommandType.StoredProcedure);
 
