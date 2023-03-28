@@ -1,4 +1,5 @@
 ﻿using Dapper;
+using DevExpress.Data;
 using DevExpress.Utils.Menu;
 using DevExpress.XtraEditors;
 using DevExpress.XtraGrid.Views.Grid;
@@ -26,6 +27,21 @@ namespace WeightChecking
             InitializeComponent();
 
             Load += FrmMasterData_Load;
+            grv.SelectionChanged += Grv_SelectionChanged;
+        }
+
+        private void Grv_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            GridView gv = (GridView)sender;
+            try
+            {
+                _productNumber = gv.GetRowCellValue(gv.FocusedRowHandle, "ProductNumber").ToString();
+                _codeItemZise = gv.GetRowCellValue(gv.FocusedRowHandle, "CodeItemSize") != null ? gv.GetRowCellValue(gv.FocusedRowHandle, "CodeItemSize").ToString() : string.Empty;
+            }
+            catch (Exception ex)
+            {
+
+            }
         }
 
         private void FrmMasterData_Load(object sender, EventArgs e)
