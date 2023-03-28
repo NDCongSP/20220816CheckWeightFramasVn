@@ -489,11 +489,6 @@ namespace WeightChecking
                                 //{
                                 //    isPass = true;
                                 //}
-                                //else if (_scanData.OcNo.Contains("PR") && GlobalVariables.AfterPrinting == 1 && item.Status == 2)
-                                //{
-                                //    isPass = true;
-                                //}
-
                                 isPass = true;
                             }
                             else if (
