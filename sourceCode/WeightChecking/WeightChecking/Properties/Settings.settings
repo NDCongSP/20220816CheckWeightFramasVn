@@ -3,7 +3,7 @@
   <Profiles />
   <Settings>
     <Setting Name="conString" Type="System.String" Scope="User">
-      <Value Profile="(Default)">ed3YbBgz3fEdyTkRahthFY5ktQmH2er+blyCD/lIJfgQTkdsvUtAX21xE6NORw6ZjDTFBiO0b+JppR/MUkEA8ekTiP82jW+iRZeEPpw5i4ZzRNeEyaY72K+tde5hq7/8BKwBoCV4foyGW+mZa0JHAvho1Mhs6RJ6sMrGWGmbUV/UdgUFA1082LDKxlhpm1Ff0NktMNlPk9oi5E9iE4QzTiJ2s0VZLuBsCq2PiaLakbiwyZe5jji9kJRva0p2QANS</Value>
+      <Value Profile="(Default)">ed3YbBgz3fEdyTkRahthFY5ktQmH2er+blyCD/lIJfgQTkdsvUtAX21xE6NORw6ZjeFRNfYstnZaiBSjcXumLFU/sdtwUevAWTdRgM8d5rXa3D3X5+GMyirpW1sHWm/HgWEKYxsSdYZlXnxiuz9nf7drrpUpv2SLYUqgcaS4tI12TlmBEo/Dm8Id8z+gGyVqgoQB0EuDAY/OlHLTcrxHSejQK2jjixrgD9KsnAkU2d8AQ3+rEONwHA==</Value>
     </Setting>
     <Setting Name="ipScale" Type="System.String" Scope="User">
       <Value Profile="(Default)">192.168.80.1</Value>
@@ -27,10 +27,10 @@
       <Value Profile="(Default)">False</Value>
     </Setting>
     <Setting Name="Station" Type="System.Int32" Scope="User">
-      <Value Profile="(Default)">1</Value>
+      <Value Profile="(Default)">0</Value>
     </Setting>
     <Setting Name="AfterPrinting" Type="System.Int32" Scope="User">
-      <Value Profile="(Default)">1</Value>
+      <Value Profile="(Default)">0</Value>
     </Setting>
     <Setting Name="RatioFailWeight" Type="System.Double" Scope="User">
       <Value Profile="(Default)">0.5</Value>

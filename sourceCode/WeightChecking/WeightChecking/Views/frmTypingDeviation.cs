@@ -16,7 +16,7 @@ namespace WeightChecking
     public partial class frmTypingDeviation : DevExpress.XtraEditors.XtraForm
     {
         bool _isClickButton = false;
-        public int ActualDeviation { get; set; } = 0;
+        public double ActualDeviation { get; set; } = 0;
         public Guid QrConfirm { get; set; }
 
         public frmTypingDeviation()
@@ -78,7 +78,7 @@ namespace WeightChecking
                             if (res.Approved == 1)
                             {
                                 _isClickButton = true;
-                                ActualDeviation = Convert.ToInt32(txtActualDeviation.Text);
+                                ActualDeviation = Math.Round(Convert.ToDouble(txtActualDeviation.Text), 2);
                                 this.DialogResult = DialogResult.OK;
                                 this.Close();
                             }
@@ -110,6 +110,10 @@ namespace WeightChecking
             {
                 _isClickButton = false;
                 MessageBox.Show($"Chỉ được nhập số, không nhập chữ ở đây.", "CẢNH BÁO", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            }
+            finally
+            {
+                _isClickButton = false;
             }
         }
     }
