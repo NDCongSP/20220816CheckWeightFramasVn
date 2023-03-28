@@ -33,6 +33,7 @@ namespace WeightChecking
             GlobalVariables.IsScale = Properties.Settings.Default.IsScale;
             GlobalVariables.IsCounter = Properties.Settings.Default.IsCounter;
             GlobalVariables.AfterPrinting = Properties.Settings.Default.AfterPrinting;
+            GlobalVariables.UpdatePath = Properties.Settings.Default.UpdatePath;
 
             if (Properties.Settings.Default.Station == 0)
             {
@@ -59,7 +60,7 @@ namespace WeightChecking
 
             GlobalVariables.ComPort = Properties.Settings.Default.ComPort;
 
-            //GlobalVariables.RatioFailWeight = Properties.Settings.Default.RatioFailWeight;
+            GlobalVariables.RatioFailWeight = Properties.Settings.Default.RatioFailWeight;
             #endregion
 
             #region Đọc DB lấy danh sách specialCase
@@ -103,7 +104,7 @@ namespace WeightChecking
                 AutoUpdater.DownloadPath = Environment.CurrentDirectory;
                 AutoUpdater.ApplicationExitEvent += AutoUpdater_ApplicationExitEvent;
                 AutoUpdater.CheckForUpdateEvent += AutoUpdater_CheckForUpdateEvent;
-                AutoUpdater.Start(Properties.Settings.Default.UpdatePath);
+                AutoUpdater.Start(GlobalVariables.UpdatePath);
                 Application.Run(new Login());
 
             }

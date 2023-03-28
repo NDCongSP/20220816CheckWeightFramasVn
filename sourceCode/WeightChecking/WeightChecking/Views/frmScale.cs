@@ -169,7 +169,7 @@ namespace WeightChecking
             GlobalVariables.MyEvent.EventHandlerCount += (s, o) =>
             {
                 #region check Actual metal scan
-                if (GlobalVariables.Station == StationEnum.IDC_1 && _approveUpdateActMetalScan 
+                if (GlobalVariables.Station == StationEnum.IDC_1 && _approveUpdateActMetalScan
                 && o.CountValue != GlobalVariables.RememberInfo.CountMetalScan && o.CountValue != 0)
                 {
                     _scanData.ActualMetalScan = 1;
@@ -283,6 +283,11 @@ namespace WeightChecking
 
             this.txtQrCode.Focus();
             this.txtQrCode.KeyDown += TxtQrCode_KeyDown;
+
+            //textEdit1.TextChanged += (s, o) =>
+            //{
+            //    GlobalVariables.RealWeight = double.TryParse(textEdit1.Text, out double value) ? value : 0;
+            //};
         }
 
         private void TxtQrCode_KeyDown(object sender, KeyEventArgs e)
@@ -301,6 +306,8 @@ namespace WeightChecking
                 int statusLogData = 0;//0-chưa có;1-đã có dòng fail;2-đã có dòng pass;3-đã có cả fail và pass
                 bool isFail = false;
                 bool isPass = false;
+
+                double ratioFailWeight = 0;//biến chứa ratioFailWeight của lần fail trước
 
                 if (e.KeyCode == Keys.Enter)
                 {
@@ -461,15 +468,19 @@ namespace WeightChecking
                         var para = new DynamicParameters();
 
                         #region Kiểm tra xem thùng này đã được log vào scanData chưa
-                        para.Add("QRLabel", _scanData.BarcodeString);
+                        //para.Add("QRLabel", _scanData.BarcodeString);
+                        //var checkInfo = connection.Query<tblScanDataCheckModel>("sp_tblScanDataCheck", para, commandType: CommandType.StoredProcedure).ToList();
 
-                        var checkInfo = connection.Query<tblScanDataCheckModel>("sp_tblScanDataCheck", para, commandType: CommandType.StoredProcedure).ToList();
-                        var countRow = checkInfo.Count;
+                        para.Add("_QrCode", _scanData.BarcodeString);
+                        var checkInfo = connection.Query<tblScanDataModel>("sp_tblScanDataGetByQrCode", para, commandType: CommandType.StoredProcedure).ToList();
                         foreach (var item in checkInfo)
                         {
-                            if (item.Pass == 1 || (item.Pass == 0 && item.ActualDeviationPairs == 0 && item.ApprovedBy != Guid.Empty))
+                            if (
+                                (item.Pass == 1 && (item.Status == 2 || GlobalVariables.Station == StationEnum.IDC_1))
+                                //|| (item.Pass == 0 && item.ActualDeviationPairs == 0 && item.ApprovedBy != Guid.Empty)
+                                || (item.Pass == 0 && item.Status == 2 && item.ActualDeviationPairs == 0)
+                                )
                             {
-                                isPass = true;
                                 //if (!_scanData.OcNo.Contains("PR"))
                                 //{
                                 //    isPass = true;
@@ -478,15 +489,23 @@ namespace WeightChecking
                                 //{
                                 //    isPass = true;
                                 //}
-                                //else if (_scanData.OcNo.Contains("PR") && item.Status == 2)//&& GlobalVariables.AfterPrinting == 1)
+                                //else if (_scanData.OcNo.Contains("PR") && GlobalVariables.AfterPrinting == 1 && item.Status == 2)
                                 //{
                                 //    isPass = true;
                                 //}
+
+                                isPass = true;
                             }
-                            else if (item.Pass == 0)// && item.ActualDeviationPairs != 0 && item.ApprovedBy != Guid.Empty)
+                            else if (
+                                        (item.Pass == 0 && item.Status == 0)// && item.ActualDeviationPairs != 0 && item.ApprovedBy != Guid.Empty)
+                                        || (item.Pass == 0 && item.Status == 2 && item.ActualDeviationPairs != 0)
+                                    )
                             {
                                 isFail = true;
+                                //tính tỷ lệ khối lượng số đôi lỗi/ StdGrossWeight
+                                ratioFailWeight = Math.Round((Math.Abs(item.DeviationPairs) * item.AveWeight1Prs) / item.StdGrossWeight, 3);
 
+                                //this.Invoke((MethodInvoker)delegate { labRatioFail.Text = ratioFailWeight.ToString(); });
                                 //if (!_scanData.OcNo.Contains("PR"))
                                 //{
                                 //    isFail = true;
@@ -950,7 +969,10 @@ namespace WeightChecking
                                 //thung hang Pass
                                 if (_scanData.DeviationPairs == 0)
                                 {
-                                    //bật tín hiệu để PLC on đèn xanh
+                                    _scanData.Pass = 1;//báo thùng pass
+                                    _scanData.CreatedDate = GlobalVariables.CreatedDate = DateTime.Now;//lấy thời gian để đồng bộ giữa in tem và log DB
+                                                                                                       //Printing
+                                                                                                       //bật tín hiệu để PLC on đèn xanh
                                     GlobalVariables.MyEvent.StatusLightPLC = true;
 
                                     if (_scanData.Decoration == 0)
@@ -983,19 +1005,84 @@ namespace WeightChecking
                                     #endregion
 
                                     //kiểm tra xem data đã có trên hệ thống hay chưa
-                                    if (statusLogData == 0 || statusLogData == 1)
+                                    if (statusLogData == 0)
                                     {
-                                        _scanData.Pass = 1;
-                                        _scanData.CreatedDate = GlobalVariables.CreatedDate = DateTime.Now;//lấy thời gian để đồng bộ giữa in tem và log DB
-                                                                                                           //Printing
                                         GlobalVariables.Printing((_scanData.GrossWeight / 1000).ToString("#,#0.00")
                                                     , !string.IsNullOrEmpty(GlobalVariables.IdLabel) ? GlobalVariables.IdLabel : $"{_scanData.OcNo}|{_scanData.BoxNo}", true
                                                      , _scanData.CreatedDate.ToString("yyyy-MM-dd HH:mm:ss"));
                                     }
+                                    //với thùng Pass mà trước đó đã cân và báo fail thì popup form nhập deviation
+                                    else if (statusLogData == 1)
+                                    {
+                                        using (var formDeviation = new frmTypingDeviation())
+                                        {
+                                            var resultForm = formDeviation.ShowDialog();
+
+                                            if (resultForm == DialogResult.OK)
+                                            {
+                                                //lấy lại ID của thùng lỗi này trong hệ thống để cho in lại tem rồi cập nhật thông tin người approved vào.
+                                                para = null;
+                                                para = new DynamicParameters();
+                                                para.Add("_QrCode", _scanData.BarcodeString);
+
+                                                var resulCheckInfo = connection.Query<tblScanDataModel>("sp_tblScanDataGetByQrCode", para, commandType: CommandType.StoredProcedure).FirstOrDefault();
+
+                                                if (resulCheckInfo != null)
+                                                {
+                                                    //gán giá trị trả về từ form nhập deviation vào model get data
+                                                    resulCheckInfo.ActualDeviationPairs = formDeviation.ActualDeviation;
+                                                    resulCheckInfo.ApprovedBy = formDeviation.QrConfirm;
+
+                                                    var dialogResult = MessageBox.Show($"Bạn có chắc chắn xác nhận cập nhật số lượng chênh lệch thực tế cho thùng với thông tin sau:" +
+                                         $"{Environment.NewLine}{_scanData.IdLabel}|{_scanData.OcNo}|{_scanData.BoxNo}.{Environment.NewLine}" +
+                                         $"Số lượng lệch thực tế là: {formDeviation.ActualDeviation}?", "CẢNH BÁO", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+
+                                                    if (dialogResult == DialogResult.Yes)
+                                                    {
+                                                        para = null;
+                                                        para = new DynamicParameters();
+                                                        para.Add("Id", resulCheckInfo.Id);
+                                                        para.Add("ApproveBy", resulCheckInfo.ApprovedBy);
+                                                        para.Add("ActualDeviationPairs", resulCheckInfo.ActualDeviationPairs);
+                                                        para.Add("GrossWeight", GlobalVariables.RealWeight);
+
+                                                        connection.Execute("sp_tblScanDataUpdateApproveBy", para, commandType: CommandType.StoredProcedure);
+
+                                                        #region Log
+                                                        para = null;
+                                                        para = new DynamicParameters();
+                                                        para.Add("QrCode", resulCheckInfo.ApprovedBy);
+                                                        para.Add("IdLabel", resulCheckInfo.IdLabel);
+                                                        para.Add("OC", _scanData.OcNo);
+                                                        para.Add("BoxNo", _scanData.BoxNo);
+                                                        para.Add("GrossWeight", resulCheckInfo.GrossWeight);
+                                                        para.Add("Station", GlobalVariables.Station);
+                                                        para.Add("QRLabel", _scanData.BarcodeString);
+                                                        para.Add("ApproveType", "Actual deviation");
+                                                        para.Add("CalculatorDeviationPairs", resulCheckInfo.DeviationPairs);
+                                                        para.Add("ActualDeviationPairs", resulCheckInfo.ActualDeviationPairs);
+
+                                                        connection.Execute("sp_tblApprovedPrintLabelInsert", para, commandType: CommandType.StoredProcedure);
+                                                        #endregion
+                                                        //in tem
+                                                        GlobalVariables.Printing((_scanData.GrossWeight / 1000).ToString("#,#0.00")
+                                                            , !string.IsNullOrEmpty(GlobalVariables.IdLabel) ? GlobalVariables.IdLabel : $"{_scanData.OcNo}|{_scanData.BoxNo}", true
+                                                             , _scanData.CreatedDate.ToString("yyyy-MM-dd HH:mm:ss"));
+                                                    }
+                                                }
+                                            }
+                                            else
+                                            {
+                                                MessageBox.Show($"Bạn chưa nhập chênh lệch thực tế cho thùng này. Mời quét tem lại.", "CẢNH BÁO", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                                                ResetControl();
+                                                goto returnLoop;
+                                            }
+                                        }
+                                    }
                                     else
                                     {
                                         MessageBox.Show($"Thùng này đã được quét ghi nhận khối lượng OK rồi, không được phép cân lại." +
-                                            $"{Environment.NewLine}Quét thùng khác.", "THÔNG BÁO", MessageBoxButtons.OK, MessageBoxIcon.Information); ;
+                                            $"{Environment.NewLine}Quét thùng khác.", "THÔNG BÁO", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
                                         ResetControl();
                                         goto returnLoop;
@@ -1010,6 +1097,7 @@ namespace WeightChecking
 
                                     _scanData.Pass = 0;
                                     _scanData.Status = 0;
+                                    _scanData.CreatedDate = GlobalVariables.CreatedDate = DateTime.Now;//lấy thời gian để đồng bộ giữa in tem và log DB
 
                                     GlobalVariables.PrintApprove = false;
                                     if (_scanData.Decoration == 1)
@@ -1041,11 +1129,16 @@ namespace WeightChecking
 
                                     if (statusLogData == 0)
                                     {
-                                        _scanData.CreatedDate = GlobalVariables.CreatedDate = DateTime.Now;//lấy thời gian để đồng bộ giữa in tem và log DB
-
                                         GlobalVariables.Printing(_scanData.DeviationPairs.ToString()
                                                     , !string.IsNullOrEmpty(GlobalVariables.IdLabel) ? GlobalVariables.IdLabel : $"{_scanData.OcNo}|{_scanData.BoxNo}", false
                                                     , _scanData.CreatedDate.ToString("yyyy-MM-dd HH:mm:ss"));
+                                    }
+                                    else if (statusLogData == 2)
+                                    {
+                                        MessageBox.Show($"Thùng này đã được quét ghi nhận khối lượng OK rồi, không được phép cân lại." +
+                                            $"{Environment.NewLine}Quét thùng khác.", "THÔNG BÁO", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                                        ResetControl();
+                                        goto returnLoop;
                                     }
                                     else
                                     {
@@ -1060,12 +1153,13 @@ namespace WeightChecking
 
                                 #region Log data
                                 //mỗi thùng chỉ cho log vào tối da là 2 dòng trong scanData, 1 dòng pass và fail (nếu có)
+                                //tính lại tỷ lệ khối lượng số đôi lỗi/ StdGrossWeight của lần scan này để log
+                                _scanData.RatioFailWeight = Math.Round((Math.Abs(_scanData.DeviationPairs) * _scanData.AveWeight1Prs) / _scanData.StdGrossWeight, 3);
 
-                                #region Log scanData
                                 para = null;
                                 para = new DynamicParameters();
                                 para.Add("@BarcodeString", _scanData.BarcodeString);
-                                para.Add("@IdLable", _scanData.IdLabel);
+                                para.Add("@IdLabel", _scanData.IdLabel);
                                 para.Add("@OcNo", _scanData.OcNo);
                                 para.Add("@ProductNumber", _scanData.ProductNumber);
                                 para.Add("@ProductName", _scanData.ProductName);
@@ -1104,7 +1198,6 @@ namespace WeightChecking
                                 var insertResult = connection.Execute("sp_tblScanDataInsert", para, commandType: CommandType.StoredProcedure);
 
                                 //var id = para.Get<string>("Id");
-                                #endregion
 
                                 #endregion
 
@@ -1278,6 +1371,8 @@ namespace WeightChecking
         private void ResetControl()
         {
             #region hiển thị thông tin
+            //this.Invoke((MethodInvoker)delegate { labRatioFail.Text = "0"; });
+
             if (labRealWeight.InvokeRequired)
             {
                 labRealWeight.Invoke(new Action(() =>

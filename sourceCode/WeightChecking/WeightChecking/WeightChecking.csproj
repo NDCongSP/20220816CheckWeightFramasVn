@@ -249,6 +249,24 @@
     <Compile Include="Enums\RolesEnum.cs" />
     <Compile Include="Enums\StationEnum.cs" />
     <Compile Include="Events\RefreshEvent.cs" />
+    <Compile Include="Views\frmDeviationForFalseAlarm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Views\frmDeviationForFalseAlarm.Designer.cs">
+      <DependentUpon>frmDeviationForFalseAlarm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Views\frmScanQRConfirm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Views\frmScanQRConfirm.Designer.cs">
+      <DependentUpon>frmScanQRConfirm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Views\frmTypingDeviation.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Views\frmTypingDeviation.Designer.cs">
+      <DependentUpon>frmTypingDeviation.cs</DependentUpon>
+    </Compile>
     <Compile Include="Models\MissProItemModel.cs" />
     <Compile Include="Models\ApprovedModel.cs" />
     <Compile Include="Models\ApprovedReportModel.cs" />
@@ -356,6 +374,9 @@
     <EmbeddedResource Include="Views\frmConfirmPrint.resx">
       <DependentUpon>frmConfirmPrint.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Views\frmDeviationForFalseAlarm.resx">
+      <DependentUpon>frmDeviationForFalseAlarm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Views\frmMasterData.resx">
       <DependentUpon>frmMasterData.cs</DependentUpon>
     </EmbeddedResource>
@@ -382,11 +403,17 @@
       <DependentUpon>Resources.resx</DependentUpon>
       <DesignTime>True</DesignTime>
     </Compile>
+    <EmbeddedResource Include="Views\frmScanQRConfirm.resx">
+      <DependentUpon>frmScanQRConfirm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Views\frmSettings.resx">
       <DependentUpon>frmSettings.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Views\frmShowDetail.resx">
       <DependentUpon>frmShowDetail.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\frmTypingDeviation.resx">
+      <DependentUpon>frmTypingDeviation.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Views\frmUpdateTolerance.resx">
       <DependentUpon>frmUpdateTolerance.cs</DependentUpon>
@@ -436,4 +463,48 @@
   <Target Name="AfterBuild">
   </Target>
   -->
+  <PropertyGroup>
+    <Dir>$(OutputPath)\..\Update</Dir>
+    <DeployDir>\\192.168.1.241\FramasPublic\PUBLIC_Able to deleted\22 IT\01-UpdateApp\11-SSFG_IDC\1.Station1BeforePrint\Update.zip</DeployDir>
+    <!--<FVNDeployContent Include="%(LineFVN.Text)" />
+    <FFTDeployContent Include="%(LineFFT.Text)" />-->
+  </PropertyGroup>
+  <Target Name="GetAssmeblyVersion" AfterTargets="Build">
+    <GetAssemblyIdentity AssemblyFiles="$(TargetPath)">
+      <Output TaskParameter="Assemblies" ItemName="Identity" />
+    </GetAssemblyIdentity>
+    <ItemGroup>
+      <Line Include="line01">
+        <Text>&lt;?xml version="1.0" encoding="UTF-8"?&gt;</Text>
+      </Line>
+      <Line Include="line02">
+        <Text>&lt;item&gt;</Text>
+      </Line>
+      <Line Include="line03">
+        <Text>&lt;version&gt;%(Identity.Version)&lt;/version&gt;</Text>
+      </Line>
+      <Line Include="line04">
+        <Text>&lt;url&gt;$(DeployDir)&lt;/url&gt;</Text>
+      </Line>
+      <Line Include="line05">
+        <Text>&lt;changelog&gt;&lt;/changelog&gt;</Text>
+      </Line>
+      <Line Include="line06">
+        <Text>&lt;mandatory&gt;false&lt;/mandatory&gt;</Text>
+      </Line>
+      <Line Include="line07">
+        <Text>&lt;/item&gt;</Text>
+      </Line>
+      <LineText Include="%(Line.Text)" />
+    </ItemGroup>
+    <WriteLinesToFile File="$(OutputPath)\..\update.xml" Lines="@(LineText)" Overwrite="true" Encoding="Unicode" />
+  </Target>
+  <Target Name="CopyDLLs" AfterTargets="Build">
+    <Message Text="Executing CopyDLLs task" Importance="High" />
+    <Copy SourceFiles="$(TargetDir)$(AssemblyName).exe;$(TargetDir)$(AssemblyName).pdb" DestinationFolder="$(OutputPath)\..\Update" />
+    <!--<Copy SourceFiles="$(TargetDir)\Reports\rptFormula.repx" DestinationFolder="$(OutputPath)\..\Update\Reports" />-->
+    <Message Text="Copied build files" Importance="High" />
+    <ZipDirectory SourceDirectory="$(OutputPath)\..\Update" DestinationFile="$(OutputPath)\..\Update.zip" Overwrite="true" />
+    <RemoveDir Directories="$(OutputPath)\..\Update" />
+  </Target>
 </Project>
