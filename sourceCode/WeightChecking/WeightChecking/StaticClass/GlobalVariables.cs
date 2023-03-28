@@ -100,6 +100,7 @@ namespace WeightChecking
         public static DateTime CreatedDate { get; set; }//dung de chua thoi gian tạo, để đồng bộ giữa in tem và log DB. dung trong Confirm in tem
 
         public static List<tblSpecialCaseModel> SpecialCaseList { get; set; } = new List<tblSpecialCaseModel>();
+        public static string UpdatePath { get; internal set; }
         #endregion
     }
 }

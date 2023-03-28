@@ -95,7 +95,7 @@ namespace WeightChecking
                 TextEdit t = (TextEdit)s;
                 if (!string.IsNullOrEmpty(t.Text))
                 {
-                    ItemInfo.BoxQtyBx1 = int.TryParse(t.Text, out int value) ? value : 0;
+                    ItemInfo.BoxQtyBx1 = double.TryParse(t.Text, out double value) ? value : 0;
                 }
             };
             this.txtBoxQtyBx2.TextChanged += (s, o) =>
@@ -103,7 +103,7 @@ namespace WeightChecking
                 TextEdit t = (TextEdit)s;
                 if (!string.IsNullOrEmpty(t.Text))
                 {
-                    ItemInfo.BoxQtyBx2 = int.TryParse(t.Text, out int value) ? value : 0;
+                    ItemInfo.BoxQtyBx2 = double.TryParse(t.Text, out double value) ? value : 0;
                 }
             };
             this.txtBoxQtyBx3.TextChanged += (s, o) =>
@@ -111,7 +111,7 @@ namespace WeightChecking
                 TextEdit t = (TextEdit)s;
                 if (!string.IsNullOrEmpty(t.Text))
                 {
-                    ItemInfo.BoxQtyBx3 = int.TryParse(t.Text, out int value) ? value : 0;
+                    ItemInfo.BoxQtyBx3 = double.TryParse(t.Text, out double value) ? value : 0;
                 }
             };
             this.txtBoxQtyBx4.TextChanged += (s, o) =>
@@ -119,7 +119,7 @@ namespace WeightChecking
                 TextEdit t = (TextEdit)s;
                 if (!string.IsNullOrEmpty(t.Text))
                 {
-                    ItemInfo.BoxQtyBx4 = int.TryParse(t.Text, out int value) ? value : 0;
+                    ItemInfo.BoxQtyBx4 = double.TryParse(t.Text, out double value) ? value : 0;
                 }
             };
 
@@ -161,7 +161,7 @@ namespace WeightChecking
                 TextEdit t = (TextEdit)s;
                 if (!string.IsNullOrEmpty(t.Text))
                 {
-                    ItemInfo.PartitionQty = int.TryParse(t.Text, out int value) ? value : 0;
+                    ItemInfo.PartitionQty = double.TryParse(t.Text, out double value) ? value : 0;
                 }
             };
             this.txtPlasicBag1Qty.TextChanged += (s, o) =>
@@ -169,7 +169,7 @@ namespace WeightChecking
                 TextEdit t = (TextEdit)s;
                 if (!string.IsNullOrEmpty(t.Text))
                 {
-                    ItemInfo.PlasicBag1Qty = int.TryParse(t.Text, out int value) ? value : 0;
+                    ItemInfo.PlasicBag1Qty = double.TryParse(t.Text, out double value) ? value : 0;
                 }
             };
             this.txtWrapSheetQty.TextChanged += (s, o) =>
@@ -177,7 +177,7 @@ namespace WeightChecking
                 TextEdit t = (TextEdit)s;
                 if (!string.IsNullOrEmpty(t.Text))
                 {
-                    ItemInfo.WrapSheetQty = int.TryParse(t.Text, out int value) ? value : 0;
+                    ItemInfo.WrapSheetQty = double.TryParse(t.Text, out double value) ? value : 0;
                 }
             };
 
@@ -227,7 +227,7 @@ namespace WeightChecking
                 TextEdit t = (TextEdit)s;
                 if (!string.IsNullOrEmpty(t.Text))
                 {
-                    ItemInfo.PlasicBag2Qty = int.TryParse(t.Text, out int value) ? value : 0;
+                    ItemInfo.PlasicBag2Qty = double.TryParse(t.Text, out double value) ? value : 0;
                 }
             };
 
@@ -236,7 +236,7 @@ namespace WeightChecking
                 TextEdit t = (TextEdit)s;
                 if (!string.IsNullOrEmpty(t.Text))
                 {
-                    ItemInfo.PlasicBag2Weight = int.TryParse(t.Text, out int value) ? value : 0;
+                    ItemInfo.PlasicBag2Weight = double.TryParse(t.Text, out double value) ? value : 0;
                 }
             };
 
@@ -245,7 +245,7 @@ namespace WeightChecking
                 TextEdit t = (TextEdit)s;
                 if (!string.IsNullOrEmpty(t.Text))
                 {
-                    ItemInfo.FoamSheetQty = int.TryParse(t.Text, out int value) ? value : 0;
+                    ItemInfo.FoamSheetQty = double.TryParse(t.Text, out double value) ? value : 0;
                 }
             };
             this.txtFoarmSheetWeight.TextChanged += (s, o) =>
@@ -253,7 +253,7 @@ namespace WeightChecking
                 TextEdit t = (TextEdit)s;
                 if (!string.IsNullOrEmpty(t.Text))
                 {
-                    ItemInfo.FoamSheetWeight = int.TryParse(t.Text, out int value) ? value : 0;
+                    ItemInfo.FoamSheetWeight = double.TryParse(t.Text, out double value) ? value : 0;
                 }
             };
 
