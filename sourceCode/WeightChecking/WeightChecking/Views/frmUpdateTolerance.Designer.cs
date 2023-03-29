@@ -33,6 +33,8 @@ namespace WeightChecking
         private void InitializeComponent()
         {
             this.layoutControl1 = new DevExpress.XtraLayout.LayoutControl();
+            this.txtUpperTolerancePlastic = new DevExpress.XtraEditors.TextEdit();
+            this.txtLowerTolerancePlastic = new DevExpress.XtraEditors.TextEdit();
             this.ckMetalScan = new DevExpress.XtraEditors.CheckEdit();
             this.ckDecorarion = new DevExpress.XtraEditors.CheckEdit();
             this.txtFoarmSheetWeight = new DevExpress.XtraEditors.TextEdit();
@@ -93,12 +95,12 @@ namespace WeightChecking
             this.layoutControlItem27 = new DevExpress.XtraLayout.LayoutControlItem();
             this.layoutControlItem28 = new DevExpress.XtraLayout.LayoutControlItem();
             this.layoutControlItem29 = new DevExpress.XtraLayout.LayoutControlItem();
-            this.txtLowerTolerancePlastic = new DevExpress.XtraEditors.TextEdit();
             this.layoutControlItem30 = new DevExpress.XtraLayout.LayoutControlItem();
-            this.txtUpperTolerancePlastic = new DevExpress.XtraEditors.TextEdit();
             this.layoutControlItem31 = new DevExpress.XtraLayout.LayoutControlItem();
             ((System.ComponentModel.ISupportInitialize)(this.layoutControl1)).BeginInit();
             this.layoutControl1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.txtUpperTolerancePlastic.Properties)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.txtLowerTolerancePlastic.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.ckMetalScan.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.ckDecorarion.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtFoarmSheetWeight.Properties)).BeginInit();
@@ -154,9 +156,7 @@ namespace WeightChecking
             ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem27)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem28)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem29)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.txtLowerTolerancePlastic.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem30)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.txtUpperTolerancePlastic.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem31)).BeginInit();
             this.SuspendLayout();
             // 
@@ -201,6 +201,29 @@ namespace WeightChecking
             this.layoutControl1.Size = new System.Drawing.Size(1457, 514);
             this.layoutControl1.TabIndex = 0;
             this.layoutControl1.Text = "layoutControl1";
+            // 
+            // txtUpperTolerancePlastic
+            // 
+            this.txtUpperTolerancePlastic.Location = new System.Drawing.Point(1054, 396);
+            this.txtUpperTolerancePlastic.Name = "txtUpperTolerancePlastic";
+            this.txtUpperTolerancePlastic.Properties.Appearance.Font = new System.Drawing.Font("Tahoma", 15F);
+            this.txtUpperTolerancePlastic.Properties.Appearance.Options.UseFont = true;
+            this.txtUpperTolerancePlastic.Properties.Appearance.Options.UseTextOptions = true;
+            this.txtUpperTolerancePlastic.Properties.Appearance.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Far;
+            this.txtUpperTolerancePlastic.Size = new System.Drawing.Size(374, 30);
+            this.txtUpperTolerancePlastic.TabIndex = 35;
+            // 
+            // txtLowerTolerancePlastic
+            // 
+            this.txtLowerTolerancePlastic.Location = new System.Drawing.Point(344, 396);
+            this.txtLowerTolerancePlastic.Name = "txtLowerTolerancePlastic";
+            this.txtLowerTolerancePlastic.Properties.Appearance.Font = new System.Drawing.Font("Tahoma", 15F);
+            this.txtLowerTolerancePlastic.Properties.Appearance.Options.UseFont = true;
+            this.txtLowerTolerancePlastic.Properties.Appearance.Options.UseTextOptions = true;
+            this.txtLowerTolerancePlastic.Properties.Appearance.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Far;
+            this.txtLowerTolerancePlastic.Size = new System.Drawing.Size(374, 30);
+            this.txtLowerTolerancePlastic.StyleController = this.layoutControl1;
+            this.txtLowerTolerancePlastic.TabIndex = 34;
             // 
             // ckMetalScan
             // 
@@ -946,18 +969,6 @@ namespace WeightChecking
             this.layoutControlItem29.TextSize = new System.Drawing.Size(0, 0);
             this.layoutControlItem29.TextVisible = false;
             // 
-            // txtLowerTolerancePlastic
-            // 
-            this.txtLowerTolerancePlastic.Location = new System.Drawing.Point(344, 396);
-            this.txtLowerTolerancePlastic.Name = "txtLowerTolerancePlastic";
-            this.txtLowerTolerancePlastic.Properties.Appearance.Font = new System.Drawing.Font("Tahoma", 15F);
-            this.txtLowerTolerancePlastic.Properties.Appearance.Options.UseFont = true;
-            this.txtLowerTolerancePlastic.Properties.Appearance.Options.UseTextOptions = true;
-            this.txtLowerTolerancePlastic.Properties.Appearance.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Far;
-            this.txtLowerTolerancePlastic.Size = new System.Drawing.Size(374, 30);
-            this.txtLowerTolerancePlastic.StyleController = this.layoutControl1;
-            this.txtLowerTolerancePlastic.TabIndex = 34;
-            // 
             // layoutControlItem30
             // 
             this.layoutControlItem30.AppearanceItemCaption.Font = new System.Drawing.Font("Tahoma", 15F);
@@ -968,18 +979,6 @@ namespace WeightChecking
             this.layoutControlItem30.Size = new System.Drawing.Size(710, 34);
             this.layoutControlItem30.Text = "Lower Tolerance Of Plastic Box (%)";
             this.layoutControlItem30.TextSize = new System.Drawing.Size(320, 24);
-            // 
-            // txtUpperTolerancePlastic
-            // 
-            this.txtUpperTolerancePlastic.Location = new System.Drawing.Point(1054, 396);
-            this.txtUpperTolerancePlastic.Name = "txtUpperTolerancePlastic";
-            this.txtUpperTolerancePlastic.Properties.Appearance.Font = new System.Drawing.Font("Tahoma", 15F);
-            this.txtUpperTolerancePlastic.Properties.Appearance.Options.UseFont = true;
-            this.txtUpperTolerancePlastic.Properties.Appearance.Options.UseTextOptions = true;
-            this.txtUpperTolerancePlastic.Properties.Appearance.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Far;
-            this.txtUpperTolerancePlastic.Size = new System.Drawing.Size(374, 30);
-            this.txtUpperTolerancePlastic.StyleController = this.layoutControl1;
-            this.txtUpperTolerancePlastic.TabIndex = 35;
             // 
             // layoutControlItem31
             // 
@@ -1005,6 +1004,8 @@ namespace WeightChecking
             this.Text = "Update information";
             ((System.ComponentModel.ISupportInitialize)(this.layoutControl1)).EndInit();
             this.layoutControl1.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.txtUpperTolerancePlastic.Properties)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.txtLowerTolerancePlastic.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.ckMetalScan.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.ckDecorarion.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtFoarmSheetWeight.Properties)).EndInit();
@@ -1060,9 +1061,7 @@ namespace WeightChecking
             ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem27)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem28)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem29)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.txtLowerTolerancePlastic.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem30)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.txtUpperTolerancePlastic.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem31)).EndInit();
             this.ResumeLayout(false);
 
