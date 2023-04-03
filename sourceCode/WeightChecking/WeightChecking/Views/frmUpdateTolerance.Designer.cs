@@ -211,6 +211,7 @@ namespace WeightChecking
             this.txtUpperTolerancePlastic.Properties.Appearance.Options.UseTextOptions = true;
             this.txtUpperTolerancePlastic.Properties.Appearance.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Far;
             this.txtUpperTolerancePlastic.Size = new System.Drawing.Size(374, 30);
+            this.txtUpperTolerancePlastic.StyleController = this.layoutControl1;
             this.txtUpperTolerancePlastic.TabIndex = 35;
             // 
             // txtLowerTolerancePlastic

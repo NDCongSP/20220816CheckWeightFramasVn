@@ -910,6 +910,12 @@ namespace WeightChecking
                             for (int i = 5; i < _rowUsed + 5; i++)
                             {
                                 Row _row = ws.Rows[i];
+
+                                if (_row[$"A{i}"].Value.TextValue == "6199322102-*-D172")
+                                {
+                                    var a = 100;
+                                }
+
                                 if (!string.IsNullOrEmpty(_row[$"A{i}"].Value.TextValue))
                                 {
                                     coreData.Add(new tblCoreDataCodeItemSizeModel()
@@ -961,10 +967,12 @@ namespace WeightChecking
 
 
 
-                        var executeResult = con.Execute("INSERT INTO tblCoreDataCodeItemSize (CodeItemSize,MainItemName,MetalScan,Color,Printing,Date,Size,AveWeight1Prs,BoxQtyBx1,BoxQtyBx2,BoxQtyBx3,BoxQtyBx4," +
+                        var executeResult = con.Execute("INSERT INTO tblCoreDataCodeItemSize (CodeItemSize,MainItemName,MetalScan,Color,Printing,Date,Size" +
+                            ",AveWeight1Prs,BoxQtyBx1,BoxQtyBx2,BoxQtyBx3,BoxQtyBx4,BoxWeightBx1,BoxWeightBx2,BoxWeightBx3,BoxWeightBx4," +
                                 "PartitionQty,PlasicBag1Qty,PlasicBag2Qty,WrapSheetQty,FoamSheetQty,PartitionWeight,PlasicBag1Weight,PlasicBag2Weight" +
                                 ",WrapSheetWeight,FoamSheetWeight,PlasicBoxWeight,LowerToleranceOfCartonBox,UpperToleranceOfCartonBox,LowerToleranceOfPlasticBox,UpperToleranceOfPlasticBox) " +
-                            "VALUES (@CodeItemSize,@MainItemName,@MetalScan,@Color,@Printing,@Date,@Size,@AveWeight1Prs,@BoxQtyBx1,@BoxQtyBx2,@BoxQtyBx3,@BoxQtyBx4," +
+                            "VALUES (@CodeItemSize,@MainItemName,@MetalScan,@Color,@Printing,@Date,@Size,@AveWeight1Prs," +
+                                "@BoxQtyBx1,@BoxQtyBx2,@BoxQtyBx3,@BoxQtyBx4,@BoxWeightBx1,@BoxWeightBx2,@BoxWeightBx3,@BoxWeightBx4," +
                                 "@PartitionQty,@PlasicBag1Qty,@PlasicBag2Qty,@WrapSheetQty,@FoamSheetQty,@PartitionWeight,@PlasicBag1Weight,@PlasicBag2Weight" +
                                 ",@WrapSheetWeight,@FoamSheetWeight,@PlasicBoxWeight,@LowerToleranceOfCartonBox,@UpperToleranceOfCartonBox,@LowerToleranceOfPlasticBox,@UpperToleranceOfPlasticBox)"
                             , coreData);

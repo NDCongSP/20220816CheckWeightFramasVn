@@ -25,3 +25,7 @@ order by CreatedDate desc;
 
 --code approved: D7BEF08B-C830-4C67-9F2F-39D52AE178EE
 
+
+select * from tblWinlineProductsInfo  where ProductNumber ='6111010702-ADSN-2354' order by CreatedDate desc
+select * from tblCoreDataCodeItemSize order by CreatedDate desc
+select * from tblScanData order by CreatedDate desc
