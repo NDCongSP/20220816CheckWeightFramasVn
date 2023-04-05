@@ -182,7 +182,7 @@ namespace WeightChecking
             this._barButtonItemUpVersion.Id = 11;
             this._barButtonItemUpVersion.ImageOptions.SvgImage = ((DevExpress.Utils.Svg.SvgImage)(resources.GetObject("_barButtonItemUpVersion.ImageOptions.SvgImage")));
             this._barButtonItemUpVersion.LargeWidth = 100;
-            this._barButtonItemUpVersion.Name = "_barButtonItemUpVersion";            
+            this._barButtonItemUpVersion.Name = "_barButtonItemUpVersion";
             // 
             // _barButtonItemRefreshReport
             // 

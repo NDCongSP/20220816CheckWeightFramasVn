@@ -317,7 +317,7 @@ namespace WeightChecking
             this.labScaleValue.Size = new System.Drawing.Size(210, 81);
             this.labScaleValue.StyleController = this.layoutControl1;
             this.labScaleValue.TabIndex = 30;
-            this.labScaleValue.Text = "7985";
+            this.labScaleValue.Text = "3350";
             // 
             // labNetWeight
             // 
