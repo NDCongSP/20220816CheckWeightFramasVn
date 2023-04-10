@@ -933,6 +933,7 @@ namespace WeightChecking
                                                         para.Add("ApproveBy", resulCheckInfo.ApprovedBy);
                                                         para.Add("ActualDeviationPairs", resulCheckInfo.ActualDeviationPairs);
                                                         para.Add("GrossWeight", GlobalVariables.RealWeight);
+                                                        para.Add("Status", "2");
 
                                                         connection.Execute("sp_tblScanDataUpdateApproveBy", para, commandType: CommandType.StoredProcedure);
 

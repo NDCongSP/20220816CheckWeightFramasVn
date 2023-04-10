@@ -470,7 +470,7 @@ namespace WeightChecking
                                     reportModel.Add(new ScanDataReport1Model()
                                     {
                                         BarcodeString = item.BarcodeString,
-                                        IdLable = item.IdLable,
+                                        IdLabel = item.IdLabel,
                                         OcNo = item.OcNo,
                                         ProductNumber = item.ProductNumber,
                                         ProductName = item.ProductName,
@@ -1132,11 +1132,6 @@ namespace WeightChecking
 
                 System.Threading.Thread.Sleep(100);
             }
-        }
-
-        private void _barButtonItemUpVersion_ItemClick_1(object sender, DevExpress.XtraBars.ItemClickEventArgs e)
-        {
-
         }
     }
 }
