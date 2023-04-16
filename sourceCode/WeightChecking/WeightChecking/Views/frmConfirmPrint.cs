@@ -171,6 +171,7 @@ namespace WeightChecking
                                 para.Add("Deviation", _scanData.Deviation);
                                 para.Add("CalculatorPrs", _scanData.CalculatedPairs);
                                 para.Add("ScanDataId", _scanData.Id);
+                                para.Add("Quantity", _scanData.Quantity);
 
                                 connection.Execute("sp_tblApprovedPrintLabelInsert", para, commandType: CommandType.StoredProcedure);
                                 #endregion
