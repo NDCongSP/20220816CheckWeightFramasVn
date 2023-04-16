@@ -20,7 +20,7 @@ namespace WeightChecking
         Timer _timer = new Timer();
         int _checkCount = 0;//đếm số lần scan QR code. ban đầu vào scan QR code label, sau đó scan QR code approve. rồi mới cho in lại tem
         tblScanDataModel _scanData = new tblScanDataModel();
-        double _scaleValue = 0;
+        double _scaleValue = 0;//đơn vị gram
         Guid _qrApproved;
         double _actualDeviation = 0;
         double _ratio = 0;
@@ -155,16 +155,8 @@ namespace WeightChecking
                             {
                                 para = null;
                                 para = new DynamicParameters();
-                                para.Add("Id", _scanData.Id);
-                                para.Add("ApproveBy", _qrApproved);
-                                para.Add("ActualDeviationPairs", _scanData.ActualDeviationPairs);
-                                para.Add("GrossWeight", _scaleValue);
-                                para.Add("Status", _scanData.OcNo.Substring(0, 2) == "PR" && GlobalVariables.Station == 0 ? 1 : 2);
-                                connection.Execute("sp_tblScanDataUpdateApproveBy", para, commandType: CommandType.StoredProcedure);
 
-                                #region Log
-                                para = null;
-                                para = new DynamicParameters();
+                                #region Log vao bang approved
                                 para.Add("QrCode", _qrApproved);
                                 para.Add("IdLabel", _scanData.IdLabel);
                                 para.Add("OC", _scanData.OcNo);
@@ -173,11 +165,62 @@ namespace WeightChecking
                                 para.Add("Station", GlobalVariables.Station);
                                 para.Add("QRLabel", _scanData.BarcodeString);
                                 para.Add("ApproveType", _scanData.ActualDeviationPairs == 0 ? "False alarm" : "Actual deviation");
-                                para.Add("CalculatorDeviationPairs", _scanData.DeviationPairs);
+                                para.Add("DeviationPairs", _scanData.DeviationPairs);
                                 para.Add("ActualDeviationPairs", _scanData.ActualDeviationPairs);
+                                para.Add("NetWeight", _scanData.NetWeight);
+                                para.Add("Deviation", _scanData.Deviation);
+                                para.Add("CalculatorPrs", _scanData.CalculatedPairs);
+                                para.Add("ScanDataId", _scanData.Id);
 
                                 connection.Execute("sp_tblApprovedPrintLabelInsert", para, commandType: CommandType.StoredProcedure);
                                 #endregion
+
+                                //update lại thông tin cho thùng fail trong bảng scanData
+                                #region tính toán lại các thông số theo khối lượng grossWeight mới.
+                                _scanData.GrossWeight = _scaleValue;
+                                _scanData.NetWeight = Math.Round(_scanData.GrossWeight - _scanData.BoxWeight - _scanData.PackageWeight, 3);
+                                _scanData.Deviation = Math.Round(_scanData.NetWeight - _scanData.StdNetWeight, 3);
+
+                                var nwPlus = _scanData.StdNetWeight + _scanData.UpperTolerance;
+                                var nwSub = _scanData.StdNetWeight - _scanData.LowerTolerance;
+
+                                if (((_scanData.NetWeight > nwPlus) && (_scanData.NetWeight - nwPlus < _scanData.AveWeight1Prs / 2))
+                                || ((_scanData.NetWeight < nwSub) && (nwSub - _scanData.NetWeight < _scanData.AveWeight1Prs / 2))
+                                )
+                                {
+                                    _scanData.CalculatedPairs = _scanData.Quantity;
+                                }
+                                else if (_scanData.NetWeight > nwPlus)//roundDown
+                                {
+                                    _scanData.CalculatedPairs = (int)(_scanData.Quantity + Math.Floor((_scanData.NetWeight - nwPlus) / _scanData.AveWeight1Prs));
+                                }
+                                else if (_scanData.NetWeight < nwSub)//RoundUp
+                                {
+                                    _scanData.CalculatedPairs = (int)(_scanData.Quantity - Math.Ceiling((nwSub - _scanData.NetWeight) / _scanData.AveWeight1Prs));
+                                }
+                                else
+                                {
+                                    _scanData.CalculatedPairs = _scanData.Quantity;
+                                }
+
+                                _scanData.DeviationPairs = _scanData.CalculatedPairs - _scanData.Quantity;
+                                _scanData.RatioFailWeight = Math.Round((Math.Abs(_scanData.DeviationPairs) * _scanData.AveWeight1Prs) / _scanData.StdGrossWeight, 3);
+                                #endregion
+
+                                para = null;
+                                para = new DynamicParameters();
+                                para.Add("Id", _scanData.Id);
+                                para.Add("ApproveBy", _qrApproved);
+                                para.Add("ActualDeviationPairs", _scanData.ActualDeviationPairs);
+                                para.Add("GrossWeight", _scaleValue);
+                                para.Add("Status", _scanData.OcNo.Substring(0, 2) == "PR" && GlobalVariables.Station == 0 ? 1 : 2);
+                                para.Add("NetWeight", _scanData.NetWeight);
+                                para.Add("Calculatorpairs",_scanData.CalculatedPairs );
+                                para.Add("Deviation", _scanData.Deviation);
+                                para.Add("DeviationPairs", _scanData.DeviationPairs);
+                                para.Add("RatioFailWeight", _scanData.RatioFailWeight);
+
+                                connection.Execute("sp_tblScanDataUpdateApproveBy", para, commandType: CommandType.StoredProcedure);
 
                                 GlobalVariables.Printing((_scaleValue / 1000).ToString("#,#0.00")
                                           , !string.IsNullOrEmpty(_scanData.IdLabel) ? _scanData.IdLabel : $"{_scanData.OcNo}|{_scanData.BoxNo}", true

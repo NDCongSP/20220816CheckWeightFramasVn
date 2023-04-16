@@ -62,7 +62,7 @@ namespace WeightChecking
             // 
             // txtActualDeviation
             // 
-            this.txtActualDeviation.EditValue = "0";
+            this.txtActualDeviation.EditValue = "";
             this.txtActualDeviation.Location = new System.Drawing.Point(458, 17);
             this.txtActualDeviation.Name = "txtActualDeviation";
             this.txtActualDeviation.Properties.Appearance.Font = new System.Drawing.Font("Tahoma", 35F);

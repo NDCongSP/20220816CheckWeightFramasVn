@@ -15,7 +15,9 @@ namespace WeightChecking
     {
         public static string ConnectionString { get; set; }
         public static string ConStringWinline { get; set; }
+        public static string ConStringDogeWh { get; set; }
 
+        #region Tao các connection DB
         public static IDbConnection GetDbConnection()
         {
             return new SqlConnection(ConnectionString);
@@ -25,6 +27,13 @@ namespace WeightChecking
         {
             return new SqlConnection(ConStringWinline);
         }
+
+        public static IDbConnection GetDbConnectionDogeWh()
+        {
+            return new SqlConnection(ConStringDogeWh);
+        }
+        #endregion
+
         //chứa các thông tin cần lưu lại để khi mở phần mềm lên thì sẽ đọc lên để tiếp tục làm việc.
         public static RememberInfo RememberInfo { get; set; } = new RememberInfo();
 
@@ -61,7 +70,7 @@ namespace WeightChecking
 
         #region Printing
         // Print the file.
-        public static void Printing(string content, string idLabel,bool pass,string createdDate)
+        public static void Printing(string content, string idLabel, bool pass, string createdDate)
         {
             //content of the QR code "OC283225,6112012227-2094-2651,28,13,P,1/56,160506,1/1|1,30.2022"
             if (pass)

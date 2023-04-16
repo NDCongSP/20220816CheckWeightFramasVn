@@ -35,5 +35,8 @@
     <Setting Name="RatioFailWeight" Type="System.Double" Scope="User">
       <Value Profile="(Default)">0.5</Value>
     </Setting>
+    <Setting Name="conStringDogeWh" Type="System.String" Scope="User">
+      <Value Profile="(Default)">ed3YbBgz3fEdyTkRahthFY5ktQmH2er+ubV7i40QDz2jV8uuycc9LsTSR22vhbKhFKqwBS0vr6oQqsdO70hZk3qfE4J1XeLCiQ11XIAwyoVU6JH7Uqs1cnz54UD5SAyUuepHTyDPxBSwysZYaZtRX9R2BQUDXTzYsMrGWGmbUV/Q2S0w2U+T2iLkT2IThDNOInazRVku4GwKrY+JotqRuP5bw/Zs1yGq8wCbDlnf/IA=</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

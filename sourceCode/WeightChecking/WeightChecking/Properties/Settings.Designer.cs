@@ -157,5 +157,19 @@ namespace WeightChecking.Properties {
                 this["RatioFailWeight"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("ed3YbBgz3fEdyTkRahthFY5ktQmH2er+ubV7i40QDz2jV8uuycc9LsTSR22vhbKhFKqwBS0vr6oQqsdO7" +
+            "0hZk3qfE4J1XeLCiQ11XIAwyoVU6JH7Uqs1cnz54UD5SAyUuepHTyDPxBSwysZYaZtRX9R2BQUDXTzYs" +
+            "MrGWGmbUV/Q2S0w2U+T2iLkT2IThDNOInazRVku4GwKrY+JotqRuP5bw/Zs1yGq8wCbDlnf/IA=")]
+        public string conStringDogeWh {
+            get {
+                return ((string)(this["conStringDogeWh"]));
+            }
+            set {
+                this["conStringDogeWh"] = value;
+            }
+        }
     }
 }

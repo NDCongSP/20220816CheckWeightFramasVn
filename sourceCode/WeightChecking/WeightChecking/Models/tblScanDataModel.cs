@@ -66,5 +66,7 @@ namespace WeightChecking
         /// % = [|CalculateDeviation (prs)| * AveWeight/Prs (g)]/SdtGrossWeight (g).
         /// </summary>
         public double RatioFailWeight { get; set; } = 0;
+        public string ParentOc { get; set; }
+        public string ParentBoxId { get; set; }
     }
 }

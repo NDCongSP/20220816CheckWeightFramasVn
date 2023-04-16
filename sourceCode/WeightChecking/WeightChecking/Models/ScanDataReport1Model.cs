@@ -46,5 +46,8 @@ namespace WeightChecking
         public string UserName { get; set; }
         public string ApprovedName { get; set; }
         public double ActualDeviationPairs { get; set; } = 0;
+        public double RatioFailWeight { get; set; } = 0;
+        public string ParentOc { get; set; }
+        public string ParentBoxId { get; set; }
     }
 }

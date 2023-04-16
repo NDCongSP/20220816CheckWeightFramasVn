@@ -28,6 +28,7 @@ namespace WeightChecking
             #region Đọc các thông số cấu hình ban đầu từ settings
             GlobalVariables.ConnectionString = EncodeMD5.DecryptString(Properties.Settings.Default.conString, "ITFramasBDVN");
             GlobalVariables.ConStringWinline = EncodeMD5.DecryptString(Properties.Settings.Default.conStringWL, "ITFramasBDVN");
+            GlobalVariables.ConStringDogeWh = EncodeMD5.DecryptString(Properties.Settings.Default.conStringDogeWh, "ITFramasBDVN");
             GlobalVariables.IpScale = Properties.Settings.Default.ipScale;
             GlobalVariables.UnitScale = int.TryParse(Properties.Settings.Default.UnitScale, out int value) ? value : 0;
             GlobalVariables.IsScale = Properties.Settings.Default.IsScale;

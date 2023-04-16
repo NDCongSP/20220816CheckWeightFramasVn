@@ -102,8 +102,9 @@ namespace WeightChecking
                 }
                 else
                 {
-                    MessageBox.Show("Thiếu thông tin, mời quét lại.", "THÔNG BÁO", MessageBoxButtons.OK
+                    MessageBox.Show("Thiếu thông tin, kiểm tra lại.", "THÔNG BÁO", MessageBoxButtons.OK
                                 , MessageBoxIcon.Warning);
+                    this.Invoke((MethodInvoker)delegate { txtActualDeviation.Focus(); });
                 }
             }
             catch (Exception)

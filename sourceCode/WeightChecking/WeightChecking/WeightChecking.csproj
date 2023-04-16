@@ -249,6 +249,7 @@
     <Compile Include="Enums\RolesEnum.cs" />
     <Compile Include="Enums\StationEnum.cs" />
     <Compile Include="Events\RefreshEvent.cs" />
+    <Compile Include="Models\BoxParentModel.cs" />
     <Compile Include="Models\OcUsingModel.cs" />
     <Compile Include="Views\frmDeviationForFalseAlarm.cs">
       <SubType>Form</SubType>

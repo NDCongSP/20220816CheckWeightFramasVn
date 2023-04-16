@@ -29,7 +29,16 @@ namespace WeightChecking
             {
                 TextEdit t = (TextEdit)sender;
 
-                ActualDeviation = double.TryParse(t.Text, out double value) ? value : 0;
+                if (!string.IsNullOrEmpty(t.Text))
+                {
+                    ActualDeviation = double.TryParse(t.Text, out double value) ? value : 0;
+                }
+                else
+                {
+                    MessageBox.Show("Thiếu thông tin, kiểm tra lại.", "THÔNG BÁO", MessageBoxButtons.OK
+                                , MessageBoxIcon.Warning);
+                    this.Invoke((MethodInvoker)delegate { t.Focus(); });
+                }
             }
             catch (Exception ex)
             {

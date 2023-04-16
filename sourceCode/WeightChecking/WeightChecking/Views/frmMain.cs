@@ -526,13 +526,18 @@ namespace WeightChecking
                                 ws.Cells[0, 1].Value = "ID Lable";
                                 ws.Cells[0, 2].Value = "OC";
                                 ws.Cells[0, 3].Value = "Box No";
-                                ws.Cells[0, 4].Value = "Gross Weight";
+                                ws.Cells[0, 4].Value = "Gross Weight (g)";
                                 ws.Cells[0, 5].Value = "Station";
                                 ws.Cells[0, 6].Value = "Created Date";
                                 ws.Cells[0, 7].Value = "QR Label";
                                 ws.Cells[0, 8].Value = "Aprrove Type";
+                                ws.Cells[0, 9].Value = "Net Weight (g)";
+                                ws.Cells[0, 10].Value = "Deviation (g)";
+                                ws.Cells[0, 11].Value = "Deviation Prs";
+                                ws.Cells[0, 12].Value = "Calculate Prs";
+                                ws.Cells[0, 13].Value = "Scan Data Id";
 
-                                rHeader = ws.Range.FromLTRB(0, 0, 8, 0);//Col-Row;Col-Row. do created new WB nen ko lây theo hàng cot chũ cái đc
+                                rHeader = ws.Range.FromLTRB(0, 0, 13, 0);//Col-Row;Col-Row. do created new WB nen ko lây theo hàng cot chũ cái đc
                                 rHeader.FillColor = Color.Orange;
                                 rHeader.Alignment.Horizontal = SpreadsheetHorizontalAlignment.Center;
                                 rHeader.Alignment.Vertical = SpreadsheetVerticalAlignment.Center;
@@ -560,11 +565,11 @@ namespace WeightChecking
                                 ws.Range[$"G2:G" +
                                     $"{res.Count}"].NumberFormat = "yyyy/MM/dd HH:mm:ss";
 
-                                ws.Range.FromLTRB(0, 0, 8, reportApproved.Count).Borders.SetAllBorders(Color.Black, BorderLineStyle.Thin);
+                                ws.Range.FromLTRB(0, 0, 13, reportApproved.Count).Borders.SetAllBorders(Color.Black, BorderLineStyle.Thin);
                                 //ws.FreezeRows(0);
                                 //ws.FreezeColumns(3);
                                 //ws.FreezePanes(0, 3);
-                                ws.Columns.AutoFit(0, 8);
+                                ws.Columns.AutoFit(0, 13);
                                 #endregion
 
                                 #region Missing infomation
