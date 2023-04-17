@@ -442,24 +442,28 @@ namespace WeightChecking
                                 ws.Cells[0, 16].Value = "ActualMetalScan";
                                 ws.Cells[0, 17].Value = "AveWeight1Prs (g)";
                                 ws.Cells[0, 18].Value = "StdNetWeight (g)";
-                                ws.Cells[0, 19].Value = "Tolerance (g)";
-                                ws.Cells[0, 20].Value = "BoxWeight (g)";
-                                ws.Cells[0, 21].Value = "PackageWeight (g)";
-                                ws.Cells[0, 22].Value = "StdGrossWeight (g)";
-                                ws.Cells[0, 23].Value = "GrossWeight (g)";
-                                ws.Cells[0, 24].Value = "NetWeight (g)";
-                                ws.Cells[0, 25].Value = "Deviation (g)";
-                                ws.Cells[0, 26].Value = "Pass";
-                                ws.Cells[0, 27].Value = "Status";
-                                ws.Cells[0, 28].Value = "Calculated (prs)";
-                                ws.Cells[0, 29].Value = "DeviationPairs";
-                                ws.Cells[0, 30].Value = "CreatedDate";
-                                ws.Cells[0, 31].Value = "Station";
-                                ws.Cells[0, 32].Value = "UserName";
-                                ws.Cells[0, 33].Value = "ApprovedName";
-                                ws.Cells[0, 34].Value = "ActualDeviationPairs";
+                                ws.Cells[0, 19].Value = "LowerTolerance (g)";
+                                ws.Cells[0, 20].Value = "UpperTolerance (g)";
+                                ws.Cells[0, 21].Value = "BoxWeight (g)";
+                                ws.Cells[0, 22].Value = "PackageWeight (g)";
+                                ws.Cells[0, 23].Value = "StdGrossWeight (g)";
+                                ws.Cells[0, 24].Value = "GrossWeight (g)";
+                                ws.Cells[0, 25].Value = "NetWeight (g)";
+                                ws.Cells[0, 26].Value = "Deviation (g)";
+                                ws.Cells[0, 27].Value = "Pass";
+                                ws.Cells[0, 28].Value = "Status";
+                                ws.Cells[0, 29].Value = "Calculated (prs)";
+                                ws.Cells[0, 30].Value = "DeviationPairs";
+                                ws.Cells[0, 31].Value = "CreatedDate";
+                                ws.Cells[0, 32].Value = "Station";
+                                ws.Cells[0, 33].Value = "UserName";
+                                ws.Cells[0, 34].Value = "ApprovedName";
+                                ws.Cells[0, 35].Value = "ActualDeviationPairs";
+                                ws.Cells[0, 36].Value = "RatioFailWeight (%)";
+                                ws.Cells[0, 37].Value = "ParentOc";
+                                ws.Cells[0, 38].Value = "ParentBoxId";
 
-                                CellRange rHeader = ws.Range.FromLTRB(0, 0, 34, 0);//Col-Row;Col-Row. do created new WB nen ko lây theo hàng cot chũ cái đc
+                                CellRange rHeader = ws.Range.FromLTRB(0, 0, 38, 0);//Col-Row;Col-Row. do created new WB nen ko lây theo hàng cot chũ cái đc
                                 rHeader.FillColor = Color.Orange;
                                 rHeader.Alignment.Horizontal = SpreadsheetHorizontalAlignment.Center;
                                 rHeader.Alignment.Vertical = SpreadsheetVerticalAlignment.Center;
@@ -488,8 +492,8 @@ namespace WeightChecking
                                         ActualMetalScan = item.ActualMetalScan,
                                         AveWeight1Prs = item.AveWeight1Prs,
                                         StdNetWeight = item.StdNetWeight,
-                                        Tolerance = item.Tolerance,
-                                        BoxWeight = item.BoxWeight,
+                                        LowerTolerance = item.LowerTolerance,
+                                        UpperTolerance = item.UpperTolerance,
                                         PackageWeight = item.PackageWeight,
                                         StdGrossWeight = item.StdGrossWeight,
                                         GrossWeight = item.GrossWeight,
@@ -503,20 +507,23 @@ namespace WeightChecking
                                         Station = item.Station.ToString(),
                                         UserName = item.UserName,
                                         ApprovedName = item.ApprovedName,
-                                        ActualDeviationPairs = item.ActualDeviationPairs
+                                        ActualDeviationPairs = item.ActualDeviationPairs,
+                                        RatioFailWeight = item.RatioFailWeight,
+                                        ParentOc = item.ParentOc,
+                                        ParentBoxId = item.ParentBoxId
                                     });
                                 }
                                 ws.Import(reportModel, 1, 0);
 
-                                ws.Range[$"R2:Z{res.Count}"].NumberFormat = "#,#0.00";
-                                ws.Range[$"AC2:AD{res.Count}"].NumberFormat = "#,#0";
-                                ws.Range[$"AE2:AE{res.Count}"].NumberFormat = "yyyy/MM/dd HH:mm:ss";
+                                ws.Range[$"R2:AE{res.Count}"].NumberFormat = "#,#0.00";
+                                ws.Range[$"AJ2:AK{res.Count}"].NumberFormat = "#,#0";
+                                ws.Range[$"AF2:AF{res.Count}"].NumberFormat = "yyyy/MM/dd HH:mm:ss";
 
-                                ws.Range.FromLTRB(0, 0, 34, res.Count).Borders.SetAllBorders(Color.Black, BorderLineStyle.Thin);
+                                ws.Range.FromLTRB(0, 0, 38, res.Count).Borders.SetAllBorders(Color.Black, BorderLineStyle.Thin);
                                 //ws.FreezeRows(0);
                                 //ws.FreezeColumns(3);
                                 ws.FreezePanes(0, 3);
-                                ws.Columns.AutoFit(0, 34);
+                                ws.Columns.AutoFit(0, 38);
                                 #endregion
 
                                 #region Approved print lable
@@ -533,11 +540,12 @@ namespace WeightChecking
                                 ws.Cells[0, 8].Value = "Aprrove Type";
                                 ws.Cells[0, 9].Value = "Net Weight (g)";
                                 ws.Cells[0, 10].Value = "Deviation (g)";
-                                ws.Cells[0, 11].Value = "Deviation Prs";
-                                ws.Cells[0, 12].Value = "Calculate Prs";
-                                ws.Cells[0, 13].Value = "Scan Data Id";
+                                ws.Cells[0, 11].Value = "Quantity (prs)";
+                                ws.Cells[0, 12].Value = "Deviation Prs";
+                                ws.Cells[0, 13].Value = "Calculate Prs";
+                                ws.Cells[0, 14].Value = "Scan Data Id";
 
-                                rHeader = ws.Range.FromLTRB(0, 0, 13, 0);//Col-Row;Col-Row. do created new WB nen ko lây theo hàng cot chũ cái đc
+                                rHeader = ws.Range.FromLTRB(0, 0, 14, 0);//Col-Row;Col-Row. do created new WB nen ko lây theo hàng cot chũ cái đc
                                 rHeader.FillColor = Color.Orange;
                                 rHeader.Alignment.Horizontal = SpreadsheetHorizontalAlignment.Center;
                                 rHeader.Alignment.Vertical = SpreadsheetVerticalAlignment.Center;
@@ -548,7 +556,7 @@ namespace WeightChecking
                                     reportApproved.Add(new ApprovedReportModel()
                                     {
                                         UserName = itemApproved.UserName,
-                                        IdLable = itemApproved.IdLable,
+                                        IdLabel = itemApproved.IdLabel,
                                         OC = itemApproved.OC,
                                         BoxNo = itemApproved.BoxNo,
                                         GrossWeight = itemApproved.GrossWeight,
@@ -556,20 +564,25 @@ namespace WeightChecking
                                         CreatedDate = itemApproved.CreatedDate,
                                         QRLabel = itemApproved.QRLabel,
                                         ApproveType = itemApproved.ApproveType,
+                                        NetWeight = itemApproved.NetWeight,
+                                        Deviation = itemApproved.Deviation,
+                                        DeviationPrs = itemApproved.DeviationPrs,
+                                        CalculatePrs = itemApproved.CalculatePrs,
+                                        ScanDataId = itemApproved.ScanDataId,
                                     });
                                 }
                                 ws.Import(reportApproved, 1, 0);
 
-                                //ws.Range[$"Q2:Y{res.Count}"].NumberFormat = "#,#0.00";
-                                //ws.Range[$"AB2:AC{res.Count}"].NumberFormat = "#,#0";
-                                ws.Range[$"G2:G" +
-                                    $"{res.Count}"].NumberFormat = "yyyy/MM/dd HH:mm:ss";
+                                ws.Range[$"J2:K{res.Count}"].NumberFormat = "#,#0.00";
+                                ws.Range[$"E2:E{res.Count}"].NumberFormat = "#,#0.00";
+                                ws.Range[$"L2:M{res.Count}"].NumberFormat = "#,#0";
+                                ws.Range[$"G2:G{res.Count}"].NumberFormat = "yyyy/MM/dd HH:mm:ss";
 
-                                ws.Range.FromLTRB(0, 0, 13, reportApproved.Count).Borders.SetAllBorders(Color.Black, BorderLineStyle.Thin);
+                                ws.Range.FromLTRB(0, 0, 14, reportApproved.Count).Borders.SetAllBorders(Color.Black, BorderLineStyle.Thin);
                                 //ws.FreezeRows(0);
                                 //ws.FreezeColumns(3);
                                 //ws.FreezePanes(0, 3);
-                                ws.Columns.AutoFit(0, 13);
+                                ws.Columns.AutoFit(0, 14);
                                 #endregion
 
                                 #region Missing infomation

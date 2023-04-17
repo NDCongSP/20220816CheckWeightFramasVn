@@ -7,9 +7,9 @@ using System.Threading.Tasks;
 namespace WeightChecking
 {
     public class ApprovedReportModel
-    {       
+    {
         public string UserName { get; set; }
-        public string IdLable { get; set; }
+        public string IdLabel { get; set; }
         public string OC { get; set; }
         public string BoxNo { get; set; }
         public double GrossWeight { get; set; }
@@ -18,8 +18,8 @@ namespace WeightChecking
         public string QRLabel { get; set; }
         public string ApproveType { get; set; }
         public double NetWeight { get; set; }
-        public int Quantity { get; set; }
         public double Deviation { get; set; }
+        public int Quantity { get; set; }
         public double DeviationPrs { get; set; }
         public double CalculatePrs { get; set; }
         public Guid ScanDataId { get; set; }

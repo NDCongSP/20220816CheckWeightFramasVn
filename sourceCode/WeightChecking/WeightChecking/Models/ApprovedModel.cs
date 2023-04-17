@@ -11,7 +11,7 @@ namespace WeightChecking
         public Guid Id { get; set; }
         public Guid QrCode { get; set; }
         public string UserName { get; set; }
-        public string IdLable { get; set; }
+        public string IdLabel { get; set; }
         public string OC { get; set; }
         public string BoxNo { get; set; }
         public double GrossWeight { get; set; }
