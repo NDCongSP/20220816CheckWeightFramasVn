@@ -151,7 +151,7 @@ namespace WeightChecking
             // 
             // barButtonItemGetDataWL
             // 
-            this.barButtonItemGetDataWL.Caption = "Get";
+            this.barButtonItemGetDataWL.Caption = "Get Data WL";
             this.barButtonItemGetDataWL.Id = 8;
             this.barButtonItemGetDataWL.ImageOptions.SvgImage = ((DevExpress.Utils.Svg.SvgImage)(resources.GetObject("barButtonItemGetDataWL.ImageOptions.SvgImage")));
             this.barButtonItemGetDataWL.LargeWidth = 100;
