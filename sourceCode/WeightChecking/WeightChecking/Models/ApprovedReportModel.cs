@@ -18,10 +18,11 @@ namespace WeightChecking
         public string QRLabel { get; set; }
         public string ApproveType { get; set; }
         public double NetWeight { get; set; }
-        public double Deviation { get; set; }
         public int Quantity { get; set; }
-        public double DeviationPrs { get; set; }
-        public double CalculatePrs { get; set; }
+        public int CalculatorPairs { get; set; }
+        public double Deviation { get; set; }
+        public double DeviationPairs { get; set; }
+        public double ActualDeviation { get; set; }
         public Guid ScanDataId { get; set; }
     }
 }

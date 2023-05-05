@@ -494,6 +494,7 @@ namespace WeightChecking
                                         StdNetWeight = item.StdNetWeight,
                                         LowerTolerance = item.LowerTolerance,
                                         UpperTolerance = item.UpperTolerance,
+                                        BoxWeight=item.BoxWeight,
                                         PackageWeight = item.PackageWeight,
                                         StdGrossWeight = item.StdGrossWeight,
                                         GrossWeight = item.GrossWeight,
@@ -539,13 +540,14 @@ namespace WeightChecking
                                 ws.Cells[0, 7].Value = "QR Label";
                                 ws.Cells[0, 8].Value = "Aprrove Type";
                                 ws.Cells[0, 9].Value = "Net Weight (g)";
-                                ws.Cells[0, 10].Value = "Deviation (g)";
-                                ws.Cells[0, 11].Value = "Quantity (prs)";
-                                ws.Cells[0, 12].Value = "Deviation Prs";
-                                ws.Cells[0, 13].Value = "Calculate Prs";
-                                ws.Cells[0, 14].Value = "Scan Data Id";
+                                ws.Cells[0, 10].Value = "Quantity (prs)";
+                                ws.Cells[0, 11].Value = "Calculate Pairs";
+                                ws.Cells[0, 12].Value = "Deviation (g)";
+                                ws.Cells[0, 13].Value = "Deviation Pairs";
+                                ws.Cells[0, 14].Value = "Actual Deviation (prs)";
+                                ws.Cells[0, 15].Value = "Scan Data Id";
 
-                                rHeader = ws.Range.FromLTRB(0, 0, 14, 0);//Col-Row;Col-Row. do created new WB nen ko lây theo hàng cot chũ cái đc
+                                rHeader = ws.Range.FromLTRB(0, 0, 15, 0);//Col-Row;Col-Row. do created new WB nen ko lây theo hàng cot chũ cái đc
                                 rHeader.FillColor = Color.Orange;
                                 rHeader.Alignment.Horizontal = SpreadsheetHorizontalAlignment.Center;
                                 rHeader.Alignment.Vertical = SpreadsheetVerticalAlignment.Center;
@@ -565,9 +567,11 @@ namespace WeightChecking
                                         QRLabel = itemApproved.QRLabel,
                                         ApproveType = itemApproved.ApproveType,
                                         NetWeight = itemApproved.NetWeight,
+                                        Quantity=itemApproved.Quantity,
+                                        CalculatorPairs = itemApproved.CalculatorPrs,
                                         Deviation = itemApproved.Deviation,
-                                        DeviationPrs = itemApproved.DeviationPrs,
-                                        CalculatePrs = itemApproved.CalculatePrs,
+                                        DeviationPairs = itemApproved.DeviationPairs,
+                                        ActualDeviation=itemApproved.ActualDeviationPairs,
                                         ScanDataId = itemApproved.ScanDataId,
                                     });
                                 }
@@ -578,11 +582,11 @@ namespace WeightChecking
                                 ws.Range[$"L2:M{res.Count}"].NumberFormat = "#,#0";
                                 ws.Range[$"G2:G{res.Count}"].NumberFormat = "yyyy/MM/dd HH:mm:ss";
 
-                                ws.Range.FromLTRB(0, 0, 14, reportApproved.Count).Borders.SetAllBorders(Color.Black, BorderLineStyle.Thin);
+                                ws.Range.FromLTRB(0, 0, 15, reportApproved.Count).Borders.SetAllBorders(Color.Black, BorderLineStyle.Thin);
                                 //ws.FreezeRows(0);
                                 //ws.FreezeColumns(3);
                                 //ws.FreezePanes(0, 3);
-                                ws.Columns.AutoFit(0, 14);
+                                ws.Columns.AutoFit(0, 15);
                                 #endregion
 
                                 #region Missing infomation
