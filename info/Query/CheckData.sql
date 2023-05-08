@@ -1,17 +1,19 @@
 select TOP (100) * from tblScanData 
 --where BarcodeString ='OCB3702,6111322101-N053-2504,36,7,P,9/9,162610,1/1|1,201476.2023,1,1,3'
---where IdLabel = '219829.2023'
+where IdLabel in ('346349.2023','349319.2023')
+--where IdLabel in ('344520.2023','349320.2023')
 --Where OcNo = 'OPRT10069' AND BoxNo ='1/1'
 --where Station = 0
 --where Id in ('451A8FA6-2435-4DE4-BB55-39EF146E954A','F904148E-2764-4055-B1CB-B40CA2C94056')
-where DAY(CreatedDate) = DAY(GETDATE()) and  month(CreatedDate) = month(GETDATE())
+--where DAY(CreatedDate) = DAY(GETDATE()) and  month(CreatedDate) = month(GETDATE())
 order by CreatedDate desc;
 
 select top(100)* from tblApprovedPrintLabel 
 --where QRLabel ='OCB3702,6111322101-N053-2504,36,7,P,9/9,162610,1/1|1,201476.2023,1,1,3'
---where IdLabel = '169292.2023'
+where IdLabel in ('346349.2023','349319.2023')
+--where IdLabel in ('344520.2023','349320.2023')
 --Where OC = 'OPRT8594' AND BoxNo ='1/1'
-where DAY(CreatedDate) = DAY(GETDATE()) and  month(CreatedDate) = month(GETDATE())
+--where DAY(CreatedDate) = DAY(GETDATE()) and  month(CreatedDate) = month(GETDATE())
 --where ScanDataId = 'E9A6D475-6294-413F-923C-37A0EF92692A'
 order by CreatedDate desc;
 
@@ -31,6 +33,8 @@ order by CreatedDate desc;
 --select * from tblWinlineProductsInfo  where ProductNumber ='6111010702-ADSN-2354' order by CreatedDate desc
 --select * from tblCoreDataCodeItemSize order by CreatedDate desc
 --select * from tblScanData order by CreatedDate desc
+
+
 
 
 
