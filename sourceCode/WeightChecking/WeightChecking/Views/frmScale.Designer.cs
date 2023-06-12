@@ -30,6 +30,7 @@ namespace WeightChecking
         private void InitializeComponent()
         {
             this.layoutControl1 = new DevExpress.XtraLayout.LayoutControl();
+            this._txtTest = new DevExpress.XtraEditors.TextEdit();
             this.labUpperToleranceWeight = new DevExpress.XtraEditors.LabelControl();
             this.labLowerToleranceWeight = new DevExpress.XtraEditors.LabelControl();
             this.labUpperTolerance = new DevExpress.XtraEditors.LabelControl();
@@ -89,6 +90,7 @@ namespace WeightChecking
             this.splitterItem1 = new DevExpress.XtraLayout.SplitterItem();
             this.layoutControlItem35 = new DevExpress.XtraLayout.LayoutControlItem();
             this.splitterItem2 = new DevExpress.XtraLayout.SplitterItem();
+            this.layoutControlItem36 = new DevExpress.XtraLayout.LayoutControlItem();
             this.layoutControlGroup2 = new DevExpress.XtraLayout.LayoutControlGroup();
             this.layoutControlItem9 = new DevExpress.XtraLayout.LayoutControlItem();
             this.layoutControlItem7 = new DevExpress.XtraLayout.LayoutControlItem();
@@ -106,10 +108,9 @@ namespace WeightChecking
             this.layoutControlItem17 = new DevExpress.XtraLayout.LayoutControlItem();
             this.layoutControlItem29 = new DevExpress.XtraLayout.LayoutControlItem();
             this.layoutControlItem18 = new DevExpress.XtraLayout.LayoutControlItem();
-            this._txtTest = new DevExpress.XtraEditors.TextEdit();
-            this.layoutControlItem36 = new DevExpress.XtraLayout.LayoutControlItem();
             ((System.ComponentModel.ISupportInitialize)(this.layoutControl1)).BeginInit();
             this.layoutControl1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this._txtTest.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtQrCode.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.Root)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.layoutControlGroup1)).BeginInit();
@@ -135,6 +136,7 @@ namespace WeightChecking
             ((System.ComponentModel.ISupportInitialize)(this.splitterItem1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem35)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.splitterItem2)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem36)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.layoutControlGroup2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem9)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem7)).BeginInit();
@@ -152,8 +154,6 @@ namespace WeightChecking
             ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem17)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem29)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem18)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this._txtTest.Properties)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem36)).BeginInit();
             this.SuspendLayout();
             // 
             // layoutControl1
@@ -202,6 +202,14 @@ namespace WeightChecking
             this.layoutControl1.Size = new System.Drawing.Size(1119, 794);
             this.layoutControl1.TabIndex = 0;
             this.layoutControl1.Text = "layoutControl1";
+            // 
+            // _txtTest
+            // 
+            this._txtTest.Location = new System.Drawing.Point(804, 47);
+            this._txtTest.Name = "_txtTest";
+            this._txtTest.Size = new System.Drawing.Size(291, 20);
+            this._txtTest.StyleController = this.layoutControl1;
+            this._txtTest.TabIndex = 44;
             // 
             // labUpperToleranceWeight
             // 
@@ -402,7 +410,7 @@ namespace WeightChecking
             this.labScaleValue.Size = new System.Drawing.Size(210, 81);
             this.labScaleValue.StyleController = this.layoutControl1;
             this.labScaleValue.TabIndex = 30;
-            this.labScaleValue.Text = "5540";
+            this.labScaleValue.Text = "8795";
             // 
             // labNetWeight
             // 
@@ -1042,6 +1050,15 @@ namespace WeightChecking
             this.splitterItem2.Name = "splitterItem2";
             this.splitterItem2.Size = new System.Drawing.Size(10, 50);
             // 
+            // layoutControlItem36
+            // 
+            this.layoutControlItem36.Control = this._txtTest;
+            this.layoutControlItem36.Location = new System.Drawing.Point(780, 0);
+            this.layoutControlItem36.Name = "layoutControlItem36";
+            this.layoutControlItem36.Size = new System.Drawing.Size(295, 34);
+            this.layoutControlItem36.TextSize = new System.Drawing.Size(0, 0);
+            this.layoutControlItem36.TextVisible = false;
+            // 
             // layoutControlGroup2
             // 
             this.layoutControlGroup2.AppearanceGroup.BackColor = System.Drawing.Color.Transparent;
@@ -1316,24 +1333,6 @@ namespace WeightChecking
             this.layoutControlItem18.TextSize = new System.Drawing.Size(210, 24);
             this.layoutControlItem18.TextToControlDistance = 5;
             // 
-            // _txtTest
-            // 
-            this._txtTest.Location = new System.Drawing.Point(804, 47);
-            this._txtTest.Name = "_txtTest";
-            this._txtTest.Size = new System.Drawing.Size(291, 20);
-            this._txtTest.StyleController = this.layoutControl1;
-            this._txtTest.TabIndex = 44;
-            this._txtTest.Visible = false;
-            // 
-            // layoutControlItem36
-            // 
-            this.layoutControlItem36.Control = this._txtTest;
-            this.layoutControlItem36.Location = new System.Drawing.Point(780, 0);
-            this.layoutControlItem36.Name = "layoutControlItem36";
-            this.layoutControlItem36.Size = new System.Drawing.Size(295, 34);
-            this.layoutControlItem36.TextSize = new System.Drawing.Size(0, 0);
-            this.layoutControlItem36.TextVisible = false;
-            // 
             // frmScale
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -1348,6 +1347,7 @@ namespace WeightChecking
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.frmScale_FormClosing);
             ((System.ComponentModel.ISupportInitialize)(this.layoutControl1)).EndInit();
             this.layoutControl1.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this._txtTest.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtQrCode.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.Root)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.layoutControlGroup1)).EndInit();
@@ -1373,6 +1373,7 @@ namespace WeightChecking
             ((System.ComponentModel.ISupportInitialize)(this.splitterItem1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem35)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.splitterItem2)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem36)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.layoutControlGroup2)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem9)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem7)).EndInit();
@@ -1390,8 +1391,6 @@ namespace WeightChecking
             ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem17)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem29)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem18)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this._txtTest.Properties)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem36)).EndInit();
             this.ResumeLayout(false);
 
         }

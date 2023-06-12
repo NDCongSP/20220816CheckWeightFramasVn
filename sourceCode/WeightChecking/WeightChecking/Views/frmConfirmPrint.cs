@@ -64,7 +64,8 @@ namespace WeightChecking
 
                                 //nếu tỷ lệ lớn hơn quy định thì popup form nhập deviation thực tế
                                 if (GlobalVariables.Station != StationEnum.IDC_2
-                                    && (GlobalVariables.Station == StationEnum.IDC_1 && _scanData.OcNo.Substring(0, 2) != "PR"))
+                                    && GlobalVariables.Station == StationEnum.IDC_1)
+                                //&& (GlobalVariables.Station == StationEnum.IDC_1 && _scanData.OcNo.Substring(0, 2) != "PR"))
                                 {
                                     using (var formDeviation = new frmDeviationForFalseAlarm())
                                     {
@@ -172,6 +173,7 @@ namespace WeightChecking
                                 para.Add("CalculatorPrs", _scanData.CalculatedPairs);
                                 para.Add("ScanDataId", _scanData.Id);
                                 para.Add("Quantity", _scanData.Quantity);
+                                para.Add("CreatedDate", _scanData.CreatedDate);
 
                                 connection.Execute("sp_tblApprovedPrintLabelInsert", para, commandType: CommandType.StoredProcedure);
                                 #endregion
@@ -216,7 +218,7 @@ namespace WeightChecking
                                 para.Add("GrossWeight", _scaleValue);
                                 para.Add("Status", _scanData.OcNo.Substring(0, 2) == "PR" && GlobalVariables.Station == 0 ? 1 : 2);
                                 para.Add("NetWeight", _scanData.NetWeight);
-                                para.Add("Calculatorpairs",_scanData.CalculatedPairs );
+                                para.Add("Calculatorpairs", _scanData.CalculatedPairs);
                                 para.Add("Deviation", _scanData.Deviation);
                                 para.Add("DeviationPairs", _scanData.DeviationPairs);
                                 para.Add("RatioFailWeight", _scanData.RatioFailWeight);
@@ -226,6 +228,85 @@ namespace WeightChecking
                                 GlobalVariables.Printing((_scaleValue / 1000).ToString("#,#0.00")
                                           , !string.IsNullOrEmpty(_scanData.IdLabel) ? _scanData.IdLabel : $"{_scanData.OcNo}|{_scanData.BoxNo}", true
                                           , _scanData.CreatedDate.ToString("yyyy-MM-dd HH:mm:ss"));
+
+                                #region Get thong tin boxParent nếu có, và update lại actual deviation cho thùng mẹ ở bảng scanData và ApprovedPrint
+                                using (var connectionDWH = GlobalVariables.GetDbConnectionDogeWh())
+                                {
+                                    para = null;
+                                    para = new DynamicParameters();
+                                    para.Add("@OcNo", _scanData.OcNo);
+
+                                    var boxParent = connectionDWH.Query<BoxParentModel>("sp_IdcSsfgPrintedLabels_OC_IndexCheck", para, commandType: CommandType.StoredProcedure).FirstOrDefault();
+
+                                    if (boxParent != null)
+                                    {
+                                        if (boxParent != null)
+                                        {
+                                            _scanData.ParentOc = boxParent.ParentOc;
+                                            _scanData.ParentBoxId = boxParent.ParentBoxCode;
+
+                                            para = null;
+                                            para = new DynamicParameters();
+                                            para.Add("_OcNo", boxParent.ParentOc);
+                                            para.Add("_BoxId", boxParent.ParentBoxCode);
+
+                                            var resultCheckBoxInfo = connection.Query<tblScanDataModel>("sp_tblScanDataGetByQrCode", para, commandType: CommandType.StoredProcedure).FirstOrDefault();
+
+                                            if (resultCheckBoxInfo != null)
+                                            {
+                                                if (resultCheckBoxInfo.Quantity + resultCheckBoxInfo.ActualDeviationPairs > resultCheckBoxInfo.Quantity)
+                                                {
+                                                    //cập nhật actual deviation cho thùng mẹ
+                                                    para = null;
+                                                    para = new DynamicParameters();
+                                                    para.Add("Id", resultCheckBoxInfo.Id);
+                                                    para.Add("ApproveBy", resultCheckBoxInfo.ApprovedBy);
+                                                    para.Add("ActualDeviationPairs", _scanData.Quantity);//chính là qtyChildBox
+                                                    para.Add("GrossWeight", resultCheckBoxInfo.GrossWeight);
+                                                    para.Add("Status", 2);
+                                                    para.Add("NetWeight", resultCheckBoxInfo.NetWeight);
+                                                    para.Add("Calculatorpairs", resultCheckBoxInfo.CalculatedPairs);
+                                                    para.Add("Deviation", resultCheckBoxInfo.Deviation);
+                                                    para.Add("DeviationPairs", resultCheckBoxInfo.DeviationPairs);
+                                                    para.Add("RatioFailWeight", resultCheckBoxInfo.RatioFailWeight);
+
+                                                    connection.Execute("sp_tblScanDataUpdateApproveBy", para, commandType: CommandType.StoredProcedure);
+
+                                                    #region Update actual deviation for approvedPrint
+                                                    para = null;
+                                                    para = new DynamicParameters();
+                                                    para.Add("@ScanDataId", resultCheckBoxInfo.Id);
+                                                    para.Add("@ActualDeviation", _scanData.Quantity);
+
+                                                    connection.Execute("[sp_tblApprovedPrintLabelUpdate]", para, commandType: CommandType.StoredProcedure);
+                                                    #endregion
+                                                }
+                                                //Trường hợp 2: thùng mẹ bị thiếu hàng
+                                                //khi đó sẽ in tem lụi 1 con tem mới. thay cho tem mẹ
+                                                //tem mẹ sẽ bị hủy.
+                                                else
+                                                {
+                                                    //cập nhật actual deviation cho thùng mẹ
+                                                    para = null;
+                                                    para = new DynamicParameters();
+                                                    para.Add("Id", resultCheckBoxInfo.Id);
+                                                    para.Add("ApproveBy", resultCheckBoxInfo.ApprovedBy);
+                                                    para.Add("ActualDeviationPairs", _scanData.Quantity - resultCheckBoxInfo.Quantity);//qtyChildBox - qtyMotherBox
+                                                    para.Add("GrossWeight", resultCheckBoxInfo.GrossWeight);
+                                                    para.Add("Status", 2);
+                                                    para.Add("NetWeight", resultCheckBoxInfo.NetWeight);
+                                                    para.Add("Calculatorpairs", resultCheckBoxInfo.CalculatedPairs);
+                                                    para.Add("Deviation", resultCheckBoxInfo.Deviation);
+                                                    para.Add("DeviationPairs", resultCheckBoxInfo.DeviationPairs);
+                                                    para.Add("RatioFailWeight", resultCheckBoxInfo.RatioFailWeight);
+
+                                                    connection.Execute("sp_tblScanDataUpdateApproveBy", para, commandType: CommandType.StoredProcedure);
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                                #endregion
                             }
                         }
                         else
