@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -42,9 +43,13 @@ namespace WeightChecking
         public double WrapSheetWeight { get; set; }
         public double FoamSheetWeight { get; set; }
         public double PlasicBoxWeight { get; set; }
+        [DisplayName("LowerToleranceOfTotalCartonBox")]
         public double LowerToleranceOfCartonBox { get; set; } = 0;
+        [DisplayName("UpperToleranceOfTotalCartonBox")]
         public double UpperToleranceOfCartonBox { get; set; } = 0;
+        [DisplayName("LowerToleranceOfTotalPlasticBox")]
         public double LowerToleranceOfPlasticBox { get; set; } = 0;
+        [DisplayName("UpperToleranceOfTotalPlasticBox")]
         public double UpperToleranceOfPlasticBox { get; set; } = 0;
         public DateTime CreatedDate { get; set; }//Thời gian item được get từ WL về
     }

@@ -40,6 +40,7 @@ namespace WeightChecking
         public double StdGrossWeight { get; set; }
         public double GrossWeight { get; set; }
         public double NetWeight { get; set; }
+        [DisplayName("DeviationWeight (g)")]
         public double Deviation { get; set; }
         public int Pass { get; set; }
         //Báo trạng thái: 0- thùng fail; 1- chờ đi sơn; 2- Done hàng FG qua kho Kerry.
@@ -54,6 +55,7 @@ namespace WeightChecking
         public Guid CreatedBy { get; set; }
         public string UserName { get; set; }
         public double CalculatedPairs { get; set; }
+        [DisplayName("CalculatedDeviationPairs")]
         public double DeviationPairs { get; set; } = 0;//thể hiện số pairs bị thiếu.
         public StationEnum Station { get; set; }
         [Browsable(false)]

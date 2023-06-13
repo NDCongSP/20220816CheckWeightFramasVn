@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -23,7 +24,9 @@ namespace WeightChecking
         public double NetWeight { get; set; }
         public int Quantity { get; set; }
         public int CalculatorPrs { get; set; }
+        [DisplayName("DeviationWeight(g)")]
         public double Deviation { get; set; }
+        [DisplayName("CalculatedDeviationPairs")]
         public double DeviationPairs { get; set; }
         public double ActualDeviationPairs { get; set; }
         public Guid ScanDataId { get; set; }

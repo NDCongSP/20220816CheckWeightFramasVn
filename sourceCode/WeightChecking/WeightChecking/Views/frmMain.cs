@@ -445,23 +445,23 @@ namespace WeightChecking
                                 ws.Cells[0, 19].Value = "LowerTolerance (g)";
                                 ws.Cells[0, 20].Value = "UpperTolerance (g)";
                                 ws.Cells[0, 21].Value = "BoxWeight (g)";
-                                ws.Cells[0, 22].Value = "PackageWeight (g)";
-                                ws.Cells[0, 23].Value = "StdGrossWeight (g)";
+                                ws.Cells[0, 22].Value = "Package Weight (g)";
+                                ws.Cells[0, 23].Value = "Std GrossWeight (g)";
                                 ws.Cells[0, 24].Value = "GrossWeight (g)";
                                 ws.Cells[0, 25].Value = "NetWeight (g)";
-                                ws.Cells[0, 26].Value = "Deviation (g)";
+                                ws.Cells[0, 26].Value = "Deviation Weight (g)";
                                 ws.Cells[0, 27].Value = "Pass";
                                 ws.Cells[0, 28].Value = "Status";
                                 ws.Cells[0, 29].Value = "Calculated (prs)";
-                                ws.Cells[0, 30].Value = "DeviationPairs";
-                                ws.Cells[0, 31].Value = "CreatedDate";
+                                ws.Cells[0, 30].Value = "Calculated Deviation Pairs";
+                                ws.Cells[0, 31].Value = "Created Date";
                                 ws.Cells[0, 32].Value = "Station";
-                                ws.Cells[0, 33].Value = "UserName";
-                                ws.Cells[0, 34].Value = "ApprovedName";
-                                ws.Cells[0, 35].Value = "ActualDeviationPairs";
-                                ws.Cells[0, 36].Value = "RatioFailWeight (%)";
-                                ws.Cells[0, 37].Value = "ParentOc";
-                                ws.Cells[0, 38].Value = "ParentBoxId";
+                                ws.Cells[0, 33].Value = "User Name";
+                                ws.Cells[0, 34].Value = "Approved Name";
+                                ws.Cells[0, 35].Value = "Actual Deviation Pairs";
+                                ws.Cells[0, 36].Value = "Ratio Fail Weight (%)";
+                                ws.Cells[0, 37].Value = "Parent Oc";
+                                ws.Cells[0, 38].Value = "Parent BoxId";
 
                                 CellRange rHeader = ws.Range.FromLTRB(0, 0, 38, 0);//Col-Row;Col-Row. do created new WB nen ko lây theo hàng cot chũ cái đc
                                 rHeader.FillColor = Color.Orange;
@@ -542,8 +542,8 @@ namespace WeightChecking
                                 ws.Cells[0, 9].Value = "Net Weight (g)";
                                 ws.Cells[0, 10].Value = "Quantity (prs)";
                                 ws.Cells[0, 11].Value = "Calculate Pairs";
-                                ws.Cells[0, 12].Value = "Deviation (g)";
-                                ws.Cells[0, 13].Value = "Deviation Pairs";
+                                ws.Cells[0, 12].Value = "Deviation Weight (g)";
+                                ws.Cells[0, 13].Value = "Calculated Deviation Pairs";
                                 ws.Cells[0, 14].Value = "Actual Deviation (prs)";
                                 ws.Cells[0, 15].Value = "Scan Data Id";
 

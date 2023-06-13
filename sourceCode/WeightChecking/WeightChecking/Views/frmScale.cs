@@ -285,7 +285,7 @@ namespace WeightChecking
             this.txtQrCode.KeyDown += TxtQrCode_KeyDown;
 
             //khi nao test thi bat cai nay len de nhap so can bang tay
-            layoutControlItem36.Visibility = DevExpress.XtraLayout.Utils.LayoutVisibility.Always;
+            layoutControlItem36.Visibility = DevExpress.XtraLayout.Utils.LayoutVisibility.Never;
             _txtTest.TextChanged += (s, o) =>
             {
                 this.Invoke((MethodInvoker)delegate { labScaleValue.Text = (double.TryParse(_txtTest.Text, out double value) ? value : 0).ToString(); });
@@ -511,7 +511,7 @@ namespace WeightChecking
                         //var checkInfo = connection.Query<tblScanDataCheckModel>("sp_tblScanDataCheck", para, commandType: CommandType.StoredProcedure).ToList();
 
                         para.Add("_QrCode", _scanData.BarcodeString);
-                        var checkInfo = connection.Query<tblScanDataModel>("sp_tblScanDataGetByQrCode", para, commandType: CommandType.StoredProcedure).ToList();
+                        var checkInfo = connection.Query<tblScanDataModel>("sp_tblScanDataGetByQrCodeForCheckLog", para, commandType: CommandType.StoredProcedure).ToList();
                         foreach (var item in checkInfo)
                         {
                             if (

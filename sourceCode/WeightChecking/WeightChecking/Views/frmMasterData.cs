@@ -158,39 +158,31 @@ namespace WeightChecking
                     {
                         Console.WriteLine($"Get data from winline ok.");
 
-                        if (grc.InvokeRequired)
-                        {
-                            grc.Invoke(new Action(() =>
-                            {
-                                grc.DataSource = null;
-                                grc.DataSource = winlineInfo;
-
-                                grv.OptionsView.ColumnHeaderAutoHeight = DevExpress.Utils.DefaultBoolean.True;
-                                grv.OptionsView.ColumnAutoWidth = true;
-                                //grv.Columns["Id"].Visible = false;
-                            }));
-                        }
-                        else
-                        {
+                        this.Invoke((MethodInvoker)delegate {
                             grc.DataSource = null;
                             grc.DataSource = winlineInfo;
-                        }
+                            grc.Refresh();
 
-                        grv.Columns["CreatedDate"].DisplayFormat.FormatString = "YYYY-MM-dd HH:mm:ss";
+                            grv.OptionsView.ColumnHeaderAutoHeight = DevExpress.Utils.DefaultBoolean.True;
+                            grv.OptionsView.ColumnAutoWidth = true;
+
+                            grv.Columns["CreatedDate"].DisplayFormat.FormatString = "YYYY-MM-dd HH:mm:ss";
+                            grv.Columns["CodeItemSize"].Fixed = DevExpress.XtraGrid.Columns.FixedStyle.Left;
+                            grv.Columns["ProductNumber"].Fixed = DevExpress.XtraGrid.Columns.FixedStyle.Left;
+                            grv.Columns["ProductName"].Fixed = DevExpress.XtraGrid.Columns.FixedStyle.Left;
+                            grv.Columns["ProductCategory"].Fixed = DevExpress.XtraGrid.Columns.FixedStyle.Left;
+                            grv.Columns["Brand"].Fixed = DevExpress.XtraGrid.Columns.FixedStyle.Left;
+                            grv.Columns["Decoration"].Fixed = DevExpress.XtraGrid.Columns.FixedStyle.Left;
+                            grv.Columns["MetalScan"].Fixed = DevExpress.XtraGrid.Columns.FixedStyle.Left;
+                            grv.Columns["Printing"].Fixed = DevExpress.XtraGrid.Columns.FixedStyle.Left;
+                        });
                     }
                     else
                     {
-                        if (grc.InvokeRequired)
-                        {
-                            grc.Invoke(new Action(() =>
-                            {
-                                grc.DataSource = null;
-                            }));
-                        }
-                        else
-                        {
+                        this.Invoke((MethodInvoker)delegate {
                             grc.DataSource = null;
-                        }
+                            grc.Refresh();
+                        });
 
                         Console.WriteLine($"Refresh master data.");
                         Log.Error("Refresh master data fail.");
