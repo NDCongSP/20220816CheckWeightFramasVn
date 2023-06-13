@@ -35,7 +35,7 @@ order by CreatedDate desc;
 
 --update tblScanData set ActualDeviationPairs = 27 where id ='978cfe2f-76a0-48d4-97d0-a3310f65a650'
 --update tblScanData set Status=1 where id ='0d98b31e-8fac-4599-95ee-61e2c0b07faa' --01b9b561-133e-4e36-923d-6930b6baa6eb
---update tblScanData set Actived=0 where id in ('f28383e0-4497-4a3c-bcc0-765103d8d219','d6fb2ed3-8d65-4f29-9821-30452930a349','67d34a66-e39b-4bce-897a-91cc1777c196','f31092e6-d78f-4fec-b31f-e19b3f57509b')
+--update tblScanData set Actived=1 where id in ('f28383e0-4497-4a3c-bcc0-765103d8d219','d6fb2ed3-8d65-4f29-9821-30452930a349','67d34a66-e39b-4bce-897a-91cc1777c196','f31092e6-d78f-4fec-b31f-e19b3f57509b')
 
 --code approved: D7BEF08B-C830-4C67-9F2F-39D52AE178EE
 
