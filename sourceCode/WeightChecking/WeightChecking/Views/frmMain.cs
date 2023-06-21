@@ -87,6 +87,8 @@ namespace WeightChecking
             this._barButtonItemExportMissItem.ItemClick += _barButtonItemExportMissItem_ItemClick;
             this._barButtonItemAddSpecialCase.ItemClick += _barButtonItemAddSpecialCase_ItemClick;
 
+            _barBtnDeleteBox.ItemClick += _barBtnDeleteBox_ItemClick;
+
             //chon chế độ chỉ hiển thị tab ribbon, ẩn chi tiết group
             //ribbonControl1.Minimized = true;//show tabs
             //this.RibbonVisibility = DevExpress.XtraBars.Ribbon.RibbonVisibility.Hidden;
@@ -172,6 +174,25 @@ namespace WeightChecking
                 }
 
                 ribbonControl1.SelectedPage = ribbonPageMasterData;
+                _barBtnDeleteBox.Visibility = DevExpress.XtraBars.BarItemVisibility.Never;
+            }
+            else if (GlobalVariables.UserLoginInfo.Role == RolesEnum.Administrator)//Admin
+            {
+                if (_masterData == null)
+                {
+                    _masterData = "Actived";
+
+                    _frmMasterData = new frmMasterData();
+                    tabbedView1.AddDocument(_frmMasterData);
+                    tabbedView1.ActivateDocument(_frmMasterData);
+                }
+                else
+                {
+                    tabbedView1.ActivateDocument(_frmMasterData);
+                }
+
+                ribbonControl1.SelectedPage = ribbonPageMasterData;
+                _barBtnDeleteBox.Visibility = DevExpress.XtraBars.BarItemVisibility.Always;
             }
             else if (GlobalVariables.UserLoginInfo.Role == RolesEnum.Report)//report
             {
@@ -236,6 +257,20 @@ namespace WeightChecking
             this._barEditItemCombStation.EditValue = "All";
             _timer.Enabled = true;
             _timer.Tick += _timer_Tick;
+        }
+
+        private void _barBtnDeleteBox_ItemClick(object sender, DevExpress.XtraBars.ItemClickEventArgs e)
+        {
+            try
+            {
+                frmDeleteBox frmUpdate = new frmDeleteBox();
+                frmUpdate.StartPosition = FormStartPosition.CenterScreen;
+                frmUpdate.ShowDialog();
+            }
+            catch (Exception ex)
+            {
+                XtraMessageBox.Show("Delete Box Fail." + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
 
         private void _barButtonItemAddSpecialCase_ItemClick(object sender, DevExpress.XtraBars.ItemClickEventArgs e)
@@ -494,7 +529,7 @@ namespace WeightChecking
                                         StdNetWeight = item.StdNetWeight,
                                         LowerTolerance = item.LowerTolerance,
                                         UpperTolerance = item.UpperTolerance,
-                                        BoxWeight=item.BoxWeight,
+                                        BoxWeight = item.BoxWeight,
                                         PackageWeight = item.PackageWeight,
                                         StdGrossWeight = item.StdGrossWeight,
                                         GrossWeight = item.GrossWeight,
@@ -567,11 +602,11 @@ namespace WeightChecking
                                         QRLabel = itemApproved.QRLabel,
                                         ApproveType = itemApproved.ApproveType,
                                         NetWeight = itemApproved.NetWeight,
-                                        Quantity=itemApproved.Quantity,
+                                        Quantity = itemApproved.Quantity,
                                         CalculatorPairs = itemApproved.CalculatorPrs,
                                         Deviation = itemApproved.Deviation,
                                         DeviationPairs = itemApproved.DeviationPairs,
-                                        ActualDeviation=itemApproved.ActualDeviationPairs,
+                                        ActualDeviation = itemApproved.ActualDeviationPairs,
                                         ScanDataId = itemApproved.ScanDataId,
                                     });
                                 }

@@ -249,6 +249,12 @@
     <Compile Include="Enums\RolesEnum.cs" />
     <Compile Include="Enums\StationEnum.cs" />
     <Compile Include="Events\RefreshEvent.cs" />
+    <Compile Include="frmDeleteBox.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmDeleteBox.Designer.cs">
+      <DependentUpon>frmDeleteBox.cs</DependentUpon>
+    </Compile>
     <Compile Include="Models\BoxParentModel.cs" />
     <Compile Include="Models\OcUsingModel.cs" />
     <Compile Include="Views\frmDeviationForFalseAlarm.cs">
@@ -367,6 +373,9 @@
     <Compile Include="rptLabel.Designer.cs">
       <DependentUpon>rptLabel.cs</DependentUpon>
     </Compile>
+    <EmbeddedResource Include="frmDeleteBox.resx">
+      <DependentUpon>frmDeleteBox.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="rptLabelFail.resx">
       <DependentUpon>rptLabelFail.cs</DependentUpon>
     </EmbeddedResource>

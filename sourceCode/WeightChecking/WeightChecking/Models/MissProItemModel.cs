@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -14,6 +15,7 @@ namespace WeightChecking
         public string QRCode { get; set; }
         public string Note { get; set; }
         public DateTime CreatedDate { get; set; }
+        [Browsable(false)]
         public StationEnum Station { get; set; }
     }
 }

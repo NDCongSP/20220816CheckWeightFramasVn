@@ -11,6 +11,7 @@ namespace WeightChecking
         Operator,
         Admin,
         Report,
-        Observer
+        Observer,
+        Administrator
     }
 }
