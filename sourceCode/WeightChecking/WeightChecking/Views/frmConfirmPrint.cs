@@ -24,6 +24,7 @@ namespace WeightChecking
         Guid _qrApproved;
         double _actualDeviation = 0;
         double _ratio = 0;
+        string _reason = string.Empty;
 
         public frmConfirmPrint()
         {
@@ -74,6 +75,15 @@ namespace WeightChecking
                                         if (resultForm == DialogResult.OK)
                                         {
                                             _scanData.ActualDeviationPairs = formDeviation.ActualDeviation;
+
+                                            //popup form chon reason
+                                            using (var nfReason = new frmSelectReason())
+                                            {
+                                                if (nfReason.ShowDialog() == DialogResult.OK)
+                                                {
+                                                    _reason = nfReason.Reason;
+                                                }
+                                            }
                                         }
                                         else
                                         {
@@ -174,6 +184,7 @@ namespace WeightChecking
                                 para.Add("ScanDataId", _scanData.Id);
                                 para.Add("Quantity", _scanData.Quantity);
                                 para.Add("CreatedDate", _scanData.CreatedDate);
+                                para.Add("Reason", _reason);
 
                                 connection.Execute("sp_tblApprovedPrintLabelInsert", para, commandType: CommandType.StoredProcedure);
                                 #endregion

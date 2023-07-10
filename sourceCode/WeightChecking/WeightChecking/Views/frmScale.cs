@@ -1142,6 +1142,7 @@ namespace WeightChecking
                                                             para.Add("ScanDataId", resultCheckBoxInfo.Id);
                                                             para.Add("Quantity", resultCheckBoxInfo.Quantity);
                                                             para.Add("CreatedDate", resultCheckBoxInfo.CreatedDate);
+                                                            para.Add("Reason", formDeviation.Reason);
 
                                                             connection.Execute("sp_tblApprovedPrintLabelInsert", para, commandType: CommandType.StoredProcedure);
                                                             #endregion

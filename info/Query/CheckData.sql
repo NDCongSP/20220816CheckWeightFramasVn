@@ -2,7 +2,7 @@ select TOP (100) * from tblScanData
 --where BarcodeString in ('PBF000000128,6112042101-P672-2502,10,1,P,1/1,170000,1/1|1,402842.2023,,,')
 --where IdLabel in ('346349.2023','349319.2023')
 --where IdLabel in ('402842.2023')
-Where OcNo = 'PBF000000126' AND BoxNo ='1/1'
+Where OcNo = 'OCC2572' AND BoxNo ='79/100'
 --where Station = 0
 --where Id in ('451A8FA6-2435-4DE4-BB55-39EF146E954A','F904148E-2764-4055-B1CB-B40CA2C94056')
 --where DAY(CreatedDate) = DAY(GETDATE()) and  month(CreatedDate) = month(GETDATE())

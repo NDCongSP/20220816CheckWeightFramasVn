@@ -255,6 +255,12 @@
     <Compile Include="frmDeleteBox.Designer.cs">
       <DependentUpon>frmDeleteBox.cs</DependentUpon>
     </Compile>
+    <Compile Include="Views\frmSelectReason.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Views\frmSelectReason.Designer.cs">
+      <DependentUpon>frmSelectReason.cs</DependentUpon>
+    </Compile>
     <Compile Include="Models\BoxParentModel.cs" />
     <Compile Include="Models\OcUsingModel.cs" />
     <Compile Include="Views\frmDeviationForFalseAlarm.cs">
@@ -416,6 +422,9 @@
     </Compile>
     <EmbeddedResource Include="Views\frmScanQRConfirm.resx">
       <DependentUpon>frmScanQRConfirm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\frmSelectReason.resx">
+      <DependentUpon>frmSelectReason.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Views\frmSettings.resx">
       <DependentUpon>frmSettings.cs</DependentUpon>

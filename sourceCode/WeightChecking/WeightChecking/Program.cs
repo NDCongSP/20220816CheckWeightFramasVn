@@ -114,7 +114,6 @@ namespace WeightChecking
                 AutoUpdater.CheckForUpdateEvent += AutoUpdater_CheckForUpdateEvent;
                 AutoUpdater.Start(GlobalVariables.UpdatePath);
                 Application.Run(new Login());
-
             }
         }
 
