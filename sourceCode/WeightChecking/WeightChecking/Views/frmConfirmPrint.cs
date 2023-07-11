@@ -77,11 +77,14 @@ namespace WeightChecking
                                             _scanData.ActualDeviationPairs = formDeviation.ActualDeviation;
 
                                             //popup form chon reason
-                                            using (var nfReason = new frmSelectReason())
+                                            if (_scanData.ActualDeviationPairs != 0)
                                             {
-                                                if (nfReason.ShowDialog() == DialogResult.OK)
+                                                using (var nfReason = new frmSelectReason())
                                                 {
-                                                    _reason = nfReason.Reason;
+                                                    if (nfReason.ShowDialog() == DialogResult.OK)
+                                                    {
+                                                        _reason = nfReason.Reason;
+                                                    }
                                                 }
                                             }
                                         }

@@ -580,9 +580,10 @@ namespace WeightChecking
                                 ws.Cells[0, 12].Value = "Deviation Weight (g)";
                                 ws.Cells[0, 13].Value = "Calculated Deviation Pairs";
                                 ws.Cells[0, 14].Value = "Actual Deviation (prs)";
-                                ws.Cells[0, 15].Value = "Scan Data Id";
+                                ws.Cells[0, 15].Value = "Reason";
+                                ws.Cells[0, 16].Value = "Scan Data Id";
 
-                                rHeader = ws.Range.FromLTRB(0, 0, 15, 0);//Col-Row;Col-Row. do created new WB nen ko lây theo hàng cot chũ cái đc
+                                rHeader = ws.Range.FromLTRB(0, 0, 16, 0);//Col-Row;Col-Row. do created new WB nen ko lây theo hàng cot chũ cái đc
                                 rHeader.FillColor = Color.Orange;
                                 rHeader.Alignment.Horizontal = SpreadsheetHorizontalAlignment.Center;
                                 rHeader.Alignment.Vertical = SpreadsheetVerticalAlignment.Center;
@@ -608,6 +609,7 @@ namespace WeightChecking
                                         DeviationPairs = itemApproved.DeviationPairs,
                                         ActualDeviation = itemApproved.ActualDeviationPairs,
                                         ScanDataId = itemApproved.ScanDataId,
+                                        Reason=itemApproved.Reason
                                     });
                                 }
                                 ws.Import(reportApproved, 1, 0);
@@ -617,11 +619,11 @@ namespace WeightChecking
                                 ws.Range[$"L2:M{res.Count}"].NumberFormat = "#,#0";
                                 ws.Range[$"G2:G{res.Count}"].NumberFormat = "yyyy/MM/dd HH:mm:ss";
 
-                                ws.Range.FromLTRB(0, 0, 15, reportApproved.Count).Borders.SetAllBorders(Color.Black, BorderLineStyle.Thin);
+                                ws.Range.FromLTRB(0, 0, 16, reportApproved.Count).Borders.SetAllBorders(Color.Black, BorderLineStyle.Thin);
                                 //ws.FreezeRows(0);
                                 //ws.FreezeColumns(3);
                                 //ws.FreezePanes(0, 3);
-                                ws.Columns.AutoFit(0, 15);
+                                ws.Columns.AutoFit(0, 16);
                                 #endregion
 
                                 #region Missing infomation

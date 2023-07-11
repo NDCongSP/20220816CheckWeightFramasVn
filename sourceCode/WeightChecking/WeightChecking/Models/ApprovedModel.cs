@@ -29,6 +29,7 @@ namespace WeightChecking
         [DisplayName("CalculatedDeviationPairs")]
         public double DeviationPairs { get; set; }
         public double ActualDeviationPairs { get; set; }
+        public string Reason { get; set; }
         public Guid ScanDataId { get; set; }
     }
 }

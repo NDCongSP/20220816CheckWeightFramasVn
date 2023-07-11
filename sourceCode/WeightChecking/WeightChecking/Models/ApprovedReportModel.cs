@@ -23,6 +23,7 @@ namespace WeightChecking
         public double Deviation { get; set; }
         public double DeviationPairs { get; set; }
         public double ActualDeviation { get; set; }
+        public string Reason { get; set; }
         public Guid ScanDataId { get; set; }
     }
 }

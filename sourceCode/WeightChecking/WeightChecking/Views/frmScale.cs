@@ -285,7 +285,7 @@ namespace WeightChecking
             this.txtQrCode.KeyDown += TxtQrCode_KeyDown;
 
             //khi nao test thi bat cai nay len de nhap so can bang tay
-            layoutControlItem36.Visibility = DevExpress.XtraLayout.Utils.LayoutVisibility.Never;
+            layoutControlItem36.Visibility = DevExpress.XtraLayout.Utils.LayoutVisibility.Always;
             _txtTest.TextChanged += (s, o) =>
             {
                 this.Invoke((MethodInvoker)delegate { labScaleValue.Text = (double.TryParse(_txtTest.Text, out double value) ? value : 0).ToString(); });
