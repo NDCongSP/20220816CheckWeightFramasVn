@@ -21,7 +21,7 @@ namespace WeightChecking
         /// <param name="toWH">Đến kho nào.</param>
         /// <param name="connection">chuôi connect.</param>
         /// <returns></returns>
-        public static ResultPostingModel AutoTransfer(string productNumber, string barcodeString, int fromWH, int toWH, double inputQuantity, IDbConnection connection, IDbTransaction tran)
+        public static ResultPostingModel AutoTransfer(string productNumber, string barcodeString, int fromWH, int toWH, IDbConnection connection, IDbTransaction tran)
         {
             string machineName = System.Environment.MachineName;
             ResultPostingModel resultPostingModel = new ResultPostingModel();
@@ -36,7 +36,7 @@ namespace WeightChecking
             // sẽ vào kho (FFT)
             para.Add("@whTo", toWH);
             para.Add("@lock", 0);
-            para.Add("@inputQuantity", inputQuantity);
+            para.Add("@inputQuantity", null);
 
             (int Accept, string Message) = connection.Query<(int Accept, string Message)>("DOGE_WH.dbo.sp_lmpScannerClient_ScanningLabel_CheckLabel"
                 , para, commandType: CommandType.StoredProcedure, transaction: tran).FirstOrDefault();
@@ -59,7 +59,7 @@ namespace WeightChecking
                 para.Add("@scanTime", DateTime.Now);
                 para.Add("@ipAdd", "");
                 para.Add("@postingText", "");
-                para.Add("@inputQuantity", inputQuantity);
+                para.Add("@inputQuantity", null);
                 para.Add("@id", null);
 
                 var resInsertTransferRackStorage = connection.Execute("DOGE_WH.dbo.sp_lmpScannerClient_ScannedLabel_Insert"
@@ -85,7 +85,7 @@ namespace WeightChecking
             return resultPostingModel;
         }
 
-        public static ResultPostingModel AutoStockIn(string productNumber, string barcodeString, int toWH, IDbConnection connection, double inputQuantity, IDbTransaction tran)
+        public static ResultPostingModel AutoStockIn(string productNumber, string barcodeString, int toWH, IDbConnection connection, IDbTransaction tran)
         {
             string machineName = System.Environment.MachineName;
             ResultPostingModel resultPostingModel = new ResultPostingModel();
@@ -100,7 +100,7 @@ namespace WeightChecking
             // sẽ vào kho (FFT)
             para.Add("@whTo", toWH);
             para.Add("@lock", 0);
-            para.Add("@inputQuantity", inputQuantity);
+            para.Add("@inputQuantity", null);
 
             (int Accept, string Message) = connection.Query<(int Accept, string Message)>("DOGE_WH.dbo.sp_lmpScannerClient_ScanningLabel_CheckLabel"
                 , para, commandType: CommandType.StoredProcedure, transaction: tran).FirstOrDefault();
@@ -123,7 +123,7 @@ namespace WeightChecking
                 para.Add("@scanTime", DateTime.Now);
                 para.Add("@ipAdd", "");
                 para.Add("@postingText", "");
-                para.Add("@inputQuantity", inputQuantity);
+                para.Add("@inputQuantity", null);
                 para.Add("@id", null);
 
                 var resInsertTransferRackStorage = connection.Execute("DOGE_WH.dbo.sp_lmpScannerClient_ScannedLabel_Insert", para, commandType: CommandType.StoredProcedure, transaction: tran);
