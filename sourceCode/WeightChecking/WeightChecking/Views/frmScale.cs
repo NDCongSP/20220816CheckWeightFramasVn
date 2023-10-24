@@ -1058,6 +1058,7 @@ namespace WeightChecking
                                             }
                                             else
                                             {
+                                                GlobalVariables.ResultPosting = AutoPostingHelper.AutoTransfer(_scanData.ProductNumber, _scanData.BarcodeString, 63, 41, GlobalVariables.GetDbConnectionDogeWh(), null);
                                                 GlobalVariables.ResultPosting.Message = $"Hàng Production OK (Metal - Transfer 63-->41): {GlobalVariables.ResultPosting.Message}";
                                             }
                                         }
@@ -1072,6 +1073,7 @@ namespace WeightChecking
                                             }
                                             else
                                             {
+                                                GlobalVariables.ResultPosting = AutoPostingHelper.AutoTransfer(_scanData.ProductNumber, _scanData.BarcodeString, 63, 41, GlobalVariables.GetDbConnectionDogeWh(), null);
                                                 GlobalVariables.ResultPosting.Message = $"Hàng QC OK (Metal - Transfer 63-->41): {GlobalVariables.ResultPosting.Message}";
                                             }
                                         }
@@ -1220,6 +1222,7 @@ namespace WeightChecking
                                                             }
                                                             else
                                                             {
+                                                                GlobalVariables.ResultPosting = AutoPostingHelper.AutoTransfer(_scanData.ProductNumber, _scanData.BarcodeString, 63, 41, GlobalVariables.GetDbConnectionDogeWh(), null);
                                                                 GlobalVariables.ResultPosting.Message = $"Hàng cân lại OK (Metal - Transfer 63-->41): {GlobalVariables.ResultPosting.Message}";
                                                             }
                                                         }
