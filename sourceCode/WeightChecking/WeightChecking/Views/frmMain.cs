@@ -761,7 +761,7 @@ namespace WeightChecking
 
             barStaticItemStatus.Caption = $"{DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss")} " +
                 $"| {GlobalVariables.UserLoginInfo.UserName} | ScaleStatus: {GlobalVariables.ScaleStatus}" +
-                $" | CounterStatus: {GlobalVariables.ModbusStatus}";
+                $" | CounterStatus: {GlobalVariables.ModbusStatus} | Auto post: {GlobalVariables.ResultPosting.Message}";
 
             t.Enabled = true;
         }

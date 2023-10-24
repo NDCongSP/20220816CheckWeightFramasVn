@@ -375,6 +375,8 @@ namespace WeightChecking
                             _sen.Focus();
                             #endregion
 
+                            GlobalVariables.ResultPosting.Message = string.Empty;
+
                             return;
                         }
 
@@ -467,6 +469,8 @@ namespace WeightChecking
                             }
                             _sen.Focus();
                             #endregion
+
+                            GlobalVariables.ResultPosting.Message = string.Empty;
 
                             return;
                         }
@@ -582,7 +586,8 @@ namespace WeightChecking
                         para.Add("@ProductNumber", _scanData.ProductNumber);
                         para.Add("@SpecialCase", specialCase);
 
-                        //đối với hàng sơn PU, thì trước sơn lấy các giá trị theo printing =0. Sau sơn thì lấy các giá trị theo printing =1
+                        //đối với hàng sơn PU, thì trước sơn lấy các giá trị theo printing =0. Sau sơn thì lấy các giá trị theo printing = 1.
+                        //nếu checkOc == null --> hàng sơn- trước sơn (PRT).
                         var checkOc = GlobalVariables.OcUsingList.FirstOrDefault(x => x.OcFirstChar == ocFirstChar && ocFirstChar != "PR");
                         if (specialCase)
                         {
@@ -696,6 +701,21 @@ namespace WeightChecking
                                         para.Add("QrCode", _scanData.BarcodeString);
 
                                         connection.Execute("sp_tblItemMissingInfoInsert", para, commandType: CommandType.StoredProcedure);
+
+                                        #region Auto posting
+                                        //hàng từ production qua: decoration = 0 (OC)  và dcoration = 1 (PRT). transfer từ kho 3--> 64
+                                        if (_scanData.Decoration == 0)
+                                        {
+                                            GlobalVariables.ResultPosting = AutoPostingHelper.AutoTransfer(_scanData.ProductNumber, _scanData.BarcodeString, 3, 64, GlobalVariables.GetDbConnectionDogeWh(), null);
+                                            GlobalVariables.ResultPosting.Message = $"Hàng Production lỗi đóng gói (Transfer 3-->64): {GlobalVariables.ResultPosting.Message}";
+                                        }
+                                        //hàng sơn-sau sơn
+                                        else if (_scanData.Decoration == 1 && checkOc != null)
+                                        {
+                                            GlobalVariables.ResultPosting = AutoPostingHelper.AutoTransfer(_scanData.ProductNumber, _scanData.BarcodeString, 32, 64, GlobalVariables.GetDbConnectionDogeWh(), null);
+                                            GlobalVariables.ResultPosting.Message = $"Hàng QC lỗi đóng gói (Transfer 32-->64): {GlobalVariables.ResultPosting.Message}";
+                                        }
+                                        #endregion
 
                                         ResetControl();
                                         goto returnLoop;
@@ -1025,6 +1045,37 @@ namespace WeightChecking
                                         GlobalVariables.Printing((_scanData.GrossWeight / 1000).ToString("#,#0.00")
                                                     , !string.IsNullOrEmpty(GlobalVariables.IdLabel) ? GlobalVariables.IdLabel : $"{_scanData.OcNo}|{_scanData.BoxNo}", true
                                                      , _scanData.CreatedDate.ToString("yyyy-MM-dd HH:mm:ss"));
+
+                                        #region Auto posting
+                                        //hàng từ production qua: decoration = 0 (OC). transfer từ kho 3--> 64
+                                        if (_scanData.Decoration == 0)
+                                        {
+                                             GlobalVariables.ResultPosting = AutoPostingHelper.AutoTransfer(_scanData.ProductNumber, _scanData.BarcodeString, 3, 41, GlobalVariables.GetDbConnectionDogeWh(), null);
+
+                                            if (GlobalVariables.ResultPosting.Message == "Successful")
+                                            {
+                                                GlobalVariables.ResultPosting.Message = $"Hàng Production OK (Transfer 3-->41): {GlobalVariables.ResultPosting.Message}";
+                                            }
+                                            else
+                                            {
+                                                GlobalVariables.ResultPosting.Message = $"Hàng Production OK (Metal - Transfer 63-->41): {GlobalVariables.ResultPosting.Message}";
+                                            }
+                                        }
+                                        //hàng sơn-sau sơn
+                                        else if (_scanData.Decoration == 1 && checkOc != null)
+                                        {
+                                             GlobalVariables.ResultPosting = AutoPostingHelper.AutoTransfer(_scanData.ProductNumber, _scanData.BarcodeString, 32, 41, GlobalVariables.GetDbConnectionDogeWh(), null);
+
+                                            if (GlobalVariables.ResultPosting.Message == "Successful")
+                                            {
+                                                GlobalVariables.ResultPosting.Message = $"Hàng QC OK (Transfer 32-->41): {GlobalVariables.ResultPosting.Message}";
+                                            }
+                                            else
+                                            {
+                                                GlobalVariables.ResultPosting.Message = $"Hàng QC OK (Metal - Transfer 63-->41): {GlobalVariables.ResultPosting.Message}";
+                                            }
+                                        }
+                                        #endregion
                                     }
                                     //với thùng Pass mà trước đó đã cân và báo fail thì popup form nhập deviation
                                     else if (statusLogData == 1)
@@ -1037,10 +1088,9 @@ namespace WeightChecking
                                             {
                                                 if (resultCheckBoxInfo != null)
                                                 {
-
                                                     var dialogResult = MessageBox.Show($"Bạn có chắc chắn xác nhận cập nhật số lượng chênh lệch thực tế cho thùng với thông tin sau:" +
-                                         $"{Environment.NewLine}{_scanData.IdLabel}|{_scanData.OcNo}|{_scanData.BoxNo}.{Environment.NewLine}" +
-                                         $"Số lượng lệch thực tế là: {formDeviation.ActualDeviation}?", "CẢNH BÁO", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+                                                                                         $"{Environment.NewLine}{_scanData.IdLabel}|{_scanData.OcNo}|{_scanData.BoxNo}.{Environment.NewLine}" +
+                                                                                         $"Số lượng lệch thực tế là: {formDeviation.ActualDeviation}?", "CẢNH BÁO", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
 
                                                     if (dialogResult == DialogResult.Yes)
                                                     {
@@ -1157,6 +1207,23 @@ namespace WeightChecking
                                                         GlobalVariables.Printing((_scanData.GrossWeight / 1000).ToString("#,#0.00")
                                                             , !string.IsNullOrEmpty(GlobalVariables.IdLabel) ? GlobalVariables.IdLabel : $"{_scanData.OcNo}|{_scanData.BoxNo}", true
                                                              , _scanData.CreatedDate.ToString("yyyy-MM-dd HH:mm:ss"));
+
+                                                        #region Auto posting
+                                                        //hàng từ production qua: decoration = 0 (OC). transfer từ kho 3--> 64
+                                                        if (_scanData.Decoration == 0 || (_scanData.Decoration == 1 && checkOc != null))
+                                                        {
+                                                             GlobalVariables.ResultPosting = AutoPostingHelper.AutoTransfer(_scanData.ProductNumber, _scanData.BarcodeString, 64, 41, GlobalVariables.GetDbConnectionDogeWh(), null);
+
+                                                            if (GlobalVariables.ResultPosting.Message=="Successful")
+                                                            {
+                                                                GlobalVariables.ResultPosting.Message = $"Hàng cân lại OK (Transfer 64-->41): {GlobalVariables.ResultPosting.Message}";
+                                                            }
+                                                            else
+                                                            {
+                                                                GlobalVariables.ResultPosting.Message = $"Hàng cân lại OK (Metal - Transfer 63-->41): {GlobalVariables.ResultPosting.Message}";
+                                                            }
+                                                        }
+                                                        #endregion
                                                     }
                                                 }
                                             }
@@ -1221,6 +1288,23 @@ namespace WeightChecking
                                         GlobalVariables.Printing(_scanData.DeviationPairs.ToString()
                                                     , !string.IsNullOrEmpty(GlobalVariables.IdLabel) ? GlobalVariables.IdLabel : $"{_scanData.OcNo}|{_scanData.BoxNo}", false
                                                     , _scanData.CreatedDate.ToString("yyyy-MM-dd HH:mm:ss"));
+
+                                        #region Auto posting
+                                        //hàng từ production qua: decoration = 0 (OC)  và dcoration = 1 (PRT). transfer từ kho 3--> 64
+                                        if (_scanData.Decoration == 0)
+                                        {
+                                             GlobalVariables.ResultPosting = AutoPostingHelper.AutoTransfer(_scanData.ProductNumber, _scanData.BarcodeString, 3, 64, GlobalVariables.GetDbConnectionDogeWh(), null);
+
+                                            GlobalVariables.ResultPosting.Message = $"Hàng production Fail (Transfer 64-->41): {GlobalVariables.ResultPosting.Message}";
+                                        }
+                                        //hàng sơn-sau sơn
+                                        else if (_scanData.Decoration == 1 && checkOc != null)
+                                        {
+                                             GlobalVariables.ResultPosting= AutoPostingHelper.AutoTransfer(_scanData.ProductNumber, _scanData.BarcodeString, 32, 64, GlobalVariables.GetDbConnectionDogeWh(), null);
+
+                                            GlobalVariables.ResultPosting.Message = $"Hàng QC Fail (Transfer 64-->41): {GlobalVariables.ResultPosting.Message}";
+                                        }
+                                        #endregion
                                     }
                                     else if (statusLogData == 2)
                                     {
@@ -1343,6 +1427,7 @@ namespace WeightChecking
                             XtraMessageBox.Show($"Product number {_scanData.ProductNumber} không có trong hệ thống. Xin hãy kiểm tra lại thông tin."
                                 , "CẢNH BÁO.", MessageBoxButtons.OK, MessageBoxIcon.Warning);
 
+                            GlobalVariables.ResultPosting.Message = string.Empty;
                             ResetControl();
 
                             para = null;

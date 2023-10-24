@@ -29,7 +29,7 @@ namespace WeightChecking
             // check nếu QRCode hiện tại có nằm trong kho
             DynamicParameters para = new DynamicParameters();
             para.Add("@qr", barcodeString);
-            para.Add("@userId", $"idc_autoposting. MachineName: {machineName}");
+            para.Add("@userId", $"idc_autoposting");
             para.Add("@mode", "TRANSFER");
             // hàng đến từ kho (FFT)
             para.Add("@whFrom", fromWH);
@@ -49,7 +49,7 @@ namespace WeightChecking
             {
                 para = new DynamicParameters();
                 para.Add("@qr", barcodeString);
-                para.Add("@userId", $"idc_autoposting. MachineName: {machineName}");
+                para.Add("@userId", $"idc_autoposting");
                 para.Add("@mode", "TRANSFER");
                 // hàng đến từ kho (FFT)
                 para.Add("@whFrom", fromWH);
@@ -68,12 +68,12 @@ namespace WeightChecking
                 if (resInsertTransferRackStorage > 0)
                 {
                     Debug.WriteLine($"ProductNumber: {productNumber} đã cập nhật kho.");
-                    resultPostingModel.Message = $"ProductNumber: {productNumber} đã cập nhật kho.";
+                    resultPostingModel.Message = $"Successful";
                 }
                 else
                 {
                     Debug.WriteLine($"ProductNumber: {productNumber} cập nhật kho thất bại.");
-                    resultPostingModel.Message = $"ProductNumber: {productNumber} cập nhật kho thất bại.";
+                    resultPostingModel.Message = $"Fail";
                 }
 
             }
@@ -93,7 +93,7 @@ namespace WeightChecking
             // check nếu QRCode hiện tại có nằm trong kho
             DynamicParameters para = new DynamicParameters();
             para.Add("@qr", barcodeString);
-            para.Add("@userId", $"idc_autoposting. MachineName: {machineName}"); //user sử dụng cho việc auto posting
+            para.Add("@userId", $"idc_autoposting"); //user sử dụng cho việc auto posting
             para.Add("@mode", "ADD");
             // hàng đến từ kho (FFT)
             para.Add("@whFrom", "");
@@ -113,7 +113,7 @@ namespace WeightChecking
             {
                 para = new DynamicParameters();
                 para.Add("@qr", barcodeString);
-                para.Add("@userId", $"idc_autoposting. MachineName: {machineName}");
+                para.Add("@userId", $"idc_autoposting");
                 para.Add("@mode", "ADD");
                 // hàng đến từ kho (FFT)
                 para.Add("@whFrom", "");
@@ -130,12 +130,12 @@ namespace WeightChecking
                 if (resInsertTransferRackStorage > 0)
                 {
                     Debug.WriteLine($"ProductNumber: {productNumber} đã nhập kho.");
-                    resultPostingModel.Message = $"ProductNumber: {productNumber} đã nhập kho.";
+                    resultPostingModel.Message = $"Successful.";
                 }
                 else
                 {
                     Debug.WriteLine($"ProductNumber: {productNumber} nhập kho thất bại.");
-                    resultPostingModel.Message = $"ProductNumber: {productNumber} nhập kho thất bại.";
+                    resultPostingModel.Message = $"Fail.";
                 }
 
             }
@@ -155,7 +155,7 @@ namespace WeightChecking
             // check nếu QRCode hiện tại có nằm trong kho
             DynamicParameters para = new DynamicParameters();
             para.Add("@qr", barcodeString);
-            para.Add("@userId", $"idc_autoposting. MachineName: {machineName}");
+            para.Add("@userId", $"idc_autoposting");
             para.Add("@mode", "REMOVE");
             // hàng đến từ kho (FFT)
             para.Add("@whFrom", fromWH);
@@ -175,7 +175,7 @@ namespace WeightChecking
             {
                 para = new DynamicParameters();
                 para.Add("@qr", barcodeString);
-                para.Add("@userId", $"idc_autoposting. MachineName: {machineName}");
+                para.Add("@userId", $"idc_autoposting");
                 para.Add("@mode", "REMOVE");
                 // hàng đến từ kho (FFT)
                 para.Add("@whFrom", fromWH);
@@ -193,12 +193,12 @@ namespace WeightChecking
                 if (resInsertTransferRackStorage > 0)
                 {
                     Debug.WriteLine($"ProductNumber: {productNumber} đã cập nhật kho.");
-                    resultPostingModel.Message = $"ProductNumber: {productNumber} đã cập nhật kho.";
+                    resultPostingModel.Message = $"Successful.";
                 }
                 else
                 {
                     Debug.WriteLine($"ProductNumber: {productNumber} cập nhật kho thất bại.");
-                    resultPostingModel.Message = $"ProductNumber: {productNumber} cập nhật kho thất bại.";
+                    resultPostingModel.Message = $"Fail.";
                 }
             }
             else

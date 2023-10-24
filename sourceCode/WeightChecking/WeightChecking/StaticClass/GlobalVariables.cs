@@ -111,6 +111,8 @@ namespace WeightChecking
         public static List<tblSpecialCaseModel> SpecialCaseList { get; set; } = new List<tblSpecialCaseModel>();
         public static string UpdatePath { get; internal set; }
         public static List<OcUsingModel> OcUsingList { get; set; } = new List<OcUsingModel>();//get ra danh sách tất cả các OcNo đang sử dụng
+
+        public static ResultPostingModel ResultPosting { get; set; } = new ResultPostingModel();
         #endregion
     }
 }
