@@ -1298,14 +1298,14 @@ namespace WeightChecking
                                         {
                                              GlobalVariables.ResultPosting = AutoPostingHelper.AutoTransfer(_scanData.ProductNumber, _scanData.BarcodeString, 3, 64, GlobalVariables.GetDbConnectionDogeWh(), null);
 
-                                            GlobalVariables.ResultPosting.Message = $"Hàng production Fail (Transfer 64-->41): {GlobalVariables.ResultPosting.Message}";
+                                            GlobalVariables.ResultPosting.Message = $"Hàng production Fail (Transfer 3-->41): {GlobalVariables.ResultPosting.Message}";
                                         }
                                         //hàng sơn-sau sơn
                                         else if (_scanData.Decoration == 1 && checkOc != null)
                                         {
                                              GlobalVariables.ResultPosting= AutoPostingHelper.AutoTransfer(_scanData.ProductNumber, _scanData.BarcodeString, 32, 64, GlobalVariables.GetDbConnectionDogeWh(), null);
 
-                                            GlobalVariables.ResultPosting.Message = $"Hàng QC Fail (Transfer 64-->41): {GlobalVariables.ResultPosting.Message}";
+                                            GlobalVariables.ResultPosting.Message = $"Hàng QC Fail (Transfer 32-->41): {GlobalVariables.ResultPosting.Message}";
                                         }
                                         #endregion
                                     }
