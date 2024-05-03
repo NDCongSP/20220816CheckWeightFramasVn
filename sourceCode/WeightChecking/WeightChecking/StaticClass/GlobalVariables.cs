@@ -114,5 +114,17 @@ namespace WeightChecking
 
         public static ResultPostingModel ResultPosting { get; set; } = new ResultPostingModel();
         #endregion
+
+        public static void InvokeIfRequired(Control control, Action action)
+        {
+            if (control.InvokeRequired)
+            {
+                control.BeginInvoke(action);
+            }
+            else
+            {
+                action();
+            }
+        }
     }
 }

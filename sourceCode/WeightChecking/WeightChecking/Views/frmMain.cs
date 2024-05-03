@@ -609,7 +609,7 @@ namespace WeightChecking
                                         DeviationPairs = itemApproved.DeviationPairs,
                                         ActualDeviation = itemApproved.ActualDeviationPairs,
                                         ScanDataId = itemApproved.ScanDataId,
-                                        Reason=itemApproved.Reason
+                                        Reason = itemApproved.Reason
                                     });
                                 }
                                 ws.Import(reportApproved, 1, 0);
@@ -970,10 +970,10 @@ namespace WeightChecking
                             {
                                 Row _row = ws.Rows[i];
 
-                                if (_row[$"A{i}"].Value.TextValue == "6199322102-*-D172")
-                                {
-                                    var a = 100;
-                                }
+                                //if (_row[$"A{i}"].Value.TextValue == "6199322102-*-D172")
+                                //{
+                                //    var a = 100;
+                                //}
 
                                 if (!string.IsNullOrEmpty(_row[$"A{i}"].Value.TextValue))
                                 {
@@ -984,7 +984,8 @@ namespace WeightChecking
                                         MetalScan = (int)_row[$"C{i}"].Value.NumericValue,
                                         Color = _row[$"D{i}"].Value.TextValue,
                                         Printing = (int)_row[$"E{i}"].Value.NumericValue,
-                                        Date = _row[$"F{i}"].Value.DateTimeValue.ToString(),
+                                        Date = DateTime.Now.ToString("yyyy-MM-dd"),//_row[$"F{i}"].Value.DateTimeValue != null ? _row[$"F{i}"].Value.DateTimeValue.ToString() : null,
+                                        //Date = _row[$"F{i}"].Value.DateTimeValue != null ? _row[$"F{i}"].Value.DateTimeValue.ToString() : null,
                                         Size = _row[$"G{i}"].Value.TextValue,
                                         AveWeight1Prs = _row[$"M{i}"].Value.NumericValue,
                                         BoxQtyBx1 = (int)_row[$"O{i}"].Value.NumericValue,

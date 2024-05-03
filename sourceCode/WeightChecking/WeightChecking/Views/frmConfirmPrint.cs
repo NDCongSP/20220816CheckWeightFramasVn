@@ -230,7 +230,7 @@ namespace WeightChecking
                                 para.Add("ApproveBy", _qrApproved);
                                 para.Add("ActualDeviationPairs", _scanData.ActualDeviationPairs);
                                 para.Add("GrossWeight", _scaleValue);
-                                para.Add("Status", _scanData.OcNo.Substring(0, 2) == "PR" && GlobalVariables.Station == 0 ? 1 : 2);
+                                para.Add("Status", (_scanData.OcNo.Substring(0, 3) == "PRT"|| _scanData.OcNo.Substring(0, 3) == "PRS") && GlobalVariables.Station == 0 ? 1 : 2);
                                 para.Add("NetWeight", _scanData.NetWeight);
                                 para.Add("Calculatorpairs", _scanData.CalculatedPairs);
                                 para.Add("Deviation", _scanData.Deviation);

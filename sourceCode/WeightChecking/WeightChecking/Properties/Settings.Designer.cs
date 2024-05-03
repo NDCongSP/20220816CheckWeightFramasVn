@@ -40,7 +40,7 @@ namespace WeightChecking.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("192.168.80.237")]
+        [global::System.Configuration.DefaultSettingValueAttribute("192.168.80.1")]
         public string ipScale {
             get {
                 return ((string)(this["ipScale"]));
@@ -103,7 +103,7 @@ namespace WeightChecking.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
         public bool IsScale {
             get {
                 return ((bool)(this["IsScale"]));
