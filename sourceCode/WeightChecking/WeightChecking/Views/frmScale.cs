@@ -706,17 +706,17 @@ namespace WeightChecking
 
                                         #region Auto posting
                                         //hàng từ production qua: decoration = 0 (OC)  và dcoration = 1 (PRT). transfer từ kho 3--> 64
-                                        if (_scanData.Decoration == 0)
-                                        {
-                                            GlobalVariables.ResultPosting = AutoPostingHelper.AutoTransfer(_scanData.ProductNumber, _scanData.BarcodeString, 3, 64, GlobalVariables.GetDbConnectionDogeWh(), null);
-                                            GlobalVariables.ResultPosting.Message = $"Hàng Production lỗi đóng gói (Transfer 3-->64): {GlobalVariables.ResultPosting.Message}";
-                                        }
-                                        //hàng sơn-sau sơn
-                                        else if (_scanData.Decoration == 1 && checkOc != null)
-                                        {
-                                            GlobalVariables.ResultPosting = AutoPostingHelper.AutoTransfer(_scanData.ProductNumber, _scanData.BarcodeString, 32, 64, GlobalVariables.GetDbConnectionDogeWh(), null);
-                                            GlobalVariables.ResultPosting.Message = $"Hàng QC lỗi đóng gói (Transfer 32-->64): {GlobalVariables.ResultPosting.Message}";
-                                        }
+                                        //if (_scanData.Decoration == 0)
+                                        //{
+                                        //    GlobalVariables.ResultPosting = AutoPostingHelper.AutoTransfer(_scanData.ProductNumber, _scanData.BarcodeString, 3, 64, GlobalVariables.GetDbConnectionDogeWh(), null);
+                                        //    GlobalVariables.ResultPosting.Message = $"Hàng Production lỗi đóng gói (Transfer 3-->64): {GlobalVariables.ResultPosting.Message}";
+                                        //}
+                                        ////hàng sơn-sau sơn
+                                        //else if (_scanData.Decoration == 1 && checkOc != null)
+                                        //{
+                                        //    GlobalVariables.ResultPosting = AutoPostingHelper.AutoTransfer(_scanData.ProductNumber, _scanData.BarcodeString, 32, 64, GlobalVariables.GetDbConnectionDogeWh(), null);
+                                        //    GlobalVariables.ResultPosting.Message = $"Hàng QC lỗi đóng gói (Transfer 32-->64): {GlobalVariables.ResultPosting.Message}";
+                                        //}
                                         #endregion
 
                                         ResetControl();
@@ -834,17 +834,17 @@ namespace WeightChecking
 
                                             #region Auto posting
                                             //hàng từ production qua: decoration = 0 (OC)  và dcoration = 1 (PRT). transfer từ kho 3--> 64
-                                            if (_scanData.Decoration == 0)
-                                            {
-                                                GlobalVariables.ResultPosting = AutoPostingHelper.AutoTransfer(_scanData.ProductNumber, _scanData.BarcodeString, 3, 64, GlobalVariables.GetDbConnectionDogeWh(), null);
-                                                GlobalVariables.ResultPosting.Message = $"Hàng Production lỗi đóng gói (Transfer 3-->64): {GlobalVariables.ResultPosting.Message}";
-                                            }
-                                            //hàng sơn-sau sơn
-                                            else if (_scanData.Decoration == 1 && checkOc != null)
-                                            {
-                                                GlobalVariables.ResultPosting = AutoPostingHelper.AutoTransfer(_scanData.ProductNumber, _scanData.BarcodeString, 32, 64, GlobalVariables.GetDbConnectionDogeWh(), null);
-                                                GlobalVariables.ResultPosting.Message = $"Hàng QC lỗi đóng gói (Transfer 32-->64): {GlobalVariables.ResultPosting.Message}";
-                                            }
+                                            //if (_scanData.Decoration == 0)
+                                            //{
+                                            //    GlobalVariables.ResultPosting = AutoPostingHelper.AutoTransfer(_scanData.ProductNumber, _scanData.BarcodeString, 3, 64, GlobalVariables.GetDbConnectionDogeWh(), null);
+                                            //    GlobalVariables.ResultPosting.Message = $"Hàng Production lỗi đóng gói (Transfer 3-->64): {GlobalVariables.ResultPosting.Message}";
+                                            //}
+                                            ////hàng sơn-sau sơn
+                                            //else if (_scanData.Decoration == 1 && checkOc != null)
+                                            //{
+                                            //    GlobalVariables.ResultPosting = AutoPostingHelper.AutoTransfer(_scanData.ProductNumber, _scanData.BarcodeString, 32, 64, GlobalVariables.GetDbConnectionDogeWh(), null);
+                                            //    GlobalVariables.ResultPosting.Message = $"Hàng QC lỗi đóng gói (Transfer 32-->64): {GlobalVariables.ResultPosting.Message}";
+                                            //}
                                             #endregion
 
                                             ResetControl();
@@ -1158,35 +1158,35 @@ namespace WeightChecking
 
                                         #region Auto posting
                                         //hàng từ production qua: decoration = 0 (OC). transfer từ kho 3--> 64
-                                        if (_scanData.Decoration == 0)
-                                        {
-                                            GlobalVariables.ResultPosting = AutoPostingHelper.AutoTransfer(_scanData.ProductNumber, _scanData.BarcodeString, 3, 41, GlobalVariables.GetDbConnectionDogeWh(), null);
+                                        //if (_scanData.Decoration == 0)
+                                        //{
+                                        //    GlobalVariables.ResultPosting = AutoPostingHelper.AutoTransfer(_scanData.ProductNumber, _scanData.BarcodeString, 3, 41, GlobalVariables.GetDbConnectionDogeWh(), null);
 
-                                            if (GlobalVariables.ResultPosting.Message == "Successful")
-                                            {
-                                                GlobalVariables.ResultPosting.Message = $"Hàng Production OK (Transfer 3-->41): {GlobalVariables.ResultPosting.Message}";
-                                            }
-                                            else
-                                            {
-                                                GlobalVariables.ResultPosting = AutoPostingHelper.AutoTransfer(_scanData.ProductNumber, _scanData.BarcodeString, 63, 41, GlobalVariables.GetDbConnectionDogeWh(), null);
-                                                GlobalVariables.ResultPosting.Message = $"Hàng Production OK (Metal - Transfer 63-->41): {GlobalVariables.ResultPosting.Message}";
-                                            }
-                                        }
-                                        //hàng sơn-sau sơn
-                                        else if (_scanData.Decoration == 1 && checkOc != null)
-                                        {
-                                            GlobalVariables.ResultPosting = AutoPostingHelper.AutoTransfer(_scanData.ProductNumber, _scanData.BarcodeString, 32, 41, GlobalVariables.GetDbConnectionDogeWh(), null);
+                                        //    if (GlobalVariables.ResultPosting.Message == "Successful")
+                                        //    {
+                                        //        GlobalVariables.ResultPosting.Message = $"Hàng Production OK (Transfer 3-->41): {GlobalVariables.ResultPosting.Message}";
+                                        //    }
+                                        //    else
+                                        //    {
+                                        //        GlobalVariables.ResultPosting = AutoPostingHelper.AutoTransfer(_scanData.ProductNumber, _scanData.BarcodeString, 63, 41, GlobalVariables.GetDbConnectionDogeWh(), null);
+                                        //        GlobalVariables.ResultPosting.Message = $"Hàng Production OK (Metal - Transfer 63-->41): {GlobalVariables.ResultPosting.Message}";
+                                        //    }
+                                        //}
+                                        ////hàng sơn-sau sơn
+                                        //else if (_scanData.Decoration == 1 && checkOc != null)
+                                        //{
+                                        //    GlobalVariables.ResultPosting = AutoPostingHelper.AutoTransfer(_scanData.ProductNumber, _scanData.BarcodeString, 32, 41, GlobalVariables.GetDbConnectionDogeWh(), null);
 
-                                            if (GlobalVariables.ResultPosting.Message == "Successful")
-                                            {
-                                                GlobalVariables.ResultPosting.Message = $"Hàng QC OK (Transfer 32-->41): {GlobalVariables.ResultPosting.Message}";
-                                            }
-                                            else
-                                            {
-                                                GlobalVariables.ResultPosting = AutoPostingHelper.AutoTransfer(_scanData.ProductNumber, _scanData.BarcodeString, 63, 41, GlobalVariables.GetDbConnectionDogeWh(), null);
-                                                GlobalVariables.ResultPosting.Message = $"Hàng QC OK (Metal - Transfer 63-->41): {GlobalVariables.ResultPosting.Message}";
-                                            }
-                                        }
+                                        //    if (GlobalVariables.ResultPosting.Message == "Successful")
+                                        //    {
+                                        //        GlobalVariables.ResultPosting.Message = $"Hàng QC OK (Transfer 32-->41): {GlobalVariables.ResultPosting.Message}";
+                                        //    }
+                                        //    else
+                                        //    {
+                                        //        GlobalVariables.ResultPosting = AutoPostingHelper.AutoTransfer(_scanData.ProductNumber, _scanData.BarcodeString, 63, 41, GlobalVariables.GetDbConnectionDogeWh(), null);
+                                        //        GlobalVariables.ResultPosting.Message = $"Hàng QC OK (Metal - Transfer 63-->41): {GlobalVariables.ResultPosting.Message}";
+                                        //    }
+                                        //}
                                         #endregion
                                     }
                                     //với thùng Pass mà trước đó đã cân và báo fail thì popup form nhập deviation
@@ -1322,20 +1322,20 @@ namespace WeightChecking
 
                                                         #region Auto posting
                                                         //hàng từ production qua: decoration = 0 (OC). transfer từ kho 3--> 64
-                                                        if (_scanData.Decoration == 0 || (_scanData.Decoration == 1 && checkOc != null))
-                                                        {
-                                                            GlobalVariables.ResultPosting = AutoPostingHelper.AutoTransfer(_scanData.ProductNumber, _scanData.BarcodeString, 64, 41, GlobalVariables.GetDbConnectionDogeWh(), null);
+                                                        //if (_scanData.Decoration == 0 || (_scanData.Decoration == 1 && checkOc != null))
+                                                        //{
+                                                        //    GlobalVariables.ResultPosting = AutoPostingHelper.AutoTransfer(_scanData.ProductNumber, _scanData.BarcodeString, 64, 41, GlobalVariables.GetDbConnectionDogeWh(), null);
 
-                                                            if (GlobalVariables.ResultPosting.Message == "Successful")
-                                                            {
-                                                                GlobalVariables.ResultPosting.Message = $"Hàng cân lại OK (Transfer 64-->41): {GlobalVariables.ResultPosting.Message}";
-                                                            }
-                                                            else
-                                                            {
-                                                                GlobalVariables.ResultPosting = AutoPostingHelper.AutoTransfer(_scanData.ProductNumber, _scanData.BarcodeString, 63, 41, GlobalVariables.GetDbConnectionDogeWh(), null);
-                                                                GlobalVariables.ResultPosting.Message = $"Hàng cân lại OK (Metal - Transfer 63-->41): {GlobalVariables.ResultPosting.Message}";
-                                                            }
-                                                        }
+                                                        //    if (GlobalVariables.ResultPosting.Message == "Successful")
+                                                        //    {
+                                                        //        GlobalVariables.ResultPosting.Message = $"Hàng cân lại OK (Transfer 64-->41): {GlobalVariables.ResultPosting.Message}";
+                                                        //    }
+                                                        //    else
+                                                        //    {
+                                                        //        GlobalVariables.ResultPosting = AutoPostingHelper.AutoTransfer(_scanData.ProductNumber, _scanData.BarcodeString, 63, 41, GlobalVariables.GetDbConnectionDogeWh(), null);
+                                                        //        GlobalVariables.ResultPosting.Message = $"Hàng cân lại OK (Metal - Transfer 63-->41): {GlobalVariables.ResultPosting.Message}";
+                                                        //    }
+                                                        //}
                                                         #endregion
                                                     }
                                                 }
@@ -1404,19 +1404,19 @@ namespace WeightChecking
 
                                         #region Auto posting
                                         //hàng từ production qua: decoration = 0 (OC)  và dcoration = 1 (PRT). transfer từ kho 3--> 64
-                                        if (_scanData.Decoration == 0)
-                                        {
-                                            GlobalVariables.ResultPosting = AutoPostingHelper.AutoTransfer(_scanData.ProductNumber, _scanData.BarcodeString, 3, 64, GlobalVariables.GetDbConnectionDogeWh(), null);
+                                        //if (_scanData.Decoration == 0)
+                                        //{
+                                        //    GlobalVariables.ResultPosting = AutoPostingHelper.AutoTransfer(_scanData.ProductNumber, _scanData.BarcodeString, 3, 64, GlobalVariables.GetDbConnectionDogeWh(), null);
 
-                                            GlobalVariables.ResultPosting.Message = $"Hàng production Fail (Transfer 3-->41): {GlobalVariables.ResultPosting.Message}";
-                                        }
-                                        //hàng sơn-sau sơn
-                                        else if (_scanData.Decoration == 1 && checkOc != null)
-                                        {
-                                            GlobalVariables.ResultPosting = AutoPostingHelper.AutoTransfer(_scanData.ProductNumber, _scanData.BarcodeString, 32, 64, GlobalVariables.GetDbConnectionDogeWh(), null);
+                                        //    GlobalVariables.ResultPosting.Message = $"Hàng production Fail (Transfer 3-->41): {GlobalVariables.ResultPosting.Message}";
+                                        //}
+                                        ////hàng sơn-sau sơn
+                                        //else if (_scanData.Decoration == 1 && checkOc != null)
+                                        //{
+                                        //    GlobalVariables.ResultPosting = AutoPostingHelper.AutoTransfer(_scanData.ProductNumber, _scanData.BarcodeString, 32, 64, GlobalVariables.GetDbConnectionDogeWh(), null);
 
-                                            GlobalVariables.ResultPosting.Message = $"Hàng QC Fail (Transfer 32-->41): {GlobalVariables.ResultPosting.Message}";
-                                        }
+                                        //    GlobalVariables.ResultPosting.Message = $"Hàng QC Fail (Transfer 32-->41): {GlobalVariables.ResultPosting.Message}";
+                                        //}
                                         #endregion
                                     }
                                     else if (statusLogData == 2)
