@@ -43,6 +43,9 @@ namespace WeightChecking
 
         private void FrmScale_Load(object sender, EventArgs e)
         {
+            //hidden summary group
+            layoutControlGroup3.Visibility = DevExpress.XtraLayout.Utils.LayoutVisibility.Never;
+
             #region Register events Scale value change
             if (GlobalVariables.IsScale)
             {
