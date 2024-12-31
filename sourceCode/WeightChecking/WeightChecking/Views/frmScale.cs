@@ -629,7 +629,39 @@ namespace WeightChecking
                                     upperToleranceOfBox = res.UpperToleranceOfCartonBox;
 
                                     #region get box weight
-                                    if (_scanData.Quantity <= res.BoxQtyBx4)
+                                    if (_scanData.Quantity <= res.BoxQtyBx6)
+                                    {
+                                        _scanData.BoxWeight = res.BoxWeightBx6;
+
+                                        if (labBoxType.InvokeRequired)
+                                        {
+                                            labBoxType.Invoke(new Action(() =>
+                                            {
+                                                labBoxType.Text = "BX6";
+                                            }));
+                                        }
+                                        else
+                                        {
+                                            labBoxType.Text = "BX6";
+                                        }
+                                    }
+                                    else if (_scanData.Quantity > res.BoxQtyBx6 && _scanData.Quantity <= res.BoxQtyBx5)
+                                    {
+                                        _scanData.BoxWeight = res.BoxWeightBx5;
+
+                                        if (labBoxType.InvokeRequired)
+                                        {
+                                            labBoxType.Invoke(new Action(() =>
+                                            {
+                                                labBoxType.Text = "BX5";
+                                            }));
+                                        }
+                                        else
+                                        {
+                                            labBoxType.Text = "BX5";
+                                        }
+                                    }
+                                   else if (_scanData.Quantity > res.BoxQtyBx5 && _scanData.Quantity <= res.BoxQtyBx4)
                                     {
                                         _scanData.BoxWeight = res.BoxWeightBx4;
 
@@ -678,6 +710,38 @@ namespace WeightChecking
                                         }
                                     }
                                     else if (_scanData.Quantity > res.BoxQtyBx2 && _scanData.Quantity <= res.BoxQtyBx1)
+                                    {
+                                        _scanData.BoxWeight = res.BoxWeightBx1;
+
+                                        if (labBoxType.InvokeRequired)
+                                        {
+                                            labBoxType.Invoke(new Action(() =>
+                                            {
+                                                labBoxType.Text = "BX1";
+                                            }));
+                                        }
+                                        else
+                                        {
+                                            labBoxType.Text = "BX1";
+                                        }
+                                    }
+                                    else if (_scanData.Quantity > res.BoxQtyBx2 && _scanData.Quantity <= res.BoxQtyBx1)
+                                    {
+                                        _scanData.BoxWeight = res.BoxWeightBx1;
+
+                                        if (labBoxType.InvokeRequired)
+                                        {
+                                            labBoxType.Invoke(new Action(() =>
+                                            {
+                                                labBoxType.Text = "BX1A";
+                                            }));
+                                        }
+                                        else
+                                        {
+                                            labBoxType.Text = "BX1A";
+                                        }
+                                    }
+                                    else if (_scanData.Quantity > res.BoxQtyBx1A && _scanData.Quantity <= res.BoxQtyBx1)
                                     {
                                         _scanData.BoxWeight = res.BoxWeightBx1;
 
@@ -749,7 +813,7 @@ namespace WeightChecking
                                         //lấy tolerance theo thùng nhựa
                                         lowerToleranceOfBox = res.LowerToleranceOfPlasticBox;
                                         upperToleranceOfBox = res.UpperToleranceOfPlasticBox;
-                                        _scanData.BoxWeight = res.PlasicBoxWeight;
+                                        _scanData.BoxWeight = res.PlasticBoxWeight;
                                     }
                                     else
                                     {
@@ -757,7 +821,39 @@ namespace WeightChecking
                                         lowerToleranceOfBox = res.LowerToleranceOfCartonBox;
                                         upperToleranceOfBox = res.UpperToleranceOfCartonBox;
                                         #region get box weight
-                                        if (_scanData.Quantity <= res.BoxQtyBx4)
+                                        if (_scanData.Quantity <= res.BoxQtyBx6)
+                                        {
+                                            _scanData.BoxWeight = res.BoxWeightBx6;
+
+                                            if (labBoxType.InvokeRequired)
+                                            {
+                                                labBoxType.Invoke(new Action(() =>
+                                                {
+                                                    labBoxType.Text = "BX6";
+                                                }));
+                                            }
+                                            else
+                                            {
+                                                labBoxType.Text = "BX6";
+                                            }
+                                        }
+                                        else if (_scanData.Quantity > res.BoxQtyBx6 && _scanData.Quantity <= res.BoxQtyBx5)
+                                        {
+                                            _scanData.BoxWeight = res.BoxWeightBx5;
+
+                                            if (labBoxType.InvokeRequired)
+                                            {
+                                                labBoxType.Invoke(new Action(() =>
+                                                {
+                                                    labBoxType.Text = "BX5";
+                                                }));
+                                            }
+                                            else
+                                            {
+                                                labBoxType.Text = "BX5";
+                                            }
+                                        }
+                                        else if (_scanData.Quantity > res.BoxQtyBx5 && _scanData.Quantity <= res.BoxQtyBx4)
                                         {
                                             _scanData.BoxWeight = res.BoxWeightBx4;
 
@@ -806,6 +902,38 @@ namespace WeightChecking
                                             }
                                         }
                                         else if (_scanData.Quantity > res.BoxQtyBx2 && _scanData.Quantity <= res.BoxQtyBx1)
+                                        {
+                                            _scanData.BoxWeight = res.BoxWeightBx1;
+
+                                            if (labBoxType.InvokeRequired)
+                                            {
+                                                labBoxType.Invoke(new Action(() =>
+                                                {
+                                                    labBoxType.Text = "BX1";
+                                                }));
+                                            }
+                                            else
+                                            {
+                                                labBoxType.Text = "BX1";
+                                            }
+                                        }
+                                        else if (_scanData.Quantity > res.BoxQtyBx2 && _scanData.Quantity <= res.BoxQtyBx1)
+                                        {
+                                            _scanData.BoxWeight = res.BoxWeightBx1;
+
+                                            if (labBoxType.InvokeRequired)
+                                            {
+                                                labBoxType.Invoke(new Action(() =>
+                                                {
+                                                    labBoxType.Text = "BX1A";
+                                                }));
+                                            }
+                                            else
+                                            {
+                                                labBoxType.Text = "BX1A";
+                                            }
+                                        }
+                                        else if (_scanData.Quantity > res.BoxQtyBx1A && _scanData.Quantity <= res.BoxQtyBx1)
                                         {
                                             _scanData.BoxWeight = res.BoxWeightBx1;
 
@@ -915,8 +1043,8 @@ namespace WeightChecking
                                     partitionWeight = Math.Floor(p) * res.PartitionWeight;
                                 }
                                 //partitionWeight = res.PartitionQty != 0 ? (_scanData.Quantity / res.PartitionQty) * res.PartitionWeight : 0;
-                                var plasicBag1Weight = res.PlasicBag1Qty != 0 ? Math.Ceiling(((double)_scanData.Quantity / (double)res.PlasicBag1Qty)) * res.PlasicBag1Weight : 0;
-                                var plasicBag2Weight = res.PlasicBag2Qty != 0 ? Math.Ceiling(((double)_scanData.Quantity / (double)res.PlasicBag2Qty)) * res.PlasicBag2Weight : 0;
+                                var plasicBag1Weight = res.PlasticBag1Qty != 0 ? Math.Ceiling(((double)_scanData.Quantity / (double)res.PlasticBag1Qty)) * res.PlasticBag1Weight : 0;
+                                var plasicBag2Weight = res.PlasticBag2Qty != 0 ? Math.Ceiling(((double)_scanData.Quantity / (double)res.PlasticBag2Qty)) * res.PlasticBag2Weight : 0;
                                 var wrapSheetWeight = res.WrapSheetQty != 0 ? Math.Ceiling(((double)_scanData.Quantity / (double)res.WrapSheetQty)) * res.WrapSheetWeight : 0;
                                 var foamSheetWeight = res.FoamSheetQty != 0 ? Math.Ceiling(((double)_scanData.Quantity / (double)res.FoamSheetQty)) * res.FoamSheetWeight : 0;
 

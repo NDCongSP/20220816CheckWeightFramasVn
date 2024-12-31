@@ -246,17 +246,17 @@ namespace WeightChecking
                                 #region Auto posting
                                 //hàng từ production qua: decoration = 0 (OC). transfer từ kho 3--> 64
 
-                                GlobalVariables.ResultPosting = AutoPostingHelper.AutoTransfer(_scanData.ProductNumber, _scanData.BarcodeString, 64, 41, GlobalVariables.GetDbConnectionDogeWh(), null);
+                                //GlobalVariables.ResultPosting = AutoPostingHelper.AutoTransfer(_scanData.ProductNumber, _scanData.BarcodeString, 64, 41, GlobalVariables.GetDbConnectionDogeWh(), null);
 
-                                if (GlobalVariables.ResultPosting.Message == "Successful")
-                                {
-                                    GlobalVariables.ResultPosting.Message = $"Hàng Production OK (Transfer 64-->41): {GlobalVariables.ResultPosting.Message}";
-                                }
-                                else
-                                {
-                                    GlobalVariables.ResultPosting = AutoPostingHelper.AutoTransfer(_scanData.ProductNumber, _scanData.BarcodeString, 63, 41, GlobalVariables.GetDbConnectionDogeWh(), null);
-                                    GlobalVariables.ResultPosting.Message = $"Hàng Production OK (Metal - Transfer 63-->41): {GlobalVariables.ResultPosting.Message}";
-                                }
+                                //if (GlobalVariables.ResultPosting.Message == "Successful")
+                                //{
+                                //    GlobalVariables.ResultPosting.Message = $"Hàng Production OK (Transfer 64-->41): {GlobalVariables.ResultPosting.Message}";
+                                //}
+                                //else
+                                //{
+                                //    GlobalVariables.ResultPosting = AutoPostingHelper.AutoTransfer(_scanData.ProductNumber, _scanData.BarcodeString, 63, 41, GlobalVariables.GetDbConnectionDogeWh(), null);
+                                //    GlobalVariables.ResultPosting.Message = $"Hàng Production OK (Metal - Transfer 63-->41): {GlobalVariables.ResultPosting.Message}";
+                                //}
                                 #endregion
 
                                 #region Get thong tin boxParent nếu có, và update lại actual deviation cho thùng mẹ ở bảng scanData và ApprovedPrint

@@ -989,26 +989,37 @@ namespace WeightChecking
                                         Size = _row[$"G{i}"].Value.TextValue,
                                         AveWeight1Prs = _row[$"M{i}"].Value.NumericValue,
                                         BoxQtyBx1 = (int)_row[$"O{i}"].Value.NumericValue,
-                                        BoxQtyBx2 = (int)_row[$"P{i}"].Value.NumericValue,
-                                        BoxQtyBx3 = (int)_row[$"Q{i}"].Value.NumericValue,
-                                        BoxQtyBx4 = (int)_row[$"R{i}"].Value.NumericValue,
-                                        BoxWeightBx1 = _row[$"S{i}"].Value.NumericValue,
-                                        BoxWeightBx2 = _row[$"T{i}"].Value.NumericValue,
-                                        BoxWeightBx3 = _row[$"U{i}"].Value.NumericValue,
-                                        BoxWeightBx4 = _row[$"V{i}"].Value.NumericValue,
-                                        PartitionQty = (int)_row[$"W{i}"].Value.NumericValue,
-                                        PlasicBag1Qty = (int)_row[$"X{i}"].Value.NumericValue,
-                                        PlasicBag2Qty = (int)_row[$"Y{i}"].Value.NumericValue,
-                                        WrapSheetQty = _row[$"Z{i}"].Value.NumericValue,
-                                        FoamSheetQty = (int)_row[$"AA{i}"].Value.NumericValue,
-                                        PlasicBag1Weight = _row[$"AF{i}"].Value.NumericValue,
-                                        PlasicBag2Weight = _row[$"AG{i}"].Value.NumericValue,
-                                        WrapSheetWeight = _row[$"AH{i}"].Value.NumericValue,
-                                        FoamSheetWeight = _row[$"AI{i}"].Value.NumericValue,
-                                        LowerToleranceOfCartonBox = _row[$"AN{i}"].Value.NumericValue,
-                                        UpperToleranceOfCartonBox = _row[$"AO{i}"].Value.NumericValue,
-                                        LowerToleranceOfPlasticBox = _row[$"AP{i}"].Value.NumericValue,
-                                        UpperToleranceOfPlasticBox = _row[$"AQ{i}"].Value.NumericValue,
+                                        BoxQtyBx1A = (int)_row[$"P{i}"].Value.NumericValue,
+                                        BoxQtyBx2 = (int)_row[$"Q{i}"].Value.NumericValue,
+                                        BoxQtyBx3 = (int)_row[$"R{i}"].Value.NumericValue,
+                                        BoxQtyBx4 = (int)_row[$"S{i}"].Value.NumericValue,
+                                        BoxQtyBx5 = (int)_row[$"T{i}"].Value.NumericValue,
+                                        BoxQtyBx6 = (int)_row[$"U{i}"].Value.NumericValue,
+
+                                        BoxWeightBx1 = _row[$"V{i}"].Value.NumericValue,
+                                        BoxWeightBx1A = _row[$"W{i}"].Value.NumericValue,
+                                        BoxWeightBx2 = _row[$"X{i}"].Value.NumericValue,
+                                        BoxWeightBx3 = _row[$"Y{i}"].Value.NumericValue,
+                                        BoxWeightBx4 = _row[$"Z{i}"].Value.NumericValue,
+                                        BoxWeightBx5 = _row[$"AA{i}"].Value.NumericValue,
+                                        BoxWeightBx6 = _row[$"AB{i}"].Value.NumericValue,
+                                        PlasticBoxWeight = _row[$"AC{i}"].Value.NumericValue,
+
+                                        PartitionQty = (int)_row[$"AD{i}"].Value.NumericValue,
+                                        PlasticBag1Qty = (int)_row[$"AE{i}"].Value.NumericValue,
+                                        PlasticBag2Qty = (int)_row[$"AF{i}"].Value.NumericValue,
+                                        WrapSheetQty = _row[$"AG{i}"].Value.NumericValue,
+                                        FoamSheetQty = (int)_row[$"AH{i}"].Value.NumericValue,
+
+                                        PlasticBag1Weight = _row[$"AM{i}"].Value.NumericValue,
+                                        PlasticBag2Weight = _row[$"AN{i}"].Value.NumericValue,
+                                        WrapSheetWeight = _row[$"AO{i}"].Value.NumericValue,
+                                        FoamSheetWeight = _row[$"AP{i}"].Value.NumericValue,
+
+                                        LowerToleranceOfCartonBox = _row[$"AU{i}"].Value.NumericValue,
+                                        UpperToleranceOfCartonBox = _row[$"AV{i}"].Value.NumericValue,
+                                        LowerToleranceOfPlasticBox = _row[$"AW{i}"].Value.NumericValue,
+                                        UpperToleranceOfPlasticBox = _row[$"AX{i}"].Value.NumericValue,
                                     }); ;
                                 }
                             }
@@ -1027,20 +1038,21 @@ namespace WeightChecking
 
 
 
-                        var executeResult = con.Execute("INSERT INTO tblCoreDataCodeItemSize (CodeItemSize,MainItemName,MetalScan,Color,Printing,Date,Size" +
-                            ",AveWeight1Prs,BoxQtyBx1,BoxQtyBx2,BoxQtyBx3,BoxQtyBx4,BoxWeightBx1,BoxWeightBx2,BoxWeightBx3,BoxWeightBx4," +
-                                "PartitionQty,PlasicBag1Qty,PlasicBag2Qty,WrapSheetQty,FoamSheetQty,PartitionWeight,PlasicBag1Weight,PlasicBag2Weight" +
-                                ",WrapSheetWeight,FoamSheetWeight,PlasicBoxWeight,LowerToleranceOfCartonBox,UpperToleranceOfCartonBox,LowerToleranceOfPlasticBox,UpperToleranceOfPlasticBox) " +
+                        var executeResult = con.Execute("INSERT INTO tblCoreDataCodeItemSize (CodeItemSize,MainItemName,MetalScan,Color,Printing,Date,Size," +
+                            "AveWeight1Prs,BoxQtyBx1,BoxQtyBx1A,BoxQtyBx2,BoxQtyBx3,BoxQtyBx4,BoxQtyBx5,BoxQtyBx6," +
+                            "BoxWeightBx1,BoxWeightBx1A,BoxWeightBx2,BoxWeightBx3,BoxWeightBx4,BoxWeightBx5,BoxWeightBx6,PlasticBoxWeight," +
+                                "PartitionQty,PlasticBag1Qty,PlasticBag2Qty,WrapSheetQty,FoamSheetQty,PartitionWeight,PlasticBag1Weight,PlasticBag2Weight," +
+                                "WrapSheetWeight,FoamSheetWeight,LowerToleranceOfCartonBox,UpperToleranceOfCartonBox,LowerToleranceOfPlasticBox,UpperToleranceOfPlasticBox) " +
                             "VALUES (@CodeItemSize,@MainItemName,@MetalScan,@Color,@Printing,@Date,@Size,@AveWeight1Prs," +
-                                "@BoxQtyBx1,@BoxQtyBx2,@BoxQtyBx3,@BoxQtyBx4,@BoxWeightBx1,@BoxWeightBx2,@BoxWeightBx3,@BoxWeightBx4," +
-                                "@PartitionQty,@PlasicBag1Qty,@PlasicBag2Qty,@WrapSheetQty,@FoamSheetQty,@PartitionWeight,@PlasicBag1Weight,@PlasicBag2Weight" +
-                                ",@WrapSheetWeight,@FoamSheetWeight,@PlasicBoxWeight,@LowerToleranceOfCartonBox,@UpperToleranceOfCartonBox,@LowerToleranceOfPlasticBox,@UpperToleranceOfPlasticBox)"
+                                "@BoxQtyBx1,@BoxQtyBx1A,@BoxQtyBx2,@BoxQtyBx3,@BoxQtyBx4,@BoxQtyBx5,@BoxQtyBx6," +
+                                "@BoxWeightBx1,@BoxWeightBx1A,@BoxWeightBx2,@BoxWeightBx3,@BoxWeightBx4,@BoxWeightBx5,@BoxWeightBx6,@PlasticBoxWeight," +
+                                "@PartitionQty,@PlasticBag1Qty,@PlasticBag2Qty,@WrapSheetQty,@FoamSheetQty,@PartitionWeight,@PlasticBag1Weight,@PlasticBag2Weight," +
+                                "@WrapSheetWeight,@FoamSheetWeight,@LowerToleranceOfCartonBox,@UpperToleranceOfCartonBox,@LowerToleranceOfPlasticBox,@UpperToleranceOfPlasticBox)"
                             , coreData);
 
                         //foreach (var item in coreData)
                         //{
                         //    var para = new DynamicParameters();
-
                         //    para.Add("@CodeItemSize", item.CodeItemSize);
                         //    para.Add("@MainItemName", item.MainItemName);
                         //    para.Add("@MetalScan", item.MetalScan);
@@ -1058,16 +1070,16 @@ namespace WeightChecking
                         //    para.Add("@BoxWeightBx3", item.BoxWeightBx3);
                         //    para.Add("@BoxWeightBx4", item.BoxWeightBx4);
                         //    para.Add("@PartitionQty", item.PartitionQty);
-                        //    para.Add("@PlasicBag1Qty", item.PlasicBag1Qty);
-                        //    para.Add("@PlasicBag2Qty", item.PlasicBag2Qty);
+                        //    para.Add("@PlasticBag1Qty", item.PlasticBag1Qty);
+                        //    para.Add("@PlasticBag2Qty", item.PlasticBag2Qty);
                         //    para.Add("@WrapSheetQty", item.WrapSheetQty);
                         //    para.Add("@FoamSheetQty", item.FoamSheetQty);
                         //    para.Add("@PartitionWeight", item.PartitionWeight);
-                        //    para.Add("@PlasicBag1Weight", item.PlasicBag1Weight);
-                        //    para.Add("@PlasicBag2Weight", item.PlasicBag2Weight);
+                        //    para.Add("@PlasticBag1Weight", item.PlasticBag1Weight);
+                        //    para.Add("@PlasticBag2Weight", item.PlasticBag2Weight);
                         //    para.Add("@WrapSheetWeight", item.WrapSheetWeight);
                         //    para.Add("@FoamSheetWeight", item.FoamSheetWeight);
-                        //    para.Add("@PlasicBoxWeight", item.PlasicBoxWeight);
+                        //    para.Add("@PlasticBoxWeight", item.PlasticBoxWeight);
                         //    para.Add("@LowerToleranceOfCartonBox", item.LowerToleranceOfPlasticBox);
                         //    para.Add("@UpperToleranceOfCartonBox", item.UpperToleranceOfCartonBox);
                         //    para.Add("@LowerToleranceOfPlasticBox", item.LowerToleranceOfPlasticBox);
