@@ -14,6 +14,7 @@ using DevExpress.XtraSplashScreen;
 using AutoUpdaterDotNET;
 using System.Threading;
 using Dapper;
+using WeightChecking.Models;
 
 namespace WeightChecking
 {
@@ -72,9 +73,23 @@ namespace WeightChecking
             #endregion
 
             #region Đọc DB lấy danh sách specialCase
-            using (var connection =GlobalVariables.GetDbConnection())
+            using (var connection = GlobalVariables.GetDbConnection())
             {
                 GlobalVariables.SpecialCaseList = connection.Query<tblSpecialCaseModel>("sp_tblSpecialCaseGets").ToList();
+
+                GlobalVariables.SystemOC = connection.Query<tblSystemOC>("sp_GetSystemOC").ToList();
+                if (GlobalVariables.SystemOC != null)
+                {
+                    foreach (var row in GlobalVariables.SystemOC)
+                    {
+                        GlobalVariables.OcUsingList.Add(new OcUsingModel()
+                        {
+                            OcNo=row.FirstChar,
+                            OcFirstChar=row.FirstChar,
+                            Description=row.Description,
+                        });
+                    }
+                }
             }
             #endregion
 

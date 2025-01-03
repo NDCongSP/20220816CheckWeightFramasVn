@@ -14,6 +14,7 @@ using System.Drawing.Printing;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -328,7 +329,19 @@ namespace WeightChecking
 
                     #region xử lý barcode lấy ra các giá trị theo code
                     _scanData.BarcodeString = _sen.Text;
-                    var ocFirstChar = _scanData.BarcodeString.Substring(0, 2);
+
+                    string ocFirstChar = string.Empty;
+
+                     ocFirstChar = _scanData.BarcodeString.Substring(0, 2);
+
+                    GlobalVariables.SystemOC.ForEach(o => {
+                        //OC HC P241226018
+                        if (ocFirstChar.Contains(o.FirstChar) && Regex.IsMatch(ocFirstChar, @"\d"))
+                        {
+                            ocFirstChar = _scanData.BarcodeString.Substring(0, 1);
+                        }
+                    });
+                     
 
                     if (_scanData.BarcodeString.Contains("|"))
                     {
@@ -725,7 +738,7 @@ namespace WeightChecking
                                             labBoxType.Text = "BX1";
                                         }
                                     }
-                                    else if (_scanData.Quantity > res.BoxQtyBx2 && _scanData.Quantity <= res.BoxQtyBx1)
+                                    else if (_scanData.Quantity > res.BoxQtyBx2 && _scanData.Quantity <= res.BoxQtyBx1A )
                                     {
                                         _scanData.BoxWeight = res.BoxWeightBx1;
 
@@ -917,7 +930,7 @@ namespace WeightChecking
                                                 labBoxType.Text = "BX1";
                                             }
                                         }
-                                        else if (_scanData.Quantity > res.BoxQtyBx2 && _scanData.Quantity <= res.BoxQtyBx1)
+                                        else if (_scanData.Quantity > res.BoxQtyBx2 && _scanData.Quantity <= res.BoxQtyBx1A)
                                         {
                                             _scanData.BoxWeight = res.BoxWeightBx1;
 

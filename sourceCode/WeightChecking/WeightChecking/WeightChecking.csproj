@@ -248,6 +248,7 @@
     <Compile Include="Enums\LocationEnum.cs" />
     <Compile Include="Enums\RolesEnum.cs" />
     <Compile Include="Enums\StationEnum.cs" />
+    <Compile Include="Models\tblSystemOC.cs" />
     <Compile Include="StaticClass\Warehouse.cs" />
     <Compile Include="Events\RefreshEvent.cs" />
     <Compile Include="frmDeleteBox.cs">

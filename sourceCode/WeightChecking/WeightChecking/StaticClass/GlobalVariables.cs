@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using DevExpress.XtraReports.UI;
 using PLCPiProject;
+using WeightChecking.Models;
 
 namespace WeightChecking
 {
@@ -111,6 +112,12 @@ namespace WeightChecking
         public static List<tblSpecialCaseModel> SpecialCaseList { get; set; } = new List<tblSpecialCaseModel>();
         public static string UpdatePath { get; internal set; }
         public static List<OcUsingModel> OcUsingList { get; set; } = new List<OcUsingModel>();//get ra danh sách tất cả các OcNo đang sử dụng
+
+        /// <summary>
+        /// Chứa thông tin các đầu OC được sử dụng trong hệ thống.
+        /// Hiện tại chỉ quản lý những đầu ko có trên WL vì nó ko có voucherType: buffer HC.
+        /// </summary>
+        public static List<tblSystemOC> SystemOC { get; set; }=new List<tblSystemOC>();
 
         public static ResultPostingModel ResultPosting { get; set; } = new ResultPostingModel();
         #endregion
