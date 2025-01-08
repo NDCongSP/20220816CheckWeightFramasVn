@@ -1016,10 +1016,10 @@ namespace WeightChecking
                                         WrapSheetWeight = _row[$"AO{i}"].Value.NumericValue,
                                         FoamSheetWeight = _row[$"AP{i}"].Value.NumericValue,
 
-                                        LowerToleranceOfCartonBox = _row[$"AU{i}"].Value.NumericValue,
-                                        UpperToleranceOfCartonBox = _row[$"AV{i}"].Value.NumericValue,
-                                        LowerToleranceOfPlasticBox = _row[$"AW{i}"].Value.NumericValue,
-                                        UpperToleranceOfPlasticBox = _row[$"AX{i}"].Value.NumericValue,
+                                        LowerToleranceOfCartonBox = _row[$"AQ{i}"].Value.NumericValue,
+                                        UpperToleranceOfCartonBox = _row[$"AR{i}"].Value.NumericValue,
+                                        LowerToleranceOfPlasticBox = _row[$"AS{i}"].Value.NumericValue,
+                                        UpperToleranceOfPlasticBox = _row[$"AT{i}"].Value.NumericValue,
                                     }); ;
                                 }
                             }

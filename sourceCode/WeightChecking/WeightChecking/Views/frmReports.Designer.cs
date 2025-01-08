@@ -71,6 +71,7 @@ namespace WeightChecking
             // 
             this.grvReports.GridControl = this.grcReports;
             this.grvReports.Name = "grvReports";
+            this.grvReports.OptionsBehavior.ReadOnly = true;
             this.grvReports.OptionsDetail.ShowEmbeddedDetailIndent = DevExpress.Utils.DefaultBoolean.False;
             this.grvReports.OptionsView.ColumnAutoWidth = false;
             // 

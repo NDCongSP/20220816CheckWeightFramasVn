@@ -69,7 +69,7 @@ namespace WeightChecking
             this.grv.Appearance.Row.Options.UseFont = true;
             this.grv.GridControl = this.grc;
             this.grv.Name = "grv";
-            this.grv.OptionsPrint.AutoWidth = false;
+            this.grv.OptionsBehavior.ReadOnly = true;
             this.grv.OptionsView.ColumnAutoWidth = false;
             // 
             // xtraTabControl1
@@ -119,6 +119,8 @@ namespace WeightChecking
             // 
             this.grvSpecialCase.GridControl = this.grcSpecialCase;
             this.grvSpecialCase.Name = "grvSpecialCase";
+            this.grvSpecialCase.OptionsBehavior.ReadOnly = true;
+            this.grvSpecialCase.OptionsView.ColumnAutoWidth = false;
             // 
             // frmMasterData
             // 
