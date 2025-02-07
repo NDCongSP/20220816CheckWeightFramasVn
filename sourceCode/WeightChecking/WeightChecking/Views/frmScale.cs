@@ -14,6 +14,7 @@ using System.Drawing.Printing;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -43,6 +44,9 @@ namespace WeightChecking
 
         private void FrmScale_Load(object sender, EventArgs e)
         {
+            //hidden summary group
+            layoutControlGroup3.Visibility = DevExpress.XtraLayout.Utils.LayoutVisibility.Never;
+
             #region Register events Scale value change
             if (GlobalVariables.IsScale)
             {
@@ -325,7 +329,20 @@ namespace WeightChecking
 
                     #region xử lý barcode lấy ra các giá trị theo code
                     _scanData.BarcodeString = _sen.Text;
-                    var ocFirstChar = _scanData.BarcodeString.Substring(0, 2);
+
+                    string ocFirstChar = string.Empty;
+
+                    ocFirstChar = _scanData.BarcodeString.Substring(0, 2);
+
+                    GlobalVariables.SystemOC.ForEach(o =>
+                    {
+                        //OC HC P241226018
+                        if (ocFirstChar.Contains(o.FirstChar) && Regex.IsMatch(ocFirstChar, @"\d"))
+                        {
+                            ocFirstChar = _scanData.BarcodeString.Substring(0, 1);
+                        }
+                    });
+
 
                     if (_scanData.BarcodeString.Contains("|"))
                     {
@@ -374,6 +391,8 @@ namespace WeightChecking
                             }
                             _sen.Focus();
                             #endregion
+
+                            GlobalVariables.ResultPosting.Message = string.Empty;
 
                             return;
                         }
@@ -467,6 +486,8 @@ namespace WeightChecking
                             }
                             _sen.Focus();
                             #endregion
+
+                            GlobalVariables.ResultPosting.Message = string.Empty;
 
                             return;
                         }
@@ -582,8 +603,10 @@ namespace WeightChecking
                         para.Add("@ProductNumber", _scanData.ProductNumber);
                         para.Add("@SpecialCase", specialCase);
 
-                        //đối với hàng sơn PU, thì trước sơn lấy các giá trị theo printing =0. Sau sơn thì lấy các giá trị theo printing =1
+                        //đối với hàng sơn PU, thì trước sơn lấy các giá trị theo printing =0. Sau sơn thì lấy các giá trị theo printing = 1.
+                        //nếu checkOc == null --> hàng sơn- trước sơn (PRT).
                         var checkOc = GlobalVariables.OcUsingList.FirstOrDefault(x => x.OcFirstChar == ocFirstChar && ocFirstChar != "PR");
+
                         if (specialCase)
                         {
                             //after printing
@@ -619,7 +642,40 @@ namespace WeightChecking
                                     lowerToleranceOfBox = res.LowerToleranceOfCartonBox;
                                     upperToleranceOfBox = res.UpperToleranceOfCartonBox;
 
-                                    if (_scanData.Quantity <= res.BoxQtyBx4)
+                                    #region get box weight
+                                    if (_scanData.Quantity <= res.BoxQtyBx6)
+                                    {
+                                        _scanData.BoxWeight = res.BoxWeightBx6;
+
+                                        if (labBoxType.InvokeRequired)
+                                        {
+                                            labBoxType.Invoke(new Action(() =>
+                                            {
+                                                labBoxType.Text = "BX6";
+                                            }));
+                                        }
+                                        else
+                                        {
+                                            labBoxType.Text = "BX6";
+                                        }
+                                    }
+                                    else if (_scanData.Quantity > res.BoxQtyBx6 && _scanData.Quantity <= res.BoxQtyBx5)
+                                    {
+                                        _scanData.BoxWeight = res.BoxWeightBx5;
+
+                                        if (labBoxType.InvokeRequired)
+                                        {
+                                            labBoxType.Invoke(new Action(() =>
+                                            {
+                                                labBoxType.Text = "BX5";
+                                            }));
+                                        }
+                                        else
+                                        {
+                                            labBoxType.Text = "BX5";
+                                        }
+                                    }
+                                    else if (_scanData.Quantity > res.BoxQtyBx5 && _scanData.Quantity <= res.BoxQtyBx4)
                                     {
                                         _scanData.BoxWeight = res.BoxWeightBx4;
 
@@ -683,6 +739,38 @@ namespace WeightChecking
                                             labBoxType.Text = "BX1";
                                         }
                                     }
+                                    else if (_scanData.Quantity > res.BoxQtyBx2 && _scanData.Quantity <= res.BoxQtyBx1A)
+                                    {
+                                        _scanData.BoxWeight = res.BoxWeightBx1;
+
+                                        if (labBoxType.InvokeRequired)
+                                        {
+                                            labBoxType.Invoke(new Action(() =>
+                                            {
+                                                labBoxType.Text = "BX1A";
+                                            }));
+                                        }
+                                        else
+                                        {
+                                            labBoxType.Text = "BX1A";
+                                        }
+                                    }
+                                    else if (_scanData.Quantity > res.BoxQtyBx1A && _scanData.Quantity <= res.BoxQtyBx1)
+                                    {
+                                        _scanData.BoxWeight = res.BoxWeightBx1;
+
+                                        if (labBoxType.InvokeRequired)
+                                        {
+                                            labBoxType.Invoke(new Action(() =>
+                                            {
+                                                labBoxType.Text = "BX1";
+                                            }));
+                                        }
+                                        else
+                                        {
+                                            labBoxType.Text = "BX1";
+                                        }
+                                    }
                                     else if (_scanData.Quantity > res.BoxQtyBx1)
                                     {
                                         MessageBox.Show($"Số lượng vượt quá giới hạn thùng BX1 ({res.BoxQtyBx1})", "CẢNH BÁO", MessageBoxButtons.OK, MessageBoxIcon.Warning);
@@ -697,9 +785,25 @@ namespace WeightChecking
 
                                         connection.Execute("sp_tblItemMissingInfoInsert", para, commandType: CommandType.StoredProcedure);
 
+                                        #region Auto posting
+                                        //hàng từ production qua: decoration = 0 (OC)  và dcoration = 1 (PRT). transfer từ kho 3--> 64
+                                        //if (_scanData.Decoration == 0)
+                                        //{
+                                        //    GlobalVariables.ResultPosting = AutoPostingHelper.AutoTransfer(_scanData.ProductNumber, _scanData.BarcodeString, 3, 64, GlobalVariables.GetDbConnectionDogeWh(), null);
+                                        //    GlobalVariables.ResultPosting.Message = $"Hàng Production lỗi đóng gói (Transfer 3-->64): {GlobalVariables.ResultPosting.Message}";
+                                        //}
+                                        ////hàng sơn-sau sơn
+                                        //else if (_scanData.Decoration == 1 && checkOc != null)
+                                        //{
+                                        //    GlobalVariables.ResultPosting = AutoPostingHelper.AutoTransfer(_scanData.ProductNumber, _scanData.BarcodeString, 32, 64, GlobalVariables.GetDbConnectionDogeWh(), null);
+                                        //    GlobalVariables.ResultPosting.Message = $"Hàng QC lỗi đóng gói (Transfer 32-->64): {GlobalVariables.ResultPosting.Message}";
+                                        //}
+                                        #endregion
+
                                         ResetControl();
                                         goto returnLoop;
                                     }
+                                    #endregion
 
                                     if (_scanData.Decoration == 0)
                                     {
@@ -718,9 +822,181 @@ namespace WeightChecking
                                 }
                                 else if (_scanData.Decoration == 1 && ocFirstChar == "PR")//hàng trước sơn. chỉ có trạm SSFG01 mới nhảy vào đây
                                 {
-                                    //lấy tolerance theo thùng nhựa
-                                    lowerToleranceOfBox = res.LowerToleranceOfPlasticBox;
-                                    upperToleranceOfBox = res.UpperToleranceOfPlasticBox;
+                                    if (_scanData.OcNo.Substring(0, 3) == "PRT")
+                                    {
+                                        //lấy tolerance theo thùng nhựa
+                                        lowerToleranceOfBox = res.LowerToleranceOfPlasticBox;
+                                        upperToleranceOfBox = res.UpperToleranceOfPlasticBox;
+                                        _scanData.BoxWeight = res.PlasticBoxWeight;
+                                    }
+                                    else
+                                    {
+                                        //lấy tolerance theo thùng giấy
+                                        lowerToleranceOfBox = res.LowerToleranceOfCartonBox;
+                                        upperToleranceOfBox = res.UpperToleranceOfCartonBox;
+                                        #region get box weight
+                                        if (_scanData.Quantity <= res.BoxQtyBx6)
+                                        {
+                                            _scanData.BoxWeight = res.BoxWeightBx6;
+
+                                            if (labBoxType.InvokeRequired)
+                                            {
+                                                labBoxType.Invoke(new Action(() =>
+                                                {
+                                                    labBoxType.Text = "BX6";
+                                                }));
+                                            }
+                                            else
+                                            {
+                                                labBoxType.Text = "BX6";
+                                            }
+                                        }
+                                        else if (_scanData.Quantity > res.BoxQtyBx6 && _scanData.Quantity <= res.BoxQtyBx5)
+                                        {
+                                            _scanData.BoxWeight = res.BoxWeightBx5;
+
+                                            if (labBoxType.InvokeRequired)
+                                            {
+                                                labBoxType.Invoke(new Action(() =>
+                                                {
+                                                    labBoxType.Text = "BX5";
+                                                }));
+                                            }
+                                            else
+                                            {
+                                                labBoxType.Text = "BX5";
+                                            }
+                                        }
+                                        else if (_scanData.Quantity > res.BoxQtyBx5 && _scanData.Quantity <= res.BoxQtyBx4)
+                                        {
+                                            _scanData.BoxWeight = res.BoxWeightBx4;
+
+                                            if (labBoxType.InvokeRequired)
+                                            {
+                                                labBoxType.Invoke(new Action(() =>
+                                                {
+                                                    labBoxType.Text = "BX4";
+                                                }));
+                                            }
+                                            else
+                                            {
+                                                labBoxType.Text = "BX4";
+                                            }
+                                        }
+                                        else if (_scanData.Quantity > res.BoxQtyBx4 && _scanData.Quantity <= res.BoxQtyBx3)
+                                        {
+                                            _scanData.BoxWeight = res.BoxWeightBx3;
+
+                                            if (labBoxType.InvokeRequired)
+                                            {
+                                                labBoxType.Invoke(new Action(() =>
+                                                {
+                                                    labBoxType.Text = "BX3";
+                                                }));
+                                            }
+                                            else
+                                            {
+                                                labBoxType.Text = "BX3";
+                                            }
+                                        }
+                                        else if (_scanData.Quantity > res.BoxQtyBx3 && _scanData.Quantity <= res.BoxQtyBx2)
+                                        {
+                                            _scanData.BoxWeight = res.BoxWeightBx2;
+
+                                            if (labBoxType.InvokeRequired)
+                                            {
+                                                labBoxType.Invoke(new Action(() =>
+                                                {
+                                                    labBoxType.Text = "BX2";
+                                                }));
+                                            }
+                                            else
+                                            {
+                                                labBoxType.Text = "BX2";
+                                            }
+                                        }
+                                        else if (_scanData.Quantity > res.BoxQtyBx2 && _scanData.Quantity <= res.BoxQtyBx1)
+                                        {
+                                            _scanData.BoxWeight = res.BoxWeightBx1;
+
+                                            if (labBoxType.InvokeRequired)
+                                            {
+                                                labBoxType.Invoke(new Action(() =>
+                                                {
+                                                    labBoxType.Text = "BX1";
+                                                }));
+                                            }
+                                            else
+                                            {
+                                                labBoxType.Text = "BX1";
+                                            }
+                                        }
+                                        else if (_scanData.Quantity > res.BoxQtyBx2 && _scanData.Quantity <= res.BoxQtyBx1A)
+                                        {
+                                            _scanData.BoxWeight = res.BoxWeightBx1;
+
+                                            if (labBoxType.InvokeRequired)
+                                            {
+                                                labBoxType.Invoke(new Action(() =>
+                                                {
+                                                    labBoxType.Text = "BX1A";
+                                                }));
+                                            }
+                                            else
+                                            {
+                                                labBoxType.Text = "BX1A";
+                                            }
+                                        }
+                                        else if (_scanData.Quantity > res.BoxQtyBx1A && _scanData.Quantity <= res.BoxQtyBx1)
+                                        {
+                                            _scanData.BoxWeight = res.BoxWeightBx1;
+
+                                            if (labBoxType.InvokeRequired)
+                                            {
+                                                labBoxType.Invoke(new Action(() =>
+                                                {
+                                                    labBoxType.Text = "BX1";
+                                                }));
+                                            }
+                                            else
+                                            {
+                                                labBoxType.Text = "BX1";
+                                            }
+                                        }
+                                        else if (_scanData.Quantity > res.BoxQtyBx1)
+                                        {
+                                            MessageBox.Show($"Số lượng vượt quá giới hạn thùng BX1 ({res.BoxQtyBx1})", "CẢNH BÁO", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+
+                                            para = null;
+                                            para = new DynamicParameters();
+                                            para.Add("ProductNumber", _scanData.ProductNumber);
+                                            para.Add("ProductName", _scanData.ProductName);
+                                            para.Add("OcNum", _scanData.OcNo);
+                                            para.Add("Note", $"Số lượng vượt quá giới hạn thùng BX1 ({res.BoxQtyBx1})");
+                                            para.Add("QrCode", _scanData.BarcodeString);
+
+                                            connection.Execute("sp_tblItemMissingInfoInsert", para, commandType: CommandType.StoredProcedure);
+
+                                            #region Auto posting
+                                            //hàng từ production qua: decoration = 0 (OC)  và dcoration = 1 (PRT). transfer từ kho 3--> 64
+                                            //if (_scanData.Decoration == 0)
+                                            //{
+                                            //    GlobalVariables.ResultPosting = AutoPostingHelper.AutoTransfer(_scanData.ProductNumber, _scanData.BarcodeString, 3, 64, GlobalVariables.GetDbConnectionDogeWh(), null);
+                                            //    GlobalVariables.ResultPosting.Message = $"Hàng Production lỗi đóng gói (Transfer 3-->64): {GlobalVariables.ResultPosting.Message}";
+                                            //}
+                                            ////hàng sơn-sau sơn
+                                            //else if (_scanData.Decoration == 1 && checkOc != null)
+                                            //{
+                                            //    GlobalVariables.ResultPosting = AutoPostingHelper.AutoTransfer(_scanData.ProductNumber, _scanData.BarcodeString, 32, 64, GlobalVariables.GetDbConnectionDogeWh(), null);
+                                            //    GlobalVariables.ResultPosting.Message = $"Hàng QC lỗi đóng gói (Transfer 32-->64): {GlobalVariables.ResultPosting.Message}";
+                                            //}
+                                            #endregion
+
+                                            ResetControl();
+                                            goto returnLoop;
+                                        }
+                                        #endregion
+                                    }
 
                                     if (GlobalVariables.AfterPrinting == 0)
                                     {
@@ -730,8 +1006,6 @@ namespace WeightChecking
                                     {
                                         _scanData.Status = 2;// báo trạng thái hàng sơn đã được sơn, trạm SSFG02 và SSFG03(Kerry)
                                     }
-
-                                    _scanData.BoxWeight = res.PlasicBoxWeight;
 
                                     this.Invoke((MethodInvoker)delegate
                                     {
@@ -773,7 +1047,16 @@ namespace WeightChecking
                                 //luu ý các Quantity partition-Plasic-WrapSheet trên DB nó là tính số Prs
                                 //sau khi đọc về phải lấy QtyPrs quét trên label / Quantity partition-Plasic-WrapSheet ==> qty * weight ==> Weight package weight
                                 double partitionWeight = 0;
+
+                                #region Tính số tấm lót partition
                                 var p = res.PartitionQty != 0 ? ((double)_scanData.Quantity / (double)res.PartitionQty) : 0;
+
+                                //với hàng FG outsole thì tính ra được số lượng partition thì trừ đi 1 để ra số đúng
+                                if (res.ProductCategory != 1)//OS - 1:HC
+                                {
+                                    p = p - 1;
+                                }
+
                                 if (_scanData.Quantity <= res.BoxQtyBx3 || p < 1)
                                 {
                                     partitionWeight = 0;
@@ -782,9 +1065,11 @@ namespace WeightChecking
                                 {
                                     partitionWeight = Math.Floor(p) * res.PartitionWeight;
                                 }
+                                #endregion
+
                                 //partitionWeight = res.PartitionQty != 0 ? (_scanData.Quantity / res.PartitionQty) * res.PartitionWeight : 0;
-                                var plasicBag1Weight = res.PlasicBag1Qty != 0 ? Math.Ceiling(((double)_scanData.Quantity / (double)res.PlasicBag1Qty)) * res.PlasicBag1Weight : 0;
-                                var plasicBag2Weight = res.PlasicBag2Qty != 0 ? Math.Ceiling(((double)_scanData.Quantity / (double)res.PlasicBag2Qty)) * res.PlasicBag2Weight : 0;
+                                var plasicBag1Weight = res.PlasticBag1Qty != 0 ? Math.Ceiling(((double)_scanData.Quantity / (double)res.PlasticBag1Qty)) * res.PlasticBag1Weight : 0;
+                                var plasicBag2Weight = res.PlasticBag2Qty != 0 ? Math.Ceiling(((double)_scanData.Quantity / (double)res.PlasticBag2Qty)) * res.PlasticBag2Weight : 0;
                                 var wrapSheetWeight = res.WrapSheetQty != 0 ? Math.Ceiling(((double)_scanData.Quantity / (double)res.WrapSheetQty)) * res.WrapSheetWeight : 0;
                                 var foamSheetWeight = res.FoamSheetQty != 0 ? Math.Ceiling(((double)_scanData.Quantity / (double)res.FoamSheetQty)) * res.FoamSheetWeight : 0;
 
@@ -824,7 +1109,8 @@ namespace WeightChecking
                                 #endregion
 
                                 #region hiển thị thông tin
-                                this.Invoke((MethodInvoker)delegate
+
+                                GlobalVariables.InvokeIfRequired(this, () =>
                                 {
                                     labRealWeight.Text = _scanData.GrossWeight.ToString();
                                     labNetWeight.Text = _scanData.StdNetWeight.ToString();
@@ -1025,6 +1311,39 @@ namespace WeightChecking
                                         GlobalVariables.Printing((_scanData.GrossWeight / 1000).ToString("#,#0.00")
                                                     , !string.IsNullOrEmpty(GlobalVariables.IdLabel) ? GlobalVariables.IdLabel : $"{_scanData.OcNo}|{_scanData.BoxNo}", true
                                                      , _scanData.CreatedDate.ToString("yyyy-MM-dd HH:mm:ss"));
+
+                                        #region Auto posting
+                                        //hàng từ production qua: decoration = 0 (OC). transfer từ kho 3--> 64
+                                        //if (_scanData.Decoration == 0)
+                                        //{
+                                        //    GlobalVariables.ResultPosting = AutoPostingHelper.AutoTransfer(_scanData.ProductNumber, _scanData.BarcodeString, 3, 41, GlobalVariables.GetDbConnectionDogeWh(), null);
+
+                                        //    if (GlobalVariables.ResultPosting.Message == "Successful")
+                                        //    {
+                                        //        GlobalVariables.ResultPosting.Message = $"Hàng Production OK (Transfer 3-->41): {GlobalVariables.ResultPosting.Message}";
+                                        //    }
+                                        //    else
+                                        //    {
+                                        //        GlobalVariables.ResultPosting = AutoPostingHelper.AutoTransfer(_scanData.ProductNumber, _scanData.BarcodeString, 63, 41, GlobalVariables.GetDbConnectionDogeWh(), null);
+                                        //        GlobalVariables.ResultPosting.Message = $"Hàng Production OK (Metal - Transfer 63-->41): {GlobalVariables.ResultPosting.Message}";
+                                        //    }
+                                        //}
+                                        ////hàng sơn-sau sơn
+                                        //else if (_scanData.Decoration == 1 && checkOc != null)
+                                        //{
+                                        //    GlobalVariables.ResultPosting = AutoPostingHelper.AutoTransfer(_scanData.ProductNumber, _scanData.BarcodeString, 32, 41, GlobalVariables.GetDbConnectionDogeWh(), null);
+
+                                        //    if (GlobalVariables.ResultPosting.Message == "Successful")
+                                        //    {
+                                        //        GlobalVariables.ResultPosting.Message = $"Hàng QC OK (Transfer 32-->41): {GlobalVariables.ResultPosting.Message}";
+                                        //    }
+                                        //    else
+                                        //    {
+                                        //        GlobalVariables.ResultPosting = AutoPostingHelper.AutoTransfer(_scanData.ProductNumber, _scanData.BarcodeString, 63, 41, GlobalVariables.GetDbConnectionDogeWh(), null);
+                                        //        GlobalVariables.ResultPosting.Message = $"Hàng QC OK (Metal - Transfer 63-->41): {GlobalVariables.ResultPosting.Message}";
+                                        //    }
+                                        //}
+                                        #endregion
                                     }
                                     //với thùng Pass mà trước đó đã cân và báo fail thì popup form nhập deviation
                                     else if (statusLogData == 1)
@@ -1037,10 +1356,9 @@ namespace WeightChecking
                                             {
                                                 if (resultCheckBoxInfo != null)
                                                 {
-
                                                     var dialogResult = MessageBox.Show($"Bạn có chắc chắn xác nhận cập nhật số lượng chênh lệch thực tế cho thùng với thông tin sau:" +
-                                         $"{Environment.NewLine}{_scanData.IdLabel}|{_scanData.OcNo}|{_scanData.BoxNo}.{Environment.NewLine}" +
-                                         $"Số lượng lệch thực tế là: {formDeviation.ActualDeviation}?", "CẢNH BÁO", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+                                                                                         $"{Environment.NewLine}{_scanData.IdLabel}|{_scanData.OcNo}|{_scanData.BoxNo}.{Environment.NewLine}" +
+                                                                                         $"Số lượng lệch thực tế là: {formDeviation.ActualDeviation}?", "CẢNH BÁO", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
 
                                                     if (dialogResult == DialogResult.Yes)
                                                     {
@@ -1157,6 +1475,24 @@ namespace WeightChecking
                                                         GlobalVariables.Printing((_scanData.GrossWeight / 1000).ToString("#,#0.00")
                                                             , !string.IsNullOrEmpty(GlobalVariables.IdLabel) ? GlobalVariables.IdLabel : $"{_scanData.OcNo}|{_scanData.BoxNo}", true
                                                              , _scanData.CreatedDate.ToString("yyyy-MM-dd HH:mm:ss"));
+
+                                                        #region Auto posting
+                                                        //hàng từ production qua: decoration = 0 (OC). transfer từ kho 3--> 64
+                                                        //if (_scanData.Decoration == 0 || (_scanData.Decoration == 1 && checkOc != null))
+                                                        //{
+                                                        //    GlobalVariables.ResultPosting = AutoPostingHelper.AutoTransfer(_scanData.ProductNumber, _scanData.BarcodeString, 64, 41, GlobalVariables.GetDbConnectionDogeWh(), null);
+
+                                                        //    if (GlobalVariables.ResultPosting.Message == "Successful")
+                                                        //    {
+                                                        //        GlobalVariables.ResultPosting.Message = $"Hàng cân lại OK (Transfer 64-->41): {GlobalVariables.ResultPosting.Message}";
+                                                        //    }
+                                                        //    else
+                                                        //    {
+                                                        //        GlobalVariables.ResultPosting = AutoPostingHelper.AutoTransfer(_scanData.ProductNumber, _scanData.BarcodeString, 63, 41, GlobalVariables.GetDbConnectionDogeWh(), null);
+                                                        //        GlobalVariables.ResultPosting.Message = $"Hàng cân lại OK (Metal - Transfer 63-->41): {GlobalVariables.ResultPosting.Message}";
+                                                        //    }
+                                                        //}
+                                                        #endregion
                                                     }
                                                 }
                                             }
@@ -1221,6 +1557,23 @@ namespace WeightChecking
                                         GlobalVariables.Printing(_scanData.DeviationPairs.ToString()
                                                     , !string.IsNullOrEmpty(GlobalVariables.IdLabel) ? GlobalVariables.IdLabel : $"{_scanData.OcNo}|{_scanData.BoxNo}", false
                                                     , _scanData.CreatedDate.ToString("yyyy-MM-dd HH:mm:ss"));
+
+                                        #region Auto posting
+                                        //hàng từ production qua: decoration = 0 (OC)  và dcoration = 1 (PRT). transfer từ kho 3--> 64
+                                        //if (_scanData.Decoration == 0)
+                                        //{
+                                        //    GlobalVariables.ResultPosting = AutoPostingHelper.AutoTransfer(_scanData.ProductNumber, _scanData.BarcodeString, 3, 64, GlobalVariables.GetDbConnectionDogeWh(), null);
+
+                                        //    GlobalVariables.ResultPosting.Message = $"Hàng production Fail (Transfer 3-->41): {GlobalVariables.ResultPosting.Message}";
+                                        //}
+                                        ////hàng sơn-sau sơn
+                                        //else if (_scanData.Decoration == 1 && checkOc != null)
+                                        //{
+                                        //    GlobalVariables.ResultPosting = AutoPostingHelper.AutoTransfer(_scanData.ProductNumber, _scanData.BarcodeString, 32, 64, GlobalVariables.GetDbConnectionDogeWh(), null);
+
+                                        //    GlobalVariables.ResultPosting.Message = $"Hàng QC Fail (Transfer 32-->41): {GlobalVariables.ResultPosting.Message}";
+                                        //}
+                                        #endregion
                                     }
                                     else if (statusLogData == 2)
                                     {
@@ -1314,6 +1667,9 @@ namespace WeightChecking
                                     labBoxWeight.Text = _scanData.BoxWeight.ToString();
                                     labAccessoriesWeight.Text = _scanData.PackageWeight.ToString();
                                     labGrossWeight.Text = _scanData.StdGrossWeight.ToString();
+
+                                    labNetRealWeight.Text = $"{_scanData.NetWeight}";
+                                    labDeviation.Text = $"{_scanData.Deviation}";
                                 });
                                 #endregion
 
@@ -1343,6 +1699,7 @@ namespace WeightChecking
                             XtraMessageBox.Show($"Product number {_scanData.ProductNumber} không có trong hệ thống. Xin hãy kiểm tra lại thông tin."
                                 , "CẢNH BÁO.", MessageBoxButtons.OK, MessageBoxIcon.Warning);
 
+                            GlobalVariables.ResultPosting.Message = string.Empty;
                             ResetControl();
 
                             para = null;

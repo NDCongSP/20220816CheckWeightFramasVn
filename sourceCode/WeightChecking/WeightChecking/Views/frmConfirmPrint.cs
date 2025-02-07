@@ -230,7 +230,7 @@ namespace WeightChecking
                                 para.Add("ApproveBy", _qrApproved);
                                 para.Add("ActualDeviationPairs", _scanData.ActualDeviationPairs);
                                 para.Add("GrossWeight", _scaleValue);
-                                para.Add("Status", _scanData.OcNo.Substring(0, 2) == "PR" && GlobalVariables.Station == 0 ? 1 : 2);
+                                para.Add("Status", (_scanData.OcNo.Substring(0, 3) == "PRT"|| _scanData.OcNo.Substring(0, 3) == "PRS") && GlobalVariables.Station == 0 ? 1 : 2);
                                 para.Add("NetWeight", _scanData.NetWeight);
                                 para.Add("Calculatorpairs", _scanData.CalculatedPairs);
                                 para.Add("Deviation", _scanData.Deviation);
@@ -242,6 +242,22 @@ namespace WeightChecking
                                 GlobalVariables.Printing((_scaleValue / 1000).ToString("#,#0.00")
                                           , !string.IsNullOrEmpty(_scanData.IdLabel) ? _scanData.IdLabel : $"{_scanData.OcNo}|{_scanData.BoxNo}", true
                                           , _scanData.CreatedDate.ToString("yyyy-MM-dd HH:mm:ss"));
+                                
+                                #region Auto posting
+                                //hàng từ production qua: decoration = 0 (OC). transfer từ kho 3--> 64
+
+                                //GlobalVariables.ResultPosting = AutoPostingHelper.AutoTransfer(_scanData.ProductNumber, _scanData.BarcodeString, 64, 41, GlobalVariables.GetDbConnectionDogeWh(), null);
+
+                                //if (GlobalVariables.ResultPosting.Message == "Successful")
+                                //{
+                                //    GlobalVariables.ResultPosting.Message = $"Hàng Production OK (Transfer 64-->41): {GlobalVariables.ResultPosting.Message}";
+                                //}
+                                //else
+                                //{
+                                //    GlobalVariables.ResultPosting = AutoPostingHelper.AutoTransfer(_scanData.ProductNumber, _scanData.BarcodeString, 63, 41, GlobalVariables.GetDbConnectionDogeWh(), null);
+                                //    GlobalVariables.ResultPosting.Message = $"Hàng Production OK (Metal - Transfer 63-->41): {GlobalVariables.ResultPosting.Message}";
+                                //}
+                                #endregion
 
                                 #region Get thong tin boxParent nếu có, và update lại actual deviation cho thùng mẹ ở bảng scanData và ApprovedPrint
                                 using (var connectionDWH = GlobalVariables.GetDbConnectionDogeWh())

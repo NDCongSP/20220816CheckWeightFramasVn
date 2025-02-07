@@ -21,7 +21,7 @@ namespace WeightChecking
         /// <param name="toWH">Đến kho nào.</param>
         /// <param name="connection">chuôi connect.</param>
         /// <returns></returns>
-        public static ResultPostingModel AutoTransfer(string productNumber, string barcodeString, int fromWH, int toWH, double inputQuantity, IDbConnection connection, IDbTransaction tran)
+        public static ResultPostingModel AutoTransfer(string productNumber, string barcodeString, int fromWH, int toWH, IDbConnection connection, IDbTransaction tran)
         {
             string machineName = System.Environment.MachineName;
             ResultPostingModel resultPostingModel = new ResultPostingModel();
@@ -29,14 +29,14 @@ namespace WeightChecking
             // check nếu QRCode hiện tại có nằm trong kho
             DynamicParameters para = new DynamicParameters();
             para.Add("@qr", barcodeString);
-            para.Add("@userId", $"idc_autoposting. MachineName: {machineName}");
+            para.Add("@userId", $"idc_autoposting");
             para.Add("@mode", "TRANSFER");
             // hàng đến từ kho (FFT)
             para.Add("@whFrom", fromWH);
             // sẽ vào kho (FFT)
             para.Add("@whTo", toWH);
             para.Add("@lock", 0);
-            para.Add("@inputQuantity", inputQuantity);
+            para.Add("@inputQuantity", null);
 
             (int Accept, string Message) = connection.Query<(int Accept, string Message)>("DOGE_WH.dbo.sp_lmpScannerClient_ScanningLabel_CheckLabel"
                 , para, commandType: CommandType.StoredProcedure, transaction: tran).FirstOrDefault();
@@ -49,7 +49,7 @@ namespace WeightChecking
             {
                 para = new DynamicParameters();
                 para.Add("@qr", barcodeString);
-                para.Add("@userId", $"idc_autoposting. MachineName: {machineName}");
+                para.Add("@userId", $"idc_autoposting");
                 para.Add("@mode", "TRANSFER");
                 // hàng đến từ kho (FFT)
                 para.Add("@whFrom", fromWH);
@@ -59,7 +59,7 @@ namespace WeightChecking
                 para.Add("@scanTime", DateTime.Now);
                 para.Add("@ipAdd", "");
                 para.Add("@postingText", "");
-                para.Add("@inputQuantity", inputQuantity);
+                para.Add("@inputQuantity", null);
                 para.Add("@id", null);
 
                 var resInsertTransferRackStorage = connection.Execute("DOGE_WH.dbo.sp_lmpScannerClient_ScannedLabel_Insert"
@@ -68,12 +68,12 @@ namespace WeightChecking
                 if (resInsertTransferRackStorage > 0)
                 {
                     Debug.WriteLine($"ProductNumber: {productNumber} đã cập nhật kho.");
-                    resultPostingModel.Message = $"ProductNumber: {productNumber} đã cập nhật kho.";
+                    resultPostingModel.Message = $"Successful";
                 }
                 else
                 {
                     Debug.WriteLine($"ProductNumber: {productNumber} cập nhật kho thất bại.");
-                    resultPostingModel.Message = $"ProductNumber: {productNumber} cập nhật kho thất bại.";
+                    resultPostingModel.Message = $"Fail";
                 }
 
             }
@@ -85,7 +85,7 @@ namespace WeightChecking
             return resultPostingModel;
         }
 
-        public static ResultPostingModel AutoStockIn(string productNumber, string barcodeString, int toWH, IDbConnection connection, double inputQuantity, IDbTransaction tran)
+        public static ResultPostingModel AutoStockIn(string productNumber, string barcodeString, int toWH, IDbConnection connection, IDbTransaction tran)
         {
             string machineName = System.Environment.MachineName;
             ResultPostingModel resultPostingModel = new ResultPostingModel();
@@ -93,14 +93,14 @@ namespace WeightChecking
             // check nếu QRCode hiện tại có nằm trong kho
             DynamicParameters para = new DynamicParameters();
             para.Add("@qr", barcodeString);
-            para.Add("@userId", $"idc_autoposting. MachineName: {machineName}"); //user sử dụng cho việc auto posting
+            para.Add("@userId", $"idc_autoposting"); //user sử dụng cho việc auto posting
             para.Add("@mode", "ADD");
             // hàng đến từ kho (FFT)
             para.Add("@whFrom", "");
             // sẽ vào kho (FFT)
             para.Add("@whTo", toWH);
             para.Add("@lock", 0);
-            para.Add("@inputQuantity", inputQuantity);
+            para.Add("@inputQuantity", null);
 
             (int Accept, string Message) = connection.Query<(int Accept, string Message)>("DOGE_WH.dbo.sp_lmpScannerClient_ScanningLabel_CheckLabel"
                 , para, commandType: CommandType.StoredProcedure, transaction: tran).FirstOrDefault();
@@ -113,7 +113,7 @@ namespace WeightChecking
             {
                 para = new DynamicParameters();
                 para.Add("@qr", barcodeString);
-                para.Add("@userId", $"idc_autoposting. MachineName: {machineName}");
+                para.Add("@userId", $"idc_autoposting");
                 para.Add("@mode", "ADD");
                 // hàng đến từ kho (FFT)
                 para.Add("@whFrom", "");
@@ -123,19 +123,19 @@ namespace WeightChecking
                 para.Add("@scanTime", DateTime.Now);
                 para.Add("@ipAdd", "");
                 para.Add("@postingText", "");
-                para.Add("@inputQuantity", inputQuantity);
+                para.Add("@inputQuantity", null);
                 para.Add("@id", null);
 
                 var resInsertTransferRackStorage = connection.Execute("DOGE_WH.dbo.sp_lmpScannerClient_ScannedLabel_Insert", para, commandType: CommandType.StoredProcedure, transaction: tran);
                 if (resInsertTransferRackStorage > 0)
                 {
                     Debug.WriteLine($"ProductNumber: {productNumber} đã nhập kho.");
-                    resultPostingModel.Message = $"ProductNumber: {productNumber} đã nhập kho.";
+                    resultPostingModel.Message = $"Successful.";
                 }
                 else
                 {
                     Debug.WriteLine($"ProductNumber: {productNumber} nhập kho thất bại.");
-                    resultPostingModel.Message = $"ProductNumber: {productNumber} nhập kho thất bại.";
+                    resultPostingModel.Message = $"Fail.";
                 }
 
             }
@@ -155,7 +155,7 @@ namespace WeightChecking
             // check nếu QRCode hiện tại có nằm trong kho
             DynamicParameters para = new DynamicParameters();
             para.Add("@qr", barcodeString);
-            para.Add("@userId", $"idc_autoposting. MachineName: {machineName}");
+            para.Add("@userId", $"idc_autoposting");
             para.Add("@mode", "REMOVE");
             // hàng đến từ kho (FFT)
             para.Add("@whFrom", fromWH);
@@ -175,7 +175,7 @@ namespace WeightChecking
             {
                 para = new DynamicParameters();
                 para.Add("@qr", barcodeString);
-                para.Add("@userId", $"idc_autoposting. MachineName: {machineName}");
+                para.Add("@userId", $"idc_autoposting");
                 para.Add("@mode", "REMOVE");
                 // hàng đến từ kho (FFT)
                 para.Add("@whFrom", fromWH);
@@ -193,12 +193,12 @@ namespace WeightChecking
                 if (resInsertTransferRackStorage > 0)
                 {
                     Debug.WriteLine($"ProductNumber: {productNumber} đã cập nhật kho.");
-                    resultPostingModel.Message = $"ProductNumber: {productNumber} đã cập nhật kho.";
+                    resultPostingModel.Message = $"Successful.";
                 }
                 else
                 {
                     Debug.WriteLine($"ProductNumber: {productNumber} cập nhật kho thất bại.");
-                    resultPostingModel.Message = $"ProductNumber: {productNumber} cập nhật kho thất bại.";
+                    resultPostingModel.Message = $"Fail.";
                 }
             }
             else

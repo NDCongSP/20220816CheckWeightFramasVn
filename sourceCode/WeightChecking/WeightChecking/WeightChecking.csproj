@@ -248,6 +248,8 @@
     <Compile Include="Enums\LocationEnum.cs" />
     <Compile Include="Enums\RolesEnum.cs" />
     <Compile Include="Enums\StationEnum.cs" />
+    <Compile Include="Models\tblSystemOC.cs" />
+    <Compile Include="StaticClass\Warehouse.cs" />
     <Compile Include="Events\RefreshEvent.cs" />
     <Compile Include="frmDeleteBox.cs">
       <SubType>Form</SubType>
@@ -255,6 +257,8 @@
     <Compile Include="frmDeleteBox.Designer.cs">
       <DependentUpon>frmDeleteBox.cs</DependentUpon>
     </Compile>
+    <Compile Include="Models\ResultPostingModel.cs" />
+    <Compile Include="StaticClass\AutoPostingHelper.cs" />
     <Compile Include="Views\frmSelectReason.cs">
       <SubType>Form</SubType>
     </Compile>
