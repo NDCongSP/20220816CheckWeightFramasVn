@@ -332,16 +332,17 @@ namespace WeightChecking
 
                     string ocFirstChar = string.Empty;
 
-                     ocFirstChar = _scanData.BarcodeString.Substring(0, 2);
+                    ocFirstChar = _scanData.BarcodeString.Substring(0, 2);
 
-                    GlobalVariables.SystemOC.ForEach(o => {
+                    GlobalVariables.SystemOC.ForEach(o =>
+                    {
                         //OC HC P241226018
                         if (ocFirstChar.Contains(o.FirstChar) && Regex.IsMatch(ocFirstChar, @"\d"))
                         {
                             ocFirstChar = _scanData.BarcodeString.Substring(0, 1);
                         }
                     });
-                     
+
 
                     if (_scanData.BarcodeString.Contains("|"))
                     {
@@ -674,7 +675,7 @@ namespace WeightChecking
                                             labBoxType.Text = "BX5";
                                         }
                                     }
-                                   else if (_scanData.Quantity > res.BoxQtyBx5 && _scanData.Quantity <= res.BoxQtyBx4)
+                                    else if (_scanData.Quantity > res.BoxQtyBx5 && _scanData.Quantity <= res.BoxQtyBx4)
                                     {
                                         _scanData.BoxWeight = res.BoxWeightBx4;
 
@@ -738,7 +739,7 @@ namespace WeightChecking
                                             labBoxType.Text = "BX1";
                                         }
                                     }
-                                    else if (_scanData.Quantity > res.BoxQtyBx2 && _scanData.Quantity <= res.BoxQtyBx1A )
+                                    else if (_scanData.Quantity > res.BoxQtyBx2 && _scanData.Quantity <= res.BoxQtyBx1A)
                                     {
                                         _scanData.BoxWeight = res.BoxWeightBx1;
 
@@ -1046,7 +1047,16 @@ namespace WeightChecking
                                 //luu ý các Quantity partition-Plasic-WrapSheet trên DB nó là tính số Prs
                                 //sau khi đọc về phải lấy QtyPrs quét trên label / Quantity partition-Plasic-WrapSheet ==> qty * weight ==> Weight package weight
                                 double partitionWeight = 0;
+
+                                #region Tính số tấm lót partition
                                 var p = res.PartitionQty != 0 ? ((double)_scanData.Quantity / (double)res.PartitionQty) : 0;
+
+                                //với hàng FG outsole thì tính ra được số lượng partition thì trừ đi 1 để ra số đúng
+                                if (res.ProductCategory != 1)//OS - 1:HC
+                                {
+                                    p = p - 1;
+                                }
+
                                 if (_scanData.Quantity <= res.BoxQtyBx3 || p < 1)
                                 {
                                     partitionWeight = 0;
@@ -1055,6 +1065,8 @@ namespace WeightChecking
                                 {
                                     partitionWeight = Math.Floor(p) * res.PartitionWeight;
                                 }
+                                #endregion
+
                                 //partitionWeight = res.PartitionQty != 0 ? (_scanData.Quantity / res.PartitionQty) * res.PartitionWeight : 0;
                                 var plasicBag1Weight = res.PlasticBag1Qty != 0 ? Math.Ceiling(((double)_scanData.Quantity / (double)res.PlasticBag1Qty)) * res.PlasticBag1Weight : 0;
                                 var plasicBag2Weight = res.PlasticBag2Qty != 0 ? Math.Ceiling(((double)_scanData.Quantity / (double)res.PlasticBag2Qty)) * res.PlasticBag2Weight : 0;
