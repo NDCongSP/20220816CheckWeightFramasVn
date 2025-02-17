@@ -741,7 +741,7 @@ namespace WeightChecking
                                     }
                                     else if (_scanData.Quantity > res.BoxQtyBx2 && _scanData.Quantity <= res.BoxQtyBx1A)
                                     {
-                                        _scanData.BoxWeight = res.BoxWeightBx1;
+                                        _scanData.BoxWeight = res.BoxWeightBx1A;
 
                                         if (labBoxType.InvokeRequired)
                                         {
@@ -933,7 +933,7 @@ namespace WeightChecking
                                         }
                                         else if (_scanData.Quantity > res.BoxQtyBx2 && _scanData.Quantity <= res.BoxQtyBx1A)
                                         {
-                                            _scanData.BoxWeight = res.BoxWeightBx1;
+                                            _scanData.BoxWeight = res.BoxWeightBx1A;
 
                                             if (labBoxType.InvokeRequired)
                                             {
