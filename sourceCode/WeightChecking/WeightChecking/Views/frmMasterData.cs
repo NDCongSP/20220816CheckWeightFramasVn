@@ -164,7 +164,7 @@ namespace WeightChecking
                             grc.Refresh();
 
                             grv.OptionsView.ColumnHeaderAutoHeight = DevExpress.Utils.DefaultBoolean.True;
-                            grv.OptionsView.ColumnAutoWidth = true;
+                            //grv.OptionsView.ColumnAutoWidth = true;
 
                             grv.Columns["CreatedDate"].DisplayFormat.FormatString = "YYYY-MM-dd HH:mm:ss";
                             grv.Columns["CodeItemSize"].Fixed = DevExpress.XtraGrid.Columns.FixedStyle.Left;

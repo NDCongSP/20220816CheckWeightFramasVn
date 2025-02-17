@@ -35,6 +35,8 @@ namespace WeightChecking
 
         private bool _approveUpdateActMetalScan = false;
 
+        private BoxTypeEnum _boxType;
+
         public frmScale()
         {
             InitializeComponent();
@@ -646,6 +648,7 @@ namespace WeightChecking
                                     if (_scanData.Quantity <= res.BoxQtyBx6)
                                     {
                                         _scanData.BoxWeight = res.BoxWeightBx6;
+                                        _boxType = BoxTypeEnum.BX6;
 
                                         if (labBoxType.InvokeRequired)
                                         {
@@ -662,6 +665,7 @@ namespace WeightChecking
                                     else if (_scanData.Quantity > res.BoxQtyBx6 && _scanData.Quantity <= res.BoxQtyBx5)
                                     {
                                         _scanData.BoxWeight = res.BoxWeightBx5;
+                                        _boxType = BoxTypeEnum.BX5;
 
                                         if (labBoxType.InvokeRequired)
                                         {
@@ -678,6 +682,7 @@ namespace WeightChecking
                                     else if (_scanData.Quantity > res.BoxQtyBx5 && _scanData.Quantity <= res.BoxQtyBx4)
                                     {
                                         _scanData.BoxWeight = res.BoxWeightBx4;
+                                        _boxType = BoxTypeEnum.BX4;
 
                                         if (labBoxType.InvokeRequired)
                                         {
@@ -694,6 +699,7 @@ namespace WeightChecking
                                     else if (_scanData.Quantity > res.BoxQtyBx4 && _scanData.Quantity <= res.BoxQtyBx3)
                                     {
                                         _scanData.BoxWeight = res.BoxWeightBx3;
+                                        _boxType = BoxTypeEnum.BX3;
 
                                         if (labBoxType.InvokeRequired)
                                         {
@@ -710,6 +716,7 @@ namespace WeightChecking
                                     else if (_scanData.Quantity > res.BoxQtyBx3 && _scanData.Quantity <= res.BoxQtyBx2)
                                     {
                                         _scanData.BoxWeight = res.BoxWeightBx2;
+                                        _boxType = BoxTypeEnum.BX2;
 
                                         if (labBoxType.InvokeRequired)
                                         {
@@ -723,25 +730,10 @@ namespace WeightChecking
                                             labBoxType.Text = "BX2";
                                         }
                                     }
-                                    else if (_scanData.Quantity > res.BoxQtyBx2 && _scanData.Quantity <= res.BoxQtyBx1)
-                                    {
-                                        _scanData.BoxWeight = res.BoxWeightBx1;
-
-                                        if (labBoxType.InvokeRequired)
-                                        {
-                                            labBoxType.Invoke(new Action(() =>
-                                            {
-                                                labBoxType.Text = "BX1";
-                                            }));
-                                        }
-                                        else
-                                        {
-                                            labBoxType.Text = "BX1";
-                                        }
-                                    }
                                     else if (_scanData.Quantity > res.BoxQtyBx2 && _scanData.Quantity <= res.BoxQtyBx1A)
                                     {
                                         _scanData.BoxWeight = res.BoxWeightBx1A;
+                                        _boxType = BoxTypeEnum.BX1A;
 
                                         if (labBoxType.InvokeRequired)
                                         {
@@ -758,6 +750,7 @@ namespace WeightChecking
                                     else if (_scanData.Quantity > res.BoxQtyBx1A && _scanData.Quantity <= res.BoxQtyBx1)
                                     {
                                         _scanData.BoxWeight = res.BoxWeightBx1;
+                                        _boxType = BoxTypeEnum.BX1;
 
                                         if (labBoxType.InvokeRequired)
                                         {
@@ -838,6 +831,7 @@ namespace WeightChecking
                                         if (_scanData.Quantity <= res.BoxQtyBx6)
                                         {
                                             _scanData.BoxWeight = res.BoxWeightBx6;
+                                            _boxType = BoxTypeEnum.BX6;
 
                                             if (labBoxType.InvokeRequired)
                                             {
@@ -854,6 +848,7 @@ namespace WeightChecking
                                         else if (_scanData.Quantity > res.BoxQtyBx6 && _scanData.Quantity <= res.BoxQtyBx5)
                                         {
                                             _scanData.BoxWeight = res.BoxWeightBx5;
+                                            _boxType = BoxTypeEnum.BX5;
 
                                             if (labBoxType.InvokeRequired)
                                             {
@@ -870,6 +865,7 @@ namespace WeightChecking
                                         else if (_scanData.Quantity > res.BoxQtyBx5 && _scanData.Quantity <= res.BoxQtyBx4)
                                         {
                                             _scanData.BoxWeight = res.BoxWeightBx4;
+                                            _boxType = BoxTypeEnum.BX4;
 
                                             if (labBoxType.InvokeRequired)
                                             {
@@ -886,6 +882,7 @@ namespace WeightChecking
                                         else if (_scanData.Quantity > res.BoxQtyBx4 && _scanData.Quantity <= res.BoxQtyBx3)
                                         {
                                             _scanData.BoxWeight = res.BoxWeightBx3;
+                                            _boxType = BoxTypeEnum.BX3;
 
                                             if (labBoxType.InvokeRequired)
                                             {
@@ -902,6 +899,7 @@ namespace WeightChecking
                                         else if (_scanData.Quantity > res.BoxQtyBx3 && _scanData.Quantity <= res.BoxQtyBx2)
                                         {
                                             _scanData.BoxWeight = res.BoxWeightBx2;
+                                            _boxType = BoxTypeEnum.BX2;
 
                                             if (labBoxType.InvokeRequired)
                                             {
@@ -915,25 +913,10 @@ namespace WeightChecking
                                                 labBoxType.Text = "BX2";
                                             }
                                         }
-                                        else if (_scanData.Quantity > res.BoxQtyBx2 && _scanData.Quantity <= res.BoxQtyBx1)
-                                        {
-                                            _scanData.BoxWeight = res.BoxWeightBx1;
-
-                                            if (labBoxType.InvokeRequired)
-                                            {
-                                                labBoxType.Invoke(new Action(() =>
-                                                {
-                                                    labBoxType.Text = "BX1";
-                                                }));
-                                            }
-                                            else
-                                            {
-                                                labBoxType.Text = "BX1";
-                                            }
-                                        }
                                         else if (_scanData.Quantity > res.BoxQtyBx2 && _scanData.Quantity <= res.BoxQtyBx1A)
                                         {
                                             _scanData.BoxWeight = res.BoxWeightBx1A;
+                                            _boxType = BoxTypeEnum.BX1A;
 
                                             if (labBoxType.InvokeRequired)
                                             {
@@ -950,6 +933,7 @@ namespace WeightChecking
                                         else if (_scanData.Quantity > res.BoxQtyBx1A && _scanData.Quantity <= res.BoxQtyBx1)
                                         {
                                             _scanData.BoxWeight = res.BoxWeightBx1;
+                                            _boxType = BoxTypeEnum.BX1;
 
                                             if (labBoxType.InvokeRequired)
                                             {
@@ -1049,21 +1033,34 @@ namespace WeightChecking
                                 double partitionWeight = 0;
 
                                 #region Tính số tấm lót partition
-                                var p = res.PartitionQty != 0 ? ((double)_scanData.Quantity / (double)res.PartitionQty) : 0;
+                                double p = 0;
 
                                 //với hàng FG outsole thì tính ra được số lượng partition thì trừ đi 1 để ra số đúng
                                 if (res.ProductCategory != 1)//OS - 1:HC
                                 {
+                                    p = res.PartitionQty != 0 ? ((double)_scanData.Quantity / (double)res.PartitionQty) : 0;
                                     p = p - 1;
-                                }
+                                    if (p < 0) p = 0;
 
-                                if (_scanData.Quantity <= res.BoxQtyBx3 || p < 1)
-                                {
-                                    partitionWeight = 0;
-                                }
-                                else if (p >= 1)
-                                {
                                     partitionWeight = Math.Floor(p) * res.PartitionWeight;
+                                }
+                                //với hàng HC thì lấy số lượng partition = DB.
+                                else if (res.ProductCategory == 1)
+                                {
+                                    switch (_boxType)
+                                    {
+                                        case BoxTypeEnum.BX3:
+                                            p = res.PartitionQtyOfBX3;
+                                            break;
+                                        case BoxTypeEnum.BX2:
+                                            p = res.PartitionQtyOfBX2;
+                                            break;
+                                        case BoxTypeEnum.BX1A:
+                                            p = res.PartitionQtyOfBX1A;
+                                            break;
+                                    }
+
+                                    partitionWeight = p * res.PartitionWeight;
                                 }
                                 #endregion
 

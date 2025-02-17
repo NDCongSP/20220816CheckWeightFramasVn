@@ -39,6 +39,9 @@ namespace WeightChecking
         public double BoxWeightBx5 { get; set; }
         public double BoxWeightBx6 { get; set; }
         public double PartitionQty { get; set; }
+        public double PartitionQtyOfBX1A { get; set; }
+        public double PartitionQtyOfBX2 { get; set; }
+        public double PartitionQtyOfBX3 { get; set; }
         public double PlasticBag1Qty { get; set; }
         public double PlasticBag2Qty { get; set; }
         public double WrapSheetQty { get; set; }

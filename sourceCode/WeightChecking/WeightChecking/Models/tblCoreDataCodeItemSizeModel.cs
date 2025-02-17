@@ -36,14 +36,30 @@ namespace WeightChecking
         public double BoxWeightBx6 { get; set; }
         public double PlasticBoxWeight { get; set; } = 1210;
 
+        /// <summary>
+        /// Non-HC. QtyOfBox/PartitionQty = qty of partition.
+        /// </summary>
         public double PartitionQty { get; set; }
+
+        /// <summary>
+        /// HC partition qty.
+        /// </summary>
+        public double PartitionQtyOfBX1A { get; set; }
+        /// <summary>
+        /// HC partition qty.
+        /// </summary>
+        public double PartitionQtyOfBX2 { get; set; }
+        /// <summary>
+        /// HC partition qty.
+        /// </summary>
+        public double PartitionQtyOfBX3 { get; set; }
         [DisplayName("PlasticBag1Qty")]
         public double PlasticBag1Qty { get; set; }
         [DisplayName("PlasticBag2Qty")]
         public double PlasticBag2Qty { get; set; }
         public double WrapSheetQty { get; set; }
         public double  FoamSheetQty { get; set; }
-        public double PartitionWeight { get; set; } = 60;
+        public double PartitionWeight { get; set; } = 0;
         [DisplayName("PlasticBag1Weight")]
         public double PlasticBag1Weight { get; set; }
         [DisplayName("PlasticBag2Weight")]
