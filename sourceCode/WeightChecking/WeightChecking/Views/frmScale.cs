@@ -296,6 +296,8 @@ namespace WeightChecking
             {
                 this.Invoke((MethodInvoker)delegate { labScaleValue.Text = (double.TryParse(_txtTest.Text, out double value) ? value : 0).ToString(); });
             };
+
+            //txtQrCode.Text = "HCF7161,6112042314-A501-3001,30,9,P,21/24,160105,1/1|1,228446.2025,0,,3,BX1";
         }
 
         private void TxtQrCode_KeyDown(object sender, KeyEventArgs e)
@@ -339,12 +341,14 @@ namespace WeightChecking
                     GlobalVariables.SystemOC.ForEach(o =>
                     {
                         //OC HC P241226018
-                        if (ocFirstChar.Contains(o.FirstChar) && Regex.IsMatch(ocFirstChar, @"\d"))
+                        if ((ocFirstChar.Contains(o.FirstChar) && Regex.IsMatch(ocFirstChar, @"\d")) || ocFirstChar == "HC")
                         {
                             ocFirstChar = _scanData.BarcodeString.Substring(0, 1);
                         }
                     });
 
+                    //Check xem  QR code quét vào có đúng định dạng hay ko
+                    var resultCheckOc = GlobalVariables.OcUsingList.FirstOrDefault(x => x.OcFirstChar == ocFirstChar);
 
                     if (_scanData.BarcodeString.Contains("|"))
                     {
@@ -352,8 +356,8 @@ namespace WeightChecking
                         var s1 = s[0].Split(',');
                         _plr = s1[4];//get Thung này đóng theo đôi (P) hay L/R
 
-                        //Check xem  QR code quét vào có đúng định dạng hay ko
-                        var resultCheckOc = GlobalVariables.OcUsingList.FirstOrDefault(x => x.OcFirstChar == ocFirstChar);
+                        ////Check xem  QR code quét vào có đúng định dạng hay ko
+                        //var resultCheckOc = GlobalVariables.OcUsingList.FirstOrDefault(x => x.OcFirstChar == ocFirstChar);
 
                         if (resultCheckOc != null)
                         {
@@ -449,7 +453,8 @@ namespace WeightChecking
                         _plr = s1[4];//get Thung này đóng theo đôi (P) hay L/R
 
                         //Check xem  QR code quét vào có đúng định dạng hay ko
-                        var resultCheckOc = GlobalVariables.OcUsingList.FirstOrDefault(x => x.OcFirstChar == ocFirstChar);
+                        //var resultCheckOc = GlobalVariables.OcUsingList.FirstOrDefault(x => x.OcFirstChar == ocFirstChar);
+
                         if (resultCheckOc != null)
                         {
                             _scanData.OcNo = s1[0];
