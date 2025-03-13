@@ -1,4 +1,5 @@
 ﻿using Dapper;
+using DevExpress.Data.Async;
 using DevExpress.XtraEditors;
 using DevExpress.XtraPrinting;
 using DevExpress.XtraReports.UI;
@@ -297,7 +298,7 @@ namespace WeightChecking
                 this.Invoke((MethodInvoker)delegate { labScaleValue.Text = (double.TryParse(_txtTest.Text, out double value) ? value : 0).ToString(); });
             };
 
-            //txtQrCode.Text = "HCF7161,6112042314-A501-3001,30,9,P,21/24,160105,1/1|1,228446.2025,0,,3,BX1";
+            //txtQrCode.Text = "OCF15641,6112012001-5595-3251,24,13,P,50/81,161905,3/11|1,346099.2025,0,,3,BX1";
         }
 
         private void TxtQrCode_KeyDown(object sender, KeyEventArgs e)
@@ -354,7 +355,7 @@ namespace WeightChecking
                     {
                         var s = _sen.Text.Split('|');
                         var s1 = s[0].Split(',');
-                        _plr = s1[4];//get Thung này đóng theo đôi (P) hay L/R
+                       _scanData.Unit = _plr = s1[4];//get Thung này đóng theo đôi (P) hay L/R
 
                         ////Check xem  QR code quét vào có đúng định dạng hay ko
                         //var resultCheckOc = GlobalVariables.OcUsingList.FirstOrDefault(x => x.OcFirstChar == ocFirstChar);
@@ -450,7 +451,7 @@ namespace WeightChecking
                     else
                     {
                         var s1 = _scanData.BarcodeString.Split(',');
-                        _plr = s1[4];//get Thung này đóng theo đôi (P) hay L/R
+                        _scanData.Unit = _plr = s1[4];//get Thung này đóng theo đôi (P) hay L/R
 
                         //Check xem  QR code quét vào có đúng định dạng hay ko
                         //var resultCheckOc = GlobalVariables.OcUsingList.FirstOrDefault(x => x.OcFirstChar == ocFirstChar);
@@ -538,53 +539,84 @@ namespace WeightChecking
                         //para.Add("QRLabel", _scanData.BarcodeString);
                         //var checkInfo = connection.Query<tblScanDataCheckModel>("sp_tblScanDataCheck", para, commandType: CommandType.StoredProcedure).ToList();
 
-                        para.Add("_QrCode", _scanData.BarcodeString);
-                        var checkInfo = connection.Query<tblScanDataModel>("sp_tblScanDataGetByQrCodeForCheckLog", para, commandType: CommandType.StoredProcedure).ToList();
+                        //para.Add("_QrCode", _scanData.BarcodeString);
+                        //var checkInfo = connection.Query<tblScanDataModel>("sp_tblScanDataGetByQrCodeForCheckLog", para, commandType: CommandType.StoredProcedure).ToList();
+                        para.Add("qrCode", _scanData.BarcodeString);
+                        var checkExists = connection.Query<tblScanDataModel>("sp_tblScanDataGetByQrCodeForCheckLog1", para, commandType: CommandType.StoredProcedure).ToList();
+
+                        foreach (var item in checkExists)
+                        {
+                            #region Deactivate the label if the box has been reprinted label
+                            if (item.BarcodeString != _scanData.BarcodeString)
+                            {
+                                item.Actived = 0;
+                                para = new DynamicParameters();
+                                para.Add("@qrCode", item.BarcodeString);
+                                connection.Execute("sp_tblScanDataDeactivate", param: para, commandType: CommandType.StoredProcedure);
+                            }
+                            #endregion
+                        }
+
+                        var checkInfo = checkExists?.Where(x=>x.Actived == 1).ToList();
+
                         foreach (var item in checkInfo)
                         {
-                            if (
-                                (item.Pass == 1 && (item.Status == 2 || GlobalVariables.Station == StationEnum.IDC_1))
-                                //|| (item.Pass == 0 && item.ActualDeviationPairs == 0 && item.ApprovedBy != Guid.Empty)
-                                || (item.Pass == 0 && item.Status == 2 && item.ActualDeviationPairs == 0)
-                                )
+                            #region Deactivate the label if the box has been reprinted label
+                            if (item.BarcodeString != _scanData.BarcodeString)
                             {
-                                //if (!_scanData.OcNo.Contains("PR"))
-                                //{
-                                //    isPass = true;
-                                //}
-                                //else if (_scanData.OcNo.Contains("PR") && GlobalVariables.AfterPrinting == 0 && item.Status == 1)
-                                //{
-                                //    isPass = true;
-                                //}
-                                //else if (_scanData.OcNo.Contains("PR") && GlobalVariables.AfterPrinting == 1 && item.Status == 2)
-                                //{
-                                //    isPass = true;
-                                //}
-
-                                isPass = true;
+                                item.Actived = 0;
+                                para = new DynamicParameters();
+                                para.Add("@qrCode", item.BarcodeString);
+                                connection.Execute("sp_tblScanDataDeactivate", param: para, commandType: CommandType.StoredProcedure);
                             }
-                            else if (
-                                        (item.Pass == 0 && item.Status == 0)// && item.ActualDeviationPairs != 0 && item.ApprovedBy != Guid.Empty)
-                                        || (item.Pass == 0 && item.Status == 2 && item.ActualDeviationPairs != 0)
-                                    )
-                            {
-                                isFail = true;
-                                //tính tỷ lệ khối lượng số đôi lỗi/ StdGrossWeight
-                                ratioFailWeight = Math.Round((Math.Abs(item.DeviationPairs) * item.AveWeight1Prs) / item.StdGrossWeight, 3);
+                            #endregion
 
-                                //this.Invoke((MethodInvoker)delegate { labRatioFail.Text = ratioFailWeight.ToString(); });
-                                //if (!_scanData.OcNo.Contains("PR"))
-                                //{
-                                //    isFail = true;
-                                //}
-                                //else if (_scanData.OcNo.Contains("PR") && GlobalVariables.AfterPrinting == 0 && item.Station == 0)
-                                //{
-                                //    isFail = true;
-                                //}
-                                //else if (_scanData.OcNo.Contains("PR") && GlobalVariables.AfterPrinting == 1 && item.Station != 0)
-                                //{
-                                //    isFail = true;
-                                //}
+                            if (item.Actived == 1)
+                            {
+                                if (
+                                    (item.Pass == 1 && (item.Status == 2 || GlobalVariables.Station == StationEnum.IDC_1))
+                                    //|| (item.Pass == 0 && item.ActualDeviationPairs == 0 && item.ApprovedBy != Guid.Empty)
+                                    || (item.Pass == 0 && item.Status == 2 && item.ActualDeviationPairs == 0)
+                                    )
+                                {
+                                    //if (!_scanData.OcNo.Contains("PR"))
+                                    //{
+                                    //    isPass = true;
+                                    //}
+                                    //else if (_scanData.OcNo.Contains("PR") && GlobalVariables.AfterPrinting == 0 && item.Status == 1)
+                                    //{
+                                    //    isPass = true;
+                                    //}
+                                    //else if (_scanData.OcNo.Contains("PR") && GlobalVariables.AfterPrinting == 1 && item.Status == 2)
+                                    //{
+                                    //    isPass = true;
+                                    //}
+
+                                    isPass = true;
+                                }
+                                else if (
+                                            (item.Pass == 0 && item.Status == 0)// && item.ActualDeviationPairs != 0 && item.ApprovedBy != Guid.Empty)
+                                            || (item.Pass == 0 && item.Status == 2 && item.ActualDeviationPairs != 0)
+                                        )
+                                {
+                                    isFail = true;
+                                    //tính tỷ lệ khối lượng số đôi lỗi/ StdGrossWeight
+                                    ratioFailWeight = Math.Round((Math.Abs(item.DeviationPairs) * item.AveWeight1Prs) / item.StdGrossWeight, 3);
+
+                                    //this.Invoke((MethodInvoker)delegate { labRatioFail.Text = ratioFailWeight.ToString(); });
+                                    //if (!_scanData.OcNo.Contains("PR"))
+                                    //{
+                                    //    isFail = true;
+                                    //}
+                                    //else if (_scanData.OcNo.Contains("PR") && GlobalVariables.AfterPrinting == 0 && item.Station == 0)
+                                    //{
+                                    //    isFail = true;
+                                    //}
+                                    //else if (_scanData.OcNo.Contains("PR") && GlobalVariables.AfterPrinting == 1 && item.Station != 0)
+                                    //{
+                                    //    isFail = true;
+                                    //}
+                                }
                             }
                         }
 

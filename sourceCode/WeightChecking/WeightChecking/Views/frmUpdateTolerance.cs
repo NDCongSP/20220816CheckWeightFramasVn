@@ -45,14 +45,19 @@ namespace WeightChecking
                     labSize.Text = ItemInfo.SizeName;
                     txtAveWeight.Text = ItemInfo.AveWeight1Prs.ToString();
                     txtBoxQtyBx1.Text = ItemInfo.BoxQtyBx1.ToString();
+                    txtBoxQtyBx1A.Text = ItemInfo.BoxQtyBx1A.ToString();
                     txtBoxQtyBx2.Text = ItemInfo.BoxQtyBx2.ToString();
                     txtBoxQtyBx3.Text = ItemInfo.BoxQtyBx3.ToString();
                     txtBoxQtyBx4.Text = ItemInfo.BoxQtyBx4.ToString();
                     txtBoxWeightBx1.Text = ItemInfo.BoxWeightBx1.ToString();
+                    txtBoxWeightBx1A.Text = ItemInfo.BoxWeightBx1A.ToString();
                     txtBoxWeightBx2.Text = ItemInfo.BoxWeightBx2.ToString();
                     txtBoxWeightBx3.Text = ItemInfo.BoxWeightBx3.ToString();
                     txtBoxWeightBx4.Text = ItemInfo.BoxWeightBx4.ToString();
                     txtPartitionQty.Text = ItemInfo.PartitionQty.ToString();
+                    txtPartitionQtyBx1A.Text = ItemInfo.PartitionQtyOfBX1A.ToString();
+                    txtPartitionQtyBx2.Text = ItemInfo.PartitionQtyOfBX2.ToString();
+                    txtPartitionQtyBx3.Text = ItemInfo.PartitionQtyOfBX3.ToString();
                     txtPartitionWeight.Text = ItemInfo.PartitionWeight.ToString();
                     txtPlasicBag1Qty.Text = ItemInfo.PlasticBag1Qty.ToString();
                     txtPlasicBag1Weight.Text = ItemInfo.PlasticBag1Weight.ToString();
@@ -100,6 +105,14 @@ namespace WeightChecking
                     ItemInfo.BoxQtyBx1 = double.TryParse(t.Text, out double value) ? value : 0;
                 }
             };
+            this.txtBoxQtyBx1A.TextChanged += (s, o) =>
+            {
+                TextEdit t = (TextEdit)s;
+                if (!string.IsNullOrEmpty(t.Text))
+                {
+                    ItemInfo.BoxQtyBx1A = double.TryParse(t.Text, out double value) ? value : 0;
+                }
+            };
             this.txtBoxQtyBx2.TextChanged += (s, o) =>
             {
                 TextEdit t = (TextEdit)s;
@@ -133,6 +146,14 @@ namespace WeightChecking
                     ItemInfo.BoxWeightBx1 = double.TryParse(t.Text, out double value) ? value : 0;
                 }
             };
+            this.txtBoxWeightBx1A.TextChanged += (s, o) =>
+            {
+                TextEdit t = (TextEdit)s;
+                if (!string.IsNullOrEmpty(t.Text))
+                {
+                    ItemInfo.BoxWeightBx1A = double.TryParse(t.Text, out double value) ? value : 0;
+                }
+            };
             this.txtBoxWeightBx2.TextChanged += (s, o) =>
             {
                 TextEdit t = (TextEdit)s;
@@ -164,6 +185,30 @@ namespace WeightChecking
                 if (!string.IsNullOrEmpty(t.Text))
                 {
                     ItemInfo.PartitionQty = double.TryParse(t.Text, out double value) ? value : 0;
+                }
+            };
+            this.txtPartitionQtyBx1A.TextChanged += (s, o) =>
+            {
+                TextEdit t = (TextEdit)s;
+                if (!string.IsNullOrEmpty(t.Text))
+                {
+                    ItemInfo.PartitionQtyOfBX1A = double.TryParse(t.Text, out double value) ? value : 0;
+                }
+            };
+            this.txtPartitionQtyBx2.TextChanged += (s, o) =>
+            {
+                TextEdit t = (TextEdit)s;
+                if (!string.IsNullOrEmpty(t.Text))
+                {
+                    ItemInfo.PartitionQtyOfBX2 = double.TryParse(t.Text, out double value) ? value : 0;
+                }
+            };
+            this.txtPartitionQtyBx3.TextChanged += (s, o) =>
+            {
+                TextEdit t = (TextEdit)s;
+                if (!string.IsNullOrEmpty(t.Text))
+                {
+                    ItemInfo.PartitionQtyOfBX3 = double.TryParse(t.Text, out double value) ? value : 0;
                 }
             };
             this.txtPlasicBag1Qty.TextChanged += (s, o) =>
@@ -307,14 +352,19 @@ namespace WeightChecking
                         //para.Add("@Date", _info.date);
                         para.Add("@AveWeight1Prs", ItemInfo.AveWeight1Prs);
                         para.Add("@BoxQtyBx1", ItemInfo.BoxQtyBx1);
+                        para.Add("@BoxQtyBx1A", ItemInfo.BoxQtyBx1A);
                         para.Add("@BoxQtyBx2", ItemInfo.BoxQtyBx2);
                         para.Add("@BoxQtyBx3", ItemInfo.BoxQtyBx3);
                         para.Add("@BoxQtyBx4", ItemInfo.BoxQtyBx4);
                         para.Add("@BoxWeightBx1", ItemInfo.BoxWeightBx1);
+                        para.Add("@BoxWeightBx1A", ItemInfo.BoxWeightBx1A);
                         para.Add("@BoxWeightBx2", ItemInfo.BoxWeightBx2);
                         para.Add("@BoxWeightBx3", ItemInfo.BoxWeightBx3);
                         para.Add("@BoxWeightBx4", ItemInfo.BoxWeightBx4);
                         para.Add("@PartitionQty", ItemInfo.PartitionQty);
+                        para.Add("@PartitionQtyBX1A", ItemInfo.PartitionQtyOfBX1A);
+                        para.Add("@PartitionQtyBX2", ItemInfo.PartitionQtyOfBX2);
+                        para.Add("@PartitionQtyBX3", ItemInfo.PartitionQtyOfBX3);
                         para.Add("@PlasticBag1Qty", ItemInfo.PlasticBag1Qty);
                         para.Add("@PlasticBag2Qty", ItemInfo.PlasticBag2Qty);
                         para.Add("@WrapSheetQty", ItemInfo.WrapSheetQty);

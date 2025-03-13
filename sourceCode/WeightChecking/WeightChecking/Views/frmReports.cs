@@ -32,6 +32,31 @@ namespace WeightChecking
         public frmReports()
         {
             InitializeComponent();
+
+            grvReports.OptionsView.ShowAutoFilterRow = true;
+            grvReports.OptionsCustomization.AllowFilter = true;
+            grvReports.OptionsView.ShowFilterPanelMode = DevExpress.XtraGrid.Views.Base.ShowFilterPanelMode.ShowAlways;
+            grvReports.OptionsView.ColumnAutoWidth = false;
+            grvReports.OptionsCustomization.AllowSort = true;
+            grvReports.OptionsBehavior.ReadOnly = true;
+            grvReports.BestFitColumns();
+
+            grvMissInfo.OptionsView.ShowAutoFilterRow = true;
+            grvMissInfo.OptionsCustomization.AllowFilter = true;
+            grvMissInfo.OptionsView.ShowFilterPanelMode = DevExpress.XtraGrid.Views.Base.ShowFilterPanelMode.ShowAlways;
+            grvMissInfo.OptionsView.ColumnAutoWidth = false;
+            grvMissInfo.OptionsCustomization.AllowSort = true;
+            grvMissInfo.OptionsBehavior.ReadOnly = true;
+            grvMissInfo.BestFitColumns();
+
+            grvApprove.OptionsView.ShowAutoFilterRow = true;
+            grvApprove.OptionsCustomization.AllowFilter = true;
+            grvApprove.OptionsView.ShowFilterPanelMode = DevExpress.XtraGrid.Views.Base.ShowFilterPanelMode.ShowAlways;
+            grvApprove.OptionsView.ColumnAutoWidth = false;
+            grvApprove.OptionsCustomization.AllowSort = true;
+            grvApprove.OptionsBehavior.ReadOnly = true;
+            grvApprove.BestFitColumns();
+
             Load += FrmReports_Load;
         }
 

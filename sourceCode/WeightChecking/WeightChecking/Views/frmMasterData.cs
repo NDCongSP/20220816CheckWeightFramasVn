@@ -26,6 +26,22 @@ namespace WeightChecking
         {
             InitializeComponent();
 
+            grv.OptionsView.ShowAutoFilterRow = true;
+            grv.OptionsCustomization.AllowFilter = true;
+            grv.OptionsView.ShowFilterPanelMode = DevExpress.XtraGrid.Views.Base.ShowFilterPanelMode.ShowAlways;
+            grv.OptionsView.ColumnAutoWidth = false;
+            grv.OptionsCustomization.AllowSort = true;
+            grv.OptionsBehavior.ReadOnly = true;
+            grv.BestFitColumns();
+
+            grvSpecialCase.OptionsView.ShowAutoFilterRow = true;
+            grvSpecialCase.OptionsCustomization.AllowFilter = true;
+            grvSpecialCase.OptionsView.ShowFilterPanelMode = DevExpress.XtraGrid.Views.Base.ShowFilterPanelMode.ShowAlways;
+            grvSpecialCase.OptionsView.ColumnAutoWidth = false;
+            grvSpecialCase.OptionsCustomization.AllowSort = true;
+            grvSpecialCase.OptionsBehavior.ReadOnly = true;
+            grvSpecialCase.BestFitColumns();
+
             Load += FrmMasterData_Load;
             grv.SelectionChanged += Grv_SelectionChanged;
         }
@@ -158,7 +174,8 @@ namespace WeightChecking
                     {
                         Console.WriteLine($"Get data from winline ok.");
 
-                        this.Invoke((MethodInvoker)delegate {
+                        this.Invoke((MethodInvoker)delegate
+                        {
                             grc.DataSource = null;
                             grc.DataSource = winlineInfo;
                             grc.Refresh();
@@ -179,7 +196,8 @@ namespace WeightChecking
                     }
                     else
                     {
-                        this.Invoke((MethodInvoker)delegate {
+                        this.Invoke((MethodInvoker)delegate
+                        {
                             grc.DataSource = null;
                             grc.Refresh();
                         });
