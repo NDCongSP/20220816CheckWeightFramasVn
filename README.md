@@ -5,6 +5,8 @@ Converter scale: 192.168.80.1
 converter PLC: 192.168.80.2
 PC: 192.168.80.10
 
+Tram dự phòng chỗ cân HC: PC: 80.200     converter scale: 80.5
+
 CÁCH NHẬN BIẾT THÙNG HÀNG PASS/FAIL
 - Trong bảng tblScanData chú ý các cột: Pass,Satus,Deviation,ActualDeviation,ApprovedBy
 - Pass = 1 --> PASS, không phải lăn tăn gì
