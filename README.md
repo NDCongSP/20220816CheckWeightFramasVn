@@ -1,6 +1,9 @@
 # 20220816CheckWeightFramasVn
 Phần mềm kiểm tra khối lượng thùng hàng có đạt yêu cầu so với các thông số cấu hình hay không.
 
+Converter scale: 192.168.80.1
+converter PLC: 192.168.80.2
+PC: 192.168.80.10
 
 CÁCH NHẬN BIẾT THÙNG HÀNG PASS/FAIL
 - Trong bảng tblScanData chú ý các cột: Pass,Satus,Deviation,ActualDeviation,ApprovedBy
