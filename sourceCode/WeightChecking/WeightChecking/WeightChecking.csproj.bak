@@ -38,6 +38,7 @@
     <ApplicationIcon>framas_mini__black__oEw_icon.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Accessibility" />
     <Reference Include="AutoUpdater.NET, Version=1.7.6.0, Culture=neutral, PublicKeyToken=501435c91b35f4bc, processorArchitecture=MSIL">
       <HintPath>..\packages\Autoupdater.NET.Official.1.7.6\lib\net45\AutoUpdater.NET.dll</HintPath>
     </Reference>
@@ -50,35 +51,31 @@
     <Reference Include="Dapper.Transaction, Version=2.0.35.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\Dapper.Transaction.2.0.35.2\lib\net461\Dapper.Transaction.dll</HintPath>
     </Reference>
-    <Reference Include="DevExpress.Charts.v22.1.Core, Version=22.1.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
-    <Reference Include="DevExpress.Data.Desktop.v22.1, Version=22.1.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
+    <Reference Include="DevExpress.Charts.v22.2.Core, Version=22.2.3.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
     <Reference Include="DevExpress.Data.Desktop.v22.2, Version=22.2.3.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
-    <Reference Include="DevExpress.Data.v22.1, Version=22.1.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
     <Reference Include="DevExpress.Data.v22.2, Version=22.2.3.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
-    <Reference Include="DevExpress.Docs.v22.1, Version=22.1.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
-    <Reference Include="DevExpress.Drawing.v22.1, Version=22.1.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
+    <Reference Include="DevExpress.Docs.v22.2, Version=22.2.3.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
     <Reference Include="DevExpress.Drawing.v22.2, Version=22.2.3.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
-    <Reference Include="DevExpress.Office.v22.1.Core, Version=22.1.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
-    <Reference Include="DevExpress.Pdf.v22.1.Core, Version=22.1.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
-    <Reference Include="DevExpress.PivotGrid.v22.1.Core, Version=22.1.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
-    <Reference Include="DevExpress.Printing.v22.1.Core, Version=22.1.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
+    <Reference Include="DevExpress.Office.v22.2.Core, Version=22.2.3.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.Pdf.v22.2.Core, Version=22.2.3.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.PivotGrid.v22.2.Core, Version=22.2.3.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
     <Reference Include="DevExpress.Printing.v22.2.Core, Version=22.2.3.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
-    <Reference Include="DevExpress.RichEdit.v22.1.Core, Version=22.1.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
-    <Reference Include="DevExpress.RichEdit.v22.1.Export, Version=22.1.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
-    <Reference Include="DevExpress.Sparkline.v22.1.Core, Version=22.1.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
-    <Reference Include="DevExpress.Spreadsheet.v22.1.Core, Version=22.1.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
-    <Reference Include="DevExpress.Utils.v22.1, Version=22.1.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
-    <Reference Include="DevExpress.Utils.v22.1.UI, Version=22.1.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
+    <Reference Include="DevExpress.Printing.v24.1.Core, Version=24.1.4.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.RichEdit.v22.2.Core, Version=22.2.3.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.RichEdit.v22.2.Export, Version=22.2.3.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.Sparkline.v22.2.Core, Version=22.2.3.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.Spreadsheet.v22.2.Core, Version=22.2.3.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.Utils.v22.2.UI, Version=22.2.3.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
     <Reference Include="DevExpress.Utils.v22.2, Version=22.2.3.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
-    <Reference Include="DevExpress.XtraBars.v22.1, Version=22.1.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
-    <Reference Include="DevExpress.XtraCharts.v22.1, Version=22.1.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
-    <Reference Include="DevExpress.XtraEditors.v22.1, Version=22.1.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
-    <Reference Include="DevExpress.XtraGauges.v22.1.Core, Version=22.1.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
-    <Reference Include="DevExpress.XtraGrid.v22.1, Version=22.1.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
-    <Reference Include="DevExpress.XtraLayout.v22.1, Version=22.1.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
-    <Reference Include="DevExpress.XtraPrinting.v22.1, Version=22.1.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
-    <Reference Include="DevExpress.XtraReports.v22.1, Version=22.1.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
-    <Reference Include="DevExpress.XtraReports.v22.1.Extensions, Version=22.1.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.XtraBars.v22.2, Version=22.2.3.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.XtraCharts.v22.2, Version=22.2.3.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.XtraEditors.v22.2, Version=22.2.3.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
+    <Reference Include="DevExpress.XtraGauges.v22.2.Core, Version=22.2.3.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.XtraGrid.v22.2, Version=22.2.3.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.XtraLayout.v22.2, Version=22.2.3.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.XtraPrinting.v22.2, Version=22.2.3.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.XtraReports.v22.2, Version=22.2.3.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.XtraReports.v22.2.Extensions, Version=22.2.3.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
     <Reference Include="Microsoft.Azure.Services.AppAuthentication, Version=1.4.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.Azure.Services.AppAuthentication.1.4.0\lib\net472\Microsoft.Azure.Services.AppAuthentication.dll</HintPath>
     </Reference>
@@ -169,6 +166,7 @@
       <Private>True</Private>
       <Private>True</Private>
     </Reference>
+    <Reference Include="System.Data.Linq" />
     <Reference Include="System.Data.OracleClient" />
     <Reference Include="System.IdentityModel" />
     <Reference Include="System.IdentityModel.Tokens.Jwt, Version=5.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
@@ -202,6 +200,8 @@
     </Reference>
     <Reference Include="System.Runtime.Remoting" />
     <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Runtime.Serialization.Formatters.Soap" />
+    <Reference Include="System.Security" />
     <Reference Include="System.Security.AccessControl, Version=4.1.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <HintPath>..\packages\System.Security.AccessControl.4.5.0\lib\net461\System.Security.AccessControl.dll</HintPath>
     </Reference>
@@ -246,13 +246,57 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Enums\BoxTypeEnum.cs" />
     <Compile Include="Enums\LocationEnum.cs" />
     <Compile Include="Enums\RolesEnum.cs" />
     <Compile Include="Enums\StationEnum.cs" />
+    <Compile Include="frmScaleNewUI.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmScaleNewUI.Designer.cs">
+      <DependentUpon>frmScaleNewUI.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Models\tblSystemOC.cs" />
+    <Compile Include="StaticClass\Warehouse.cs" />
     <Compile Include="Events\RefreshEvent.cs" />
+    <Compile Include="frmDeleteBox.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmDeleteBox.Designer.cs">
+      <DependentUpon>frmDeleteBox.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Models\ResultPostingModel.cs" />
+    <Compile Include="StaticClass\AutoPostingHelper.cs" />
+    <Compile Include="Views\frmSelectReason.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Views\frmSelectReason.Designer.cs">
+      <DependentUpon>frmSelectReason.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Models\BoxParentModel.cs" />
+    <Compile Include="Models\OcUsingModel.cs" />
+    <Compile Include="Views\frmDeviationForFalseAlarm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Views\frmDeviationForFalseAlarm.Designer.cs">
+      <DependentUpon>frmDeviationForFalseAlarm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Views\frmScanQRConfirm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Views\frmScanQRConfirm.Designer.cs">
+      <DependentUpon>frmScanQRConfirm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Views\frmTypingDeviation.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Views\frmTypingDeviation.Designer.cs">
+      <DependentUpon>frmTypingDeviation.cs</DependentUpon>
+    </Compile>
     <Compile Include="Models\MissProItemModel.cs" />
     <Compile Include="Models\ApprovedModel.cs" />
     <Compile Include="Models\ApprovedReportModel.cs" />
+    <Compile Include="Models\MissProItemReportModel.cs" />
     <Compile Include="Models\ScanDataReport1Model.cs" />
     <Compile Include="Models\ScanDataReportModel.cs" />
     <Compile Include="Models\tblScanDataCheckModel.cs" />
@@ -262,6 +306,12 @@
     </Compile>
     <Compile Include="rptLabelFail.Designer.cs">
       <DependentUpon>rptLabelFail.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Views\frmAddSpecialCase.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Views\frmAddSpecialCase.Designer.cs">
+      <DependentUpon>frmAddSpecialCase.cs</DependentUpon>
     </Compile>
     <Compile Include="Views\frmConfirmPrint.cs">
       <SubType>Form</SubType>
@@ -277,16 +327,22 @@
     </Compile>
     <Compile Include="Models\ProductInfoModel.cs" />
     <Compile Include="Models\tblCoreDataCodeItemSizeModel.cs" />
-    <Compile Include="Views\frmUpdateTolerance.cs" />
+    <Compile Include="Views\frmUpdateTolerance.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Views\frmUpdateTolerance.Designer.cs">
       <DependentUpon>frmUpdateTolerance.cs</DependentUpon>
     </Compile>
-    <Compile Include="Views\frmShowDetail.cs" />
+    <Compile Include="Views\frmShowDetail.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Views\frmShowDetail.Designer.cs">
       <DependentUpon>frmShowDetail.cs</DependentUpon>
     </Compile>
     <Compile Include="Models\WinlineDataModel.cs" />
-    <Compile Include="Views\frmMasterData.cs" />
+    <Compile Include="Views\frmMasterData.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Views\frmMasterData.Designer.cs">
       <DependentUpon>frmMasterData.cs</DependentUpon>
     </Compile>
@@ -296,15 +352,21 @@
     <Compile Include="Models\tblWinlineProductsInfoModel.cs" />
     <Compile Include="StaticClass\EncodeMD5.cs" />
     <Compile Include="StaticClass\ScaleHelper.cs" />
-    <Compile Include="Views\frmScale.cs" />
+    <Compile Include="Views\frmScale.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Views\frmScale.Designer.cs">
       <DependentUpon>frmScale.cs</DependentUpon>
     </Compile>
-    <Compile Include="Views\frmSettings.cs" />
+    <Compile Include="Views\frmSettings.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Views\frmSettings.Designer.cs">
       <DependentUpon>frmSettings.cs</DependentUpon>
     </Compile>
-    <Compile Include="Login.cs" />
+    <Compile Include="Login.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Login.Designer.cs">
       <DependentUpon>Login.cs</DependentUpon>
     </Compile>
@@ -329,11 +391,20 @@
     <Compile Include="rptLabel.Designer.cs">
       <DependentUpon>rptLabel.cs</DependentUpon>
     </Compile>
+    <EmbeddedResource Include="frmDeleteBox.resx">
+      <DependentUpon>frmDeleteBox.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="rptLabelFail.resx">
       <DependentUpon>rptLabelFail.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Views\frmAddSpecialCase.resx">
+      <DependentUpon>frmAddSpecialCase.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Views\frmConfirmPrint.resx">
       <DependentUpon>frmConfirmPrint.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\frmDeviationForFalseAlarm.resx">
+      <DependentUpon>frmDeviationForFalseAlarm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Views\frmMasterData.resx">
       <DependentUpon>frmMasterData.cs</DependentUpon>
@@ -361,11 +432,20 @@
       <DependentUpon>Resources.resx</DependentUpon>
       <DesignTime>True</DesignTime>
     </Compile>
+    <EmbeddedResource Include="Views\frmScanQRConfirm.resx">
+      <DependentUpon>frmScanQRConfirm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\frmSelectReason.resx">
+      <DependentUpon>frmSelectReason.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Views\frmSettings.resx">
       <DependentUpon>frmSettings.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Views\frmShowDetail.resx">
       <DependentUpon>frmShowDetail.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\frmTypingDeviation.resx">
+      <DependentUpon>frmTypingDeviation.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Views\frmUpdateTolerance.resx">
       <DependentUpon>frmUpdateTolerance.cs</DependentUpon>
@@ -415,4 +495,48 @@
   <Target Name="AfterBuild">
   </Target>
   -->
+  <PropertyGroup>
+    <Dir>$(OutputPath)\..\Update</Dir>
+    <DeployDir>\\192.168.1.241\FramasPublic\PUBLIC_Able to deleted\22 IT\01-UpdateApp\11-SSFG_IDC\1.Station1BeforePrint\Update.zip</DeployDir>
+    <!--<FVNDeployContent Include="%(LineFVN.Text)" />
+    <FFTDeployContent Include="%(LineFFT.Text)" />-->
+  </PropertyGroup>
+  <Target Name="GetAssmeblyVersion" AfterTargets="Build">
+    <GetAssemblyIdentity AssemblyFiles="$(TargetPath)">
+      <Output TaskParameter="Assemblies" ItemName="Identity" />
+    </GetAssemblyIdentity>
+    <ItemGroup>
+      <Line Include="line01">
+        <Text>&lt;?xml version="1.0" encoding="UTF-8"?&gt;</Text>
+      </Line>
+      <Line Include="line02">
+        <Text>&lt;item&gt;</Text>
+      </Line>
+      <Line Include="line03">
+        <Text>&lt;version&gt;%(Identity.Version)&lt;/version&gt;</Text>
+      </Line>
+      <Line Include="line04">
+        <Text>&lt;url&gt;$(DeployDir)&lt;/url&gt;</Text>
+      </Line>
+      <Line Include="line05">
+        <Text>&lt;changelog&gt;&lt;/changelog&gt;</Text>
+      </Line>
+      <Line Include="line06">
+        <Text>&lt;mandatory&gt;false&lt;/mandatory&gt;</Text>
+      </Line>
+      <Line Include="line07">
+        <Text>&lt;/item&gt;</Text>
+      </Line>
+      <LineText Include="%(Line.Text)" />
+    </ItemGroup>
+    <WriteLinesToFile File="$(OutputPath)\..\update.xml" Lines="@(LineText)" Overwrite="true" Encoding="Unicode" />
+  </Target>
+  <Target Name="CopyDLLs" AfterTargets="Build">
+    <Message Text="Executing CopyDLLs task" Importance="High" />
+    <Copy SourceFiles="$(TargetDir)$(AssemblyName).exe;$(TargetDir)$(AssemblyName).pdb" DestinationFolder="$(OutputPath)\..\Update" />
+    <!--<Copy SourceFiles="$(TargetDir)\Reports\rptFormula.repx" DestinationFolder="$(OutputPath)\..\Update\Reports" />-->
+    <Message Text="Copied build files" Importance="High" />
+    <ZipDirectory SourceDirectory="$(OutputPath)\..\Update" DestinationFile="$(OutputPath)\..\Update.zip" Overwrite="true" />
+    <RemoveDir Directories="$(OutputPath)\..\Update" />
+  </Target>
 </Project>

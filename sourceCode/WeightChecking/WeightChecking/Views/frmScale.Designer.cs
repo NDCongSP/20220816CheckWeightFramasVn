@@ -30,7 +30,6 @@ namespace WeightChecking
         private void InitializeComponent()
         {
             this.layoutControl1 = new DevExpress.XtraLayout.LayoutControl();
-            this._txtTest = new DevExpress.XtraEditors.TextEdit();
             this.labUpperToleranceWeight = new DevExpress.XtraEditors.LabelControl();
             this.labLowerToleranceWeight = new DevExpress.XtraEditors.LabelControl();
             this.labUpperTolerance = new DevExpress.XtraEditors.LabelControl();
@@ -65,10 +64,8 @@ namespace WeightChecking
             this.labOcNo = new DevExpress.XtraEditors.LabelControl();
             this.labProductCode = new DevExpress.XtraEditors.LabelControl();
             this.labProductName = new DevExpress.XtraEditors.LabelControl();
-            this.txtQrCode = new DevExpress.XtraEditors.TextEdit();
             this.Root = new DevExpress.XtraLayout.LayoutControlGroup();
             this.layoutControlGroup1 = new DevExpress.XtraLayout.LayoutControlGroup();
-            this.layoutControlItem1 = new DevExpress.XtraLayout.LayoutControlItem();
             this.layoutControlItem3 = new DevExpress.XtraLayout.LayoutControlItem();
             this.layoutControlItem2 = new DevExpress.XtraLayout.LayoutControlItem();
             this.layoutControlItem4 = new DevExpress.XtraLayout.LayoutControlItem();
@@ -90,7 +87,6 @@ namespace WeightChecking
             this.splitterItem1 = new DevExpress.XtraLayout.SplitterItem();
             this.layoutControlItem35 = new DevExpress.XtraLayout.LayoutControlItem();
             this.splitterItem2 = new DevExpress.XtraLayout.SplitterItem();
-            this.layoutControlItem36 = new DevExpress.XtraLayout.LayoutControlItem();
             this.layoutControlGroup2 = new DevExpress.XtraLayout.LayoutControlGroup();
             this.layoutControlItem9 = new DevExpress.XtraLayout.LayoutControlItem();
             this.layoutControlItem7 = new DevExpress.XtraLayout.LayoutControlItem();
@@ -108,13 +104,14 @@ namespace WeightChecking
             this.layoutControlItem17 = new DevExpress.XtraLayout.LayoutControlItem();
             this.layoutControlItem29 = new DevExpress.XtraLayout.LayoutControlItem();
             this.layoutControlItem18 = new DevExpress.XtraLayout.LayoutControlItem();
+            this._txtTest = new DevExpress.XtraEditors.TextEdit();
+            this.txtQrCode = new DevExpress.XtraEditors.TextEdit();
+            this.layoutControlItem1 = new DevExpress.XtraLayout.LayoutControlItem();
+            this.layoutControlItem36 = new DevExpress.XtraLayout.LayoutControlItem();
             ((System.ComponentModel.ISupportInitialize)(this.layoutControl1)).BeginInit();
             this.layoutControl1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this._txtTest.Properties)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.txtQrCode.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.Root)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.layoutControlGroup1)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem3)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem4)).BeginInit();
@@ -136,7 +133,6 @@ namespace WeightChecking
             ((System.ComponentModel.ISupportInitialize)(this.splitterItem1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem35)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.splitterItem2)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem36)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.layoutControlGroup2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem9)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem7)).BeginInit();
@@ -154,6 +150,10 @@ namespace WeightChecking
             ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem17)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem29)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem18)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this._txtTest.Properties)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.txtQrCode.Properties)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem36)).BeginInit();
             this.SuspendLayout();
             // 
             // layoutControl1
@@ -202,14 +202,6 @@ namespace WeightChecking
             this.layoutControl1.Size = new System.Drawing.Size(1119, 794);
             this.layoutControl1.TabIndex = 0;
             this.layoutControl1.Text = "layoutControl1";
-            // 
-            // _txtTest
-            // 
-            this._txtTest.Location = new System.Drawing.Point(804, 47);
-            this._txtTest.Name = "_txtTest";
-            this._txtTest.Size = new System.Drawing.Size(291, 20);
-            this._txtTest.StyleController = this.layoutControl1;
-            this._txtTest.TabIndex = 44;
             // 
             // labUpperToleranceWeight
             // 
@@ -736,17 +728,6 @@ namespace WeightChecking
             this.labProductName.StyleController = this.layoutControl1;
             this.labProductName.TabIndex = 5;
             // 
-            // txtQrCode
-            // 
-            this.txtQrCode.Location = new System.Drawing.Point(216, 47);
-            this.txtQrCode.Name = "txtQrCode";
-            this.txtQrCode.Properties.Appearance.Font = new System.Drawing.Font("Tahoma", 15F);
-            this.txtQrCode.Properties.Appearance.Options.UseFont = true;
-            this.txtQrCode.Properties.CharacterCasing = System.Windows.Forms.CharacterCasing.Upper;
-            this.txtQrCode.Size = new System.Drawing.Size(584, 30);
-            this.txtQrCode.StyleController = this.layoutControl1;
-            this.txtQrCode.TabIndex = 1;
-            // 
             // Root
             // 
             this.Root.EnableIndentsWithoutBorders = DevExpress.Utils.DefaultBoolean.True;
@@ -800,19 +781,6 @@ namespace WeightChecking
             this.layoutControlGroup1.Size = new System.Drawing.Size(1099, 401);
             this.layoutControlGroup1.Text = "Product info";
             // 
-            // layoutControlItem1
-            // 
-            this.layoutControlItem1.AppearanceItemCaption.Font = new System.Drawing.Font("Tahoma", 15F);
-            this.layoutControlItem1.AppearanceItemCaption.Options.UseFont = true;
-            this.layoutControlItem1.Control = this.txtQrCode;
-            this.layoutControlItem1.Location = new System.Drawing.Point(0, 0);
-            this.layoutControlItem1.MinSize = new System.Drawing.Size(276, 34);
-            this.layoutControlItem1.Name = "layoutControlItem1";
-            this.layoutControlItem1.Size = new System.Drawing.Size(780, 34);
-            this.layoutControlItem1.SizeConstraintsType = DevExpress.XtraLayout.SizeConstraintsType.Custom;
-            this.layoutControlItem1.Text = "QR Code";
-            this.layoutControlItem1.TextSize = new System.Drawing.Size(180, 24);
-            // 
             // layoutControlItem3
             // 
             this.layoutControlItem3.Control = this.labProductCode;
@@ -822,7 +790,6 @@ namespace WeightChecking
             this.layoutControlItem3.Size = new System.Drawing.Size(1075, 33);
             this.layoutControlItem3.SizeConstraintsType = DevExpress.XtraLayout.SizeConstraintsType.Custom;
             this.layoutControlItem3.Text = "Product Code";
-            this.layoutControlItem3.TextSize = new System.Drawing.Size(180, 24);
             // 
             // layoutControlItem2
             // 
@@ -833,7 +800,6 @@ namespace WeightChecking
             this.layoutControlItem2.Size = new System.Drawing.Size(1075, 36);
             this.layoutControlItem2.SizeConstraintsType = DevExpress.XtraLayout.SizeConstraintsType.Custom;
             this.layoutControlItem2.Text = "Product Name";
-            this.layoutControlItem2.TextSize = new System.Drawing.Size(180, 24);
             // 
             // layoutControlItem4
             // 
@@ -844,7 +810,6 @@ namespace WeightChecking
             this.layoutControlItem4.Size = new System.Drawing.Size(377, 35);
             this.layoutControlItem4.SizeConstraintsType = DevExpress.XtraLayout.SizeConstraintsType.Custom;
             this.layoutControlItem4.Text = "OC No";
-            this.layoutControlItem4.TextSize = new System.Drawing.Size(180, 24);
             // 
             // layoutControlItem6
             // 
@@ -855,7 +820,6 @@ namespace WeightChecking
             this.layoutControlItem6.Size = new System.Drawing.Size(448, 40);
             this.layoutControlItem6.SizeConstraintsType = DevExpress.XtraLayout.SizeConstraintsType.Custom;
             this.layoutControlItem6.Text = "Size";
-            this.layoutControlItem6.TextSize = new System.Drawing.Size(180, 24);
             // 
             // layoutControlItem8
             // 
@@ -867,7 +831,6 @@ namespace WeightChecking
             this.layoutControlItem8.SizeConstraintsType = DevExpress.XtraLayout.SizeConstraintsType.Custom;
             this.layoutControlItem8.Text = "Weight/1 Prs (g)";
             this.layoutControlItem8.TextAlignMode = DevExpress.XtraLayout.TextAlignModeItem.CustomSize;
-            this.layoutControlItem8.TextSize = new System.Drawing.Size(150, 24);
             this.layoutControlItem8.TextToControlDistance = 5;
             // 
             // layoutControlItem20
@@ -879,7 +842,6 @@ namespace WeightChecking
             this.layoutControlItem20.Size = new System.Drawing.Size(386, 35);
             this.layoutControlItem20.SizeConstraintsType = DevExpress.XtraLayout.SizeConstraintsType.Custom;
             this.layoutControlItem20.Text = "Quantity (prs)";
-            this.layoutControlItem20.TextSize = new System.Drawing.Size(180, 24);
             // 
             // layoutControlItem24
             // 
@@ -890,7 +852,6 @@ namespace WeightChecking
             this.layoutControlItem24.Size = new System.Drawing.Size(304, 45);
             this.layoutControlItem24.SizeConstraintsType = DevExpress.XtraLayout.SizeConstraintsType.Custom;
             this.layoutControlItem24.Text = "Package Weight (g)";
-            this.layoutControlItem24.TextSize = new System.Drawing.Size(180, 24);
             // 
             // layoutControlItem19
             // 
@@ -902,7 +863,6 @@ namespace WeightChecking
             this.layoutControlItem19.SizeConstraintsType = DevExpress.XtraLayout.SizeConstraintsType.Custom;
             this.layoutControlItem19.Text = "Box Weight (g)";
             this.layoutControlItem19.TextAlignMode = DevExpress.XtraLayout.TextAlignModeItem.CustomSize;
-            this.layoutControlItem19.TextSize = new System.Drawing.Size(150, 24);
             this.layoutControlItem19.TextToControlDistance = 5;
             // 
             // layoutControlItem23
@@ -915,7 +875,6 @@ namespace WeightChecking
             this.layoutControlItem23.SizeConstraintsType = DevExpress.XtraLayout.SizeConstraintsType.Custom;
             this.layoutControlItem23.Text = "Std Gross Weight (g)";
             this.layoutControlItem23.TextAlignMode = DevExpress.XtraLayout.TextAlignModeItem.CustomSize;
-            this.layoutControlItem23.TextSize = new System.Drawing.Size(196, 24);
             this.layoutControlItem23.TextToControlDistance = 5;
             // 
             // layoutControlItem21
@@ -939,7 +898,6 @@ namespace WeightChecking
             this.layoutControlItem22.SizeConstraintsType = DevExpress.XtraLayout.SizeConstraintsType.Custom;
             this.layoutControlItem22.Text = "Std Net Weight (g)";
             this.layoutControlItem22.TextAlignMode = DevExpress.XtraLayout.TextAlignModeItem.CustomSize;
-            this.layoutControlItem22.TextSize = new System.Drawing.Size(196, 15);
             this.layoutControlItem22.TextToControlDistance = 5;
             // 
             // layoutControlItem26
@@ -963,7 +921,6 @@ namespace WeightChecking
             this.layoutControlItem32.SizeConstraintsType = DevExpress.XtraLayout.SizeConstraintsType.Custom;
             this.layoutControlItem32.Text = "Box No";
             this.layoutControlItem32.TextAlignMode = DevExpress.XtraLayout.TextAlignModeItem.CustomSize;
-            this.layoutControlItem32.TextSize = new System.Drawing.Size(65, 20);
             this.layoutControlItem32.TextToControlDistance = 5;
             // 
             // layoutControlItem5
@@ -975,7 +932,6 @@ namespace WeightChecking
             this.layoutControlItem5.Size = new System.Drawing.Size(627, 40);
             this.layoutControlItem5.SizeConstraintsType = DevExpress.XtraLayout.SizeConstraintsType.Custom;
             this.layoutControlItem5.Text = "Color";
-            this.layoutControlItem5.TextSize = new System.Drawing.Size(180, 24);
             // 
             // layoutControlItem30
             // 
@@ -987,7 +943,6 @@ namespace WeightChecking
             this.layoutControlItem30.SizeConstraintsType = DevExpress.XtraLayout.SizeConstraintsType.Custom;
             this.layoutControlItem30.Text = "BoxType";
             this.layoutControlItem30.TextAlignMode = DevExpress.XtraLayout.TextAlignModeItem.CustomSize;
-            this.layoutControlItem30.TextSize = new System.Drawing.Size(100, 24);
             this.layoutControlItem30.TextToControlDistance = 5;
             // 
             // layoutControlItem10
@@ -1000,7 +955,6 @@ namespace WeightChecking
             this.layoutControlItem10.SizeConstraintsType = DevExpress.XtraLayout.SizeConstraintsType.Custom;
             this.layoutControlItem10.Text = "Lower Tolerance (g)";
             this.layoutControlItem10.TextAlignMode = DevExpress.XtraLayout.TextAlignModeItem.CustomSize;
-            this.layoutControlItem10.TextSize = new System.Drawing.Size(196, 24);
             this.layoutControlItem10.TextToControlDistance = 5;
             // 
             // layoutControlItem33
@@ -1012,7 +966,6 @@ namespace WeightChecking
             this.layoutControlItem33.Size = new System.Drawing.Size(363, 50);
             this.layoutControlItem33.SizeConstraintsType = DevExpress.XtraLayout.SizeConstraintsType.Custom;
             this.layoutControlItem33.Text = "Upper Tolerance (g)";
-            this.layoutControlItem33.TextSize = new System.Drawing.Size(180, 24);
             // 
             // layoutControlItem34
             // 
@@ -1027,7 +980,6 @@ namespace WeightChecking
             // 
             // splitterItem1
             // 
-            this.splitterItem1.AllowHotTrack = true;
             this.splitterItem1.Location = new System.Drawing.Point(351, 272);
             this.splitterItem1.Name = "splitterItem1";
             this.splitterItem1.Size = new System.Drawing.Size(10, 50);
@@ -1045,19 +997,9 @@ namespace WeightChecking
             // 
             // splitterItem2
             // 
-            this.splitterItem2.AllowHotTrack = true;
             this.splitterItem2.Location = new System.Drawing.Point(888, 272);
             this.splitterItem2.Name = "splitterItem2";
             this.splitterItem2.Size = new System.Drawing.Size(10, 50);
-            // 
-            // layoutControlItem36
-            // 
-            this.layoutControlItem36.Control = this._txtTest;
-            this.layoutControlItem36.Location = new System.Drawing.Point(780, 0);
-            this.layoutControlItem36.Name = "layoutControlItem36";
-            this.layoutControlItem36.Size = new System.Drawing.Size(295, 34);
-            this.layoutControlItem36.TextSize = new System.Drawing.Size(0, 0);
-            this.layoutControlItem36.TextVisible = false;
             // 
             // layoutControlGroup2
             // 
@@ -1097,7 +1039,6 @@ namespace WeightChecking
             this.layoutControlItem9.SizeConstraintsType = DevExpress.XtraLayout.SizeConstraintsType.Custom;
             this.layoutControlItem9.Text = "Gross Weight (g)";
             this.layoutControlItem9.TextLocation = DevExpress.Utils.Locations.Top;
-            this.layoutControlItem9.TextSize = new System.Drawing.Size(180, 24);
             // 
             // layoutControlItem7
             // 
@@ -1112,7 +1053,6 @@ namespace WeightChecking
             this.layoutControlItem7.SizeConstraintsType = DevExpress.XtraLayout.SizeConstraintsType.Custom;
             this.layoutControlItem7.Text = "Scale Weight (g)";
             this.layoutControlItem7.TextLocation = DevExpress.Utils.Locations.Top;
-            this.layoutControlItem7.TextSize = new System.Drawing.Size(180, 24);
             // 
             // layoutControlItem25
             // 
@@ -1127,7 +1067,6 @@ namespace WeightChecking
             this.layoutControlItem25.Text = "Net Weight (g)";
             this.layoutControlItem25.TextAlignMode = DevExpress.XtraLayout.TextAlignModeItem.CustomSize;
             this.layoutControlItem25.TextLocation = DevExpress.Utils.Locations.Top;
-            this.layoutControlItem25.TextSize = new System.Drawing.Size(180, 24);
             this.layoutControlItem25.TextToControlDistance = 3;
             // 
             // layoutControlItem31
@@ -1142,7 +1081,6 @@ namespace WeightChecking
             this.layoutControlItem31.SizeConstraintsType = DevExpress.XtraLayout.SizeConstraintsType.Custom;
             this.layoutControlItem31.Text = "Result";
             this.layoutControlItem31.TextLocation = DevExpress.Utils.Locations.Top;
-            this.layoutControlItem31.TextSize = new System.Drawing.Size(180, 24);
             // 
             // layoutControlItem28
             // 
@@ -1156,7 +1094,6 @@ namespace WeightChecking
             this.layoutControlItem28.SizeConstraintsType = DevExpress.XtraLayout.SizeConstraintsType.Custom;
             this.layoutControlItem28.Text = "Calculated Qty (prs)";
             this.layoutControlItem28.TextAlignMode = DevExpress.XtraLayout.TextAlignModeItem.CustomSize;
-            this.layoutControlItem28.TextSize = new System.Drawing.Size(190, 20);
             this.layoutControlItem28.TextToControlDistance = 5;
             // 
             // layoutControlItem27
@@ -1171,7 +1108,6 @@ namespace WeightChecking
             this.layoutControlItem27.SizeConstraintsType = DevExpress.XtraLayout.SizeConstraintsType.Custom;
             this.layoutControlItem27.Text = "Deviation Pairs (prs)";
             this.layoutControlItem27.TextAlignMode = DevExpress.XtraLayout.TextAlignModeItem.CustomSize;
-            this.layoutControlItem27.TextSize = new System.Drawing.Size(200, 24);
             this.layoutControlItem27.TextToControlDistance = 5;
             // 
             // layoutControlItem11
@@ -1186,7 +1122,6 @@ namespace WeightChecking
             this.layoutControlItem11.SizeConstraintsType = DevExpress.XtraLayout.SizeConstraintsType.Custom;
             this.layoutControlItem11.Text = "Deviation (g)";
             this.layoutControlItem11.TextAlignMode = DevExpress.XtraLayout.TextAlignModeItem.CustomSize;
-            this.layoutControlItem11.TextSize = new System.Drawing.Size(130, 24);
             this.layoutControlItem11.TextToControlDistance = 5;
             // 
             // layoutControlGroup3
@@ -1225,7 +1160,6 @@ namespace WeightChecking
             this.layoutControlItem13.SizeConstraintsType = DevExpress.XtraLayout.SizeConstraintsType.Custom;
             this.layoutControlItem13.Text = "Fail Box";
             this.layoutControlItem13.TextAlignMode = DevExpress.XtraLayout.TextAlignModeItem.CustomSize;
-            this.layoutControlItem13.TextSize = new System.Drawing.Size(190, 24);
             this.layoutControlItem13.TextToControlDistance = 5;
             // 
             // layoutControlItem12
@@ -1240,7 +1174,6 @@ namespace WeightChecking
             this.layoutControlItem12.SizeConstraintsType = DevExpress.XtraLayout.SizeConstraintsType.Custom;
             this.layoutControlItem12.Text = "Good Box";
             this.layoutControlItem12.TextAlignMode = DevExpress.XtraLayout.TextAlignModeItem.CustomSize;
-            this.layoutControlItem12.TextSize = new System.Drawing.Size(190, 24);
             this.layoutControlItem12.TextToControlDistance = 5;
             // 
             // layoutControlItem14
@@ -1255,7 +1188,6 @@ namespace WeightChecking
             this.layoutControlItem14.SizeConstraintsType = DevExpress.XtraLayout.SizeConstraintsType.Custom;
             this.layoutControlItem14.Text = "No Printing (box)";
             this.layoutControlItem14.TextAlignMode = DevExpress.XtraLayout.TextAlignModeItem.CustomSize;
-            this.layoutControlItem14.TextSize = new System.Drawing.Size(190, 24);
             this.layoutControlItem14.TextToControlDistance = 5;
             // 
             // layoutControlItem16
@@ -1270,7 +1202,6 @@ namespace WeightChecking
             this.layoutControlItem16.SizeConstraintsType = DevExpress.XtraLayout.SizeConstraintsType.Custom;
             this.layoutControlItem16.Text = "Printing (box)";
             this.layoutControlItem16.TextAlignMode = DevExpress.XtraLayout.TextAlignModeItem.CustomSize;
-            this.layoutControlItem16.TextSize = new System.Drawing.Size(190, 24);
             this.layoutControlItem16.TextToControlDistance = 5;
             // 
             // layoutControlItem15
@@ -1285,7 +1216,6 @@ namespace WeightChecking
             this.layoutControlItem15.SizeConstraintsType = DevExpress.XtraLayout.SizeConstraintsType.Custom;
             this.layoutControlItem15.Text = "Fail No Printing (box)";
             this.layoutControlItem15.TextAlignMode = DevExpress.XtraLayout.TextAlignModeItem.CustomSize;
-            this.layoutControlItem15.TextSize = new System.Drawing.Size(190, 24);
             this.layoutControlItem15.TextToControlDistance = 5;
             // 
             // layoutControlItem17
@@ -1300,7 +1230,6 @@ namespace WeightChecking
             this.layoutControlItem17.SizeConstraintsType = DevExpress.XtraLayout.SizeConstraintsType.Custom;
             this.layoutControlItem17.Text = "Fail Printing (box)";
             this.layoutControlItem17.TextAlignMode = DevExpress.XtraLayout.TextAlignModeItem.CustomSize;
-            this.layoutControlItem17.TextSize = new System.Drawing.Size(190, 24);
             this.layoutControlItem17.TextToControlDistance = 5;
             // 
             // layoutControlItem29
@@ -1315,7 +1244,6 @@ namespace WeightChecking
             this.layoutControlItem29.SizeConstraintsType = DevExpress.XtraLayout.SizeConstraintsType.Custom;
             this.layoutControlItem29.Text = "Metal Scan (box)";
             this.layoutControlItem29.TextAlignMode = DevExpress.XtraLayout.TextAlignModeItem.CustomSize;
-            this.layoutControlItem29.TextSize = new System.Drawing.Size(190, 20);
             this.layoutControlItem29.TextToControlDistance = 5;
             // 
             // layoutControlItem18
@@ -1330,8 +1258,47 @@ namespace WeightChecking
             this.layoutControlItem18.SizeConstraintsType = DevExpress.XtraLayout.SizeConstraintsType.Custom;
             this.layoutControlItem18.Text = "Metal Scan Count (Box)";
             this.layoutControlItem18.TextAlignMode = DevExpress.XtraLayout.TextAlignModeItem.CustomSize;
-            this.layoutControlItem18.TextSize = new System.Drawing.Size(210, 24);
             this.layoutControlItem18.TextToControlDistance = 5;
+            // 
+            // _txtTest
+            // 
+            this._txtTest.Location = new System.Drawing.Point(804, 47);
+            this._txtTest.Name = "_txtTest";
+            this._txtTest.Size = new System.Drawing.Size(291, 20);
+            this._txtTest.StyleController = this.layoutControl1;
+            this._txtTest.TabIndex = 44;
+            // 
+            // txtQrCode
+            // 
+            this.txtQrCode.Location = new System.Drawing.Point(216, 47);
+            this.txtQrCode.Name = "txtQrCode";
+            this.txtQrCode.Properties.Appearance.Font = new System.Drawing.Font("Tahoma", 15F);
+            this.txtQrCode.Properties.Appearance.Options.UseFont = true;
+            this.txtQrCode.Properties.CharacterCasing = System.Windows.Forms.CharacterCasing.Upper;
+            this.txtQrCode.Size = new System.Drawing.Size(584, 30);
+            this.txtQrCode.StyleController = this.layoutControl1;
+            this.txtQrCode.TabIndex = 1;
+            // 
+            // layoutControlItem1
+            // 
+            this.layoutControlItem1.AppearanceItemCaption.Font = new System.Drawing.Font("Tahoma", 15F);
+            this.layoutControlItem1.AppearanceItemCaption.Options.UseFont = true;
+            this.layoutControlItem1.Control = this.txtQrCode;
+            this.layoutControlItem1.Location = new System.Drawing.Point(0, 0);
+            this.layoutControlItem1.MinSize = new System.Drawing.Size(276, 34);
+            this.layoutControlItem1.Name = "layoutControlItem1";
+            this.layoutControlItem1.Size = new System.Drawing.Size(780, 34);
+            this.layoutControlItem1.SizeConstraintsType = DevExpress.XtraLayout.SizeConstraintsType.Custom;
+            this.layoutControlItem1.Text = "QR Code";
+            // 
+            // layoutControlItem36
+            // 
+            this.layoutControlItem36.Control = this._txtTest;
+            this.layoutControlItem36.Location = new System.Drawing.Point(780, 0);
+            this.layoutControlItem36.Name = "layoutControlItem36";
+            this.layoutControlItem36.Size = new System.Drawing.Size(295, 34);
+            this.layoutControlItem36.TextSize = new System.Drawing.Size(0, 0);
+            this.layoutControlItem36.TextVisible = false;
             // 
             // frmScale
             // 
@@ -1347,11 +1314,8 @@ namespace WeightChecking
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.frmScale_FormClosing);
             ((System.ComponentModel.ISupportInitialize)(this.layoutControl1)).EndInit();
             this.layoutControl1.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this._txtTest.Properties)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.txtQrCode.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.Root)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.layoutControlGroup1)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem3)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem2)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem4)).EndInit();
@@ -1373,7 +1337,6 @@ namespace WeightChecking
             ((System.ComponentModel.ISupportInitialize)(this.splitterItem1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem35)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.splitterItem2)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem36)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.layoutControlGroup2)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem9)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem7)).EndInit();
@@ -1391,6 +1354,10 @@ namespace WeightChecking
             ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem17)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem29)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem18)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this._txtTest.Properties)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.txtQrCode.Properties)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem36)).EndInit();
             this.ResumeLayout(false);
 
         }
