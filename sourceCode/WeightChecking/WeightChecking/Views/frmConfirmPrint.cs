@@ -177,29 +177,7 @@ namespace WeightChecking
 
                             if (dialogResult == DialogResult.Yes)
                             {
-                                para = null;
-                                para = new DynamicParameters();
-
                                 #region Log vao bang approved
-                                //para.Add("QrCode", _qrApproved);
-                                //para.Add("IdLabel", _scanData.IdLabel);
-                                //para.Add("OC", _scanData.OcNo);
-                                //para.Add("BoxNo", _scanData.BoxNo);
-                                //para.Add("GrossWeight", _scanData.GrossWeight);
-                                //para.Add("Station", GlobalVariables.Station);
-                                //para.Add("QRLabel", _scanData.BarcodeString);
-                                //para.Add("ApproveType", _scanData.ActualDeviationPairs == 0 ? "False alarm" : "Actual deviation");
-                                //para.Add("DeviationPairs", _scanData.DeviationPairs);
-                                //para.Add("ActualDeviationPairs", _scanData.ActualDeviationPairs);
-                                //para.Add("NetWeight", _scanData.NetWeight);
-                                //para.Add("Deviation", _scanData.Deviation);
-                                //para.Add("CalculatorPrs", _scanData.CalculatedPairs);
-                                //para.Add("ScanDataId", _scanData.Id);
-                                //para.Add("Quantity", _scanData.Quantity);
-                                //para.Add("CreatedDate", _scanData.CreatedDate);
-                                //para.Add("Reason", _reason);
-
-                                //dbContext.Execute("sp_tblApprovedPrintLabelInsert", para, commandType: CommandType.StoredProcedure);
                                 var itemInsert = new tblApprovedPrintLabel()
                                 {
                                     Id = Guid.NewGuid(),
@@ -257,20 +235,6 @@ namespace WeightChecking
                                 _scanData.RatioFailWeight = Math.Round((Math.Abs(_scanData.DeviationPairs) * _scanData.AveWeight1Prs) / _scanData.StdGrossWeight, 3);
                                 #endregion
 
-                                //para = null;
-                                //para = new DynamicParameters();
-                                //para.Add("Id", _scanData.Id);
-                                //para.Add("ApproveBy", _qrApproved);
-                                //para.Add("ActualDeviationPairs", _scanData.ActualDeviationPairs);
-                                //para.Add("GrossWeight", _scaleValue);
-                                //para.Add("Status", (_scanData.OcNo.Substring(0, 3) == "PRT" || _scanData.OcNo.Substring(0, 3) == "PRS") && GlobalVariables.Station == 0 ? 1 : 2);
-                                //para.Add("NetWeight", _scanData.NetWeight);
-                                //para.Add("Calculatorpairs", _scanData.CalculatedPairs);
-                                //para.Add("Deviation", _scanData.Deviation);
-                                //para.Add("DeviationPairs", _scanData.DeviationPairs);
-                                //para.Add("RatioFailWeight", _scanData.RatioFailWeight);
-
-                                //dbContext.Execute("sp_tblScanDataUpdateApproveBy", para, commandType: CommandType.StoredProcedure);
                                 _scanData.GrossWeight = _scaleValue;
                                 _scanData.ApprovedBy = _qrApproved;
                                 _scanData.Status = (_scanData.OcNo.Substring(0, 3) == "PRT" || _scanData.OcNo.Substring(0, 3) == "PRS") && GlobalVariables.Station == StationEnum.IDC_1 ? 1 : 2;
@@ -298,13 +262,11 @@ namespace WeightChecking
                                 #endregion
 
                                 #region Get thong tin boxParent nếu có, và update lại actual deviation cho thùng mẹ ở bảng scanData và ApprovedPrint
-                                using (var connectionDWH = new ApplicationDbContext(GlobalVariables.ConfigJson.ConStringDogeWH))
+                                using (var connectionDWH = new ApplicationDbContextDogeWH(GlobalVariables.ConfigJson.ConStringDogeWH))
                                 {
-                                    para = null;
-                                    para = new DynamicParameters();
-                                    para.Add("@OcNo", _scanData.OcNo);
-
-                                    var boxParent = connectionDWH.Database.SqlQuery<BoxParentModel>("sp_IdcSsfgPrintedLabels_OC_IndexCheck", para).FirstOrDefault();
+                                    var boxParent = connectionDWH.Database
+                                          .SqlQuery<BoxParentModel>("sp_IdcSsfgPrintedLabels_OC_IndexCheck @OcNo ={0}", _scanData.OcNo)
+                                          .FirstOrDefault();
 
                                     if (boxParent != null)
                                     {
@@ -332,29 +294,10 @@ namespace WeightChecking
                                                 if (scanData.Quantity + scanData.ActualDeviationPairs > scanData.Quantity)
                                                 {
                                                     //cập nhật actual deviation cho thùng mẹ
-                                                    //para = null;
-                                                    //para = new DynamicParameters();
-                                                    //para.Add("Id", scanData.Id);
-                                                    //para.Add("ApproveBy", scanData.ApprovedBy);
-                                                    //para.Add("ActualDeviationPairs", scanData.Quantity);//chính là qtyChildBox
-                                                    //para.Add("GrossWeight", scanData.GrossWeight);
-                                                    //para.Add("Status", 2);
-                                                    //para.Add("NetWeight", scanData.NetWeight);
-                                                    //para.Add("Calculatorpairs", scanData.CalculatedPairs);
-                                                    //para.Add("Deviation", scanData.Deviation);
-                                                    //para.Add("DeviationPairs", scanData.DeviationPairs);
-                                                    //para.Add("RatioFailWeight", scanData.RatioFailWeight);
-                                                    //dbContext.Execute("sp_tblScanDataUpdateApproveBy", para, commandType: CommandType.StoredProcedure);
-
                                                     scanData.Status = 2;
                                                     dbContext.TblScanDatas.AddOrUpdate(scanData);
 
                                                     #region Update actual deviation for approvedPrint
-                                                    //para = null;
-                                                    //para = new DynamicParameters();
-                                                    //para.Add("@ScanDataId", scanData.Id);
-                                                    //para.Add("@ActualDeviation", scanData.Quantity);
-                                                    //dbContext.Execute("[sp_tblApprovedPrintLabelUpdate]", para, commandType: CommandType.StoredProcedure);
                                                     var checkUpdate = dbContext.TblApprovedPrintLabels
                                                      .Where(x => x.ScanDataId == scanData.Id).ToList();
                                                     checkUpdate?.ForEach(x => x.ActualDeviationPairs = scanData.Quantity);
@@ -366,23 +309,12 @@ namespace WeightChecking
                                                 else
                                                 {
                                                     //cập nhật actual deviation cho thùng mẹ
-                                                    //para = null;
-                                                    //para = new DynamicParameters();
-                                                    //para.Add("Id", scanData.Id);
-                                                    //para.Add("ApproveBy", scanData.ApprovedBy);
-                                                    //para.Add("ActualDeviationPairs", scanData.Quantity - scanData.Quantity);//qtyChildBox - qtyMotherBox
-                                                    //para.Add("GrossWeight", scanData.GrossWeight);
-                                                    //para.Add("Status", 2);
-                                                    //para.Add("NetWeight", scanData.NetWeight);
-                                                    //para.Add("Calculatorpairs", scanData.CalculatedPairs);
-                                                    //para.Add("Deviation", scanData.Deviation);
-                                                    //para.Add("DeviationPairs", scanData.DeviationPairs);
-                                                    //para.Add("RatioFailWeight", scanData.RatioFailWeight);
-                                                    //dbContext.Execute("sp_tblScanDataUpdateApproveBy", para, commandType: CommandType.StoredProcedure);
                                                     scanData.Status = 2;
                                                     scanData.ActualDeviationPairs = scanData.Quantity - scanData.Quantity;
                                                     dbContext.TblScanDatas.AddOrUpdate(scanData);
                                                 }
+
+                                                dbContext.SaveChanges();
                                             }
                                         }
                                     }

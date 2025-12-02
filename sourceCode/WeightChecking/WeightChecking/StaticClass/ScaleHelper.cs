@@ -139,9 +139,9 @@ namespace WeightChecking
                         Status = "Disconnection";
                         CountDisconnect = 0;
                         cancelTokenSrc.Cancel();
-                        //Task.Factory.StartNew(()=>StartReadScale());
-                        tskReadScale = new Task(() => StartReadScale());
-                        tskReadScale.Start();
+                        
+                        //tskReadScale = new Task(() => StartReadScale());
+                        //tskReadScale.Start();
                     }
 
                     //Debug.WriteLine($"Check conection scale: {_status} | thang nao goi: {caller}");

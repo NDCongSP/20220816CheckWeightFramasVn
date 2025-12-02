@@ -30,7 +30,7 @@ namespace WeightChecking
             #region Đọc các thông số cấu hình ban đầu từ settings
             GlobalVariables.Station = (StationEnum)Properties.Settings.Default.Station;//0-trước in; 1-sau in
             GlobalVariables.ConnectionString = EncodeMD5.DecryptString(Properties.Settings.Default.conString, "ITFramasBDVN");//0-trước in; 1-sau in
-
+            GlobalVariables.DbName = GlobalVariables.ConnectionString.Split(';')[1];
             using (var dbContext = new ApplicationDbContext(GlobalVariables.ConnectionString))
             {
                 var c = dbContext.TblConfigs.FirstOrDefault(x => x.Location == GlobalVariables.Station);
@@ -47,7 +47,7 @@ namespace WeightChecking
                         CreatedDate = DateTime.Now,
                         CreatedMachine = Environment.MachineName,
                         Location = GlobalVariables.Station,
-                        ConfigJson = JsonConvert.SerializeObject(new ConfigJsonModel() )
+                        ConfigJson = JsonConvert.SerializeObject(new ConfigJsonModel())
                     });
                     dbContext.SaveChanges();
                 }
@@ -58,7 +58,7 @@ namespace WeightChecking
                 //Đọc DB lấy danh sách specialCase
                 GlobalVariables.SpecialCaseList = dbContext.Database.SqlQuery<tblSpecialCase>("sp_tblSpecialCaseGets").ToList();
 
-                GlobalVariables.SystemOC = dbContext.Database.SqlQuery<tblSystemOC>("sp_GetSystemOC").ToList();
+                GlobalVariables.SystemOC = dbContext.TblSystemOCs.ToList();
                 if (GlobalVariables.SystemOC != null)
                 {
                     foreach (var row in GlobalVariables.SystemOC)
@@ -87,7 +87,9 @@ namespace WeightChecking
             #region Get danh sách tất cả các OC đang sử dụng
             using (var dbContext = new ApplicationDbContextWL(GlobalVariables.ConfigJson.ConStringWL))
             {
-                GlobalVariables.OcUsingList = dbContext.Database.SqlQuery<OcUsingModel>("sp_IdcGetListOcName").ToList();
+                var ocWL = dbContext.Database.SqlQuery<OcUsingModel>("sp_IdcGetListOcName").ToList();
+
+                GlobalVariables.OcUsingList.AddRange(ocWL);
             }
             #endregion
 

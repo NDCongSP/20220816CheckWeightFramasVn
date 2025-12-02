@@ -15,6 +15,7 @@ namespace WeightChecking
     public static class GlobalVariables
     {
         public static StationEnum Station { get; set; } = StationEnum.IDC_1;
+        public static string DbName { get; set; }
         public static string ConnectionString { get; set; }
         //public static string ConStringWinline { get; set; }
         //public static string ConStringDogeWh { get; set; }

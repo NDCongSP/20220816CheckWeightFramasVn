@@ -261,6 +261,8 @@ namespace WeightChecking
 
             ResetControl();
 
+            _labLastResultMessage.Text = null;
+
             this.txtQrCode.Focus();
             txtQrCode.KeyDown += TxtQrCode_KeyDown;
             _btnReprint.Click += _btnReprint_Click;
@@ -374,8 +376,6 @@ namespace WeightChecking
             {
                 try
                 {
-                    ResetControl(resetQrCode: false);
-
                     GlobalVariables.InvokeIfRequired(this, () =>
                     {
                         _labLastResultMessage.Text = null;
@@ -406,7 +406,7 @@ namespace WeightChecking
                     Console.WriteLine(_sen.Text);
 
                     #region xử lý barcode lấy ra các giá trị theo code
-                    _scanData.BarcodeString = _sen.Text;
+                    _scanData.BarcodeString = _sen.Text.Trim();
 
                     string ocFirstChar = string.Empty;
 
@@ -435,7 +435,7 @@ namespace WeightChecking
 
                         if (resultCheckOc != null)
                         {
-                            _scanData.OcNo = s1[0];
+                            _scanData.OcNo = s1[0].Trim();
 
                             #region kiểm tra xem thùng này có bị in tem lụi lại tem hay không để xử lý cho đúng với flowChart
                             using (var dbContextDogeWH = new ApplicationDbContextDogeWH(GlobalVariables.ConfigJson.ConStringDogeWH))
@@ -511,7 +511,7 @@ namespace WeightChecking
 
                         if (resultCheckOc != null)
                         {
-                            _scanData.OcNo = s1[0];
+                            _scanData.OcNo = s1[0].Trim();
 
                             #region kiểm tra xem thùng này có bị in tem lụi lại tem hay không để xử lý cho đúng với flowChart
                             using (var dbContext = new ApplicationDbContextDogeWH(GlobalVariables.ConfigJson.ConStringDogeWH))
@@ -841,6 +841,7 @@ namespace WeightChecking
                                         lowerToleranceOfBox = (double)res.LowerToleranceOfPlasticBox;
                                         upperToleranceOfBox = (double)res.UpperToleranceOfPlasticBox;
                                         _scanData.BoxWeight = (double)res.PlasticBoxWeight;
+                                        _boxType = BoxTypeEnum.Plastic;
                                     }
                                     else
                                     {
@@ -1395,6 +1396,9 @@ namespace WeightChecking
                                 }
                                 #endregion
 
+                                //hien thi cac thong so dem
+                                ShowUI();
+
                                 #region Log data
                                 //mỗi thùng chỉ cho log vào tối da là 2 dòng trong scanData, 1 dòng pass và fail (nếu có)
                                 //tính lại tỷ lệ khối lượng số đôi lỗi/ StdGrossWeight của lần scan này để log
@@ -1406,9 +1410,6 @@ namespace WeightChecking
                                 dbContext.TblScanDatas.Add(_scanData);
                                 dbContext.SaveChanges();
                                 #endregion
-
-                                //hien thi cac thong so dem
-                                ShowUI();
 
                                 string json = JsonConvert.SerializeObject(GlobalVariables.RememberInfo);
                                 File.WriteAllText(@"./RememberInfo.json", json);
@@ -1468,6 +1469,8 @@ namespace WeightChecking
                                 _labResult.ForeColor = Color.White;
                             });
                         }
+
+                        dbContext.SaveChanges();
                     }
                     #endregion
 
@@ -1487,105 +1490,23 @@ namespace WeightChecking
                 }
                 finally
                 {
+                    GlobalVariables.InvokeIfRequired(this, () =>
+                    {
+                        txtQrCode.Text = null;
+                        txtQrCode.Clear();
+                        txtQrCode.Focus();
+                    });
+
+                    //hien thi cac thong so dem
+                    ShowUI();
+
+                    _scanData = new tblScanData();
                     _resetUI = true;
                 }
             }
         }
 
         #region Tasks
-        private async Task TaskImplementAsync()
-        {
-            while (true)
-            {
-                try
-                {
-                    GlobalVariables.InvokeIfRequired(this, () =>
-                    {
-                        _labStatus.Text = $"{DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss")} " +
-                              $"| {GlobalVariables.UserLoginInfo.UserName}";
-                        _labDateTime.Text = $"{Application.ProductVersion}";
-                    });
-                }
-                catch (Exception ex)
-                {
-
-                }
-
-                await Task.Delay(300);
-            }
-        }
-
-        public async Task TaskReadModbus()
-        {
-            while (true)
-            {
-                #region Đọc các giá trị từ PLC
-                if (GlobalVariables.ModbusStatus)
-                {
-                    if (_resetCounter)
-                    {
-                        if (GlobalVariables.MyDriver.ModbusRTUMaster.WriteSingleCoil(1, 2, true))
-                        {
-                            System.Threading.Thread.Sleep(10);
-                            if (GlobalVariables.MyDriver.ModbusRTUMaster.WriteSingleCoil(1, 2, false))
-                            {
-                                _resetCounter = false;
-                            }
-                        }
-                    }
-
-                    if (GlobalVariables.Station == StationEnum.IDC_1)
-                    {
-                        //thanh ghi D0 cua PLC Delta DPV14SS2 co dia chi la 4596
-                        GlobalVariables.ModbusStatus = GlobalVariables.MyDriver.ModbusRTUMaster.ReadHoldingRegisters(1, 4596, 1, ref _readHoldingRegisterArr);
-
-                        //GlobalVariables.RememberInfo.CountMetalScan = GlobalVariables.MyDriver.GetUshortAt(_readHoldingRegisterArr, 0);
-                        ////update gia tri count vao sự kiện để trong frmScal  nó update lên giao diện
-                        //GlobalVariables.MyEvent.CountValue = GlobalVariables.RememberInfo.CountMetalScan;
-
-                        GlobalVariables.MyEvent.CountValue = GlobalVariables.MyDriver.GetUshortAt(_readHoldingRegisterArr, 0);
-                    }
-                }
-                else
-                {
-                    _countDisconnectPlc += 1;
-                    if (_countDisconnectPlc >= 3)
-                    {
-                        GlobalVariables.MyDriver.ModbusRTUMaster.NgatKetNoi();
-
-                        GlobalVariables.ModbusStatus = GlobalVariables.MyDriver.ModbusRTUMaster.KetNoi(GlobalVariables.ConfigJson.ComPort, 9600, 8, System.IO.Ports.Parity.None, System.IO.Ports.StopBits.One);
-                    }
-                }
-                #endregion
-
-                System.Threading.Thread.Sleep(200);
-            }
-        }
-
-        private async Task TaskCheckResetUI()
-        {
-            var startTime = DateTime.Now;
-            while (true)
-            {
-                if (_resetUI)
-                {
-                    var endTime = DateTime.Now;
-
-                    if ((endTime - startTime).TotalSeconds <= GlobalVariables.ConfigJson.ResetUiInterval)
-                        return;
-
-                    ResetControl();
-                    _resetUI = false;
-                }
-                else
-                {
-                    startTime = DateTime.Now;
-                }
-
-                await Task.Delay(100);
-            }
-        }
-
         private async Task TaskTimerAsync(CancellationToken token)
         {
             while (!token.IsCancellationRequested)
@@ -1595,7 +1516,7 @@ namespace WeightChecking
                     GlobalVariables.InvokeIfRequired(this, () =>
                     {
                         _labStatus.Text = $"{DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss")} " +
-                              $"| {GlobalVariables.UserLoginInfo.UserName}";
+                              $"| {GlobalVariables.UserLoginInfo.UserName} | {GlobalVariables.DbName}";
                         _labDateTime.Text = $"{Application.ProductVersion}";
                     });
 
@@ -1746,6 +1667,7 @@ namespace WeightChecking
                 if (resetQrCode)
                 {
                     txtQrCode.Text = null;
+                    txtQrCode.Clear();
                     txtQrCode.Focus();
                 }
 
@@ -1772,11 +1694,10 @@ namespace WeightChecking
                 _labUnitCalculatQty.Text = $"Calculated Qty (-)";
                 _labUnitDeviation.Text = $"Quantity (-)";
 
-                //_labBoxType.Text = _scanData.box;
                 _labUnitStandard.Text = string.Empty;
                 _labFGW.Text = $"Weight (g)/-";
 
-                _labBoxType.Text = _boxType.ToString();
+                _labBoxType.Text = null;
                 _labLableId.Text = string.Empty;
                 #endregion
 
@@ -1806,7 +1727,7 @@ namespace WeightChecking
                 labRealWeight.Text = _scanData.GrossWeight.ToString();
                 labNetWeight.Text = _scanData.StdNetWeight.ToString();
                 _labBoxId.Text = _scanData.BoxNo;
-                labOcNo.Text = _scanData.OcNo;
+                labOcNo.Text = _scanData.OcNo.Trim();
                 labProductCode.Text = _scanData.ProductNumber;
                 labProductName.Text = _scanData.ProductName;
                 labQuantity.Text = _scanData.Quantity.ToString();
@@ -1825,7 +1746,6 @@ namespace WeightChecking
                 _labUnitCalculatQty.Text = $"Calculated Qty ({_unitLabel})";
                 _labUnitDeviation.Text = $"Deviation ({_unitLabel})";
 
-                //_labBoxType.Text = _scanData.box;
                 _labUnitStandard.Text = _unitLabel;
                 _labFGW.Text = $"Weight (g)/{_unitLabel}";
 
@@ -1902,6 +1822,13 @@ namespace WeightChecking
             //nf.ConfirmPrintInfo.BoxNo = GlobalVariables.BoxNo;
             //nf.ConfirmPrintInfo.Weight = GlobalVariables.RealWeight;
             nf.ShowDialog();
+
+            GlobalVariables.InvokeIfRequired(this, () =>
+            {
+                txtQrCode.Text = null;
+                 txtQrCode.Clear();
+                txtQrCode.Focus();
+            });
         }
         #endregion
     }
