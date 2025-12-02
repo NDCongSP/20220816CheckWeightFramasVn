@@ -5,12 +5,14 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Data.Entity;
 using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using WeightChecking.Models.Entities;
 using BC = BCrypt.Net.BCrypt;
 
 namespace WeightChecking
@@ -25,7 +27,7 @@ namespace WeightChecking
             InitializeComponent();
 
             Load += Login_Load;
-            
+
             labStatus.Text = Application.ProductVersion;
         }
 
@@ -37,7 +39,7 @@ namespace WeightChecking
                 this.txtPass.Text = GlobalVariables.RememberInfo.Pass;
                 this.chkRemember.Checked = GlobalVariables.RememberInfo.Remember;
             }
-           
+
             this.txtUseName.Focus();
             this.chkRemember.CheckedChanged += (s, o) =>
             {
@@ -57,67 +59,72 @@ namespace WeightChecking
             s.Enabled = true;
         }
 
-        private void btnSubmit_Click(object sender, EventArgs e)
+        private async void btnSubmit_Click(object sender, EventArgs e)
         {
             if (!string.IsNullOrEmpty(txtUseName.Text) && !string.IsNullOrEmpty(txtPass.Text))
             {
-                using (var connection = GlobalVariables.GetDbConnection())
+                var para = new DynamicParameters();
+                para.Add("@userName", txtUseName.Text);
+
+                using (var dbContext = new ApplicationDbContext(GlobalVariables.ConnectionString))
                 {
-                    var para = new DynamicParameters();
-                    para.Add("@userName", txtUseName.Text);
+                    GlobalVariables.UserLoginInfo = await dbContext.TblUsers.FirstOrDefaultAsync(u => u.UserName == txtUseName.Text);
+                }
 
-                    GlobalVariables.UserLoginInfo = connection.Query<tblUsers>("sp_UsersLogin", para, commandType: CommandType.StoredProcedure).FirstOrDefault();
+                if (GlobalVariables.UserLoginInfo == null)
+                {
+                    XtraMessageBox.Show($"User name '{txtUseName.Text}' was not found.", "WARNING", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
 
-                    if (GlobalVariables.UserLoginInfo != null)
+                if (BC.Verify(txtPass.Text, GlobalVariables.UserLoginInfo.Password))
+                {
+                    //log thong tin dang nhap vao rememberInfo
+                    if (GlobalVariables.RememberInfo.Remember)
                     {
-                        if (BC.Verify(txtPass.Text, GlobalVariables.UserLoginInfo.Password))
-                        {
-                            //log thong tin dang nhap vao rememberInfo
-                            if (GlobalVariables.RememberInfo.Remember)
-                            {
-                                GlobalVariables.RememberInfo.UserName = EncodeMD5.EncryptString(txtUseName.Text, "ITFramasBDVN");
-                                GlobalVariables.RememberInfo.Pass = EncodeMD5.EncryptString(txtPass.Text, "ITFramasBDVN");
+                        GlobalVariables.RememberInfo.UserName = EncodeMD5.EncryptString(txtUseName.Text, "ITFramasBDVN");
+                        GlobalVariables.RememberInfo.Pass = EncodeMD5.EncryptString(txtPass.Text, "ITFramasBDVN");
 
-                                string json = JsonConvert.SerializeObject(GlobalVariables.RememberInfo);
+                        string json = JsonConvert.SerializeObject(GlobalVariables.RememberInfo);
 
-                                File.WriteAllText(@"./RememberInfo.json", json);
-                            }
-                            else
-                            {
-                                GlobalVariables.RememberInfo.UserName = null;
-                                GlobalVariables.RememberInfo.Pass = null;
-                                GlobalVariables.RememberInfo.Remember = false;
-
-                                string json = JsonConvert.SerializeObject(GlobalVariables.RememberInfo);
-
-                                File.WriteAllText(@"./RememberInfo.json", json);
-                            }
-
-                            //frmMain nf = new frmMain();
-                            //nf.ShowDialog();
-
-                            this.Hide();
-                            var frmMain = new frmMain();
-                            dialogResult = frmMain.ShowDialog();
-                            if (dialogResult == DialogResult.OK)
-                            {
-                                this.Close();
-                            }
-                        }
-                        else
-                        {
-                            XtraMessageBox.Show("Mật khẩu không chính xác.", "CẢNH BÁO", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                        }
+                        File.WriteAllText(@"./RememberInfo.json", json);
                     }
                     else
                     {
-                        XtraMessageBox.Show("Thông tin đăng nhập không chính xác.", "CẢNH BÁO", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                        GlobalVariables.RememberInfo.UserName = null;
+                        GlobalVariables.RememberInfo.Pass = null;
+                        GlobalVariables.RememberInfo.Remember = false;
+
+                        string json = JsonConvert.SerializeObject(GlobalVariables.RememberInfo);
+
+                        File.WriteAllText(@"./RememberInfo.json", json);
                     }
+
+                    //frmMain nf = new frmMain();
+                    //nf.ShowDialog();
+
+                    this.Hide();
+                    if (GlobalVariables.UserLoginInfo.Role == RolesEnum.Operator)
+                    {
+                        var frmMain = new frmScaleNewUI();
+                        dialogResult = frmMain.ShowDialog();
+                    }
+                    else
+                    {
+                        var frmMain = new frmMain();
+                        dialogResult = frmMain.ShowDialog();
+                    }
+
+                    this.Close();
+                }
+                else
+                {
+                    XtraMessageBox.Show("Invalid password. Please try again.", "WARNING", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 }
             }
             else
             {
-                XtraMessageBox.Show("Nhập thiếu thông tin, vui lòng nhập lại đầy đủ thông tin.", "CẢNH BÁO", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                XtraMessageBox.Show("Incomplete information entered, please provide full details.", "WARNING", MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
         }
     }

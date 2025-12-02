@@ -14,6 +14,7 @@ namespace WeightChecking
         BX3 = 4,
         BX4 = 5,
         BX5 = 6,
-        BX6 = 7
+        BX6 = 7,
+        Plastic = 8
     }
 }

@@ -14,24 +14,25 @@ namespace WeightChecking
 {
     public static class GlobalVariables
     {
+        public static StationEnum Station { get; set; } = StationEnum.IDC_1;
         public static string ConnectionString { get; set; }
-        public static string ConStringWinline { get; set; }
-        public static string ConStringDogeWh { get; set; }
+        //public static string ConStringWinline { get; set; }
+        //public static string ConStringDogeWh { get; set; }
 
         #region Tao các connection DB
         public static IDbConnection GetDbConnection()
         {
-            return new SqlConnection(ConnectionString);
+            return new SqlConnection(GlobalVariables.ConnectionString);
         }
 
         public static IDbConnection GetDbConnectionWinline()
         {
-            return new SqlConnection(ConStringWinline);
+            return new SqlConnection(GlobalVariables.ConfigJson.ConStringWL);
         }
 
         public static IDbConnection GetDbConnectionDogeWh()
         {
-            return new SqlConnection(ConStringDogeWh);
+            return new SqlConnection(GlobalVariables.ConfigJson.ConStringDogeWH);
         }
         #endregion
 
@@ -41,33 +42,17 @@ namespace WeightChecking
         public static RefreshEvent MyEvent = new RefreshEvent();
 
         //biến cấu hình cân
-        public static string IpScale = "";
+        //public static string IpScale = "";
         public static string PortScale = "23";
         public static string ScaleStatus = "Disconnected";
         public static int ScaleDelay = 300;
-        public static int UnitScale { get; set; } = 0;
+        //public static int UnitScale { get; set; } = 0;
 
-        public static tblUsers UserLoginInfo { get; set; } = new tblUsers();
+        public static tblUser UserLoginInfo { get; set; } = new tblUser();
 
         public static PLCPi MyDriver = new PLCPi();
         public static byte[] ReadHoldingArr { get; set; }
         public static bool ModbusStatus { get; set; }
-        public static string ComPort { get; set; }
-
-        public static bool IsScale { get; set; } = false;
-        public static bool IsCounter { get; set; } = false;
-        public static StationEnum Station { get; set; }
-
-        /// <summary>
-        /// Tỉ lệ khối lượng calculate deviation / standar Gross weight.
-        /// % = [|CalculateDeviation (prs)| * AveWeight/Prs (g)]/SdtGrossWeight (g).
-        /// </summary>
-        public static double RatioFailWeight { get; set; } = 0;
-
-        /// <summary>
-        /// Bao can o tram truoc son hay sau son.0-trước sơn (IDC1); 1-sau sơn (IDC2,Kerry).
-        /// </summary>
-        public static int AfterPrinting { get; set; } = 0;
 
         #region Printing
         // Print the file.
@@ -109,8 +94,8 @@ namespace WeightChecking
         public static bool PrintApprove { get; set; } = false;
         public static DateTime CreatedDate { get; set; }//dung de chua thoi gian tạo, để đồng bộ giữa in tem và log DB. dung trong Confirm in tem
 
-        public static List<tblSpecialCaseModel> SpecialCaseList { get; set; } = new List<tblSpecialCaseModel>();
-        public static string UpdatePath { get; internal set; }
+        public static List<tblSpecialCase> SpecialCaseList { get; set; } = new List<tblSpecialCase>();
+        //public static string UpdatePath { get; internal set; }
         public static List<OcUsingModel> OcUsingList { get; set; } = new List<OcUsingModel>();//get ra danh sách tất cả các OcNo đang sử dụng
 
         /// <summary>
@@ -133,5 +118,7 @@ namespace WeightChecking
                 action();
             }
         }
+
+        public static ConfigJsonModel ConfigJson { get; set; } = new ConfigJsonModel();
     }
 }

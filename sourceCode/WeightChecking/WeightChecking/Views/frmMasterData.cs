@@ -15,6 +15,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using WeightChecking.Models.Entities;
 
 namespace WeightChecking
 {
@@ -165,10 +166,10 @@ namespace WeightChecking
         {
             try
             {
-                using (var connection = GlobalVariables.GetDbConnection())
+                using (var dbContext =new ApplicationDbContext(GlobalVariables.ConnectionString))
                 {
                     #region Master data
-                    var winlineInfo = connection.Query<ProductInfoModel>("sp_vProductItemInfoGets").ToList();
+                    var winlineInfo = dbContext.Database.SqlQuery<ProductInfoModel>("sp_vProductItemInfoGets").ToList();
 
                     if (winlineInfo != null && winlineInfo.Count > 0)
                     {
@@ -208,7 +209,7 @@ namespace WeightChecking
                     #endregion
 
                     #region Special case
-                    GlobalVariables.SpecialCaseList = connection.Query<tblSpecialCaseModel>("sp_tblSpecialCaseGets").ToList();
+                    GlobalVariables.SpecialCaseList = dbContext.Database.SqlQuery<tblSpecialCase>("sp_tblSpecialCaseGets").ToList();
 
                     this.Invoke((MethodInvoker)delegate
                     {

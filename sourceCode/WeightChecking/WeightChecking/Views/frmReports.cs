@@ -118,7 +118,7 @@ namespace WeightChecking
                     parametters.Add("Station", Station);
 
                     #region Scan Data
-                    var res = connection.Query<tblScanDataModel>("sp_tblScanDataGets", parametters, commandType: CommandType.StoredProcedure).ToList();
+                    var res = connection.Query<tblScanData>("sp_tblScanDataGets", parametters, commandType: CommandType.StoredProcedure).ToList();
 
                     if (grcReports.InvokeRequired)
                     {

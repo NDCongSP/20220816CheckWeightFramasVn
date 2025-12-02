@@ -58,8 +58,6 @@ namespace WeightChecking
             this.txtQrCode.Properties.Appearance.Font = new System.Drawing.Font("Tahoma", 15F);
             this.txtQrCode.Properties.Appearance.Options.UseFont = true;
             this.txtQrCode.Properties.AutoHeight = false;
-            this.txtQrCode.Properties.PasswordChar = '*';
-            this.txtQrCode.Properties.UseSystemPasswordChar = true;
             this.txtQrCode.Size = new System.Drawing.Size(622, 30);
             this.txtQrCode.TabIndex = 1;
             // 

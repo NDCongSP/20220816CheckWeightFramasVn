@@ -53,6 +53,7 @@ namespace WeightChecking
             this._barButtonItemExportMasterData = new DevExpress.XtraBars.BarButtonItem();
             this._barButtonItemExportMissItem = new DevExpress.XtraBars.BarButtonItem();
             this._barButtonItemAddSpecialCase = new DevExpress.XtraBars.BarButtonItem();
+            this._barBtnDeleteBox = new DevExpress.XtraBars.BarButtonItem();
             this.ribbonPageHome = new DevExpress.XtraBars.Ribbon.RibbonPage();
             this.ribbonPageGroupHome = new DevExpress.XtraBars.Ribbon.RibbonPageGroup();
             this.ribbonPageMasterData = new DevExpress.XtraBars.Ribbon.RibbonPage();
@@ -65,7 +66,6 @@ namespace WeightChecking
             this.documentManager1 = new DevExpress.XtraBars.Docking2010.DocumentManager(this.components);
             this.tabbedView1 = new DevExpress.XtraBars.Docking2010.Views.Tabbed.TabbedView(this.components);
             this.dockManager1 = new DevExpress.XtraBars.Docking.DockManager(this.components);
-            this._barBtnDeleteBox = new DevExpress.XtraBars.BarButtonItem();
             ((System.ComponentModel.ISupportInitialize)(this.ribbonControl1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.repositoryItemDateEdit1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.repositoryItemDateEdit1.CalendarTimeProperties)).BeginInit();
@@ -82,7 +82,6 @@ namespace WeightChecking
             this.ribbonControl1.ExpandCollapseItem.Id = 0;
             this.ribbonControl1.Items.AddRange(new DevExpress.XtraBars.BarItem[] {
             this.ribbonControl1.ExpandCollapseItem,
-            this.ribbonControl1.SearchEditItem,
             this.barButtonItemMain,
             this.barButtonItemSettings,
             this.barStaticItemStatus,
@@ -309,6 +308,15 @@ namespace WeightChecking
             this._barButtonItemAddSpecialCase.LargeWidth = 150;
             this._barButtonItemAddSpecialCase.Name = "_barButtonItemAddSpecialCase";
             // 
+            // _barBtnDeleteBox
+            // 
+            this._barBtnDeleteBox.Caption = "Delete Box";
+            this._barBtnDeleteBox.Id = 22;
+            this._barBtnDeleteBox.ImageOptions.Image = ((System.Drawing.Image)(resources.GetObject("_barBtnDeleteBox.ImageOptions.Image")));
+            this._barBtnDeleteBox.ImageOptions.LargeImage = ((System.Drawing.Image)(resources.GetObject("_barBtnDeleteBox.ImageOptions.LargeImage")));
+            this._barBtnDeleteBox.LargeWidth = 100;
+            this._barBtnDeleteBox.Name = "_barBtnDeleteBox";
+            // 
             // ribbonPageHome
             // 
             this.ribbonPageHome.Groups.AddRange(new DevExpress.XtraBars.Ribbon.RibbonPageGroup[] {
@@ -409,15 +417,6 @@ namespace WeightChecking
             "DevExpress.XtraBars.TabFormControl",
             "DevExpress.XtraBars.FluentDesignSystem.FluentDesignFormControl",
             "DevExpress.XtraBars.ToolbarForm.ToolbarFormControl"});
-            // 
-            // _barBtnDeleteBox
-            // 
-            this._barBtnDeleteBox.Caption = "Delete Box";
-            this._barBtnDeleteBox.Id = 22;
-            this._barBtnDeleteBox.ImageOptions.Image = ((System.Drawing.Image)(resources.GetObject("_barBtnDeleteBox.ImageOptions.Image")));
-            this._barBtnDeleteBox.ImageOptions.LargeImage = ((System.Drawing.Image)(resources.GetObject("_barBtnDeleteBox.ImageOptions.LargeImage")));
-            this._barBtnDeleteBox.LargeWidth = 100;
-            this._barBtnDeleteBox.Name = "_barBtnDeleteBox";
             // 
             // frmMain
             // 

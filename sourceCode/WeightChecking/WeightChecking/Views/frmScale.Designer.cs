@@ -260,9 +260,9 @@ namespace WeightChecking
             this.labBoxId.Appearance.Font = new System.Drawing.Font("Tahoma", 15F);
             this.labBoxId.Appearance.Options.UseBackColor = true;
             this.labBoxId.Appearance.Options.UseFont = true;
-            this.labBoxId.Location = new System.Drawing.Point(471, 150);
+            this.labBoxId.Location = new System.Drawing.Point(456, 150);
             this.labBoxId.Name = "labBoxId";
-            this.labBoxId.Size = new System.Drawing.Size(238, 31);
+            this.labBoxId.Size = new System.Drawing.Size(253, 31);
             this.labBoxId.StyleController = this.layoutControl1;
             this.labBoxId.TabIndex = 40;
             this.labBoxId.Text = "labelControl1";
@@ -273,9 +273,9 @@ namespace WeightChecking
             this.labBoxType.Appearance.Font = new System.Drawing.Font("Tahoma", 15F, System.Drawing.FontStyle.Bold);
             this.labBoxType.Appearance.Options.UseBackColor = true;
             this.labBoxType.Appearance.Options.UseFont = true;
-            this.labBoxType.Location = new System.Drawing.Point(129, 225);
+            this.labBoxType.Location = new System.Drawing.Point(79, 225);
             this.labBoxType.Name = "labBoxType";
-            this.labBoxType.Size = new System.Drawing.Size(129, 45);
+            this.labBoxType.Size = new System.Drawing.Size(179, 45);
             this.labBoxType.StyleController = this.layoutControl1;
             this.labBoxType.TabIndex = 39;
             // 
@@ -289,9 +289,9 @@ namespace WeightChecking
             this.labDeviation.Appearance.Options.UseForeColor = true;
             this.labDeviation.Appearance.Options.UseTextOptions = true;
             this.labDeviation.Appearance.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Far;
-            this.labDeviation.Location = new System.Drawing.Point(929, 609);
+            this.labDeviation.Location = new System.Drawing.Point(849, 609);
             this.labDeviation.Name = "labDeviation";
-            this.labDeviation.Size = new System.Drawing.Size(166, 49);
+            this.labDeviation.Size = new System.Drawing.Size(246, 49);
             this.labDeviation.StyleController = this.layoutControl1;
             this.labDeviation.TabIndex = 38;
             this.labDeviation.Text = "0";
@@ -317,9 +317,9 @@ namespace WeightChecking
             this.labMetalScanBox.Appearance.Options.UseFont = true;
             this.labMetalScanBox.Appearance.Options.UseTextOptions = true;
             this.labMetalScanBox.Appearance.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Far;
-            this.labMetalScanBox.Location = new System.Drawing.Point(219, 522);
+            this.labMetalScanBox.Location = new System.Drawing.Point(79, 522);
             this.labMetalScanBox.Name = "labMetalScanBox";
-            this.labMetalScanBox.Size = new System.Drawing.Size(327, 36);
+            this.labMetalScanBox.Size = new System.Drawing.Size(467, 36);
             this.labMetalScanBox.StyleController = this.layoutControl1;
             this.labMetalScanBox.TabIndex = 35;
             this.labMetalScanBox.Text = "0";
@@ -332,9 +332,9 @@ namespace WeightChecking
             this.labCalculatedPairs.Appearance.Options.UseFont = true;
             this.labCalculatedPairs.Appearance.Options.UseTextOptions = true;
             this.labCalculatedPairs.Appearance.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Far;
-            this.labCalculatedPairs.Location = new System.Drawing.Point(219, 609);
+            this.labCalculatedPairs.Location = new System.Drawing.Point(79, 609);
             this.labCalculatedPairs.Name = "labCalculatedPairs";
-            this.labCalculatedPairs.Size = new System.Drawing.Size(180, 49);
+            this.labCalculatedPairs.Size = new System.Drawing.Size(320, 49);
             this.labCalculatedPairs.StyleController = this.layoutControl1;
             this.labCalculatedPairs.TabIndex = 34;
             this.labCalculatedPairs.Text = "0";
@@ -349,9 +349,9 @@ namespace WeightChecking
             this.labDeviationPairs.Appearance.Options.UseForeColor = true;
             this.labDeviationPairs.Appearance.Options.UseTextOptions = true;
             this.labDeviationPairs.Appearance.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Far;
-            this.labDeviationPairs.Location = new System.Drawing.Point(608, 609);
+            this.labDeviationPairs.Location = new System.Drawing.Point(458, 609);
             this.labDeviationPairs.Name = "labDeviationPairs";
-            this.labDeviationPairs.Size = new System.Drawing.Size(182, 49);
+            this.labDeviationPairs.Size = new System.Drawing.Size(332, 49);
             this.labDeviationPairs.StyleController = this.layoutControl1;
             this.labDeviationPairs.TabIndex = 33;
             this.labDeviationPairs.Text = "0";
@@ -382,9 +382,9 @@ namespace WeightChecking
             this.labNetRealWeight.Appearance.Options.UseTextOptions = true;
             this.labNetRealWeight.Appearance.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Far;
             this.labNetRealWeight.AutoSizeMode = DevExpress.XtraEditors.LabelAutoSizeMode.None;
-            this.labNetRealWeight.Location = new System.Drawing.Point(511, 689);
+            this.labNetRealWeight.Location = new System.Drawing.Point(511, 685);
             this.labNetRealWeight.Name = "labNetRealWeight";
-            this.labNetRealWeight.Size = new System.Drawing.Size(279, 81);
+            this.labNetRealWeight.Size = new System.Drawing.Size(279, 85);
             this.labNetRealWeight.StyleController = this.layoutControl1;
             this.labNetRealWeight.TabIndex = 31;
             this.labNetRealWeight.Text = "0";
@@ -402,7 +402,7 @@ namespace WeightChecking
             this.labScaleValue.Size = new System.Drawing.Size(210, 81);
             this.labScaleValue.StyleController = this.layoutControl1;
             this.labScaleValue.TabIndex = 30;
-            this.labScaleValue.Text = "3130";
+            this.labScaleValue.Text = "11076";
             // 
             // labNetWeight
             // 
@@ -414,9 +414,9 @@ namespace WeightChecking
             this.labNetWeight.Appearance.Options.UseForeColor = true;
             this.labNetWeight.Appearance.Options.UseTextOptions = true;
             this.labNetWeight.Appearance.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Far;
-            this.labNetWeight.Location = new System.Drawing.Point(782, 225);
+            this.labNetWeight.Location = new System.Drawing.Point(636, 225);
             this.labNetWeight.Name = "labNetWeight";
-            this.labNetWeight.Size = new System.Drawing.Size(313, 45);
+            this.labNetWeight.Size = new System.Drawing.Size(459, 45);
             this.labNetWeight.StyleController = this.layoutControl1;
             this.labNetWeight.TabIndex = 29;
             this.labNetWeight.Text = "0";
@@ -450,9 +450,9 @@ namespace WeightChecking
             this.labGrossWeight.Appearance.Options.UseTextOptions = true;
             this.labGrossWeight.Appearance.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Far;
             this.labGrossWeight.AutoSizeMode = DevExpress.XtraEditors.LabelAutoSizeMode.None;
-            this.labGrossWeight.Location = new System.Drawing.Point(977, 274);
+            this.labGrossWeight.Location = new System.Drawing.Point(831, 274);
             this.labGrossWeight.Name = "labGrossWeight";
-            this.labGrossWeight.Size = new System.Drawing.Size(118, 41);
+            this.labGrossWeight.Size = new System.Drawing.Size(264, 41);
             this.labGrossWeight.StyleController = this.layoutControl1;
             this.labGrossWeight.TabIndex = 26;
             this.labGrossWeight.Text = "0";
@@ -499,9 +499,9 @@ namespace WeightChecking
             this.labBoxWeight.Appearance.Options.UseTextOptions = true;
             this.labBoxWeight.Appearance.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Far;
             this.labBoxWeight.AutoSizeMode = DevExpress.XtraEditors.LabelAutoSizeMode.Vertical;
-            this.labBoxWeight.Location = new System.Drawing.Point(179, 274);
+            this.labBoxWeight.Location = new System.Drawing.Point(79, 274);
             this.labBoxWeight.Name = "labBoxWeight";
-            this.labBoxWeight.Size = new System.Drawing.Size(289, 41);
+            this.labBoxWeight.Size = new System.Drawing.Size(389, 41);
             this.labBoxWeight.StyleController = this.layoutControl1;
             this.labBoxWeight.TabIndex = 22;
             this.labBoxWeight.Text = "0";
@@ -514,9 +514,9 @@ namespace WeightChecking
             this.labMetalScanCount.Appearance.Options.UseFont = true;
             this.labMetalScanCount.Appearance.Options.UseTextOptions = true;
             this.labMetalScanCount.Appearance.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Far;
-            this.labMetalScanCount.Location = new System.Drawing.Point(765, 522);
+            this.labMetalScanCount.Location = new System.Drawing.Point(605, 522);
             this.labMetalScanCount.Name = "labMetalScanCount";
-            this.labMetalScanCount.Size = new System.Drawing.Size(330, 36);
+            this.labMetalScanCount.Size = new System.Drawing.Size(490, 36);
             this.labMetalScanCount.StyleController = this.layoutControl1;
             this.labMetalScanCount.TabIndex = 21;
             this.labMetalScanCount.Text = "0";
@@ -529,9 +529,9 @@ namespace WeightChecking
             this.labFailPrint.Appearance.Options.UseFont = true;
             this.labFailPrint.Appearance.Options.UseTextOptions = true;
             this.labFailPrint.Appearance.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Far;
-            this.labFailPrint.Location = new System.Drawing.Point(548, 485);
+            this.labFailPrint.Location = new System.Drawing.Point(408, 485);
             this.labFailPrint.Name = "labFailPrint";
-            this.labFailPrint.Size = new System.Drawing.Size(153, 33);
+            this.labFailPrint.Size = new System.Drawing.Size(293, 33);
             this.labFailPrint.StyleController = this.layoutControl1;
             this.labFailPrint.TabIndex = 20;
             this.labFailPrint.Text = "0";
@@ -546,9 +546,9 @@ namespace WeightChecking
             this.labGoodPrint.Appearance.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Far;
             this.labGoodPrint.AppearanceDisabled.Options.UseTextOptions = true;
             this.labGoodPrint.AppearanceDisabled.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Far;
-            this.labGoodPrint.Location = new System.Drawing.Point(548, 448);
+            this.labGoodPrint.Location = new System.Drawing.Point(408, 448);
             this.labGoodPrint.Name = "labGoodPrint";
-            this.labGoodPrint.Size = new System.Drawing.Size(153, 33);
+            this.labGoodPrint.Size = new System.Drawing.Size(293, 33);
             this.labGoodPrint.StyleController = this.layoutControl1;
             this.labGoodPrint.TabIndex = 19;
             this.labGoodPrint.Text = "0";
@@ -561,9 +561,9 @@ namespace WeightChecking
             this.labFailNoPrint.Appearance.Options.UseFont = true;
             this.labFailNoPrint.Appearance.Options.UseTextOptions = true;
             this.labFailNoPrint.Appearance.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Far;
-            this.labFailNoPrint.Location = new System.Drawing.Point(219, 485);
+            this.labFailNoPrint.Location = new System.Drawing.Point(79, 485);
             this.labFailNoPrint.Name = "labFailNoPrint";
-            this.labFailNoPrint.Size = new System.Drawing.Size(130, 33);
+            this.labFailNoPrint.Size = new System.Drawing.Size(270, 33);
             this.labFailNoPrint.StyleController = this.layoutControl1;
             this.labFailNoPrint.TabIndex = 18;
             this.labFailNoPrint.Text = "0";
@@ -576,9 +576,9 @@ namespace WeightChecking
             this.labGoodNoPrint.Appearance.Options.UseFont = true;
             this.labGoodNoPrint.Appearance.Options.UseTextOptions = true;
             this.labGoodNoPrint.Appearance.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Far;
-            this.labGoodNoPrint.Location = new System.Drawing.Point(219, 448);
+            this.labGoodNoPrint.Location = new System.Drawing.Point(79, 448);
             this.labGoodNoPrint.Name = "labGoodNoPrint";
-            this.labGoodNoPrint.Size = new System.Drawing.Size(130, 33);
+            this.labGoodNoPrint.Size = new System.Drawing.Size(270, 33);
             this.labGoodNoPrint.StyleController = this.layoutControl1;
             this.labGoodNoPrint.TabIndex = 17;
             this.labGoodNoPrint.Text = "0";
@@ -593,9 +593,9 @@ namespace WeightChecking
             this.labFailBox.Appearance.Options.UseForeColor = true;
             this.labFailBox.Appearance.Options.UseTextOptions = true;
             this.labFailBox.Appearance.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Far;
-            this.labFailBox.Location = new System.Drawing.Point(900, 485);
+            this.labFailBox.Location = new System.Drawing.Point(760, 485);
             this.labFailBox.Name = "labFailBox";
-            this.labFailBox.Size = new System.Drawing.Size(195, 33);
+            this.labFailBox.Size = new System.Drawing.Size(335, 33);
             this.labFailBox.StyleController = this.layoutControl1;
             this.labFailBox.TabIndex = 16;
             this.labFailBox.Text = "0";
@@ -610,9 +610,9 @@ namespace WeightChecking
             this.labGoodBox.Appearance.Options.UseForeColor = true;
             this.labGoodBox.Appearance.Options.UseTextOptions = true;
             this.labGoodBox.Appearance.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Far;
-            this.labGoodBox.Location = new System.Drawing.Point(900, 448);
+            this.labGoodBox.Location = new System.Drawing.Point(760, 448);
             this.labGoodBox.Name = "labGoodBox";
-            this.labGoodBox.Size = new System.Drawing.Size(195, 33);
+            this.labGoodBox.Size = new System.Drawing.Size(335, 33);
             this.labGoodBox.StyleController = this.layoutControl1;
             this.labGoodBox.TabIndex = 15;
             this.labGoodBox.Text = "0";
@@ -627,9 +627,9 @@ namespace WeightChecking
             this.labLowerTolerance.Appearance.Options.UseForeColor = true;
             this.labLowerTolerance.Appearance.Options.UseTextOptions = true;
             this.labLowerTolerance.Appearance.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Far;
-            this.labLowerTolerance.Location = new System.Drawing.Point(225, 319);
+            this.labLowerTolerance.Location = new System.Drawing.Point(79, 319);
             this.labLowerTolerance.Name = "labLowerTolerance";
-            this.labLowerTolerance.Size = new System.Drawing.Size(146, 46);
+            this.labLowerTolerance.Size = new System.Drawing.Size(292, 46);
             this.labLowerTolerance.StyleController = this.layoutControl1;
             this.labLowerTolerance.TabIndex = 13;
             this.labLowerTolerance.Text = "0";
@@ -659,9 +659,9 @@ namespace WeightChecking
             this.labAveWeight.Appearance.Options.UseFont = true;
             this.labAveWeight.Appearance.Options.UseTextOptions = true;
             this.labAveWeight.Appearance.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Far;
-            this.labAveWeight.Location = new System.Drawing.Point(417, 225);
+            this.labAveWeight.Location = new System.Drawing.Point(317, 225);
             this.labAveWeight.Name = "labAveWeight";
-            this.labAveWeight.Size = new System.Drawing.Size(160, 45);
+            this.labAveWeight.Size = new System.Drawing.Size(260, 45);
             this.labAveWeight.StyleController = this.layoutControl1;
             this.labAveWeight.TabIndex = 11;
             this.labAveWeight.Text = "0";

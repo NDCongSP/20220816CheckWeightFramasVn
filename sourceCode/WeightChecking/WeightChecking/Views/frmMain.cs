@@ -19,6 +19,7 @@ using System.Windows.Forms;
 using AutoUpdaterDotNET;
 using System.Diagnostics;
 using DevExpress.XtraPrinting;
+using WeightChecking.Models.Entities;
 
 namespace WeightChecking
 {
@@ -215,9 +216,9 @@ namespace WeightChecking
             #endregion
 
             #region Ket noi modbus RTU PLC metalScan counter
-            if (GlobalVariables.IsCounter)
+            if (GlobalVariables.ConfigJson.IsCounter)
             {
-                GlobalVariables.ModbusStatus = GlobalVariables.MyDriver.ModbusRTUMaster.KetNoi(GlobalVariables.ComPort, 9600, 8, System.IO.Ports.Parity.None, System.IO.Ports.StopBits.One);
+                GlobalVariables.ModbusStatus = GlobalVariables.MyDriver.ModbusRTUMaster.KetNoi(GlobalVariables.ConfigJson.ComPort, 9600, 8, System.IO.Ports.Parity.None, System.IO.Ports.StopBits.One);
 
                 Console.WriteLine($"PLC Status: {GlobalVariables.ModbusStatus}");
 
@@ -300,14 +301,15 @@ namespace WeightChecking
                         var toDate = (DateTime)_barEditItemToDate.EditValue;
                         //var station = _barEditItemCombStation.EditValue.ToString();
 
-                        using (var connection = GlobalVariables.GetDbConnection())
+                        using (var dbContext =new ApplicationDbContext(GlobalVariables.ConnectionString))
                         {
                             var parametters = new DynamicParameters();
                             parametters.Add("FromDate", fromDate.ToString("yyyy/MM/dd 00:00:00"));
                             parametters.Add("ToDate", toDate.ToString("yyyy/MM/dd 23:59:59"));
                             parametters.Add("Station", _stationReport);
 
-                            var res = connection.Query<MissProItemModel>("sp_MissingInfoGets", parametters, commandType: CommandType.StoredProcedure).ToList();
+                            var res = dbContext.Database.SqlQuery<MissProItemModel>("sp_MissingInfoGets @FromDate = {0}, @ToDate = {1}, @Station = {2}",
+                                fromDate.ToString("yyyy/MM/dd 00:00:00"), toDate.ToString("yyyy/MM/dd 23:59:59"), _stationReport).ToList();
 
                             using (Workbook wb = new Workbook())
                             {
@@ -739,7 +741,7 @@ namespace WeightChecking
             try
             {
                 isUpdateClicked = true;
-                string UUrl = GlobalVariables.UpdatePath;
+                string UUrl = GlobalVariables.ConfigJson.UpdatePath;
                 SplashScreenManager.ShowForm(typeof(WaitForm1));
                 System.Threading.Thread.Sleep(3000);
                 AutoUpdater.Start(UUrl);
@@ -845,7 +847,7 @@ namespace WeightChecking
                     SplashScreenManager.Default.SetWaitFormCaption("Vui lòng chờ trong giây lát");
                     SplashScreenManager.Default.SetWaitFormDescription("Loading...");
 
-                    var res = connection.Query<WinlineDataModel>("sp_IdcScanScaleGetCoreData").ToList();
+                    var res = connection.Query<WinlineDataModel>(" ").ToList();
 
                     if (res != null && res.Count > 0)
                     {
@@ -949,7 +951,7 @@ namespace WeightChecking
                     SplashScreenManager.ShowForm(this, typeof(WaitForm1), true, true, false);
                     SplashScreenManager.Default.SetWaitFormCaption("Vui lòng chờ trong giây lát");
                     SplashScreenManager.Default.SetWaitFormDescription("Loading...");
-                    List<tblCoreDataCodeItemSizeModel> coreData = new List<tblCoreDataCodeItemSizeModel>();
+                    List<tblCoreDataCodeItemSize> coreData = new List<tblCoreDataCodeItemSize>();
 
                     #region Get data from template excel
                     using (Workbook wb = new Workbook())
@@ -977,14 +979,14 @@ namespace WeightChecking
 
                                 if (!string.IsNullOrEmpty(_row[$"A{i}"].Value.TextValue))
                                 {
-                                    coreData.Add(new tblCoreDataCodeItemSizeModel()
+                                    coreData.Add(new tblCoreDataCodeItemSize()
                                     {
                                         CodeItemSize = _row[$"A{i}"].Value.TextValue,
                                         MainItemName = _row[$"B{i}"].Value.TextValue,
                                         MetalScan = (int)_row[$"C{i}"].Value.NumericValue,
                                         Color = _row[$"D{i}"].Value.TextValue,
                                         Printing = (int)_row[$"E{i}"].Value.NumericValue,
-                                        Date = DateTime.Now.ToString("yyyy-MM-dd"),//_row[$"F{i}"].Value.DateTimeValue != null ? _row[$"F{i}"].Value.DateTimeValue.ToString() : null,
+                                        Date = DateTime.Now.Date,//_row[$"F{i}"].Value.DateTimeValue != null ? _row[$"F{i}"].Value.DateTimeValue.ToString() : null,
                                         //Date = _row[$"F{i}"].Value.DateTimeValue != null ? _row[$"F{i}"].Value.DateTimeValue.ToString() : null,
                                         Size = _row[$"G{i}"].Value.TextValue,
                                         AveWeight1Prs = _row[$"M{i}"].Value.NumericValue,
@@ -1202,7 +1204,7 @@ namespace WeightChecking
                     {
                         GlobalVariables.MyDriver.ModbusRTUMaster.NgatKetNoi();
 
-                        GlobalVariables.ModbusStatus = GlobalVariables.MyDriver.ModbusRTUMaster.KetNoi(GlobalVariables.ComPort, 9600, 8, System.IO.Ports.Parity.None, System.IO.Ports.StopBits.One);
+                        GlobalVariables.ModbusStatus = GlobalVariables.MyDriver.ModbusRTUMaster.KetNoi(GlobalVariables.ConfigJson.ComPort, 9600, 8, System.IO.Ports.Parity.None, System.IO.Ports.StopBits.One);
                     }
                 }
                 #endregion

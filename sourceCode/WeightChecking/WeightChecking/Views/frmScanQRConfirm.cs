@@ -9,6 +9,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using WeightChecking.Models.Entities;
 
 namespace WeightChecking
 {
@@ -28,11 +29,11 @@ namespace WeightChecking
 
         private void TxtQrCode_KeyDown(object sender, KeyEventArgs e)
         {
-            if (e.KeyCode==Keys.Enter)
+            if (e.KeyCode == Keys.Enter)
             {
                 TextEdit _sen = sender as TextEdit;
 
-                QrApproved= Guid.TryParse(_sen.Text, out Guid valueD) ? valueD : Guid.Empty;
+                QrApproved = Guid.TryParse(_sen.Text, out Guid valueD) ? valueD : Guid.Empty;
 
                 CheckCode();
             }
@@ -43,7 +44,7 @@ namespace WeightChecking
             if (!_isOk)
             {
                 this.DialogResult = DialogResult.Cancel;
-            } 
+            }
         }
 
         private void BtnConfirm_Click(object sender, EventArgs e)
@@ -57,12 +58,12 @@ namespace WeightChecking
             {
                 if (!string.IsNullOrEmpty(txtQrCode.Text))
                 {
-                    using (var connection = GlobalVariables.GetDbConnection())
+                    using (var dbContext = new ApplicationDbContext(GlobalVariables.ConnectionString))
                     {
                         var para = new DynamicParameters();
                         para.Add("Id", QrApproved);
 
-                        var res = connection.Query<tblUsers>("sp_tblUserGet", para, commandType: CommandType.StoredProcedure).FirstOrDefault();
+                        var res = dbContext.TblUsers.FirstOrDefault(x => x.Id == QrApproved);
 
                         if (res != null)
                         {

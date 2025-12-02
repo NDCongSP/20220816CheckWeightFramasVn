@@ -1,15 +1,19 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace WeightChecking
 {
-    public class tblScanDataModel
+    [Table("tblScanData")]
+    public class tblScanData
     {
         [Browsable(false)]
+        [Key]
         public Guid Id { get; set; }
         public string BarcodeString { get; set; } = null;
         public string IdLabel { get; set; } = null;
@@ -53,14 +57,14 @@ namespace WeightChecking
         public int Actived { get; set; }
         [Browsable(false)]
         public Guid CreatedBy { get; set; }
-        public string UserName { get; set; }
+        [NotMapped] public string UserName { get; set; }
         public double CalculatedPairs { get; set; }
         [DisplayName("CalculatedDeviationPairs")]
         public double DeviationPairs { get; set; } = 0;//thể hiện số pairs bị thiếu.
         public StationEnum Station { get; set; }
         [Browsable(false)]
         public Guid ApprovedBy { get; set; } = Guid.Empty;
-        public string ApprovedName { get; set; }
+        [NotMapped] public string ApprovedName { get; set; }
         public double ActualDeviationPairs { get; set; } = 0;
 
         /// <summary>

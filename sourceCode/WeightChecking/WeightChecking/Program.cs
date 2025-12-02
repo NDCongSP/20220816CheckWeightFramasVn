@@ -15,6 +15,7 @@ using AutoUpdaterDotNET;
 using System.Threading;
 using Dapper;
 using WeightChecking.Models;
+using WeightChecking.Models.Entities;
 
 namespace WeightChecking
 {
@@ -27,27 +28,49 @@ namespace WeightChecking
         static void Main()
         {
             #region Đọc các thông số cấu hình ban đầu từ settings
-            GlobalVariables.ConnectionString = EncodeMD5.DecryptString(Properties.Settings.Default.conString, "ITFramasBDVN");
-            GlobalVariables.ConStringWinline = EncodeMD5.DecryptString(Properties.Settings.Default.conStringWL, "ITFramasBDVN");
-            GlobalVariables.ConStringDogeWh = EncodeMD5.DecryptString(Properties.Settings.Default.conStringDogeWh, "ITFramasBDVN");
-            GlobalVariables.IpScale = Properties.Settings.Default.ipScale;
-            GlobalVariables.UnitScale = int.TryParse(Properties.Settings.Default.UnitScale, out int value) ? value : 0;
-            GlobalVariables.IsScale = Properties.Settings.Default.IsScale;
-            GlobalVariables.IsCounter = Properties.Settings.Default.IsCounter;
-            GlobalVariables.AfterPrinting = Properties.Settings.Default.AfterPrinting;
-            GlobalVariables.UpdatePath = Properties.Settings.Default.UpdatePath;
+            GlobalVariables.Station = (StationEnum)Properties.Settings.Default.Station;//0-trước in; 1-sau in
+            GlobalVariables.ConnectionString = EncodeMD5.DecryptString(Properties.Settings.Default.conString, "ITFramasBDVN");//0-trước in; 1-sau in
 
-            if (Properties.Settings.Default.Station == 0)
+            using (var dbContext = new ApplicationDbContext(GlobalVariables.ConnectionString))
             {
-                GlobalVariables.Station = StationEnum.IDC_1;
-            }
-            else if (Properties.Settings.Default.Station == 1)
-            {
-                GlobalVariables.Station = StationEnum.IDC_2;
-            }
-            else if (Properties.Settings.Default.Station == 2)
-            {
-                GlobalVariables.Station = StationEnum.Kerry_3;
+                var c = dbContext.TblConfigs.FirstOrDefault(x => x.Location == GlobalVariables.Station);
+
+                if (c != null)
+                {
+                    GlobalVariables.ConfigJson = JsonConvert.DeserializeObject<ConfigJsonModel>(c.ConfigJson);
+                }
+                else
+                {
+                    dbContext.TblConfigs.Add(new tblConfig()
+                    {
+                        Id = Guid.NewGuid(),
+                        CreatedDate = DateTime.Now,
+                        CreatedMachine = Environment.MachineName,
+                        Location = GlobalVariables.Station,
+                        ConfigJson = JsonConvert.SerializeObject(new ConfigJsonModel() )
+                    });
+                    dbContext.SaveChanges();
+                }
+
+                GlobalVariables.ConfigJson.ConStringDogeWH = EncodeMD5.DecryptString(GlobalVariables.ConfigJson.ConStringDogeWH, "ITFramasBDVN");
+                GlobalVariables.ConfigJson.ConStringWL = EncodeMD5.DecryptString(GlobalVariables.ConfigJson.ConStringWL, "ITFramasBDVN");
+
+                //Đọc DB lấy danh sách specialCase
+                GlobalVariables.SpecialCaseList = dbContext.Database.SqlQuery<tblSpecialCase>("sp_tblSpecialCaseGets").ToList();
+
+                GlobalVariables.SystemOC = dbContext.Database.SqlQuery<tblSystemOC>("sp_GetSystemOC").ToList();
+                if (GlobalVariables.SystemOC != null)
+                {
+                    foreach (var row in GlobalVariables.SystemOC)
+                    {
+                        GlobalVariables.OcUsingList.Add(new OcUsingModel()
+                        {
+                            OcNo = row.FirstChar,
+                            OcFirstChar = row.FirstChar,
+                            Description = row.Description,
+                        });
+                    }
+                }
             }
 
             Console.WriteLine($"Path app: {Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location)}");
@@ -59,39 +82,16 @@ namespace WeightChecking
                 GlobalVariables.RememberInfo.UserName = EncodeMD5.DecryptString(GlobalVariables.RememberInfo.UserName, "ITFramasBDVN");
                 GlobalVariables.RememberInfo.Pass = EncodeMD5.DecryptString(GlobalVariables.RememberInfo.Pass, "ITFramasBDVN");
             }
-
-            GlobalVariables.ComPort = Properties.Settings.Default.ComPort;
-
-            GlobalVariables.RatioFailWeight = Properties.Settings.Default.RatioFailWeight;
             #endregion
 
             #region Get danh sách tất cả các OC đang sử dụng
-            using (var connection = GlobalVariables.GetDbConnectionWinline())
+            using (var dbContext = new ApplicationDbContextWL(GlobalVariables.ConfigJson.ConStringWL))
             {
-                GlobalVariables.OcUsingList = connection.Query<OcUsingModel>("sp_IdcGetListOcName").ToList();
+                GlobalVariables.OcUsingList = dbContext.Database.SqlQuery<OcUsingModel>("sp_IdcGetListOcName").ToList();
             }
             #endregion
 
-            #region Đọc DB lấy danh sách specialCase
-            using (var connection = GlobalVariables.GetDbConnection())
-            {
-                GlobalVariables.SpecialCaseList = connection.Query<tblSpecialCaseModel>("sp_tblSpecialCaseGets").ToList();
 
-                GlobalVariables.SystemOC = connection.Query<tblSystemOC>("sp_GetSystemOC").ToList();
-                if (GlobalVariables.SystemOC != null)
-                {
-                    foreach (var row in GlobalVariables.SystemOC)
-                    {
-                        GlobalVariables.OcUsingList.Add(new OcUsingModel()
-                        {
-                            OcNo=row.FirstChar,
-                            OcFirstChar=row.FirstChar,
-                            Description=row.Description,
-                        });
-                    }
-                }
-            }
-            #endregion
 
             //Log các hành động của user thì tự log bằng tay vào bảng tblLog
             //tạo serilog để log Error exception.
@@ -127,7 +127,7 @@ namespace WeightChecking
                 AutoUpdater.DownloadPath = Environment.CurrentDirectory;
                 AutoUpdater.ApplicationExitEvent += AutoUpdater_ApplicationExitEvent;
                 AutoUpdater.CheckForUpdateEvent += AutoUpdater_CheckForUpdateEvent;
-                AutoUpdater.Start(GlobalVariables.UpdatePath);
+                AutoUpdater.Start(GlobalVariables.ConfigJson.UpdatePath);
                 Application.Run(new Login());
             }
         }

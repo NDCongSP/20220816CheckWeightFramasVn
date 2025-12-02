@@ -56,7 +56,7 @@ namespace WeightChecking
         {
             if (MessageBox.Show($"Are you sure delete this box?", "Warning", MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.Yes)
             {
-                using (var connection = GlobalVariables.GetDbConnection())
+                using (var connection =  GlobalVariables.GetDbConnection())
                 {
                     var para = new DynamicParameters();
                     if (IdLabel != string.Empty)

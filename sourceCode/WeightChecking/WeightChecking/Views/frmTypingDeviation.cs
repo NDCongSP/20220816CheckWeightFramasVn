@@ -10,6 +10,7 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using WeightChecking.Models.Entities;
 
 namespace WeightChecking
 {
@@ -184,12 +185,12 @@ namespace WeightChecking
             {
                 if (!string.IsNullOrEmpty(txtQR.Text) && !string.IsNullOrEmpty(txtActualDeviation.Text) && !string.IsNullOrEmpty(Reason))
                 {
-                    using (var connection = GlobalVariables.GetDbConnection())
+                    using (var dbContext =new ApplicationDbContext(GlobalVariables.ConnectionString))
                     {
                         var para = new DynamicParameters();
                         para.Add("Id", QrConfirm);
 
-                        var res = connection.Query<tblUsers>("sp_tblUserGet", para, commandType: CommandType.StoredProcedure).FirstOrDefault();
+                        var res = dbContext.TblUsers.FirstOrDefault(x=>x.Id==QrConfirm);
 
                         if (res != null)
                         {

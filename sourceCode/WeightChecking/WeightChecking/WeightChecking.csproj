@@ -1,5 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="..\packages\EntityFramework.6.5.1\build\EntityFramework.props" Condition="Exists('..\packages\EntityFramework.6.5.1\build\EntityFramework.props')" />
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
@@ -10,10 +11,17 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>WeightChecking</RootNamespace>
     <AssemblyName>SSFG</AssemblyName>
-    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
+    <TargetFrameworkProfile />
+    <!-- Bật C# 8 (hoặc mới nhất) -->
+    <LangVersion>8.0</LangVersion>
+    <!-- hoặc dùng latest nếu bạn muốn luôn theo compiler mới nhất -->
+    <!-- <LangVersion>latest</LangVersion> -->
+    <!-- Bật nullable reference types -->
+    <Nullable>enable</Nullable>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -59,7 +67,6 @@
     <Reference Include="DevExpress.Office.v24.2.Core, Version=24.2.3.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
     <Reference Include="DevExpress.Pdf.v24.2.Core, Version=24.2.3.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
     <Reference Include="DevExpress.PivotGrid.v24.2.Core, Version=24.2.3.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
-    <Reference Include="DevExpress.Printing.v24.2.Core, Version=24.2.3.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
     <Reference Include="DevExpress.Printing.v24.2.Core, Version=24.2.3.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
     <Reference Include="DevExpress.RichEdit.v24.2.Core, Version=24.2.3.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
     <Reference Include="DevExpress.RichEdit.v24.2.Export, Version=24.2.3.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
@@ -76,6 +83,13 @@
     <Reference Include="DevExpress.XtraPrinting.v24.2, Version=24.2.3.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
     <Reference Include="DevExpress.XtraReports.v24.2, Version=24.2.3.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
     <Reference Include="DevExpress.XtraReports.v24.2.Extensions, Version=24.2.3.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.XtraVerticalGrid.v24.2, Version=24.2.3.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.5.1\lib\net45\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.5.1\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.Azure.Services.AppAuthentication, Version=1.4.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.Azure.Services.AppAuthentication.1.4.0\lib\net472\Microsoft.Azure.Services.AppAuthentication.dll</HintPath>
     </Reference>
@@ -256,13 +270,18 @@
     <Compile Include="frmScaleNewUI.Designer.cs">
       <DependentUpon>frmScaleNewUI.cs</DependentUpon>
     </Compile>
-    <Compile Include="frmScalNewUI.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="frmScalNewUI.Designer.cs">
-      <DependentUpon>frmScalNewUI.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Models\tblSystemOC.cs" />
+    <Compile Include="Models\Entities\ApplicationDbContextDogeWH.cs" />
+    <Compile Include="Models\Entities\ApplicationDbContextWL.cs" />
+    <Compile Include="Models\Entities\IDCScanSystem\ApplicationDbContext.cs" />
+    <Compile Include="Models\Entities\IDCScanSystem\tblApprovedPrintLabel.cs" />
+    <Compile Include="Models\Entities\IDCScanSystem\tblConfig.cs" />
+    <Compile Include="Models\Entities\IDCScanSystem\tblCoreDataCodeItemSize.cs" />
+    <Compile Include="Models\Entities\IDCScanSystem\tblItemMissingInfo.cs" />
+    <Compile Include="Models\Entities\IDCScanSystem\tblLog.cs" />
+    <Compile Include="Models\Entities\IDCScanSystem\tblScanData.cs" />
+    <Compile Include="Models\Entities\IDCScanSystem\tblUser.cs" />
+    <Compile Include="Models\Entities\IDCScanSystem\tblWinlineProductsInfo.cs" />
+    <Compile Include="Models\Entities\IDCScanSystem\tblSystemOC.cs" />
     <Compile Include="StaticClass\Warehouse.cs" />
     <Compile Include="Events\RefreshEvent.cs" />
     <Compile Include="frmDeleteBox.cs">
@@ -306,7 +325,7 @@
     <Compile Include="Models\ScanDataReport1Model.cs" />
     <Compile Include="Models\ScanDataReportModel.cs" />
     <Compile Include="Models\tblScanDataCheckModel.cs" />
-    <Compile Include="Models\tblSpecialCaseModel.cs" />
+    <Compile Include="Models\Entities\IDCScanSystem\tblSpecialCase.cs" />
     <Compile Include="rptLabelFail.cs">
       <SubType>Component</SubType>
     </Compile>
@@ -332,7 +351,6 @@
       <DependentUpon>frmReports.cs</DependentUpon>
     </Compile>
     <Compile Include="Models\ProductInfoModel.cs" />
-    <Compile Include="Models\tblCoreDataCodeItemSizeModel.cs" />
     <Compile Include="Views\frmUpdateTolerance.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -353,9 +371,6 @@
       <DependentUpon>frmMasterData.cs</DependentUpon>
     </Compile>
     <Compile Include="Models\RememberInfo.cs" />
-    <Compile Include="Models\tblScanDataModel.cs" />
-    <Compile Include="Models\tblUsers.cs" />
-    <Compile Include="Models\tblWinlineProductsInfoModel.cs" />
     <Compile Include="StaticClass\EncodeMD5.cs" />
     <Compile Include="StaticClass\ScaleHelper.cs" />
     <Compile Include="Views\frmScale.cs">
@@ -400,8 +415,8 @@
     <EmbeddedResource Include="frmDeleteBox.resx">
       <DependentUpon>frmDeleteBox.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="frmScalNewUI.resx">
-      <DependentUpon>frmScalNewUI.cs</DependentUpon>
+    <EmbeddedResource Include="frmScaleNewUI.resx">
+      <DependentUpon>frmScaleNewUI.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="rptLabelFail.resx">
       <DependentUpon>rptLabelFail.cs</DependentUpon>
@@ -487,6 +502,10 @@
   <ItemGroup>
     <Content Include="framas_mini__black__oEw_icon.ico" />
   </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Models\Entities\Doge_WH\" />
+    <Folder Include="Models\Entities\WL\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="..\packages\Microsoft.Data.SqlClient.SNI.1.1.0\build\net46\Microsoft.Data.SqlClient.SNI.targets" Condition="Exists('..\packages\Microsoft.Data.SqlClient.SNI.1.1.0\build\net46\Microsoft.Data.SqlClient.SNI.targets')" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
@@ -495,6 +514,8 @@
     </PropertyGroup>
     <Error Condition="!Exists('..\packages\Microsoft.Data.SqlClient.SNI.1.1.0\build\net46\Microsoft.Data.SqlClient.SNI.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.Data.SqlClient.SNI.1.1.0\build\net46\Microsoft.Data.SqlClient.SNI.targets'))" />
     <Error Condition="!Exists('..\packages\Microsoft.Web.WebView2.1.0.1418.22\build\Microsoft.Web.WebView2.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.Web.WebView2.1.0.1418.22\build\Microsoft.Web.WebView2.targets'))" />
+    <Error Condition="!Exists('..\packages\EntityFramework.6.5.1\build\EntityFramework.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\EntityFramework.6.5.1\build\EntityFramework.props'))" />
+    <Error Condition="!Exists('..\packages\EntityFramework.6.5.1\build\EntityFramework.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\EntityFramework.6.5.1\build\EntityFramework.targets'))" />
   </Target>
   <Import Project="..\packages\Microsoft.Web.WebView2.1.0.1418.22\build\Microsoft.Web.WebView2.targets" Condition="Exists('..\packages\Microsoft.Web.WebView2.1.0.1418.22\build\Microsoft.Web.WebView2.targets')" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it.
@@ -548,4 +569,5 @@
     <ZipDirectory SourceDirectory="$(OutputPath)\..\Update" DestinationFile="$(OutputPath)\..\Update.zip" Overwrite="true" />
     <RemoveDir Directories="$(OutputPath)\..\Update" />
   </Target>
+  <Import Project="..\packages\EntityFramework.6.5.1\build\EntityFramework.targets" Condition="Exists('..\packages\EntityFramework.6.5.1\build\EntityFramework.targets')" />
 </Project>
