@@ -162,7 +162,7 @@
             this.groupControl2.Controls.Add(this.labProductCode);
             this.groupControl2.Controls.Add(this.labelControl12);
             this.groupControl2.GroupStyle = DevExpress.Utils.GroupStyle.Light;
-            this.groupControl2.Location = new System.Drawing.Point(12, 230);
+            this.groupControl2.Location = new System.Drawing.Point(12, 43);
             this.groupControl2.Name = "groupControl2";
             this.groupControl2.Size = new System.Drawing.Size(1016, 570);
             this.groupControl2.TabIndex = 7;
@@ -662,7 +662,7 @@
             this.groupControl1.Controls.Add(this._labLastResultMessage);
             this.groupControl1.Controls.Add(this.labelControl1);
             this.groupControl1.GroupStyle = DevExpress.Utils.GroupStyle.Card;
-            this.groupControl1.Location = new System.Drawing.Point(12, 43);
+            this.groupControl1.Location = new System.Drawing.Point(12, 638);
             this.groupControl1.Name = "groupControl1";
             this.groupControl1.Size = new System.Drawing.Size(1016, 168);
             this.groupControl1.TabIndex = 2;
@@ -674,8 +674,9 @@
             this.txtQrCode.Location = new System.Drawing.Point(10, 73);
             this.txtQrCode.Multiline = true;
             this.txtQrCode.Name = "txtQrCode";
-            this.txtQrCode.Size = new System.Drawing.Size(748, 54);
+            this.txtQrCode.Size = new System.Drawing.Size(971, 54);
             this.txtQrCode.TabIndex = 41;
+            this.txtQrCode.Text = "P251118002,6111011519-ADSN-D136,600,0,R,44/64,,44/64|1,1550980.2025,0,,1,BX1A";
             // 
             // labelControl7
             // 
@@ -690,16 +691,16 @@
             // _labLastResultMessage
             // 
             this._labLastResultMessage.Appearance.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(240)))), ((int)(((byte)(240)))), ((int)(((byte)(240)))));
-            this._labLastResultMessage.Appearance.Font = new System.Drawing.Font("Tahoma", 10F);
+            this._labLastResultMessage.Appearance.Font = new System.Drawing.Font("Tahoma", 10F, System.Drawing.FontStyle.Italic);
             this._labLastResultMessage.Appearance.Options.UseBackColor = true;
             this._labLastResultMessage.Appearance.Options.UseFont = true;
             this._labLastResultMessage.Appearance.Options.UseTextOptions = true;
             this._labLastResultMessage.Appearance.TextOptions.WordWrap = DevExpress.Utils.WordWrap.Wrap;
             this._labLastResultMessage.AutoSizeMode = DevExpress.XtraEditors.LabelAutoSizeMode.None;
             this._labLastResultMessage.BorderStyle = DevExpress.XtraEditors.Controls.BorderStyles.NoBorder;
-            this._labLastResultMessage.Location = new System.Drawing.Point(764, 73);
+            this._labLastResultMessage.Location = new System.Drawing.Point(10, 130);
             this._labLastResultMessage.Name = "_labLastResultMessage";
-            this._labLastResultMessage.Size = new System.Drawing.Size(249, 54);
+            this._labLastResultMessage.Size = new System.Drawing.Size(971, 20);
             this._labLastResultMessage.TabIndex = 33;
             this._labLastResultMessage.Text = "Could not read QR Code.";
             // 
@@ -1242,11 +1243,11 @@
             // 
             // _btnReprint
             // 
-            this._btnReprint.Appearance.BackColor = DevExpress.LookAndFeel.DXSkinColors.FillColors.Success;
+            this._btnReprint.Appearance.BackColor = DevExpress.LookAndFeel.DXSkinColors.FillColors.Warning;
             this._btnReprint.Appearance.Font = new System.Drawing.Font("Tahoma", 20F, System.Drawing.FontStyle.Bold);
             this._btnReprint.Appearance.Options.UseBackColor = true;
             this._btnReprint.Appearance.Options.UseFont = true;
-            this._btnReprint.Location = new System.Drawing.Point(695, 926);
+            this._btnReprint.Location = new System.Drawing.Point(695, 941);
             this._btnReprint.Name = "_btnReprint";
             this._btnReprint.Size = new System.Drawing.Size(333, 54);
             this._btnReprint.TabIndex = 41;

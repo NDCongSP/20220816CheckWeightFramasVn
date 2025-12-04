@@ -374,6 +374,7 @@ namespace WeightChecking
 
             if (e.KeyCode == Keys.Enter)
             {
+                var errorFlag = false;
                 try
                 {
                     GlobalVariables.InvokeIfRequired(this, () =>
@@ -818,18 +819,18 @@ namespace WeightChecking
                                         #endregion
 
                                         //MessageBox.Show($"Quantity over the BX1 box limit ({res.BoxQtyBx1}).", "WARNING", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                                        GlobalVariables.InvokeIfRequired(this, () =>
-                                        {
-                                            _labResultMessage.Text = $"Quantity over the BX1 box limit ({res.BoxQtyBx1})";
-                                            _labResult.Text = "NG";
-                                            _labResult.BackColor = Color.Red;
-                                            _labResult.ForeColor = Color.White;
-                                        });
+                                        //GlobalVariables.InvokeIfRequired(this, () =>
+                                        //{
+                                        //    _labResultMessage.Text = $"Quantity over the BX1 box limit ({res.BoxQtyBx1})";
+                                        //    _labResult.Text = "NG";
+                                        //    _labResult.BackColor = Color.Red;
+                                        //    _labResult.ForeColor = Color.White;
+                                        //});
 
-                                        //ResetControl();
-                                        _resetUI = true;
-                                        return;
-                                        //goto returnLoop;
+                                        ////ResetControl();
+                                        //_resetUI = true;
+                                        //return;
+                                        throw new Exception($"Quantity over the BX1 box limit ({res.BoxQtyBx1})");
                                     }
                                     #endregion
                                 }
@@ -1052,7 +1053,7 @@ namespace WeightChecking
                                 else if (_scanData.NetWeight > nwPlus)//roundDown
                                 {
                                     _scanData.CalculatedPairs = (int)(_scanData.Quantity + Math.Floor((_scanData.NetWeight - nwPlus) / _scanData.AveWeight1Prs));
-                                 }
+                                }
                                 else if (_scanData.NetWeight < nwSub)//RoundUp
                                 {
                                     _scanData.CalculatedPairs = (int)(_scanData.Quantity - Math.Ceiling((nwSub - _scanData.NetWeight) / _scanData.AveWeight1Prs));
@@ -1352,16 +1353,6 @@ namespace WeightChecking
                                                     , !string.IsNullOrEmpty(GlobalVariables.IdLabel) ? GlobalVariables.IdLabel : $"{_scanData.OcNo}|{_scanData.BoxNo}", false
                                                     , _scanData.CreatedDate.ToString("yyyy-MM-dd HH:mm:ss"));
 
-                                        #region hien thi mau label
-                                        GlobalVariables.InvokeIfRequired(this, () =>
-                                        {
-                                            _labResultMessage.Text = $"There is a discrepancy in the quantity: {_scanData.DeviationPairs} {_unitLabel}";
-                                            _labResult.Text = "NG";
-                                            _labResult.BackColor = Color.Red;
-                                            _labResult.ForeColor = Color.White;
-                                        });
-                                        #endregion
-
                                         #region Auto posting
                                         //hàng từ production qua: decoration = 0 (OC)  và dcoration = 1 (PRT). transfer từ kho 3--> 64
                                         //if (_scanData.Decoration == 0)
@@ -1378,6 +1369,18 @@ namespace WeightChecking
                                         //    GlobalVariables.ResultPosting.Message = $"Hàng QC Fail (Transfer 32-->41): {GlobalVariables.ResultPosting.Message}";
                                         //}
                                         #endregion
+
+                                        #region hien thi mau label
+                                        GlobalVariables.InvokeIfRequired(this, () =>
+                                        {
+                                            _labResultMessage.Text = $"There is a discrepancy in the quantity: {_scanData.DeviationPairs} {_unitLabel}";
+                                            _labResult.Text = "NG";
+                                            _labResult.BackColor = Color.Red;
+                                            _labResult.ForeColor = Color.White;
+                                        });
+                                        #endregion
+
+                                        errorFlag = true;
                                     }
                                     else if (statusLogData == 2)
                                     {
@@ -1396,8 +1399,8 @@ namespace WeightChecking
                                 }
                                 #endregion
 
-                                //hien thi cac thong so dem
-                                ShowUI();
+                                ////hien thi cac thong so dem
+                                //ShowUI();
 
                                 #region Log data
                                 //mỗi thùng chỉ cho log vào tối da là 2 dòng trong scanData, 1 dòng pass và fail (nếu có)
@@ -1432,13 +1435,14 @@ namespace WeightChecking
 
                                 //XtraMessageBox.Show($"Item '{_scanData.ProductNumber}' has no weight/pair. Please check the information again."
                                 //    , "WARNING", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                                GlobalVariables.InvokeIfRequired(this, () =>
-                                {
-                                    _labResultMessage.Text = $"Item '{_scanData.ProductNumber}' has no weight/pair. Please check the information again.";
-                                    _labResult.Text = "NG";
-                                    _labResult.BackColor = Color.Red;
-                                    _labResult.ForeColor = Color.White;
-                                });
+                                //GlobalVariables.InvokeIfRequired(this, () =>
+                                //{
+                                //    _labResultMessage.Text = $"Item '{_scanData.ProductNumber}' has no weight/pair. Please check the information again.";
+                                //    _labResult.Text = "NG";
+                                //    _labResult.BackColor = Color.Red;
+                                //    _labResult.ForeColor = Color.White;
+                                //});
+                                throw new Exception($"Item '{_scanData.ProductNumber}' has no weight/pair. Please check the information again.");
                             }
                         }
                         else
@@ -1461,16 +1465,16 @@ namespace WeightChecking
 
                             //XtraMessageBox.Show($"Product number {_scanData.ProductNumber} does not exist in the system. Please check the information again."
                             //    , "WARNING.", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                            GlobalVariables.InvokeIfRequired(this, () =>
-                            {
-                                _labResultMessage.Text = $"Product number {_scanData.ProductNumber} does not exist in the system. Please check the information again.";
-                                _labResult.Text = "NG";
-                                _labResult.BackColor = Color.Red;
-                                _labResult.ForeColor = Color.White;
-                            });
-                        }
+                            //GlobalVariables.InvokeIfRequired(this, () =>
+                            //{
+                            //    _labResultMessage.Text = $"Product number {_scanData.ProductNumber} does not exist in the system. Please check the information again.";
+                            //    _labResult.Text = "NG";
+                            //    _labResult.BackColor = Color.Red;
+                            //    _labResult.ForeColor = Color.White;
+                            //});
 
-                        dbContext.SaveChanges();
+                            throw new Exception($"Product number {_scanData.ProductNumber} does not exist in the system. Please check the information again.");
+                        }
                     }
                     #endregion
 
@@ -1479,6 +1483,7 @@ namespace WeightChecking
                 {
                     Log.Error(ex.Message, "Lỗi scale form");
 
+                    errorFlag = true;
                     //MessageBox.Show($"Quantity over the BX1 box limit ({res.BoxQtyBx1}).", "WARNING", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     GlobalVariables.InvokeIfRequired(this, () =>
                     {
@@ -1498,7 +1503,7 @@ namespace WeightChecking
                     });
 
                     //hien thi cac thong so dem
-                    ShowUI();
+                    ShowUI(errorFlag);
 
                     _scanData = new tblScanData();
                     _resetUI = true;
@@ -1672,6 +1677,7 @@ namespace WeightChecking
                 }
 
                 _labLastResultMessage.Text = _labResultMessage.Text;
+                _labLastResultMessage.ForeColor = _labResultMessage.ForeColor;
 
                 #region Standard
                 _labBoxId.Text = string.Empty;
@@ -1714,11 +1720,13 @@ namespace WeightChecking
                 _labResultMessage.Text = string.Empty;
                 _labResult.Text = string.Empty;
                 _labResult.BackColor = Color.Gray;
+
+                labDeviation.ForeColor = default;
                 #endregion
             });
         }
 
-        private void ShowUI()
+        private void ShowUI(bool errorFlag = false)
         {
             #region hien thi cac thong so dem
             this.Invoke((MethodInvoker)delegate
@@ -1759,7 +1767,12 @@ namespace WeightChecking
                 labDeviation.Text = $"{_scanData.Deviation}";
                 labCalculatedPairs.Text = _scanData.CalculatedPairs.ToString();
                 labDeviationPairs.Text = _scanData.DeviationPairs.ToString();
+
+                labDeviation.ForeColor = errorFlag == false ? Color.Green : Color.Red;
+                _labResultMessage.ForeColor = errorFlag == false ? Color.Green : Color.Red;
                 #endregion
+
+                errorFlag = false;
             });
             #endregion
         }
@@ -1826,7 +1839,7 @@ namespace WeightChecking
             GlobalVariables.InvokeIfRequired(this, () =>
             {
                 txtQrCode.Text = null;
-                 txtQrCode.Clear();
+                txtQrCode.Clear();
                 txtQrCode.Focus();
             });
         }

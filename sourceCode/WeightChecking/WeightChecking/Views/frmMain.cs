@@ -215,42 +215,6 @@ namespace WeightChecking
             }
             #endregion
 
-            #region Ket noi modbus RTU PLC metalScan counter
-            if (GlobalVariables.ConfigJson.IsCounter)
-            {
-                GlobalVariables.ModbusStatus = GlobalVariables.MyDriver.ModbusRTUMaster.KetNoi(GlobalVariables.ConfigJson.ComPort, 9600, 8, System.IO.Ports.Parity.None, System.IO.Ports.StopBits.One);
-
-                Console.WriteLine($"PLC Status: {GlobalVariables.ModbusStatus}");
-
-                if (GlobalVariables.ModbusStatus)
-                {
-                    _tskModbus = new System.Threading.Tasks.Task(() => ReadModbus());
-                    _tskModbus.Start();
-                }
-                else
-                {
-                    MessageBox.Show($"Không thể kết nối được bộ đếm dò kim loại.{Environment.NewLine}Tắt phần mềm, kiểm tra lại kết nối với PLC rồi mở lại phần mềm.",
-                                    "CẢNH BÁO", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                }
-
-                //chi đăng ký sự kiện bật tắt đèn tháp báo thùng pass/fail cho trạm kerry
-                if (GlobalVariables.Station == StationEnum.Kerry_3)
-                {
-                    GlobalVariables.MyEvent.EventHandleStatusLightPLC += (s, o) =>
-                    {
-                        if (o.StatusLight)
-                        {
-                            GlobalVariables.ModbusStatus = GlobalVariables.MyDriver.ModbusRTUMaster.WriteMultipleCoils(1, 2048, 2, new bool[] { false, true });
-                        }
-                        else
-                        {
-                            GlobalVariables.ModbusStatus = GlobalVariables.MyDriver.ModbusRTUMaster.WriteMultipleCoils(1, 2048, 2, new bool[] { true, false });
-                        }
-                    };
-                }
-            }
-            #endregion
-
             _barButtonItemExportMissItem.Visibility = DevExpress.XtraBars.BarItemVisibility.Never;
             this._barEditItemFromDate.EditValue = this._barEditItemToDate.EditValue = DateTime.Now;
 
@@ -1165,52 +1129,5 @@ namespace WeightChecking
         }
 
         #endregion
-
-        public void ReadModbus()
-        {
-            while (true)
-            {
-                #region Đọc các giá trị từ PLC
-                if (GlobalVariables.ModbusStatus)
-                {
-                    if (_resetCounter)
-                    {
-                        if (GlobalVariables.MyDriver.ModbusRTUMaster.WriteSingleCoil(1, 2, true))
-                        {
-                            System.Threading.Thread.Sleep(10);
-                            if (GlobalVariables.MyDriver.ModbusRTUMaster.WriteSingleCoil(1, 2, false))
-                            {
-                                _resetCounter = false;
-                            }
-                        }
-                    }
-
-                    if (GlobalVariables.Station == StationEnum.IDC_1)
-                    {
-                        //thanh ghi D0 cua PLC Delta DPV14SS2 co dia chi la 4596
-                        GlobalVariables.ModbusStatus = GlobalVariables.MyDriver.ModbusRTUMaster.ReadHoldingRegisters(1, 4596, 1, ref _readHoldingRegisterArr);
-
-                        //GlobalVariables.RememberInfo.CountMetalScan = GlobalVariables.MyDriver.GetUshortAt(_readHoldingRegisterArr, 0);
-                        ////update gia tri count vao sự kiện để trong frmScal  nó update lên giao diện
-                        //GlobalVariables.MyEvent.CountValue = GlobalVariables.RememberInfo.CountMetalScan;
-
-                        GlobalVariables.MyEvent.CountValue = GlobalVariables.MyDriver.GetUshortAt(_readHoldingRegisterArr, 0);
-                    }
-                }
-                else
-                {
-                    _countDisconnectPlc += 1;
-                    if (_countDisconnectPlc >= 3)
-                    {
-                        GlobalVariables.MyDriver.ModbusRTUMaster.NgatKetNoi();
-
-                        GlobalVariables.ModbusStatus = GlobalVariables.MyDriver.ModbusRTUMaster.KetNoi(GlobalVariables.ConfigJson.ComPort, 9600, 8, System.IO.Ports.Parity.None, System.IO.Ports.StopBits.One);
-                    }
-                }
-                #endregion
-
-                System.Threading.Thread.Sleep(100);
-            }
-        }
     }
 }
