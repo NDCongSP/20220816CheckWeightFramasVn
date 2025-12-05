@@ -74,9 +74,9 @@ namespace WeightChecking
                                 _ratio = Math.Round((Math.Abs(_scanData.DeviationPairs) * _scanData.AveWeight1Prs) / _scanData.StdGrossWeight, 3);
 
                                 //nếu tỷ lệ lớn hơn quy định thì popup form nhập deviation thực tế
-                                if (GlobalVariables.Station != StationEnum.IDC_2
-                                    && GlobalVariables.Station == StationEnum.IDC_1)
-                                //&& (GlobalVariables.Station == StationEnum.IDC_1 && _scanData.OcNo.Substring(0, 2) != "PR"))
+                                if (GlobalVariables.Station != StationEnum.HC
+                                    && GlobalVariables.Station == StationEnum.IDC)
+                                //&& (GlobalVariables.Station == StationEnum.IDC && _scanData.OcNo.Substring(0, 2) != "PR"))
                                 {
                                     using (var formDeviation = new frmDeviationForFalseAlarm())
                                     {
@@ -237,13 +237,16 @@ namespace WeightChecking
 
                                 _scanData.GrossWeight = _scaleValue;
                                 _scanData.ApprovedBy = _qrApproved;
-                                _scanData.Status = (_scanData.OcNo.Substring(0, 3) == "PRT" || _scanData.OcNo.Substring(0, 3) == "PRS") && GlobalVariables.Station == StationEnum.IDC_1 ? 1 : 2;
+                                _scanData.Status = (_scanData.OcNo.Substring(0, 3) == "PRT" || _scanData.OcNo.Substring(0, 3) == "PRS") && GlobalVariables.Station == StationEnum.IDC ? 1 : 2;
+
+                                var unit = _scanData.Unit == "P" ? "prs" : "pcs";
                                 dbContext.TblScanDatas.AddOrUpdate(_scanData);
                                 dbContext.SaveChanges();
 
                                 GlobalVariables.Printing((_scaleValue / 1000).ToString("#,#0.00")
                                           , !string.IsNullOrEmpty(_scanData.IdLabel) ? _scanData.IdLabel : $"{_scanData.OcNo}|{_scanData.BoxNo}", true
-                                          , _scanData.CreatedDate.ToString("yyyy-MM-dd HH:mm:ss"));
+                                          , _scanData.CreatedDate.ToString("yyyy-MM-dd HH:mm:ss")
+                                          ,unit);
 
                                 #region Auto posting
                                 //hàng từ production qua: decoration = 0 (OC). transfer từ kho 3--> 64

@@ -204,7 +204,7 @@ namespace WeightChecking
 
             // Text
             Label titleText = new Label();
-            titleText.Text = "fVN - SSFG Station";
+            titleText.Text = $"fVN - SSFG Station {GlobalVariables.Station.ToString()}";
             titleText.ForeColor = Color.White;
             titleText.Font = new Font("Segoe UI", 12, FontStyle.Bold);
             titleText.AutoSize = true;
@@ -289,7 +289,7 @@ namespace WeightChecking
                 }
 
                 //chi đăng ký sự kiện bật tắt đèn tháp báo thùng pass/fail cho trạm kerry
-                if (GlobalVariables.Station == StationEnum.Kerry_3)
+                if (GlobalVariables.Station == StationEnum.Kerry)
                 {
                     GlobalVariables.MyEvent.EventHandleStatusLightPLC += (s, o) =>
                     {
@@ -455,7 +455,8 @@ namespace WeightChecking
                         }
                         else
                         {
-                            throw new Exception("The QR code is incorrect. Delete it and scan again.");
+                            //throw new Exception("The QR code is incorrect. Delete it and scan again.");
+                            throw new Exception("QR code không đúng định dang. Vui lòng quét đúng tem FG.");
                         }
 
                         _scanData.ProductNumber = s1[1];
@@ -517,9 +518,6 @@ namespace WeightChecking
                             #region kiểm tra xem thùng này có bị in tem lụi lại tem hay không để xử lý cho đúng với flowChart
                             using (var dbContext = new ApplicationDbContextDogeWH(GlobalVariables.ConfigJson.ConStringDogeWH))
                             {
-                                //var para = new DynamicParameters();
-                                //para.Add("@OcNo", _scanData.OcNo);
-                                //boxParent = dbContext.Query<BoxParentModel>("sp_IdcSsfgPrintedLabels_OC_IndexCheck", para, commandType: CommandType.StoredProcedure).FirstOrDefault();
                                 boxParent = await dbContext.Database.SqlQuery<BoxParentModel>("sp_IdcSsfgPrintedLabels_OC_IndexCheck @OcNo = {0}", _scanData.OcNo)
                                     .FirstOrDefaultAsync();
 
@@ -534,7 +532,8 @@ namespace WeightChecking
                         else
                         {
                             GlobalVariables.ResultPosting.Message = string.Empty;
-                            throw new Exception("The QR code is incorrect. Delete it and scan again.");
+                            //throw new Exception("The QR code is incorrect. Delete it and scan again.");
+                            throw new Exception("QR code không đúng định dang. Vui lòng quét đúng tem FG.");
                         }
 
                         //_scanData.OcNo = s1[0];
@@ -570,12 +569,6 @@ namespace WeightChecking
                     using (var dbContext = new ApplicationDbContext(GlobalVariables.ConnectionString))
                     {
                         #region Kiểm tra xem thùng này đã được log vào scanData chưa
-                        //para.Add("QRLabel", _scanData.BarcodeString);
-                        //var checkInfo = dbContextDogeWH.Query<tblScanDataCheckModel>("sp_tblScanDataCheck", para, commandType: CommandType.StoredProcedure).ToList();
-
-                        //para.Add("qrCode", _scanData.BarcodeString);
-                        //var checkExists = dbContext.Query<tblScanDataModel>("sp_tblScanDataGetByQrCodeForCheckLog1", para, commandType: CommandType.StoredProcedure).ToList();
-
                         var qrSplit = _scanData.BarcodeString.Split('|')[0].Split(',');
                         var oc = qrSplit[0];
                         var unit = qrSplit[4];
@@ -595,37 +588,15 @@ namespace WeightChecking
                                 .ForEach(x => x.Actived = 0);
                             dbContext.SaveChanges();
                         }
-                        //foreach (var item in checkExists)
-                        //{
-                        //    #region Deactivate the label if the box has been reprinted label
-                        //    if (item.BarcodeString != _scanData.BarcodeString)
-                        //    {
-                        //        item.Actived = 0;
-                        //        para = new DynamicParameters();
-                        //        para.Add("@qrCode", item.BarcodeString);
-                        //        dbContext.Execute("sp_tblScanDataDeactivate", param: para, commandType: CommandType.StoredProcedure);
-                        //    }
-                        //    #endregion
-                        //}
 
                         var checkInfo = checkExists?.Where(x => x.Actived == 1).ToList();
 
                         foreach (var item in checkInfo)
                         {
-                            //#region Deactivate the label if the box has been reprinted label
-                            //if (item.BarcodeString != _scanData.BarcodeString)
-                            //{
-                            //    item.Actived = 0;
-                            //    para = new DynamicParameters();
-                            //    para.Add("@qrCode", item.BarcodeString);
-                            //    dbContext.Execute("sp_tblScanDataDeactivate", param: para, commandType: CommandType.StoredProcedure);
-                            //}
-                            //#endregion
-
                             if (item.Actived == 1)
                             {
                                 if (
-                                    (item.Pass == 1 && (item.Status == 2 || GlobalVariables.Station == StationEnum.IDC_1))
+                                    (item.Pass == 1 && (item.Status == 2 || GlobalVariables.Station == StationEnum.IDC))
                                     //|| (item.Pass == 0 && item.ActualDeviationPairs == 0 && item.ApprovedBy != Guid.Empty)
                                     || (item.Pass == 0 && item.Status == 2 && item.ActualDeviationPairs == 0)
                                     )
@@ -818,19 +789,7 @@ namespace WeightChecking
                                         //}
                                         #endregion
 
-                                        //MessageBox.Show($"Quantity over the BX1 box limit ({res.BoxQtyBx1}).", "WARNING", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                                        //GlobalVariables.InvokeIfRequired(this, () =>
-                                        //{
-                                        //    _labResultMessage.Text = $"Quantity over the BX1 box limit ({res.BoxQtyBx1})";
-                                        //    _labResult.Text = "NG";
-                                        //    _labResult.BackColor = Color.Red;
-                                        //    _labResult.ForeColor = Color.White;
-                                        //});
-
-                                        ////ResetControl();
-                                        //_resetUI = true;
-                                        //return;
-                                        throw new Exception($"Quantity over the BX1 box limit ({res.BoxQtyBx1})");
+                                        throw new Exception($"Product number {_scanData.ProductNumber} có số lượng vượt quá giới hạn thùng BX1. Số lượng đóng gói thùng BX1: ({res.BoxQtyBx1})");
                                     }
                                     #endregion
                                 }
@@ -917,9 +876,8 @@ namespace WeightChecking
                                             //}
                                             #endregion
 
-                                            //MessageBox.Show($"Quantity over the BX1 box limit ({res.BoxQtyBx1}).", "WARNING", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-
-                                            throw new Exception($"Quantity over the BX1 box limit ({res.BoxQtyBx1})");
+                                            //throw new Exception($"Quantity over the BX1 box limit ({res.BoxQtyBx1})");
+                                            throw new Exception($"Product number {_scanData.ProductNumber} có số lượng vượt quá giới hạn thùng BX1. Số lượng đóng gói thùng BX1: ({res.BoxQtyBx1})");
                                         }
                                         #endregion
                                     }
@@ -935,10 +893,8 @@ namespace WeightChecking
                                 }
                                 else
                                 {
-                                    //    XtraMessageBox.Show($"Product number {_scanData.ProductNumber} has the wrong PRT label printed."
-                                    //, "WARNING.", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-
-                                    throw new Exception($"Product number {_scanData.ProductNumber} has the wrong PRT label printed.");
+                                    //throw new Exception($"Product number {_scanData.ProductNumber} has the wrong PRT label printed.");
+                                    throw new Exception($"Product number {_scanData.ProductNumber} in sai tem PRT.");
                                 }
 
                                 if (_scanData.MetalScan == 0)
@@ -1163,7 +1119,8 @@ namespace WeightChecking
 
                                         GlobalVariables.Printing((_scanData.GrossWeight / 1000).ToString("#,#0.00")
                                                     , !string.IsNullOrEmpty(GlobalVariables.IdLabel) ? GlobalVariables.IdLabel : $"{_scanData.OcNo}|{_scanData.BoxNo}", true
-                                                     , _scanData.CreatedDate.ToString("yyyy-MM-dd HH:mm:ss"));
+                                                     , _scanData.CreatedDate.ToString("yyyy-MM-dd HH:mm:ss")
+                                                     , _unitLabel);
 
                                         #region Auto posting
                                         //hàng từ production qua: decoration = 0 (OC). transfer từ kho 3--> 64
@@ -1289,7 +1246,8 @@ namespace WeightChecking
                                                         //in tem
                                                         GlobalVariables.Printing((_scanData.GrossWeight / 1000).ToString("#,#0.00")
                                                             , !string.IsNullOrEmpty(GlobalVariables.IdLabel) ? GlobalVariables.IdLabel : $"{_scanData.OcNo}|{_scanData.BoxNo}", true
-                                                             , _scanData.CreatedDate.ToString("yyyy-MM-dd HH:mm:ss"));
+                                                             , _scanData.CreatedDate.ToString("yyyy-MM-dd HH:mm:ss")
+                                                             , _unitLabel);
 
                                                         #region Auto posting
                                                         //hàng từ production qua: decoration = 0 (OC). transfer từ kho 3--> 64
@@ -1313,17 +1271,15 @@ namespace WeightChecking
                                             }
                                             else
                                             {
-                                                //MessageBox.Show($"Bạn chưa nhập chênh lệch thực tế cho thùng này. Mời quét tem lại.", "CẢNH BÁO", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                                                throw new Exception($"You haven’t entered the actual discrepancy for this box. Please scan the label again.");
+                                                //throw new Exception($"You haven’t entered the actual discrepancy for this box. Please scan the label again.");
+                                                throw new Exception($"Bạn chưa nhập chênh lệch thực tế của thùng. Vui lòng quét lại tem và nhập lại.");
                                             }
                                         }
                                     }
                                     else
                                     {
-                                        //MessageBox.Show($"This carton has already been scanned and its weight recorded as OK; it is not allowed to be weighed again."
-                                        //    , "WARNING", MessageBoxButtons.OK, MessageBoxIcon.Information);
-
-                                        throw new Exception($"This carton has already been scanned and its weight recorded as OK; it is not allowed to be weighed again. {_scanData.OcNo} - {_scanData.BoxNo} - {_unitLabel}");
+                                        //throw new Exception($"This carton has already been scanned and its weight recorded as OK; it is not allowed to be weighed again. {_scanData.OcNo} - {_scanData.BoxNo} - {_unitLabel}");
+                                        throw new Exception($"{_scanData.OcNo} - {_scanData.BoxNo} - {_unitLabel} - {_scanData.IdLabel}. Thùng đã ghi nhận khối lượng OK, vui lòng không quét lại.");
                                     }
                                 }
                                 else//thung fail
@@ -1351,7 +1307,8 @@ namespace WeightChecking
                                     {
                                         GlobalVariables.Printing(_scanData.DeviationPairs.ToString()
                                                     , !string.IsNullOrEmpty(GlobalVariables.IdLabel) ? GlobalVariables.IdLabel : $"{_scanData.OcNo}|{_scanData.BoxNo}", false
-                                                    , _scanData.CreatedDate.ToString("yyyy-MM-dd HH:mm:ss"));
+                                                    , _scanData.CreatedDate.ToString("yyyy-MM-dd HH:mm:ss")
+                                                    , _unitLabel);
 
                                         #region Auto posting
                                         //hàng từ production qua: decoration = 0 (OC)  và dcoration = 1 (PRT). transfer từ kho 3--> 64
@@ -1373,7 +1330,7 @@ namespace WeightChecking
                                         #region hien thi mau label
                                         GlobalVariables.InvokeIfRequired(this, () =>
                                         {
-                                            _labResultMessage.Text = $"There is a discrepancy in the quantity: {_scanData.DeviationPairs} {_unitLabel}";
+                                            _labResultMessage.Text = $"Số lượng chênh lệch: {_scanData.DeviationPairs} ({_unitLabel})";
                                             _labResult.Text = "NG";
                                             _labResult.BackColor = Color.Red;
                                             _labResult.ForeColor = Color.White;
@@ -1384,17 +1341,13 @@ namespace WeightChecking
                                     }
                                     else if (statusLogData == 2)
                                     {
-                                        //MessageBox.Show($"Thùng này đã được quét ghi nhận khối lượng OK rồi, không được phép cân lại." +
-                                        //    $"{Environment.NewLine}Quét thùng khác.", "THÔNG BÁO", MessageBoxButtons.OK, MessageBoxIcon.Information);
-
-                                        throw new Exception($"This carton has already been scanned and its weight recorded as OK, it is not allowed to be weighed again. {_scanData.OcNo} - {_scanData.BoxNo} - {_unitLabel}");
+                                        //throw new Exception($"This carton has already been scanned and its weight recorded as OK, it is not allowed to be weighed again. {_scanData.OcNo} - {_scanData.BoxNo} - {_unitLabel}");
+                                        throw new Exception($"{_scanData.OcNo} - {_scanData.BoxNo} - {_unitLabel} - {_scanData.IdLabel}. Thùng đã ghi nhận khối lượng OK, vui lòng không quét lại.");
                                     }
                                     else
                                     {
-                                        //MessageBox.Show($"Thùng này đã được quét ghi nhận khối lượng lỗi rồi, không được phép cân lại." +
-                                        //    $"{Environment.NewLine}Quét thùng khác.", "THÔNG BÁO", MessageBoxButtons.OK, MessageBoxIcon.Information); ;
-
-                                        throw new Exception($"This carton has already been scanned and its weight recorded as error, it is not allowed to be weighed again. {_scanData.OcNo} - {_scanData.BoxNo} - {_unitLabel}");
+                                        //throw new Exception($"This carton has already been scanned and its weight recorded as error, it is not allowed to be weighed again. {_scanData.OcNo} - {_scanData.BoxNo} - {_unitLabel}");
+                                        throw new Exception($"{_scanData.OcNo} - {_scanData.BoxNo} - {_unitLabel} - {_scanData.IdLabel}. Thùng đã ghi nhận khối lượng lỗi, vui lòng kiểm tra điều chỉnh lại đúng trước khi quét lại.");
                                     }
                                 }
                                 #endregion
@@ -1433,16 +1386,7 @@ namespace WeightChecking
                                 dbContext.TblItemMissingInfos.Add(itemInsert);
                                 dbContext.SaveChanges();
 
-                                //XtraMessageBox.Show($"Item '{_scanData.ProductNumber}' has no weight/pair. Please check the information again."
-                                //    , "WARNING", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                                //GlobalVariables.InvokeIfRequired(this, () =>
-                                //{
-                                //    _labResultMessage.Text = $"Item '{_scanData.ProductNumber}' has no weight/pair. Please check the information again.";
-                                //    _labResult.Text = "NG";
-                                //    _labResult.BackColor = Color.Red;
-                                //    _labResult.ForeColor = Color.White;
-                                //});
-                                throw new Exception($"Item '{_scanData.ProductNumber}' has no weight/pair. Please check the information again.");
+                                throw new Exception($"Product number '{_scanData.ProductNumber}' không có khối lượng trên 1 prs/pcs. Vui lòng kiểm tra lại thông tin.");
                             }
                         }
                         else
@@ -1463,17 +1407,8 @@ namespace WeightChecking
                             dbContext.TblItemMissingInfos.Add(itemInsert);
                             dbContext.SaveChanges();
 
-                            //XtraMessageBox.Show($"Product number {_scanData.ProductNumber} does not exist in the system. Please check the information again."
-                            //    , "WARNING.", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                            //GlobalVariables.InvokeIfRequired(this, () =>
-                            //{
-                            //    _labResultMessage.Text = $"Product number {_scanData.ProductNumber} does not exist in the system. Please check the information again.";
-                            //    _labResult.Text = "NG";
-                            //    _labResult.BackColor = Color.Red;
-                            //    _labResult.ForeColor = Color.White;
-                            //});
-
-                            throw new Exception($"Product number {_scanData.ProductNumber} does not exist in the system. Please check the information again.");
+                            //throw new Exception($"Product number {_scanData.ProductNumber} does not exist in the system. Please check the information again.");
+                            throw new Exception($"Product number {_scanData.ProductNumber} không tìm thấy trong dữ liệu chính. Vui lòng kiểm tra lại thông tin.");
                         }
                     }
                     #endregion
@@ -1561,7 +1496,7 @@ namespace WeightChecking
                             }
                         }
 
-                        if (GlobalVariables.Station == StationEnum.IDC_1)
+                        if (GlobalVariables.Station == StationEnum.IDC)
                         {
                             //thanh ghi D0 cua PLC Delta DPV14SS2 co dia chi la 4596
                             GlobalVariables.ModbusStatus = GlobalVariables.MyDriver.ModbusRTUMaster.ReadHoldingRegisters(1, 4596, 1, ref _readHoldingRegisterArr);

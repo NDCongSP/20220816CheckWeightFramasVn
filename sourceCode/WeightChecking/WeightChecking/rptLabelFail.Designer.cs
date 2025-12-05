@@ -39,6 +39,7 @@ namespace WeightChecking
             this.DeviationPrs = new DevExpress.XtraReports.Parameters.Parameter();
             this.IdLabel = new DevExpress.XtraReports.Parameters.Parameter();
             this.CreatedDate = new DevExpress.XtraReports.Parameters.Parameter();
+            this.Unit = new DevExpress.XtraReports.Parameters.Parameter();
             ((System.ComponentModel.ISupportInitialize)(this)).BeginInit();
             // 
             // TopMargin
@@ -68,6 +69,8 @@ namespace WeightChecking
             // xrLabel2
             // 
             this.xrLabel2.Borders = ((DevExpress.XtraPrinting.BorderSide)((DevExpress.XtraPrinting.BorderSide.Left | DevExpress.XtraPrinting.BorderSide.Top)));
+            this.xrLabel2.ExpressionBindings.AddRange(new DevExpress.XtraReports.UI.ExpressionBinding[] {
+            new DevExpress.XtraReports.UI.ExpressionBinding("BeforePrint", "Text", "\'Deviation (\' + ?Unit + \')\'")});
             this.xrLabel2.LocationFloat = new DevExpress.Utils.PointFloat(0F, 0F);
             this.xrLabel2.Multiline = true;
             this.xrLabel2.Name = "xrLabel2";
@@ -76,7 +79,6 @@ namespace WeightChecking
             this.xrLabel2.StylePriority.UseBorders = false;
             this.xrLabel2.StylePriority.UsePadding = false;
             this.xrLabel2.StylePriority.UseTextAlignment = false;
-            this.xrLabel2.Text = "Deviation Prs:";
             this.xrLabel2.TextAlignment = DevExpress.XtraPrinting.TextAlignment.MiddleLeft;
             // 
             // xrLabel1
@@ -85,7 +87,7 @@ namespace WeightChecking
             this.xrLabel1.BorderWidth = 1F;
             this.xrLabel1.ExpressionBindings.AddRange(new DevExpress.XtraReports.UI.ExpressionBinding[] {
             new DevExpress.XtraReports.UI.ExpressionBinding("BeforePrint", "Text", "?DeviationPrs")});
-            this.xrLabel1.Font = new System.Drawing.Font("Arial", 20F, System.Drawing.FontStyle.Bold);
+            this.xrLabel1.Font = new DevExpress.Drawing.DXFont("Arial", 20F, DevExpress.Drawing.DXFontStyle.Bold);
             this.xrLabel1.LocationFloat = new DevExpress.Utils.PointFloat(61.34176F, 0F);
             this.xrLabel1.Multiline = true;
             this.xrLabel1.Name = "xrLabel1";
@@ -107,7 +109,7 @@ namespace WeightChecking
             this.xrLabel4.CanGrow = false;
             this.xrLabel4.ExpressionBindings.AddRange(new DevExpress.XtraReports.UI.ExpressionBinding[] {
             new DevExpress.XtraReports.UI.ExpressionBinding("BeforePrint", "Text", "?IdLabel")});
-            this.xrLabel4.Font = new System.Drawing.Font("Arial", 8F);
+            this.xrLabel4.Font = new DevExpress.Drawing.DXFont("Arial", 8F);
             this.xrLabel4.LocationFloat = new DevExpress.Utils.PointFloat(0F, 42.53941F);
             this.xrLabel4.Multiline = true;
             this.xrLabel4.Name = "xrLabel4";
@@ -129,7 +131,7 @@ namespace WeightChecking
             this.xrLabel5.CanGrow = false;
             this.xrLabel5.ExpressionBindings.AddRange(new DevExpress.XtraReports.UI.ExpressionBinding[] {
             new DevExpress.XtraReports.UI.ExpressionBinding("BeforePrint", "Text", "?CreatedDate")});
-            this.xrLabel5.Font = new System.Drawing.Font("Arial", 8F);
+            this.xrLabel5.Font = new DevExpress.Drawing.DXFont("Arial", 8F);
             this.xrLabel5.LocationFloat = new DevExpress.Utils.PointFloat(0F, 61.24019F);
             this.xrLabel5.Multiline = true;
             this.xrLabel5.Name = "xrLabel5";
@@ -160,14 +162,22 @@ namespace WeightChecking
             this.CreatedDate.Description = "Created Date";
             this.CreatedDate.Name = "CreatedDate";
             // 
+            // Unit
+            // 
+            this.Unit.Description = "Unit";
+            this.Unit.Enabled = false;
+            this.Unit.Name = "Unit";
+            this.Unit.ValueInfo = "prs";
+            this.Unit.Visible = false;
+            // 
             // rptLabelFail
             // 
             this.Bands.AddRange(new DevExpress.XtraReports.UI.Band[] {
             this.TopMargin,
             this.BottomMargin,
             this.Detail});
-            this.Font = new System.Drawing.Font("Arial", 9.75F);
-            this.Margins = new System.Drawing.Printing.Margins(0, 1, 0, 0);
+            this.Font = new DevExpress.Drawing.DXFont("Arial", 9.75F);
+            this.Margins = new DevExpress.Drawing.DXMargins(0F, 1F, 0F, 0F);
             this.PageHeight = 220;
             this.PageWidth = 144;
             this.PaperKind = DevExpress.Drawing.Printing.DXPaperKind.Custom;
@@ -177,8 +187,9 @@ namespace WeightChecking
             this.Parameters.AddRange(new DevExpress.XtraReports.Parameters.Parameter[] {
             this.DeviationPrs,
             this.IdLabel,
-            this.CreatedDate});
-            this.Version = "22.1";
+            this.CreatedDate,
+            this.Unit});
+            this.Version = "24.2";
             ((System.ComponentModel.ISupportInitialize)(this)).EndInit();
 
         }
@@ -195,5 +206,6 @@ namespace WeightChecking
         private DevExpress.XtraReports.Parameters.Parameter DeviationPrs;
         private DevExpress.XtraReports.Parameters.Parameter IdLabel;
         private DevExpress.XtraReports.Parameters.Parameter CreatedDate;
+        private DevExpress.XtraReports.Parameters.Parameter Unit;
     }
 }

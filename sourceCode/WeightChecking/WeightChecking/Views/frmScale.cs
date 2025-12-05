@@ -185,7 +185,7 @@ namespace WeightChecking
             GlobalVariables.MyEvent.EventHandlerCount += (s, o) =>
             {
                 #region check Actual metal scan
-                if (GlobalVariables.Station == StationEnum.IDC_1 && _approveUpdateActMetalScan
+                if (GlobalVariables.Station == StationEnum.IDC && _approveUpdateActMetalScan
                 && o.CountValue != GlobalVariables.RememberInfo.CountMetalScan && o.CountValue != 0)
                 {
                     _scanData.ActualMetalScan = 1;
@@ -606,7 +606,7 @@ namespace WeightChecking
                             if (item.Actived == 1)
                             {
                                 if (
-                                    (item.Pass == 1 && (item.Status == 2 || GlobalVariables.Station == StationEnum.IDC_1))
+                                    (item.Pass == 1 && (item.Status == 2 || GlobalVariables.Station == StationEnum.IDC))
                                     //|| (item.Pass == 0 && item.ActualDeviationPairs == 0 && item.ApprovedBy != Guid.Empty)
                                     || (item.Pass == 0 && item.Status == 2 && item.ActualDeviationPairs == 0)
                                     )

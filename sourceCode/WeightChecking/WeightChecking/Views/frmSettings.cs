@@ -42,7 +42,7 @@ namespace WeightChecking
                     _tblConfig = new tblConfig
                     {
                         Id = Guid.NewGuid(),
-                        Location = StationEnum.IDC_1,
+                        Location = StationEnum.IDC,
                         ConfigJson = Newtonsoft.Json.JsonConvert.SerializeObject(_configJson),
                         CreatedBy = Environment.UserName,
                         CreatedDate = DateTime.Now,
@@ -64,7 +64,7 @@ namespace WeightChecking
 
         private void _btnSave_Click(object sender, EventArgs e)
         {
-            _tblConfig.Location = StationEnum.IDC_1;
+            _tblConfig.Location = StationEnum.IDC;
             _tblConfig.ConfigJson = Newtonsoft.Json.JsonConvert.SerializeObject(_configJson);
 
             using (var dbContext = new ApplicationDbContext(GlobalVariables.ConnectionString))

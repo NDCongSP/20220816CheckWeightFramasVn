@@ -14,7 +14,7 @@ namespace WeightChecking
 {
     public static class GlobalVariables
     {
-        public static StationEnum Station { get; set; } = StationEnum.IDC_1;
+        public static StationEnum Station { get; set; } = StationEnum.IDC;
         public static string DbName { get; set; }
         public static string ConnectionString { get; set; }
         //public static string ConStringWinline { get; set; }
@@ -57,7 +57,7 @@ namespace WeightChecking
 
         #region Printing
         // Print the file.
-        public static void Printing(string content, string idLabel, bool pass, string createdDate)
+        public static void Printing(string content, string idLabel, bool pass, string createdDate, string unit = "prs")
         {
             //content of the QR code "OC283225,6112012227-2094-2651,28,13,P,1/56,160506,1/1|1,30.2022"
             if (pass)
@@ -81,6 +81,7 @@ namespace WeightChecking
                 rptRe.Parameters["DeviationPrs"].Value = content;
                 rptRe.Parameters["IdLabel"].Value = idLabel;
                 rptRe.Parameters["CreatedDate"].Value = createdDate;
+                rptRe.Parameters["Unit"].Value = unit;
 
                 rptRe.CreateDocument();
                 ReportPrintTool printToolCrush = new ReportPrintTool(rptRe);
