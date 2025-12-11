@@ -166,7 +166,7 @@ namespace WeightChecking
         {
             try
             {
-                using (var dbContext =new ApplicationDbContext(GlobalVariables.ConnectionString))
+                using (var dbContext = new ApplicationDbContext(GlobalVariables.ConnectionString))
                 {
                     #region Master data
                     var winlineInfo = dbContext.Database.SqlQuery<ProductInfoModel>("sp_vProductItemInfoGets").ToList();
@@ -179,7 +179,8 @@ namespace WeightChecking
                         {
                             grc.DataSource = null;
                             grc.DataSource = winlineInfo;
-                            grc.Refresh();
+
+                            grv.PopulateColumns();
 
                             grv.OptionsView.ColumnHeaderAutoHeight = DevExpress.Utils.DefaultBoolean.True;
                             //grv.OptionsView.ColumnAutoWidth = true;
@@ -200,7 +201,6 @@ namespace WeightChecking
                         this.Invoke((MethodInvoker)delegate
                         {
                             grc.DataSource = null;
-                            grc.Refresh();
                         });
 
                         Console.WriteLine($"Refresh master data.");
