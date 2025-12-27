@@ -714,18 +714,6 @@ namespace WeightChecking
                                     {
                                         _scanData.BoxWeight = (double)res.BoxWeightBx6;
                                         _boxType = BoxTypeEnum.BX6;
-
-                                        if (_labBoxType.InvokeRequired)
-                                        {
-                                            _labBoxType.Invoke(new Action(() =>
-                                            {
-                                                _labBoxType.Text = "BX6";
-                                            }));
-                                        }
-                                        else
-                                        {
-                                            _labBoxType.Text = "BX6";
-                                        }
                                     }
                                     else if (_scanData.Quantity > res.BoxQtyBx6 && _scanData.Quantity <= res.BoxQtyBx5)
                                     {
@@ -1711,6 +1699,7 @@ namespace WeightChecking
             });
             #endregion
         }
+
         #region Events
         // Cho phép kéo form bằng panel
         private void TitleBar_MouseDown(object sender, MouseEventArgs e)
