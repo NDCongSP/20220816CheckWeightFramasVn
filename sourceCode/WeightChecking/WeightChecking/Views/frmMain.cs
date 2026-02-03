@@ -1049,7 +1049,7 @@ namespace WeightChecking
                     #region Log DB
                     using (var dbContext = new ApplicationDbContext(GlobalVariables.ConnectionString))
                     {
-                        dbContext.Database.ExecuteSqlCommand("truncate table tblCoreDataCodeItemSize_bk");
+                        dbContext.Database.ExecuteSqlCommand("truncate table tblCoreDataCodeItemSize");
                         var createAt = DateTime.Now;
                         var machineName = Environment.MachineName;
 
