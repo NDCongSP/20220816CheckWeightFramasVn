@@ -98,6 +98,7 @@
             this._labStatus = new DevExpress.XtraEditors.LabelControl();
             this._labDateTime = new DevExpress.XtraEditors.LabelControl();
             this._btnReprint = new DevExpress.XtraEditors.SimpleButton();
+            this._txtScale = new System.Windows.Forms.TextBox();
             ((System.ComponentModel.ISupportInitialize)(this.groupControl2)).BeginInit();
             this.groupControl2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.labAccessoriesWeight.Properties)).BeginInit();
@@ -1253,6 +1254,13 @@
             this._btnReprint.TabIndex = 41;
             this._btnReprint.Text = "Label Print Approval";
             // 
+            // _txtScale
+            // 
+            this._txtScale.Location = new System.Drawing.Point(12, 945);
+            this._txtScale.Name = "_txtScale";
+            this._txtScale.Size = new System.Drawing.Size(100, 21);
+            this._txtScale.TabIndex = 67;
+            // 
             // frmScaleNewUI
             // 
             this.Appearance.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(240)))), ((int)(((byte)(240)))), ((int)(((byte)(240)))));
@@ -1262,6 +1270,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1918, 1048);
+            this.Controls.Add(this._txtScale);
             this.Controls.Add(this._btnReprint);
             this.Controls.Add(this._labDateTime);
             this.Controls.Add(this._labStatus);
@@ -1298,6 +1307,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.labNetWeight.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.labDeviation.Properties)).EndInit();
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
@@ -1373,5 +1383,6 @@
         private DevExpress.XtraEditors.LabelControl labelControl5;
         private DevExpress.XtraEditors.SimpleButton _btnReprint;
         private System.Windows.Forms.TextBox txtQrCode;
+        private System.Windows.Forms.TextBox _txtScale;
     }
 }

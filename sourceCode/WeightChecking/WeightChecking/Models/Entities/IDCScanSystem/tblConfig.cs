@@ -59,5 +59,15 @@ namespace WeightChecking
         /// đơn vị (s).
         /// </summary>
         public int ResetUiInterval { get; set; } = 3;
+
+        /// <summary>
+        /// Giá trị dung sai dưới của thùng carton (%).
+        /// </summary>
+        public double? LowerToleranceOfCartonBox { get; set; } = 1;
+
+        /// <summary>
+        /// Giá trị dung sai trên của thùng carton (%).
+        /// </summary>
+        public double? UpperToleranceOfCartonBox { get; set; } = 1;
     }
 }

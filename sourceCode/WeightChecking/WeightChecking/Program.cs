@@ -56,7 +56,7 @@ namespace WeightChecking
                 GlobalVariables.ConfigJson.ConStringWL = EncodeMD5.DecryptString(GlobalVariables.ConfigJson.ConStringWL, "ITFramasBDVN");
 
                 //Đọc DB lấy danh sách specialCase
-                GlobalVariables.SpecialCaseList = dbContext.Database.SqlQuery<tblSpecialCase>("sp_tblSpecialCaseGets").ToList();
+                GlobalVariables.SpecialCaseList = dbContext.TblSpecialCases.ToList();
 
                 GlobalVariables.SystemOC = dbContext.TblSystemOCs.ToList();
                 if (GlobalVariables.SystemOC != null)
@@ -71,6 +71,11 @@ namespace WeightChecking
                         });
                     }
                 }
+
+                //Lấy các đầu OC trên WL
+                var ocWL = dbContext.Database.SqlQuery<OcUsingModel>("sp_IdcGetListOcName").ToList();
+
+                GlobalVariables.OcUsingList.AddRange(ocWL);
             }
 
             Console.WriteLine($"Path app: {Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location)}");
@@ -87,9 +92,7 @@ namespace WeightChecking
             #region Get danh sách tất cả các OC đang sử dụng
             using (var dbContext = new ApplicationDbContextWL(GlobalVariables.ConfigJson.ConStringWL))
             {
-                var ocWL = dbContext.Database.SqlQuery<OcUsingModel>("sp_IdcGetListOcName").ToList();
 
-                GlobalVariables.OcUsingList.AddRange(ocWL);
             }
             #endregion
 

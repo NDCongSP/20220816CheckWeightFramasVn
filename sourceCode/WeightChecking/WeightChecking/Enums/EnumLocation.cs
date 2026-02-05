@@ -6,11 +6,12 @@ using System.Threading.Tasks;
 
 namespace WeightChecking
 {
-    public enum LocationEnum
+    public enum EnumLocation
     {
-        Empty,
-        fVN,
-        fFT,
-        fKV
+        fVN = 1,
+        fKV = 2,
+        fFT = 3,
+        fIN = 4,
+        fGE = 5
     }
 }

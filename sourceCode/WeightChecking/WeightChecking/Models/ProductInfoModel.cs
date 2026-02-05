@@ -62,4 +62,39 @@ namespace WeightChecking
         public double? UpperToleranceOfPlasticBox { get; set; } = 0;
         public DateTime? CreatedDate { get; set; }//Thời gian item được get từ WL về
     }
+
+    public class ProductInfoFgeModel
+    {
+        public string? CodeItemSize { get; set; } = string.Empty;
+        public string? ProductNumber { get; set; } = string.Empty;
+        public string? ProductName { get; set; } = string.Empty;
+        public int? ProductCategory { get; set; } = 0;
+        public int? Decoration { get; set; } = 0;
+        public int? MetalScan { get; set; } = 0;
+        public string? MainProductNo { get; set; } = string.Empty;
+        public string? MainProductName { get; set; } = string.Empty;
+        public string? Color { get; set; } = string.Empty;
+        public string? SizeCode { get; set; } = string.Empty;
+        public string? SizeName { get; set; } = string.Empty;
+        public string? ToolingNo { get; set; } = string.Empty;
+        public double? AveWeight1Prs { get; set; } = 0;
+        public double? LeftWeight { get; set; } = 0;
+        public double? RightWeight { get; set; } = 0;
+
+        public string? Brand { get; set; } = string.Empty;
+
+        //public string? CustomerUsePb { get; set; } = null;
+        public string? Unit { get; set; } = null;
+
+        public string? BoxType { get; set; } = string.Empty;
+        public double? BoxWeight { get; set; } = 0;
+        public double? QtyOfBox { get; set; } = 0;
+
+        public double? PartitionBX1Qty { get; set; } = 0;
+        public double? PartitionBX1AQty { get; set; } = 0;
+        public double? PartitionBX2Qty { get; set; } = 0;
+        public double? PartitionBX3Qty { get; set; } = 0;
+        public double? PartitionBX4Qty { get; set; } = 0;
+        public double? PartitionWeight { get; set; } = 0;
+    }
 }

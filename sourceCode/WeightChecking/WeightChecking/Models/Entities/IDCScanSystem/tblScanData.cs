@@ -9,6 +9,9 @@ using System.Threading.Tasks;
 
 namespace WeightChecking
 {
+    /// <summary>
+    /// Các gái trị trọng lượng toàn bộ đơn vị là gram.
+    /// </summary>
     [Table("tblScanData")]
     public class tblScanData
     {
@@ -25,14 +28,22 @@ namespace WeightChecking
         public string Unit { get; set; } = "Prs";
         public string BoxNo { get; set; } = null;
         public string CustomerNo { get; set; } = null;
-        public LocationEnum Location { get; set; }
+        public EnumLocation Location { get; set; }
         public string BoxPosNo { get; set; } = null;
         public string Note { get; set; } = null;
         public string Brand { get; set; } = null;
         public int Decoration { get; set; }
         public int MetalScan { get; set; }
         public int ActualMetalScan { get; set; } = 0;
+
+        /// <summary>
+        /// Unit gram.
+        /// </summary>
         public double AveWeight1Prs { get; set; }
+
+        /// <summary>
+        /// Unit gram.
+        /// </summary>
         public double StdNetWeight { get; set; }
 
         //public double Tolerance { get; set; }
@@ -72,7 +83,15 @@ namespace WeightChecking
         /// % = [|CalculateDeviation (prs)| * AveWeight/Prs (g)]/SdtGrossWeight (g).
         /// </summary>
         public double RatioFailWeight { get; set; } = 0;
+
+        [NotMapped]
         public string ParentOc { get; set; }
+
+        [NotMapped]
         public string ParentBoxId { get; set; }
+
+        public string? BoxType { get; set; }
+
+        public int? ProductCategory { get; set; }
     }
 }
