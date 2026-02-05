@@ -412,6 +412,24 @@ namespace WeightChecking
                     });
                 }
             };
+
+
+            string input = "SU S     2.2777 kg";
+
+            // Regex bắt số kg
+            string pattern = @"([0-9]+(?:\.[0-9]+)?)\s*kg";
+
+            Match match = Regex.Match(input, pattern);
+            if (match.Success)
+            {
+                double weight = double.Parse(match.Groups[1].Value);
+                Console.WriteLine("Weight: " + weight);
+            }
+            else
+            {
+                Console.WriteLine("Không đọc được khối lượng!");
+            }
+
         }
 
         private void _txtScale_KeyDown(object sender, KeyEventArgs e)
@@ -444,7 +462,7 @@ namespace WeightChecking
                     GlobalVariables.InvokeIfRequired(this, () =>
                     {
                         _labStatus.Text = $"{DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss")} " +
-                              $"| {GlobalVariables.UserLoginInfo.UserName} | {GlobalVariables.DbName}";
+                              $"| {GlobalVariables.UserLoginInfo.UserName} | {GlobalVariables.DbName} | Scale: {GlobalVariables.ScaleStatus}";
                         _labDateTime.Text = $"{Application.ProductVersion}";
                     });
 

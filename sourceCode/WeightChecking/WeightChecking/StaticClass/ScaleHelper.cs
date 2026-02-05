@@ -139,7 +139,7 @@ namespace WeightChecking
                         Status = "Disconnection";
                         CountDisconnect = 0;
                         cancelTokenSrc.Cancel();
-                        
+
                         //tskReadScale = new Task(() => StartReadScale());
                         //tskReadScale.Start();
                     }
@@ -297,14 +297,23 @@ namespace WeightChecking
                         //    rawData = rawData.Substring(res[0], res[1] - res[0]);
                         //    Debug.WriteLine(valueStr);
                         //}
-                        digits = new Regex(@"^\D*?((-?(\d+(\.\d+)?))|(-?\.\d+)).*");
-                        mx = digits.Match(rawData);
-                        //Debug.WriteLine($"Match String: {mx}");
                         try
                         {
-                            ScaleValue = mx.Success ? Convert.ToDouble(mx.Groups[1].Value) : oldScale;
-                            //ScaleValue = mx.Success ?  Convert.ToDouble(mx.Groups[1].Value) : oldScale;
-                            oldScale = ScaleValue;
+                            // Regex bắt số kg
+                            string pattern = @"([0-9]+(?:\.[0-9]+)?)\s*kg";
+
+                            Match match = Regex.Match(rawData, pattern);
+                            if (match.Success)
+                            {
+                                ScaleValue = double.Parse(match.Groups[1].Value);
+                                Console.WriteLine("Weight: " + ScaleValue);
+                                ScaleValue = Convert.ToDouble(match.Groups[1].Value);
+                                oldScale = ScaleValue;
+                            }
+                            else
+                            {
+                                Console.WriteLine("Không đọc được khối lượng!");
+                            }
                         }
                         catch (Exception ex)
                         {
