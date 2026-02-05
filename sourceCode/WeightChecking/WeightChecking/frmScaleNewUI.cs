@@ -934,6 +934,7 @@ namespace WeightChecking
                                     //thung hang Pass
                                     if (_scanData.DeviationPairs == 0)
                                     {
+                                        _errorFlag = false;
                                         _scanData.Pass = 1;//báo thùng pass
                                         _scanData.CreatedDate = GlobalVariables.CreatedDate = DateTime.Now;//lấy thời gian để đồng bộ giữa in tem và log DB
                                                                                                            //Printing
@@ -964,67 +965,14 @@ namespace WeightChecking
                                         //lấy lại ID của thùng lỗi này trong hệ thống để cho in lại tem rồi cập nhật thông tin người approved vào.
                                         tblScanData resultCheckBoxInfo = new tblScanData();
 
-
-                                        ////nếu ko phải là thùng bị in tem lụi (in lại tem)
-                                        //if (boxParent == null)
-                                        //{
-                                        //    //resultCheckBoxInfo = dbContext.Query<tblScanDataModel>("sp_tblScanDataGetByQrCode", para, commandType: CommandType.StoredProcedure).FirstOrDefault();
-                                        //    resultCheckBoxInfo = dbContext.TblScanDatas
-                                        //        .FirstOrDefault(x => x.BarcodeString == _scanData.BarcodeString &&
-                                        //        x.Actived == 1 && x.Pass == 0);
-                                        //}
-                                        //else
-                                        //{
-                                        //    //resultCheckBoxInfo = dbContext.Query<tblScanDataModel>("sp_tblScanDataGetByQrCode", para, commandType: CommandType.StoredProcedure).FirstOrDefault();
-                                        //    resultCheckBoxInfo = dbContext.TblScanDatas
-                                        //        .FirstOrDefault(x => x.Actived == 1 &&
-                                        //            x.OcNo == boxParent.ParentOc &&
-                                        //            x.BoxNo == boxParent.ParentBoxCode
-                                        //         );
-                                        //}
-
                                         //kiểm tra xem data đã có trên hệ thống hay chưa
                                         //Check fail recorded?
                                         if (statusLogData == 0)
                                         {
-                                            #region  trường hợp in tem lụi lại tem thì vào xử lý để cập nhật deviation cho đúng theo motherBox
-                                            //if (boxParent != null)
-                                            //{
-                                            //    //Trường hợp 1: thùng mẹ bị dư hàng
-                                            //    //khi đó sẽ lấy số lượng dư in tem lụi 1 con tem mới và đóng 1 thùng mới với số lượng dư đó
-                                            //    //tem mẹ vẫn lưu hành
-                                            //    if (resultCheckBoxInfo.Quantity + resultCheckBoxInfo.ActualDeviationPairs > resultCheckBoxInfo.Quantity)
-                                            //    {
-                                            //        //cập nhật actual deviation cho thùng mẹ
-
-                                            //        resultCheckBoxInfo.ActualDeviationPairs = _scanData.Quantity;
-                                            //        resultCheckBoxInfo.Status = 2;
-                                            //        dbContext.TblScanDatas.AddOrUpdate(resultCheckBoxInfo);
-
-                                            //        #region Update actual deviation for approvedPrint
-                                            //        var checkUpdate = dbContext.TblApprovedPrintLabels
-                                            //              .Where(x => x.ScanDataId == resultCheckBoxInfo.Id).ToList();
-                                            //        checkUpdate?.ForEach(x => x.ActualDeviationPairs = resultCheckBoxInfo.Quantity);
-                                            //        #endregion
-                                            //    }
-                                            //    //Trường hợp 2: thùng mẹ bị thiếu hàng
-                                            //    //khi đó sẽ in tem lụi 1 con tem mới. thay cho tem mẹ
-                                            //    //tem mẹ sẽ bị hủy.
-                                            //    else
-                                            //    {
-                                            //        //cập nhật actual deviation cho thùng mẹ
-                                            //        resultCheckBoxInfo.ActualDeviationPairs = _scanData.Quantity - resultCheckBoxInfo.Quantity;
-                                            //        resultCheckBoxInfo.Status = 2;
-                                            //        dbContext.TblScanDatas.AddOrUpdate(resultCheckBoxInfo);
-                                            //    }
-                                            //    dbContext.SaveChanges();
-                                            //}
-                                            #endregion
-
                                             GlobalVariables.Printing((_scanData.GrossWeight / 1000).ToString("#,#0.00")
-                                                        , !string.IsNullOrEmpty(GlobalVariables.IdLabel) ? GlobalVariables.IdLabel : $"{_scanData.OcNo}|{_scanData.BoxNo}", true
-                                                         , _scanData.CreatedDate.ToString("yyyy-MM-dd HH:mm:ss")
-                                                         , _unitLabel);
+                                             , !string.IsNullOrEmpty(GlobalVariables.IdLabel) ? GlobalVariables.IdLabel : $"{_scanData.OcNo}|{_scanData.BoxNo}", true
+                                              , _scanData.CreatedDate.ToString("yyyy-MM-dd HH:mm:ss")
+                                              , _unitLabel);
                                         }
                                         //với thùng Pass mà trước đó đã cân và báo fail thì popup form nhập deviation
                                         else if (statusLogData == 1)
@@ -1041,7 +989,7 @@ namespace WeightChecking
                                                 {
                                                     if (resultCheckBoxInfo != null)
                                                     {
-                                                        var dialogResult = MessageBox.Show($"Can you confirm the update of the actual quantity discrepancy for the carton based on the information:" +
+                                                        var dialogResult = MessageBox.Show($"Can you confirm the update of the actual quantity discrepancy for the box based on the information:" +
                                                                                              $"{Environment.NewLine}{_scanData.IdLabel}|{_scanData.OcNo}|{_scanData.BoxNo}.{Environment.NewLine}" +
                                                                                              $"The actual quantity discrepancy is: {formDeviation.ActualDeviation}?", "WARNING", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
 
@@ -1051,69 +999,36 @@ namespace WeightChecking
                                                             resultCheckBoxInfo.ActualDeviationPairs = formDeviation.ActualDeviation;
                                                             resultCheckBoxInfo.ApprovedBy = formDeviation.QrConfirm;
 
-                                                            #region  trường hợp in tem lụi lại tem thì vào xử lý để cập nhật deviation cho đúng theo motherBox
-                                                            //if (boxParent != null)
-                                                            //{
-                                                            //    //Trường hợp 1: thùng mẹ bị dư hàng
-                                                            //    //khi đó sẽ lấy số lượng dư in tem lụi 1 con tem mới và đóng 1 thùng mới với số lượng dư đó
-                                                            //    //tem mẹ vẫn lưu hành
-                                                            //    if (resultCheckBoxInfo.Quantity + resultCheckBoxInfo.ActualDeviationPairs > resultCheckBoxInfo.Quantity)
-                                                            //    {
-                                                            //        //cập nhật actual deviation cho thùng mẹ
-                                                            //        resultCheckBoxInfo.ActualDeviationPairs = _scanData.Quantity;
-                                                            //        resultCheckBoxInfo.Status = 2;
-                                                            //        dbContext.TblScanDatas.AddOrUpdate(resultCheckBoxInfo);
+                                                            resultCheckBoxInfo.Status = 2;
+                                                            dbContext.TblScanDatas.AddOrUpdate(resultCheckBoxInfo);
+                                                            dbContext.SaveChanges();
 
-                                                            //        //Update actual deviation for approvedPrint
-                                                            //        var checkUpdate = dbContext.TblApprovedPrintLabels
-                                                            //                                .Where(x => x.ScanDataId == resultCheckBoxInfo.Id).ToList();
-                                                            //        checkUpdate?.ForEach(x => x.ActualDeviationPairs = resultCheckBoxInfo.Quantity);
-                                                            //    }
-                                                            //    //Trường hợp 2: thùng mẹ bị thiếu hàng
-                                                            //    //khi đó sẽ in tem lụi 1 con tem mới. thay cho tem mẹ
-                                                            //    //tem mẹ sẽ bị hủy.
-                                                            //    else
-                                                            //    {
-                                                            //        resultCheckBoxInfo.ActualDeviationPairs = _scanData.Quantity - resultCheckBoxInfo.Quantity;
-                                                            //        resultCheckBoxInfo.Status = 2;
-                                                            //        dbContext.TblScanDatas.AddOrUpdate(resultCheckBoxInfo);
-                                                            //    }
-                                                            //    dbContext.SaveChanges();
-                                                            //}
-                                                            //else
+                                                            #region Log approvedPrint
+                                                            var itemInsert = new tblApprovedPrintLabel()
                                                             {
-
-                                                                resultCheckBoxInfo.Status = 2;
-                                                                dbContext.TblScanDatas.AddOrUpdate(resultCheckBoxInfo);
-                                                                dbContext.SaveChanges();
-
-                                                                #region Log approvedPrint
-                                                                var itemInsert = new tblApprovedPrintLabel()
-                                                                {
-                                                                    Id = Guid.NewGuid(),
-                                                                    CreatedDate = DateTime.Now,
-                                                                    CreatedMachine = Environment.MachineName,
-                                                                    QrCode = resultCheckBoxInfo.ApprovedBy,
-                                                                    IdLabel = resultCheckBoxInfo.IdLabel,
-                                                                    OC = resultCheckBoxInfo.OcNo,
-                                                                    BoxNo = resultCheckBoxInfo.BoxNo,
-                                                                    GrossWeight = resultCheckBoxInfo.GrossWeight,
-                                                                    NetWeight = resultCheckBoxInfo.NetWeight,
-                                                                    CalculatorPrs = resultCheckBoxInfo.CalculatedPairs,
-                                                                    Deviation = resultCheckBoxInfo.Deviation,
-                                                                    DeviationPairs = resultCheckBoxInfo.DeviationPairs,
-                                                                    ActualDeviationPairs = resultCheckBoxInfo.ActualDeviationPairs,
-                                                                    QRLabel = resultCheckBoxInfo.BarcodeString,
-                                                                    ApproveType = "Actual deviation",
-                                                                    Station = GlobalVariables.Station,
-                                                                    ScanDataId = resultCheckBoxInfo.Id,
-                                                                    Quantity = resultCheckBoxInfo.Quantity,
-                                                                    Reason = formDeviation.Reason
-                                                                };
-                                                                dbContext.TblApprovedPrintLabels.Add(itemInsert);
-                                                                dbContext.SaveChanges();
-                                                                #endregion
-                                                            }
+                                                                Id = Guid.NewGuid(),
+                                                                CreatedDate = DateTime.Now,
+                                                                CreatedMachine = Environment.MachineName,
+                                                                QrCode = resultCheckBoxInfo.ApprovedBy,
+                                                                IdLabel = resultCheckBoxInfo.IdLabel,
+                                                                OC = resultCheckBoxInfo.OcNo,
+                                                                BoxNo = resultCheckBoxInfo.BoxNo,
+                                                                GrossWeight = resultCheckBoxInfo.GrossWeight,
+                                                                NetWeight = resultCheckBoxInfo.NetWeight,
+                                                                CalculatorPrs = resultCheckBoxInfo.CalculatedPairs,
+                                                                Deviation = resultCheckBoxInfo.Deviation,
+                                                                DeviationPairs = resultCheckBoxInfo.DeviationPairs,
+                                                                ActualDeviationPairs = resultCheckBoxInfo.ActualDeviationPairs,
+                                                                QRLabel = resultCheckBoxInfo.BarcodeString,
+                                                                ApproveType = "Actual deviation",
+                                                                Station = GlobalVariables.Station,
+                                                                ScanDataId = resultCheckBoxInfo.Id,
+                                                                Quantity = resultCheckBoxInfo.Quantity,
+                                                                Reason = formDeviation.Reason
+                                                            };
+                                                            dbContext.TblApprovedPrintLabels.Add(itemInsert);
+                                                            dbContext.SaveChanges();
+                                                            #endregion
                                                             #endregion
 
                                                             //lấy lại ID của thùng lỗi này trong hệ thống để cho in lại tem rồi cập nhật thông tin người approved vào.
@@ -1130,13 +1045,13 @@ namespace WeightChecking
                                                 }
                                                 else
                                                 {
-                                                    throw new Exception($"The actual quantity discrepancy for the carton has not been entered. Please rescan the label and input it again.");
+                                                    throw new Exception($"The actual quantity discrepancy for the box has not been entered. Please rescan the label and input it again.");
                                                 }
                                             }
                                         }
                                         else
                                         {
-                                            throw new Exception($"{_scanData.OcNo} - {_scanData.BoxNo} - {_unitLabel} - {_scanData.IdLabel}.The carton’s weight has been successfully recorded. Please do not rescan.");
+                                            throw new Exception($"{_scanData.OcNo} - {_scanData.BoxNo} - {_unitLabel} - {_scanData.IdLabel}.The box’s weight has been successfully recorded. Please do not rescan.");
                                         }
                                     }
                                     else//thung fail
@@ -1182,12 +1097,12 @@ namespace WeightChecking
                                         else if (statusLogData == 2)
                                         {
                                             //throw new Exception($"This carton has already been scanned and its weight recorded as OK, it is not allowed to be weighed again. {_scanData.OcNo} - {_scanData.BoxNo} - {_unitLabel}");
-                                            throw new Exception($"{_scanData.OcNo} - {_scanData.BoxNo} - {_unitLabel} - {_scanData.IdLabel}. The carton’s weight has been successfully recorded. Please do not rescan.");
+                                            throw new Exception($"{_scanData.OcNo} - {_scanData.BoxNo} - {_unitLabel} - {_scanData.IdLabel}. The box’s weight has been successfully recorded. Please do not rescan.");
                                         }
                                         else
                                         {
                                             //throw new Exception($"This carton has already been scanned and its weight recorded as error, it is not allowed to be weighed again. {_scanData.OcNo} - {_scanData.BoxNo} - {_unitLabel}");
-                                            throw new Exception($"{_scanData.OcNo} - {_scanData.BoxNo} - {_unitLabel} - {_scanData.IdLabel}. The carton weight is incorrect. Please verify and correct it before rescanning.");
+                                            throw new Exception($"{_scanData.OcNo} - {_scanData.BoxNo} - {_unitLabel} - {_scanData.IdLabel}. The box's weight is incorrect. Please verify and correct it before rescanning.");
                                         }
                                     }
                                     #endregion
@@ -1288,7 +1203,6 @@ namespace WeightChecking
             }
             catch (OperationCanceledException) { /* thoát êm */ }
         }
-        #endregion
 
         private void ResetControl(bool resetQrCode = true)
         {
@@ -1366,7 +1280,7 @@ namespace WeightChecking
                 labQuantity.Text = _scanData.Quantity.ToString();
                 labColor.Text = _color;
                 labSize.Text = _sizeName;
-                labAveWeight.Text = _scanData.AveWeight1Prs.ToString();
+                labAveWeight.Text = _unitLabel == "prs" ? _scanData.AveWeight1Prs.ToString() : Math.Round(_scanData.AveWeight1Prs / 2, 2).ToString();
                 labLowerTolerance.Text = _scanData.LowerTolerance.ToString();
                 labUpperTolerance.Text = _scanData.UpperTolerance.ToString();
                 labBoxWeight.Text = _scanData.BoxWeight.ToString();

@@ -145,7 +145,7 @@ namespace WeightChecking
                 }
                 catch (Exception ex)
                 {
-                    MessageBox.Show("Quét sai mã QR. Mời quét lại.", "CẢNH BÁO", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    MessageBox.Show("Invalid QR code. Please rescan.", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     _sen.Text = null;
                     _sen.Focus();
                 }
@@ -171,9 +171,9 @@ namespace WeightChecking
                     {
                         if (res.Approved == 1)
                         {
-                            var dialogResult = MessageBox.Show($"Bạn có chắc chắn xác nhận thùng với thông tin sau:" +
+                            var dialogResult = MessageBox.Show($"Are you sure you want to confirm this carton with the following information:" +
                                      $"{Environment.NewLine}{_scanData.IdLabel}|{_scanData.OcNo}|{_scanData.BoxNo}{Environment.NewLine}" +
-                                     $" là cảnh báo sai và in lại tem với chênh lệch thực tế là {_scanData.ActualDeviationPairs}?", "CẢNH BÁO", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+                                     $" is this an incorrect alert and reprint the label with the actual discrepancy of {_scanData.ActualDeviationPairs}?", "Question", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
 
                             if (dialogResult == DialogResult.Yes)
                             {
@@ -327,14 +327,14 @@ namespace WeightChecking
                         }
                         else
                         {
-                            MessageBox.Show("Bạn không có quyền thực hiện chức năng này", "THÔNG BÁO", MessageBoxButtons.OK
-                                , MessageBoxIcon.Warning);
+                            MessageBox.Show("You do not have permission to use this feature.", "Information", MessageBoxButtons.OK
+                                    , MessageBoxIcon.Warning);
                         }
                     }
                     else
                     {
-                        MessageBox.Show("Không tìm thấy thông tin.", "THÔNG BÁO", MessageBoxButtons.OK
-                            , MessageBoxIcon.Warning);
+                        MessageBox.Show("No data found.", "Information", MessageBoxButtons.OK
+                                , MessageBoxIcon.Warning);
                     }
                 }
             }

@@ -159,10 +159,10 @@ namespace WeightChecking
                     CheckCode();
                 }
             }
-            catch (Exception)
+            catch (Exception ex)
             {
                 _isClickButton = false;
-                MessageBox.Show($"Lỗi.", "CẢNH BÁO", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show(ex.Message, "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
         }
 
@@ -185,12 +185,12 @@ namespace WeightChecking
             {
                 if (!string.IsNullOrEmpty(txtQR.Text) && !string.IsNullOrEmpty(txtActualDeviation.Text) && !string.IsNullOrEmpty(Reason))
                 {
-                    using (var dbContext =new ApplicationDbContext(GlobalVariables.ConnectionString))
+                    using (var dbContext = new ApplicationDbContext(GlobalVariables.ConnectionString))
                     {
                         var para = new DynamicParameters();
                         para.Add("Id", QrConfirm);
 
-                        var res = dbContext.TblUsers.FirstOrDefault(x=>x.Id==QrConfirm);
+                        var res = dbContext.TblUsers.FirstOrDefault(x => x.Id == QrConfirm);
 
                         if (res != null)
                         {
@@ -208,28 +208,28 @@ namespace WeightChecking
                                     txtQR.Text = string.Empty;
                                     txtQR.Focus();
                                 });
-                                MessageBox.Show("Bạn không có quyền thực hiện chức năng này", "THÔNG BÁO", MessageBoxButtons.OK
+                                MessageBox.Show("You do not have permission to use this feature.", "Information", MessageBoxButtons.OK
                                     , MessageBoxIcon.Warning);
                             }
                         }
                         else
                         {
-                            MessageBox.Show("Không tìm thấy thông tin.", "THÔNG BÁO", MessageBoxButtons.OK
+                            MessageBox.Show("No data found.", "Information", MessageBoxButtons.OK
                                 , MessageBoxIcon.Warning);
                         }
                     }
                 }
                 else
                 {
-                    MessageBox.Show("Thiếu thông tin, kiểm tra lại.", "THÔNG BÁO", MessageBoxButtons.OK
+                    MessageBox.Show("Required information is missing. Please review", "Information", MessageBoxButtons.OK
                                 , MessageBoxIcon.Warning);
                     this.Invoke((MethodInvoker)delegate { txtActualDeviation.Focus(); });
                 }
             }
-            catch (Exception)
+            catch (Exception ex)
             {
                 _isClickButton = false;
-                MessageBox.Show($"Chỉ được nhập số, không nhập chữ ở đây.", "CẢNH BÁO", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
             finally
             {

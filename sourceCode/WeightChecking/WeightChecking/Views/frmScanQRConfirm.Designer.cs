@@ -53,9 +53,9 @@ namespace WeightChecking
             this.labQrCode.Appearance.Options.UseFont = true;
             this.labQrCode.Location = new System.Drawing.Point(13, 5);
             this.labQrCode.Name = "labQrCode";
-            this.labQrCode.Size = new System.Drawing.Size(171, 24);
+            this.labQrCode.Size = new System.Drawing.Size(173, 24);
             this.labQrCode.TabIndex = 4;
-            this.labQrCode.Text = "Scan QR Xác Nhận:";
+            this.labQrCode.Text = "Scan QR to Confirm";
             // 
             // txtQrCode
             // 
@@ -82,7 +82,7 @@ namespace WeightChecking
             this.MinimizeBox = false;
             this.Name = "frmScanQRConfirm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "Quét QR Xác Nhận Cảnh Báo Sai - In Lại Tem";
+            this.Text = "Scan QR Code to Confirm Error Alert and Reprint Label";
             ((System.ComponentModel.ISupportInitialize)(this.txtQrCode.Properties)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();

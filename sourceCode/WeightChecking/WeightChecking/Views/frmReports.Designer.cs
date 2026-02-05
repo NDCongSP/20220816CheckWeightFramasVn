@@ -36,9 +36,6 @@ namespace WeightChecking
             this.xtraTabPage2 = new DevExpress.XtraTab.XtraTabPage();
             this.grcApprove = new DevExpress.XtraGrid.GridControl();
             this.grvApprove = new DevExpress.XtraGrid.Views.Grid.GridView();
-            this.xtraTabPage3 = new DevExpress.XtraTab.XtraTabPage();
-            this.grcMissInfo = new DevExpress.XtraGrid.GridControl();
-            this.grvMissInfo = new DevExpress.XtraGrid.Views.Grid.GridView();
             ((System.ComponentModel.ISupportInitialize)(this.grcReports)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.grvReports)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.xtraTabControl1)).BeginInit();
@@ -47,9 +44,6 @@ namespace WeightChecking
             this.xtraTabPage2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.grcApprove)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.grvApprove)).BeginInit();
-            this.xtraTabPage3.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.grcMissInfo)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.grvMissInfo)).BeginInit();
             this.SuspendLayout();
             // 
             // grcReports
@@ -85,8 +79,7 @@ namespace WeightChecking
             this.xtraTabControl1.TabIndex = 1;
             this.xtraTabControl1.TabPages.AddRange(new DevExpress.XtraTab.XtraTabPage[] {
             this.xtraTabPage1,
-            this.xtraTabPage2,
-            this.xtraTabPage3});
+            this.xtraTabPage2});
             // 
             // xtraTabPage1
             // 
@@ -128,37 +121,6 @@ namespace WeightChecking
             this.grvApprove.OptionsDetail.ShowEmbeddedDetailIndent = DevExpress.Utils.DefaultBoolean.True;
             this.grvApprove.OptionsView.ColumnAutoWidth = false;
             // 
-            // xtraTabPage3
-            // 
-            this.xtraTabPage3.Appearance.Header.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Bold);
-            this.xtraTabPage3.Appearance.Header.Options.UseFont = true;
-            this.xtraTabPage3.Controls.Add(this.grcMissInfo);
-            this.xtraTabPage3.Name = "xtraTabPage3";
-            this.xtraTabPage3.Size = new System.Drawing.Size(1408, 754);
-            this.xtraTabPage3.Text = "Missing Infomation";
-            // 
-            // grcMissInfo
-            // 
-            this.grcMissInfo.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.grcMissInfo.EmbeddedNavigator.Buttons.Edit.Enabled = false;
-            this.grcMissInfo.EmbeddedNavigator.Buttons.EndEdit.Enabled = false;
-            this.grcMissInfo.EmbeddedNavigator.Buttons.Remove.Enabled = false;
-            this.grcMissInfo.Location = new System.Drawing.Point(0, 0);
-            this.grcMissInfo.MainView = this.grvMissInfo;
-            this.grcMissInfo.Name = "grcMissInfo";
-            this.grcMissInfo.Size = new System.Drawing.Size(1408, 754);
-            this.grcMissInfo.TabIndex = 2;
-            this.grcMissInfo.UseEmbeddedNavigator = true;
-            this.grcMissInfo.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
-            this.grvMissInfo});
-            // 
-            // grvMissInfo
-            // 
-            this.grvMissInfo.GridControl = this.grcMissInfo;
-            this.grvMissInfo.Name = "grvMissInfo";
-            this.grvMissInfo.OptionsDetail.ShowEmbeddedDetailIndent = DevExpress.Utils.DefaultBoolean.True;
-            this.grvMissInfo.OptionsView.ColumnAutoWidth = false;
-            // 
             // frmReports
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -175,9 +137,6 @@ namespace WeightChecking
             this.xtraTabPage2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.grcApprove)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.grvApprove)).EndInit();
-            this.xtraTabPage3.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.grcMissInfo)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.grvMissInfo)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -191,8 +150,5 @@ namespace WeightChecking
         private DevExpress.XtraTab.XtraTabPage xtraTabPage2;
         private DevExpress.XtraGrid.GridControl grcApprove;
         private DevExpress.XtraGrid.Views.Grid.GridView grvApprove;
-        private DevExpress.XtraTab.XtraTabPage xtraTabPage3;
-        private DevExpress.XtraGrid.GridControl grcMissInfo;
-        private DevExpress.XtraGrid.Views.Grid.GridView grvMissInfo;
     }
 }

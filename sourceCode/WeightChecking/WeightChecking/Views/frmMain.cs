@@ -167,12 +167,12 @@ namespace WeightChecking
                     _masterData = "Actived";
 
                     _frmMasterData = new frmMasterData();
-                    tabbedView1.AddDocument(_frmMasterData);
-                    tabbedView1.ActivateDocument(_frmMasterData);
+                    tabbedView1.AddDocument(_frmReports);
+                    tabbedView1.ActivateDocument(_frmReports);
                 }
                 else
                 {
-                    tabbedView1.ActivateDocument(_frmMasterData);
+                    tabbedView1.ActivateDocument(_frmReports);
                 }
 
                 ribbonControl1.SelectedPage = ribbonPageMasterData;
@@ -185,12 +185,12 @@ namespace WeightChecking
                     _masterData = "Actived";
 
                     _frmMasterData = new frmMasterData();
-                    tabbedView1.AddDocument(_frmMasterData);
-                    tabbedView1.ActivateDocument(_frmMasterData);
+                    tabbedView1.AddDocument(_frmReports);
+                    tabbedView1.ActivateDocument(_frmReports);
                 }
                 else
                 {
-                    tabbedView1.ActivateDocument(_frmMasterData);
+                    tabbedView1.ActivateDocument(_frmReports);
                 }
 
                 ribbonControl1.SelectedPage = ribbonPageMasterData;
@@ -219,10 +219,14 @@ namespace WeightChecking
             _barButtonItemExportMissItem.Visibility = DevExpress.XtraBars.BarItemVisibility.Never;
             this._barEditItemFromDate.EditValue = this._barEditItemToDate.EditValue = DateTime.Now;
 
+
             this._barEditItemCombStation.EditValueChanged += _barEditItemCombStation_EditValueChanged;
             this._barEditItemCombStation.EditValue = "All";
             _timer.Enabled = true;
             _timer.Tick += _timer_Tick;
+
+            ribbonPageMasterData.Visible = false;
+            ribbonPageHome.Visible = false;
         }
 
         private void _barBtnDeleteBox_ItemClick(object sender, DevExpress.XtraBars.ItemClickEventArgs e)
@@ -379,52 +383,78 @@ namespace WeightChecking
             _stationReport = _barEditItemCombStation.EditValue.ToString();
         }
 
-        private void _barButtonItemExportExcel_ItemClick(object sender, DevExpress.XtraBars.ItemClickEventArgs e)
+        private async void _barButtonItemExportExcel_ItemClick(object sender, DevExpress.XtraBars.ItemClickEventArgs e)
         {
             try
             {
                 using (SaveFileDialog sfd = new SaveFileDialog())
                 {
                     sfd.Filter = "Excel File|*.xlsx";
-                    sfd.Title = "Chọn chổ để xuất";
+                    sfd.Title = "Select a folder to save the file.";
                     sfd.FileName = $"{DateTime.Now.ToString("yyyyMMddHHmmss")}SSFGReport.xlsx";
                     if (sfd.ShowDialog() == DialogResult.OK)
                     {
 
                         SplashScreenManager.ShowForm(this, typeof(WaitForm1), true, true, false);
-                        SplashScreenManager.Default.SetWaitFormCaption("Vui lòng chờ trong giây lát");
+                        SplashScreenManager.Default.SetWaitFormCaption("Please wait a moment.");
                         SplashScreenManager.Default.SetWaitFormDescription("Loading...");
 
                         var fromDate = (DateTime)_barEditItemFromDate.EditValue;
                         var toDate = (DateTime)_barEditItemToDate.EditValue;
                         //var station = _barEditItemCombStation.EditValue.ToString();
 
-                        using (var connection = GlobalVariables.GetDbConnection())
+
+                        using var dbContext = new ApplicationDbContext(GlobalVariables.ConnectionString);
+
+                        var res = await dbContext.TblScanDatas
+                            .Where(x =>
+                                x.Actived == 1 &&
+                                x.CreatedDate >= fromDate &&
+                                x.CreatedDate <= toDate
+                            )
+                            .ToListAsync();
+
+                        var reportModel = new List<ScanDataReport1Model>();
+                        //var res = connection.Query<ScanDataReportModel>("sp_tblScanDataGets", parametters, commandType: CommandType.StoredProcedure).ToList();
+
+                        //var reportApproved = new List<ApprovedReportModel>();
+                        //var resApproved = connection.Query<ApprovedModel>("sp_tblApprovedPrintLableSelect", parametters, commandType: CommandType.StoredProcedure).ToList();
+                        var reportApproved = await (from a in dbContext.TblApprovedPrintLabels
+                                                    join b in dbContext.TblUsers on a.QrCode equals b.Id into gj
+                                                    from b in gj.DefaultIfEmpty()
+                                                    select new ApprovedReportModel()
+                                                    {
+                                                        UserName = b.UserName,
+                                                        IdLabel = a.IdLabel,
+                                                        OC = a.OC,
+                                                        BoxNo = a.BoxNo,
+                                                        GrossWeight = (double)a.GrossWeight,
+                                                        Station = a.Station.ToString(),
+                                                        CreatedDate = (DateTime)a.CreatedDate,
+                                                        QRLabel = a.QRLabel,
+                                                        ApproveType = a.ApproveType,
+                                                        NetWeight = (double)a.NetWeight,
+                                                        Quantity = (int)a.Quantity,
+                                                        CalculatorPairs = (int)a.CalculatorPrs,
+                                                        Deviation = (double)a.Deviation,
+                                                        DeviationPairs = (double)a.DeviationPairs,
+                                                        ActualDeviation = (double)a.ActualDeviationPairs,
+                                                        ScanDataId = (Guid)a.ScanDataId,
+                                                        Reason = a.Reason
+                                                    })
+                                             .ToListAsync();
+
+                        using (Workbook wb = new Workbook())
                         {
-                            var parametters = new DynamicParameters();
-                            parametters.Add("FromDate", fromDate.ToString("yyyy/MM/dd 00:00:00"));
-                            parametters.Add("ToDate", toDate.ToString("yyyy/MM/dd 23:59:59"));
-                            parametters.Add("Station", _stationReport);
+                            //wb.Worksheets.Remove(wb.Worksheets["Sheet1"]);
+                            wb.Worksheets["Sheet1"].Name = "DataScan";
+                            wb.Worksheets.Add("ApprovedPrintLable");
+                            Worksheet ws = wb.Worksheets["DataScan"];
+                            CellRange rHeader;
 
-                            var reportModel = new List<ScanDataReport1Model>();
-                            var res = connection.Query<ScanDataReportModel>("sp_tblScanDataGets", parametters, commandType: CommandType.StoredProcedure).ToList();
-
-                            var reportApproved = new List<ApprovedReportModel>();
-                            var resApproved = connection.Query<ApprovedModel>("sp_tblApprovedPrintLableSelect", parametters, commandType: CommandType.StoredProcedure).ToList();
-
-                            var resMissInfo = connection.Query<MissProItemModel>("sp_MissingInfoGets", parametters, commandType: CommandType.StoredProcedure).ToList();
-                            var reportMiss = new List<MissProItemReportModel>();
-
-                            using (Workbook wb = new Workbook())
+                            #region Data scan
+                            if (res.Count > 0)
                             {
-                                //wb.Worksheets.Remove(wb.Worksheets["Sheet1"]);
-                                wb.Worksheets["Sheet1"].Name = "DataScan";
-                                wb.Worksheets.Add("ApprovedPrintLable");
-                                wb.Worksheets.Add("MissProItems");
-
-                                #region Data scan
-                                Worksheet ws = wb.Worksheets["DataScan"];
-
                                 ws.Cells[0, 0].Value = "BarcodeString";
                                 ws.Cells[0, 1].Value = "IdLable";
                                 ws.Cells[0, 2].Value = "OcNo";
@@ -465,7 +495,7 @@ namespace WeightChecking
                                 ws.Cells[0, 37].Value = "Parent Oc";
                                 ws.Cells[0, 38].Value = "Parent BoxId";
 
-                                CellRange rHeader = ws.Range.FromLTRB(0, 0, 38, 0);//Col-Row;Col-Row. do created new WB nen ko lây theo hàng cot chũ cái đc
+                                rHeader = ws.Range.FromLTRB(0, 0, 38, 0);//Col-Row;Col-Row. do created new WB nen ko lây theo hàng cot chũ cái đc
                                 rHeader.FillColor = Color.Orange;
                                 rHeader.Alignment.Horizontal = SpreadsheetHorizontalAlignment.Center;
                                 rHeader.Alignment.Vertical = SpreadsheetVerticalAlignment.Center;
@@ -527,9 +557,12 @@ namespace WeightChecking
                                 //ws.FreezeColumns(3);
                                 ws.FreezePanes(0, 3);
                                 ws.Columns.AutoFit(0, 38);
-                                #endregion
+                            }
+                            #endregion
 
-                                #region Approved print lable
+                            #region Approved print lable
+                            if (reportApproved.Count > 0)
+                            {
                                 ws = wb.Worksheets["ApprovedPrintLable"];
 
                                 ws.Cells[0, 0].Value = "User Name";
@@ -556,29 +589,29 @@ namespace WeightChecking
                                 rHeader.Alignment.Vertical = SpreadsheetVerticalAlignment.Center;
                                 rHeader.Font.Bold = true;
 
-                                foreach (var itemApproved in resApproved)
-                                {
-                                    reportApproved.Add(new ApprovedReportModel()
-                                    {
-                                        UserName = itemApproved.UserName,
-                                        IdLabel = itemApproved.IdLabel,
-                                        OC = itemApproved.OC,
-                                        BoxNo = itemApproved.BoxNo,
-                                        GrossWeight = itemApproved.GrossWeight,
-                                        Station = itemApproved.Station.ToString(),
-                                        CreatedDate = itemApproved.CreatedDate,
-                                        QRLabel = itemApproved.QRLabel,
-                                        ApproveType = itemApproved.ApproveType,
-                                        NetWeight = itemApproved.NetWeight,
-                                        Quantity = itemApproved.Quantity,
-                                        CalculatorPairs = itemApproved.CalculatorPrs,
-                                        Deviation = itemApproved.Deviation,
-                                        DeviationPairs = itemApproved.DeviationPairs,
-                                        ActualDeviation = itemApproved.ActualDeviationPairs,
-                                        ScanDataId = itemApproved.ScanDataId,
-                                        Reason = itemApproved.Reason
-                                    });
-                                }
+                                //foreach (var itemApproved in resApproved)
+                                //{
+                                //    reportApproved.Add(new ApprovedReportModel()
+                                //    {
+                                //        UserName = itemApproved.UserName,
+                                //        IdLabel = itemApproved.IdLabel,
+                                //        OC = itemApproved.OC,
+                                //        BoxNo = itemApproved.BoxNo,
+                                //        GrossWeight = itemApproved.GrossWeight,
+                                //        Station = itemApproved.Station.ToString(),
+                                //        CreatedDate = itemApproved.CreatedDate,
+                                //        QRLabel = itemApproved.QRLabel,
+                                //        ApproveType = itemApproved.ApproveType,
+                                //        NetWeight = itemApproved.NetWeight,
+                                //        Quantity = itemApproved.Quantity,
+                                //        CalculatorPairs = itemApproved.CalculatorPrs,
+                                //        Deviation = itemApproved.Deviation,
+                                //        DeviationPairs = itemApproved.DeviationPairs,
+                                //        ActualDeviation = itemApproved.ActualDeviationPairs,
+                                //        ScanDataId = itemApproved.ScanDataId,
+                                //        Reason = itemApproved.Reason
+                                //    });
+                                //}
                                 ws.Import(reportApproved, 1, 0);
 
                                 ws.Range[$"J2:K{res.Count}"].NumberFormat = "#,#0.00";
@@ -591,57 +624,14 @@ namespace WeightChecking
                                 //ws.FreezeColumns(3);
                                 //ws.FreezePanes(0, 3);
                                 ws.Columns.AutoFit(0, 16);
-                                #endregion
-
-                                #region Missing infomation
-                                ws = wb.Worksheets["MissProItems"];
-
-                                ws.Cells[0, 0].Value = "OC";
-                                ws.Cells[0, 1].Value = "Product Code";
-                                ws.Cells[0, 2].Value = "Product Name";
-                                ws.Cells[0, 3].Value = "QR Code";
-                                ws.Cells[0, 4].Value = "Note";
-                                ws.Cells[0, 5].Value = "Created Date";
-                                ws.Cells[0, 6].Value = "Station";
-
-                                rHeader = ws.Range.FromLTRB(0, 0, 6, 0);//Col-Row;Col-Row. do created new WB nen ko lây theo hàng cot chũ cái đc
-                                rHeader.FillColor = Color.Orange;
-                                rHeader.Alignment.Horizontal = SpreadsheetHorizontalAlignment.Center;
-                                rHeader.Alignment.Vertical = SpreadsheetVerticalAlignment.Center;
-                                rHeader.Font.Bold = true;
-
-                                foreach (var item in resMissInfo)
-                                {
-                                    reportMiss.Add(new MissProItemReportModel()
-                                    {
-                                        OcNum = item.OcNum,
-                                        ProductNumber = item.ProductNumber,
-                                        ProductName = item.ProductName,
-                                        QRCode = item.QRCode,
-                                        Note = item.Note,
-                                        CreatedDate = item.CreatedDate,
-                                        Station = item.Station.ToString()
-                                    });
-                                }
-                                ws.Import(reportMiss, 1, 0);
-
-                                //ws.Range[$"Q2:Y{res.Count}"].NumberFormat = "#,#0.00";
-                                //ws.Range[$"AB2:AC{res.Count}"].NumberFormat = "#,#0";
-                                ws.Range[$"F2:F{resMissInfo.Count + 1}"].NumberFormat = "yyyy/MM/dd HH:mm:ss";
-
-                                ws.Range.FromLTRB(0, 0, 6, resMissInfo.Count).Borders.SetAllBorders(Color.Black, BorderLineStyle.Thin);
-                                //ws.FreezeRows(0);
-                                //ws.FreezeColumns(3);
-                                //ws.FreezePanes(0, 3);
-                                ws.Columns.AutoFit(0, 6);
-                                #endregion
-
-                                wb.Worksheets.ActiveWorksheet = wb.Worksheets["DataScan"];
-
-                                wb.SaveDocument(sfd.FileName);
-
-                                Process.Start(sfd.FileName);
                             }
+                            #endregion
+
+                            wb.Worksheets.ActiveWorksheet = wb.Worksheets["DataScan"];
+
+                            wb.SaveDocument(sfd.FileName);
+
+                            Process.Start(sfd.FileName);
                         }
                     }
                 }

@@ -35,8 +35,8 @@ namespace WeightChecking
                 }
                 else
                 {
-                    MessageBox.Show("Thiếu thông tin, kiểm tra lại.", "THÔNG BÁO", MessageBoxButtons.OK
-                                , MessageBoxIcon.Warning);
+                    MessageBox.Show("Required information is missing. Please review", "Information", MessageBoxButtons.OK
+                               , MessageBoxIcon.Warning);
                     this.Invoke((MethodInvoker)delegate { t.Focus(); });
                 }
             }

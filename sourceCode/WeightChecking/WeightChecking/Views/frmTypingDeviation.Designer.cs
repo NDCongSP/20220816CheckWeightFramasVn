@@ -61,7 +61,7 @@ namespace WeightChecking
             this.btnSave.Name = "btnSave";
             this.btnSave.Size = new System.Drawing.Size(412, 79);
             this.btnSave.TabIndex = 3;
-            this.btnSave.Text = "LƯU";
+            this.btnSave.Text = "SAVE";
             // 
             // labelControl1
             // 
@@ -69,9 +69,9 @@ namespace WeightChecking
             this.labelControl1.Appearance.Options.UseFont = true;
             this.labelControl1.Location = new System.Drawing.Point(29, 29);
             this.labelControl1.Name = "labelControl1";
-            this.labelControl1.Size = new System.Drawing.Size(423, 41);
+            this.labelControl1.Size = new System.Drawing.Size(280, 40);
             this.labelControl1.TabIndex = 2;
-            this.labelControl1.Text = "Số chênh lệch thực tế (đôi):";
+            this.labelControl1.Text = "Actual discrepancy:";
             // 
             // txtActualDeviation
             // 
@@ -101,9 +101,9 @@ namespace WeightChecking
             this.labelControl2.Appearance.Options.UseFont = true;
             this.labelControl2.Location = new System.Drawing.Point(29, 277);
             this.labelControl2.Name = "labelControl2";
-            this.labelControl2.Size = new System.Drawing.Size(259, 41);
+            this.labelControl2.Size = new System.Drawing.Size(325, 40);
             this.labelControl2.TabIndex = 2;
-            this.labelControl2.Text = "Mã QC xác nhận:";
+            this.labelControl2.Text = "QC confirmation code:";
             // 
             // groupControl1
             // 
@@ -116,7 +116,7 @@ namespace WeightChecking
             this.groupControl1.Name = "groupControl1";
             this.groupControl1.Size = new System.Drawing.Size(841, 172);
             this.groupControl1.TabIndex = 10;
-            this.groupControl1.Text = "Danh sách lỗi";
+            this.groupControl1.Text = "Error list";
             // 
             // _ckOther
             // 
@@ -184,7 +184,7 @@ namespace WeightChecking
             this.MinimizeBox = false;
             this.Name = "frmTypingDeviation";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "Nhập số đôi chênh lệch thực tế";
+            this.Text = "Input the actual pair discrepancy";
             ((System.ComponentModel.ISupportInitialize)(this.txtActualDeviation.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtQR.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.groupControl1)).EndInit();

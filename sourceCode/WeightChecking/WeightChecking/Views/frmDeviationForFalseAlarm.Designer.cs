@@ -41,9 +41,9 @@ namespace WeightChecking
             this.labelControl1.Appearance.Options.UseFont = true;
             this.labelControl1.Location = new System.Drawing.Point(97, 27);
             this.labelControl1.Name = "labelControl1";
-            this.labelControl1.Size = new System.Drawing.Size(423, 41);
+            this.labelControl1.Size = new System.Drawing.Size(408, 40);
             this.labelControl1.TabIndex = 5;
-            this.labelControl1.Text = "Số chênh lệch thực tế (đôi):";
+            this.labelControl1.Text = "Enter the actual discrepancy";
             // 
             // btnSave
             // 
@@ -55,7 +55,7 @@ namespace WeightChecking
             this.btnSave.Name = "btnSave";
             this.btnSave.Size = new System.Drawing.Size(412, 79);
             this.btnSave.TabIndex = 6;
-            this.btnSave.Text = "LƯU";
+            this.btnSave.Text = "SAVE";
             // 
             // txtActualDeviation
             // 

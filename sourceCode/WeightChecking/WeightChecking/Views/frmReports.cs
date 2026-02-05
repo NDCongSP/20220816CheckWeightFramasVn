@@ -10,12 +10,14 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Data.Entity;
 using System.Diagnostics;
 using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using WeightChecking.Models.Entities;
 
 namespace WeightChecking
 {
@@ -40,14 +42,6 @@ namespace WeightChecking
             grvReports.OptionsCustomization.AllowSort = true;
             grvReports.OptionsBehavior.ReadOnly = true;
             grvReports.BestFitColumns();
-
-            grvMissInfo.OptionsView.ShowAutoFilterRow = true;
-            grvMissInfo.OptionsCustomization.AllowFilter = true;
-            grvMissInfo.OptionsView.ShowFilterPanelMode = DevExpress.XtraGrid.Views.Base.ShowFilterPanelMode.ShowAlways;
-            grvMissInfo.OptionsView.ColumnAutoWidth = false;
-            grvMissInfo.OptionsCustomization.AllowSort = true;
-            grvMissInfo.OptionsBehavior.ReadOnly = true;
-            grvMissInfo.BestFitColumns();
 
             grvApprove.OptionsView.ShowAutoFilterRow = true;
             grvApprove.OptionsCustomization.AllowFilter = true;
@@ -102,91 +96,85 @@ namespace WeightChecking
             }
         }
 
-        void RefreshData()
+        async void RefreshData()
         {
             try
             {
                 SplashScreenManager.ShowForm(this, typeof(WaitForm1), true, true, false);
-                SplashScreenManager.Default.SetWaitFormCaption("Vui lòng chờ trong giây lát");
+                SplashScreenManager.Default.SetWaitFormCaption("Please wait a moment.");
                 SplashScreenManager.Default.SetWaitFormDescription("Loading...");
 
-                using (var connection = GlobalVariables.GetDbConnection())
+
+                DateTime from = Convert.ToDateTime(FromDate);
+                DateTime to = Convert.ToDateTime(ToDate);
+
+
+                using var dbContext = new ApplicationDbContext(GlobalVariables.ConnectionString);
+
+                #region Scan Data
+                var res = await dbContext.TblScanDatas
+                    .Where(x =>
+                        x.Actived == 1 &&
+                        x.CreatedDate >= from &&
+                        x.CreatedDate <= to
+                    )
+                    .ToListAsync();
+
+
+                if (grcReports.InvokeRequired)
                 {
-                    var parametters = new DynamicParameters();
-                    parametters.Add("FromDate", FromDate);
-                    parametters.Add("ToDate", ToDate);
-                    parametters.Add("Station", Station);
-
-                    #region Scan Data
-                    var res = connection.Query<tblScanData>("sp_tblScanDataGets", parametters, commandType: CommandType.StoredProcedure).ToList();
-
-                    if (grcReports.InvokeRequired)
-                    {
-                        grcReports.Invoke(new Action(() =>
-                        {
-                            grcReports.DataSource = res;
-                        }));
-                    }
-                    else
+                    grcReports.Invoke(new Action(() =>
                     {
                         grcReports.DataSource = res;
-                    }
+                    }));
+                }
+                else
+                {
+                    grcReports.DataSource = res;
+                }
 
-                    grvReports.Columns["CreatedDate"].DisplayFormat.FormatString = "YYYY-MM-dd HH:mm:ss";
-                    grvReports.Columns["ProductNumber"].Fixed = DevExpress.XtraGrid.Columns.FixedStyle.Left;
-                    grvReports.Columns["IdLabel"].Fixed = DevExpress.XtraGrid.Columns.FixedStyle.Left;
-                    grvReports.Columns["OcNo"].Fixed = DevExpress.XtraGrid.Columns.FixedStyle.Left;
-                    grvReports.Columns["BoxNo"].Fixed = DevExpress.XtraGrid.Columns.FixedStyle.Left;
+                grvReports.Columns["CreatedDate"].DisplayFormat.FormatString = "YYYY-MM-dd HH:mm:ss";
+                grvReports.Columns["ProductNumber"].Fixed = DevExpress.XtraGrid.Columns.FixedStyle.Left;
+                grvReports.Columns["IdLabel"].Fixed = DevExpress.XtraGrid.Columns.FixedStyle.Left;
+                grvReports.Columns["OcNo"].Fixed = DevExpress.XtraGrid.Columns.FixedStyle.Left;
+                grvReports.Columns["BoxNo"].Fixed = DevExpress.XtraGrid.Columns.FixedStyle.Left;
 
-                    grvReports.Columns["Station"].Fixed = DevExpress.XtraGrid.Columns.FixedStyle.Right;
-                    grvReports.Columns["ApprovedName"].Fixed = DevExpress.XtraGrid.Columns.FixedStyle.Right;
-                    grvReports.Columns["ActualDeviationPairs"].Fixed = DevExpress.XtraGrid.Columns.FixedStyle.Right;
-                    grvReports.Columns["DeviationPairs"].Fixed = DevExpress.XtraGrid.Columns.FixedStyle.Right;
-                    grvReports.Columns["CalculatedPairs"].Fixed = DevExpress.XtraGrid.Columns.FixedStyle.Right;
-                    grvReports.Columns["CreatedDate"].Fixed = DevExpress.XtraGrid.Columns.FixedStyle.Right;
-                    #endregion
+                grvReports.Columns["Station"].Fixed = DevExpress.XtraGrid.Columns.FixedStyle.Right;
+                grvReports.Columns["ApprovedName"].Fixed = DevExpress.XtraGrid.Columns.FixedStyle.Right;
+                grvReports.Columns["ActualDeviationPairs"].Fixed = DevExpress.XtraGrid.Columns.FixedStyle.Right;
+                grvReports.Columns["DeviationPairs"].Fixed = DevExpress.XtraGrid.Columns.FixedStyle.Right;
+                grvReports.Columns["CalculatedPairs"].Fixed = DevExpress.XtraGrid.Columns.FixedStyle.Right;
+                grvReports.Columns["CreatedDate"].Fixed = DevExpress.XtraGrid.Columns.FixedStyle.Right;
+                #endregion
 
-                    #region Approved Print
-                    var resApproved = connection.Query<ApprovedModel>("sp_tblApprovedPrintLableSelect", parametters, commandType: CommandType.StoredProcedure).ToList();
+                #region Approved Print
+                //var resApproved = connection.Query<ApprovedModel>("sp_tblApprovedPrintLableSelect", parametters, commandType: CommandType.StoredProcedure).ToList();
+                var resApproved = dbContext.TblApprovedPrintLabels
+                     .Where(x =>
+                         x.CreatedDate >= from &&
+                        x.CreatedDate <= to
+                    )
+                    .ToListAsync();
 
-                    if (grcApprove.InvokeRequired)
-                    {
-                        grcApprove.Invoke(new Action(() =>
-                        {
-                            grcApprove.DataSource = resApproved;
-                        }));
-                    }
-                    else
+                if (grcApprove.InvokeRequired)
+                {
+                    grcApprove.Invoke(new Action(() =>
                     {
                         grcApprove.DataSource = resApproved;
-                    }
-
-                    grvApprove.Columns["CreatedDate"].DisplayFormat.FormatString = "YYYY-MM-dd HH:mm:ss";
-                    #endregion
-
-                    #region Missing infomation
-                    var resMissInfo = connection.Query<MissProItemModel>("sp_MissingInfoGets", parametters, commandType: CommandType.StoredProcedure).ToList();
-
-                    if (grcMissInfo.InvokeRequired)
-                    {
-                        grcMissInfo.Invoke(new Action(() =>
-                        {
-                            grcMissInfo.DataSource = resMissInfo;
-                        }));
-                    }
-                    else
-                    {
-                        grcMissInfo.DataSource = resMissInfo;
-                    }
-
-                    grvMissInfo.Columns["CreatedDate"].DisplayFormat.FormatString = "YYYY-MM-dd HH:mm:ss";
-                    #endregion
+                    }));
                 }
+                else
+                {
+                    grcApprove.DataSource = resApproved;
+                }
+
+               // grvApprove.Columns["CreatedDate"].DisplayFormat.FormatString = "YYYY-MM-dd HH:mm:ss";
+                #endregion
             }
             catch (Exception ex)
             {
-                Log.Error(ex, "Lỗi Report exception.");
-                XtraMessageBox.Show("Lỗi Report: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                Log.Error(ex, "Report exception.");
+                XtraMessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
             finally
             {
