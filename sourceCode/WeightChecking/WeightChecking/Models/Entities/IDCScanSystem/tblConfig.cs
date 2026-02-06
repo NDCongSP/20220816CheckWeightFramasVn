@@ -69,5 +69,10 @@ namespace WeightChecking
         /// Giá trị dung sai trên của thùng carton (%).
         /// </summary>
         public double? UpperToleranceOfCartonBox { get; set; } = 1;
+
+        /// <summary>
+        /// Dùng để ẩn hiện  textbox mô phỏng nhập giá trị cân để test.
+        /// </summary>
+        public bool? IsTest { get; set; } = false;
     }
 }

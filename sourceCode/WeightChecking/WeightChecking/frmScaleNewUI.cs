@@ -430,7 +430,7 @@ namespace WeightChecking
                 Console.WriteLine("Không đọc được khối lượng!");
             }
 
-            _txtScale.Visible = true;
+            _txtScale.Visible = false;
         }
 
         private void _txtScale_KeyDown(object sender, KeyEventArgs e)
