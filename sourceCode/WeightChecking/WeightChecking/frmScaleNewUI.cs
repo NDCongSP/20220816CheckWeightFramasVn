@@ -400,7 +400,7 @@ namespace WeightChecking
             _ = TaskInspectionWeightAsync(_inspectionWeightCts.Token);
 
             //unit gram
-            //labScaleValue.Text = "7450";
+            labScaleValue.Text = "7450";
             _txtScale.KeyDown += (s, o) =>
             {
 
@@ -430,6 +430,7 @@ namespace WeightChecking
                 Console.WriteLine("Không đọc được khối lượng!");
             }
 
+            _txtScale.Visible = true;
         }
 
         private void _txtScale_KeyDown(object sender, KeyEventArgs e)
@@ -819,7 +820,7 @@ namespace WeightChecking
                                         _approveUpdateActMetalScan = true;
                                     }
 
-                                    _scanData.StdNetWeight = Math.Round(_scanData.Quantity * _scanData.AveWeight1Prs / 2, 2);
+                                    _scanData.StdNetWeight = Math.Round(_scanData.Quantity * _scanData.AveWeight1Prs, 2);
                                     //_scanData.Tolerance = Math.Round(_scanData.StdNetWeight * (res.Tolerance / 100), 2);
                                     _scanData.LowerTolerance = -Math.Round(_scanData.StdNetWeight * (lowerToleranceOfBox / 100), 2);
                                     _scanData.UpperTolerance = Math.Round(_scanData.StdNetWeight * (upperToleranceOfBox / 100), 2);
@@ -921,8 +922,10 @@ namespace WeightChecking
                                     var nwPlus = _scanData.StdNetWeight + _scanData.UpperTolerance;
                                     var nwSub = _scanData.StdNetWeight + _scanData.LowerTolerance;
 
-                                    if (((_scanData.NetWeight > nwPlus) && (_scanData.NetWeight - nwPlus < _scanData.AveWeight1Prs / 2))
-                                    || ((_scanData.NetWeight < nwSub) && (nwSub - _scanData.NetWeight < _scanData.AveWeight1Prs / 2))
+                                    var wPcs = _scanData.ProductCategory == 1 ? _scanData.AveWeight1Prs : _scanData.AveWeight1Prs / 2;
+
+                                    if (((_scanData.NetWeight > nwPlus) && (_scanData.NetWeight - nwPlus < wPcs))
+                                    || ((_scanData.NetWeight < nwSub) && (nwSub - _scanData.NetWeight < wPcs))
                                     )
                                     {
                                         _scanData.CalculatedPairs = _scanData.Quantity;

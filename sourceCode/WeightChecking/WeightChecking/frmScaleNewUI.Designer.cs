@@ -1198,7 +1198,7 @@
             this._labUnitDeviation.Name = "_labUnitDeviation";
             this._labUnitDeviation.Size = new System.Drawing.Size(360, 54);
             this._labUnitDeviation.TabIndex = 37;
-            this._labUnitDeviation.Text = "Deviation (prs)";
+            this._labUnitDeviation.Text = "Qty Deviation (prs)";
             // 
             // label1
             // 
