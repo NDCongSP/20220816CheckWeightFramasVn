@@ -34,7 +34,7 @@ namespace WeightChecking
         public string ConStringWL { get; set; } = "ed3YbBgz3fEdyTkRahthFY5ktQmH2er+ubV7i40QDz2+hAazJukJ2KdBD28UEGTZpJCCeedpXvxIaU3kh+lTExB/npJz2Uw5lNuwB800UZyeKbvZFrfjjijyurbNaMoE7IXQkLVO+pvLS+9V/AFxNrE1qo49bGzvAnZUvm1Uo3o1fPqAH5rwrQmiR/MZQW0YE/hEqI8KBWqqEiZJeE8Dbt/Bw1H8THChh6y2CqZBLz4=";
 
         [Description("The IP address of scale.")]
-        public string IpScale { get; set; } = "192.168.80.1";
+        public string IpScale { get; set; } = "10.11.17.163";
 
         public double UnitScale { get; set; } = 1000;
 
@@ -58,7 +58,7 @@ namespace WeightChecking
         /// Thời gian đếm ngược để reset UI dau khi thực hiện xong.
         /// đơn vị (s).
         /// </summary>
-        public int ResetUiInterval { get; set; } = 3;
+        public int ResetUiInterval { get; set; } = 60;
 
         /// <summary>
         /// Giá trị dung sai dưới của thùng carton (%).
@@ -73,6 +73,6 @@ namespace WeightChecking
         /// <summary>
         /// Dùng để ẩn hiện  textbox mô phỏng nhập giá trị cân để test.
         /// </summary>
-        public bool? IsTest { get; set; } = false;
+        public bool IsTest { get; set; } = false;
     }
 }
