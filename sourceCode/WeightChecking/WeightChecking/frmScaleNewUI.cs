@@ -430,7 +430,7 @@ namespace WeightChecking
                 Console.WriteLine("Không đọc được khối lượng!");
             }
 
-            _txtScale.Visible = GlobalVariables.ConfigJson.IsTest;
+            _txtScale.Visible = !GlobalVariables.ConfigJson.IsTest;
         }
 
         private void _txtScale_KeyDown(object sender, KeyEventArgs e)
@@ -1301,7 +1301,7 @@ namespace WeightChecking
                 labQuantity.Text = _scanData.Quantity.ToString();
                 labColor.Text = _color;
                 labSize.Text = _sizeName;
-                labAveWeight.Text = _unitLabel == "prs" ? _scanData.AveWeight1Prs.ToString() : Math.Round(_scanData.AveWeight1Prs / 2, 2).ToString();
+                labAveWeight.Text = _scanData.AveWeight1Prs.ToString();
                 labLowerTolerance.Text = _scanData.LowerTolerance.ToString();
                 labUpperTolerance.Text = _scanData.UpperTolerance.ToString();
                 labBoxWeight.Text = _scanData.BoxWeight.ToString();
