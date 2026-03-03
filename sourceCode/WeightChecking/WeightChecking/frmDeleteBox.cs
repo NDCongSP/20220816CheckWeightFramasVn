@@ -37,7 +37,6 @@ namespace WeightChecking
 
             _txtOc.Text = Oc;
             _txtBoxId.Text = BoxId;
-            _txtUnit.Text = _unit.ToString();
 
             _txtOc.TextChanged += (s, o) => { Oc = _txtOc.Text; };
             _txtBoxId.TextChanged += (s, o) => { BoxId = _txtBoxId.Text; };
