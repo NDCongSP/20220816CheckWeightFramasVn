@@ -1,14 +1,17 @@
 ﻿using Dapper;
 using DevExpress.XtraEditors;
+using DevExpress.XtraRichEdit.Layout.Engine;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Data.Entity;
 using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using WeightChecking.Models.Entities;
 
 namespace WeightChecking
 {
@@ -20,6 +23,8 @@ namespace WeightChecking
         public string BoxId { get; set; } = string.Empty;
         public string PassFail { get; set; } = "0";
 
+        private EnumUnit _unit = EnumUnit.L;
+
         public frmDeleteBox()
         {
             InitializeComponent();
@@ -30,76 +35,54 @@ namespace WeightChecking
         {
             _btnDelete.Click += _btnDelete_Click;
 
-            _txtIdLabel.Text = IdLabel;
             _txtOc.Text = Oc;
             _txtBoxId.Text = BoxId;
-            bool v = PassFail == "0" ? _ckPass.Checked = false : _ckPass.Checked = true;
+            _txtUnit.Text = _unit.ToString();
 
-            _ckPass.CheckedChanged += (s, o) =>
+            _txtOc.TextChanged += (s, o) => { Oc = _txtOc.Text; };
+            _txtBoxId.TextChanged += (s, o) => { BoxId = _txtBoxId.Text; };
+            _txtUnit.TextChanged += (s, o) =>
             {
-                if (_ckPass.Checked)
+                if (Enum.TryParse<EnumUnit>(_txtUnit.Text, true, out var unit))
                 {
-                    PassFail = "1";
+                    _unit = unit;
                 }
                 else
                 {
-                    PassFail = "0";
+                    MessageBox.Show("Invalid unit. Please enter 'L' or 'P'.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    _txtUnit.Text = _unit.ToString(); // Reset to previous valid value
                 }
             };
-
-            _txtIdLabel.TextChanged += (s, o) => { IdLabel = _txtIdLabel.Text; };
-            _txtOc.TextChanged += (s, o) => { Oc = _txtOc.Text; };
-            _txtBoxId.TextChanged += (s, o) => { BoxId = _txtBoxId.Text; };
         }
 
-        private void _btnDelete_Click(object sender, EventArgs e)
+        private async void _btnDelete_Click(object sender, EventArgs e)
         {
-            if (MessageBox.Show($"Are you sure delete this box?", "Warning", MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.Yes)
+            try
             {
-                using (var connection =  GlobalVariables.GetDbConnection())
+                if (MessageBox.Show($"Are you sure delete this box?", "Warning", MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.Yes)
                 {
-                    var para = new DynamicParameters();
-                    if (IdLabel != string.Empty)
+
+                    using (var dbContext = new ApplicationDbContext(GlobalVariables.ConnectionString))
                     {
-                        para.Add("IdLabel", IdLabel);
-                    }
-                    else
-                    {
-                        para.Add("Oc", Oc);
-                        para.Add("BoxId", BoxId);
-                    }
-                    para.Add("IsPass", PassFail);
+                        var boxInfo = await dbContext.TblScanDatas
+                            .Where(x => x.OcNo == Oc && x.BoxNo == BoxId && x.Unit == _unit.ToString())
+                            .ToListAsync();
 
-                    var reader = connection.ExecuteReader("sp_tblScanDataGetForDeleteBox", param: para, commandType: CommandType.StoredProcedure);
-
-                    DataTable boxInfo = new DataTable();
-                    boxInfo.Load(reader);
-
-                    if (boxInfo != null && boxInfo.Rows.Count > 0)
-                    {
-                        para = null;
-                        para = new DynamicParameters();
-                        para.Add("Id", boxInfo.Rows[0]["Id"]);
-
-                        var id = boxInfo.Rows[0]["Id"];
-
-                        var resultExec = connection.Execute("sp_deleteBox", param: para, commandType: CommandType.StoredProcedure);
-
-                        if (resultExec > 0)
+                        if (boxInfo == null || (boxInfo != null && boxInfo.Count <= 0))
                         {
-                            MessageBox.Show("Successfull", "Info", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                            this.Close();
+                            MessageBox.Show("The box could not be found in the data.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                         }
-                        else
-                        {
-                            MessageBox.Show("Fail.", "Info", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                        }
-                    }
-                    else
-                    {
-                        MessageBox.Show("The box could not be found in the data.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+
+                        dbContext.TblScanDatas.RemoveRange(boxInfo);
+                        await dbContext.SaveChangesAsync();
+
+                        MessageBox.Show("Successfull", "Info", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     }
                 }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Successfull", "Info", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
         }
     }
