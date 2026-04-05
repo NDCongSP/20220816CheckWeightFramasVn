@@ -1248,8 +1248,8 @@ namespace WeightChecking
                 labColor.Text = string.Empty;
                 labSize.Text = string.Empty;
                 labAveWeight.Text = "0";
-                labLowerTolerance.Text = "0";
-                labUpperTolerance.Text = "0";
+                //labLowerTolerance.Text = "0";
+                //labUpperTolerance.Text = "0";
                 labBoxWeight.Text = "0";
                 labAccessoriesWeight.Text = "0";
                 labGrossWeight.Text = "0";
@@ -1272,16 +1272,16 @@ namespace WeightChecking
                 labNetWeight.Text = "0";
 
                 labNetRealWeight.Text = "0";
-                labDeviation.Text = "0";
+                labDeviation.Text = "0 (g)";
 
                 labCalculatedPairs.Text = "0";
-                labDeviationPairs.Text = "0";
+                labDeviationPairs.Text = "0 (-)";
 
                 _labResultMessage.Text = string.Empty;
                 _labResult.Text = string.Empty;
                 _labResult.BackColor = Color.Gray;
 
-                labDeviation.ForeColor = default;
+                labDeviationPairs.ForeColor = default;
                 #endregion
             });
         }
@@ -1302,8 +1302,8 @@ namespace WeightChecking
                 labColor.Text = _color;
                 labSize.Text = _sizeName;
                 labAveWeight.Text = _scanData.AveWeight1Prs.ToString();
-                labLowerTolerance.Text = _scanData.LowerTolerance.ToString();
-                labUpperTolerance.Text = _scanData.UpperTolerance.ToString();
+                //labLowerTolerance.Text = _scanData.LowerTolerance.ToString();
+                //labUpperTolerance.Text = _scanData.UpperTolerance.ToString();
                 labBoxWeight.Text = _scanData.BoxWeight.ToString();
                 labAccessoriesWeight.Text = _scanData.PackageWeight.ToString();
                 labGrossWeight.Text = _scanData.StdGrossWeight.ToString();
@@ -1324,11 +1324,11 @@ namespace WeightChecking
                 #region Scaled
 
                 labNetRealWeight.Text = $"{_scanData.NetWeight}";
-                labDeviation.Text = $"{_scanData.Deviation}";
+                labDeviation.Text = $"{_scanData.Deviation} (g)";
                 labCalculatedPairs.Text = _scanData.CalculatedPairs.ToString();
-                labDeviationPairs.Text = _scanData.DeviationPairs.ToString();
+                labDeviationPairs.Text = $"{_scanData.DeviationPairs.ToString()} ({_unitLabel})";
 
-                labDeviation.ForeColor = errorFlag == false ? Color.Green : Color.Red;
+                labDeviationPairs.ForeColor = errorFlag == false ? Color.Green : Color.Red;
                 _labResultMessage.ForeColor = errorFlag == false ? Color.Green : Color.Red;
                 #endregion
 
