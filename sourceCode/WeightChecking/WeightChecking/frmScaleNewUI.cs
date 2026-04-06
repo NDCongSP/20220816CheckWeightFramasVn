@@ -977,7 +977,7 @@ namespace WeightChecking
                                         GlobalVariables.InvokeIfRequired(this, () =>
                                         {
                                             _labResultMessage.Text = "Everything OK";
-                                            _labResult.Text = "OK";
+                                            _labResult.Text = "PASSED";
                                             _labResult.BackColor = Color.Green;
                                             _labResult.ForeColor = Color.White;
                                         });
@@ -1107,7 +1107,7 @@ namespace WeightChecking
                                             GlobalVariables.InvokeIfRequired(this, () =>
                                             {
                                                 _labResultMessage.Text = $"Discrepancy quantity: {_scanData.DeviationPairs} ({_unitLabel})";
-                                                _labResult.Text = "NG";
+                                                _labResult.Text = "FAILED";
                                                 _labResult.BackColor = Color.Red;
                                                 _labResult.ForeColor = Color.White;
                                             });
@@ -1198,7 +1198,7 @@ namespace WeightChecking
                         GlobalVariables.InvokeIfRequired(this, () =>
                         {
                             _labResultMessage.Text = ex.Message;
-                            _labResult.Text = "NG";
+                            _labResult.Text = "FAILED";
                             _labResult.BackColor = Color.Red;
                             _labResult.ForeColor = Color.White;
                         });
@@ -1258,7 +1258,7 @@ namespace WeightChecking
 
                 _labQtyStandard.Text = $"Quantity (-)";
                 _labUnitCalculatQty.Text = $"Calculated Qty (-)";
-                _labUnitDeviation.Text = $"Quantity (-)";
+                _labUnitDeviation.Text = $"Deviation (-)";
 
                 _labUnitStandard.Text = string.Empty;
                 _labFGW.Text = $"Weight (g)/-";
