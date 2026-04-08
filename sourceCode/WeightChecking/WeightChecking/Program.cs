@@ -1,19 +1,20 @@
-﻿using DevExpress.LookAndFeel;
+﻿using AutoUpdaterDotNET;
+using Dapper;
+using DevExpress.LookAndFeel;
 using DevExpress.Skins;
 using DevExpress.UserSkins;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Windows.Forms;
+using DevExpress.XtraSplashScreen;
 using Newtonsoft.Json;
-using System.Reflection;
-using System.IO;
 using Serilog;
 using Serilog.Sinks.MSSqlServer;
-using DevExpress.XtraSplashScreen;
-using AutoUpdaterDotNET;
+using System;
+using System.Collections.Generic;
+using System.Globalization;
+using System.IO;
+using System.Linq;
+using System.Reflection;
 using System.Threading;
-using Dapper;
+using System.Windows.Forms;
 using WeightChecking.Models;
 using WeightChecking.Models.Entities;
 
@@ -27,6 +28,18 @@ namespace WeightChecking
         [STAThread]
         static void Main()
         {
+            var culture = (CultureInfo)CultureInfo.CurrentCulture.Clone();
+            culture.NumberFormat.NumberDecimalSeparator = ".";
+            culture.NumberFormat.NumberGroupSeparator = ",";
+
+            // Áp dụng cho thread hiện tại
+            Thread.CurrentThread.CurrentCulture = culture;
+            Thread.CurrentThread.CurrentUICulture = culture;
+
+            // Áp dụng cho tất cả thread mới (form, background task...)
+            CultureInfo.DefaultThreadCurrentCulture = culture;
+            CultureInfo.DefaultThreadCurrentUICulture = culture;
+
             #region Đọc các thông số cấu hình ban đầu từ settings
             GlobalVariables.Station = (StationEnum)Properties.Settings.Default.Station;//0-trước in; 1-sau in
             GlobalVariables.ConnectionString = EncodeMD5.DecryptString(Properties.Settings.Default.conString, "ITFramasBDVN");//0-trước in; 1-sau in
@@ -144,14 +157,14 @@ namespace WeightChecking
                 DialogResult dialogResult;
                 dialogResult =
                         MessageBox.Show(
-                            $@"SSFG App có phiên bản mới {args.CurrentVersion}. Phiên bản đang sử dụng hiện tại  {args.InstalledVersion}. Bạn có muốn cập nhật phần mềm không?", @"Cập nhật phần mềm",
+                           $"SSFG App has a new version {args.CurrentVersion}. The currently installed version is {args.InstalledVersion}. Do you want to update the software?", "Software Update",
                             MessageBoxButtons.YesNo,
                             MessageBoxIcon.Information);
 
                 if (dialogResult.Equals(DialogResult.Yes) || dialogResult.Equals(DialogResult.OK))
                 {
                     SplashScreenManager.ShowForm(null, typeof(WaitForm1), true, true, false);
-                    SplashScreenManager.Default.SetWaitFormCaption("Vui lòng chờ trong giây lát");
+                    SplashScreenManager.Default.SetWaitFormCaption("Please wait a moment.");
                     SplashScreenManager.Default.SetWaitFormDescription("Updating...");
 
                     try
@@ -172,7 +185,7 @@ namespace WeightChecking
                         else
                         {
                             SplashScreenManager.ShowForm(null, typeof(WaitForm1), true, true, false);
-                            SplashScreenManager.Default.SetWaitFormCaption("Vui lòng chờ trong giây lát");
+                            SplashScreenManager.Default.SetWaitFormCaption("Please wait a moment.");
                             SplashScreenManager.Default.SetWaitFormDescription("Updating...");
                         }
                     }

@@ -68,6 +68,9 @@
             this._labLastResultMessage = new DevExpress.XtraEditors.LabelControl();
             this.labelControl1 = new DevExpress.XtraEditors.LabelControl();
             this._groupControlWeightChecking = new DevExpress.XtraEditors.GroupControl();
+            this.label3 = new System.Windows.Forms.Label();
+            this.labelControl4 = new DevExpress.XtraEditors.LabelControl();
+            this.label2 = new System.Windows.Forms.Label();
             this.labelControl20 = new DevExpress.XtraEditors.LabelControl();
             this.labelControl18 = new DevExpress.XtraEditors.LabelControl();
             this.labelControl16 = new DevExpress.XtraEditors.LabelControl();
@@ -94,9 +97,6 @@
             this._labDateTime = new DevExpress.XtraEditors.LabelControl();
             this._btnReprint = new DevExpress.XtraEditors.SimpleButton();
             this._txtScale = new System.Windows.Forms.TextBox();
-            this.label2 = new System.Windows.Forms.Label();
-            this.labelControl4 = new DevExpress.XtraEditors.LabelControl();
-            this.label3 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.groupControl2)).BeginInit();
             this.groupControl2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.labAccessoriesWeight.Properties)).BeginInit();
@@ -729,6 +729,41 @@
             this._groupControlWeightChecking.TabIndex = 1;
             this._groupControlWeightChecking.Text = "WEIGHT CHECK";
             // 
+            // label3
+            // 
+            this.label3.BackColor = System.Drawing.Color.Black;
+            this.label3.Location = new System.Drawing.Point(30, 786);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(360, 1);
+            this.label3.TabIndex = 70;
+            this.label3.Text = "label3";
+            // 
+            // labelControl4
+            // 
+            this.labelControl4.Appearance.BackColor = System.Drawing.Color.White;
+            this.labelControl4.Appearance.Font = new System.Drawing.Font("Tahoma", 10F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic))));
+            this.labelControl4.Appearance.ForeColor = System.Drawing.Color.Gray;
+            this.labelControl4.Appearance.Options.UseBackColor = true;
+            this.labelControl4.Appearance.Options.UseFont = true;
+            this.labelControl4.Appearance.Options.UseForeColor = true;
+            this.labelControl4.Appearance.Options.UseTextOptions = true;
+            this.labelControl4.Appearance.TextOptions.WordWrap = DevExpress.Utils.WordWrap.Wrap;
+            this.labelControl4.AutoSizeMode = DevExpress.XtraEditors.LabelAutoSizeMode.None;
+            this.labelControl4.Location = new System.Drawing.Point(144, 762);
+            this.labelControl4.Name = "labelControl4";
+            this.labelControl4.Size = new System.Drawing.Size(133, 21);
+            this.labelControl4.TabIndex = 69;
+            this.labelControl4.Text = "Rounded to whole";
+            // 
+            // label2
+            // 
+            this.label2.BackColor = System.Drawing.Color.Black;
+            this.label2.Location = new System.Drawing.Point(30, 595);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(789, 1);
+            this.label2.TabIndex = 68;
+            this.label2.Text = "label2";
+            // 
             // labelControl20
             // 
             this.labelControl20.Appearance.BackColor = System.Drawing.Color.White;
@@ -1163,41 +1198,7 @@
             this._txtScale.Name = "_txtScale";
             this._txtScale.Size = new System.Drawing.Size(100, 21);
             this._txtScale.TabIndex = 67;
-            // 
-            // label2
-            // 
-            this.label2.BackColor = System.Drawing.Color.Black;
-            this.label2.Location = new System.Drawing.Point(30, 595);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(789, 1);
-            this.label2.TabIndex = 68;
-            this.label2.Text = "label2";
-            // 
-            // labelControl4
-            // 
-            this.labelControl4.Appearance.BackColor = System.Drawing.Color.White;
-            this.labelControl4.Appearance.Font = new System.Drawing.Font("Tahoma", 10F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic))));
-            this.labelControl4.Appearance.ForeColor = System.Drawing.Color.Gray;
-            this.labelControl4.Appearance.Options.UseBackColor = true;
-            this.labelControl4.Appearance.Options.UseFont = true;
-            this.labelControl4.Appearance.Options.UseForeColor = true;
-            this.labelControl4.Appearance.Options.UseTextOptions = true;
-            this.labelControl4.Appearance.TextOptions.WordWrap = DevExpress.Utils.WordWrap.Wrap;
-            this.labelControl4.AutoSizeMode = DevExpress.XtraEditors.LabelAutoSizeMode.None;
-            this.labelControl4.Location = new System.Drawing.Point(144, 762);
-            this.labelControl4.Name = "labelControl4";
-            this.labelControl4.Size = new System.Drawing.Size(133, 21);
-            this.labelControl4.TabIndex = 69;
-            this.labelControl4.Text = "Rounded to whole";
-            // 
-            // label3
-            // 
-            this.label3.BackColor = System.Drawing.Color.Black;
-            this.label3.Location = new System.Drawing.Point(30, 786);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(360, 1);
-            this.label3.TabIndex = 70;
-            this.label3.Text = "label3";
+            this._txtScale.Visible = false;
             // 
             // frmScaleNewUI
             // 

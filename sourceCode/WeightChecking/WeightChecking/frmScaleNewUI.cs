@@ -399,38 +399,36 @@ namespace WeightChecking
             _inspectionWeightCts = new CancellationTokenSource();
             _ = TaskInspectionWeightAsync(_inspectionWeightCts.Token);
 
-            //unit gram
-            labScaleValue.Text = "7450";
-            _txtScale.KeyDown += (s, o) =>
-            {
+            ////unit gram
+            //labScaleValue.Text = "7450";
+            //_txtScale.KeyDown += (s, o) =>
+            //{
 
-                if (o.KeyCode == Keys.Enter)
-                {
-                    GlobalVariables.InvokeIfRequired(this, () =>
-                    {
-                        labScaleValue.Text = _txtScale.Text.Trim();
-                    });
-                }
-            };
+            //    if (o.KeyCode == Keys.Enter)
+            //    {
+            //        GlobalVariables.InvokeIfRequired(this, () =>
+            //        {
+            //            labScaleValue.Text = _txtScale.Text.Trim();
+            //        });
+            //    }
+            //};
 
 
-            string input = "SU S     2.2777 kg";
+            //string input = "SU S     2.2777 kg";
 
-            // Regex bắt số kg
-            string pattern = @"([0-9]+(?:\.[0-9]+)?)\s*kg";
+            //// Regex bắt số kg
+            //string pattern = @"([0-9]+(?:\.[0-9]+)?)\s*kg";
 
-            Match match = Regex.Match(input, pattern);
-            if (match.Success)
-            {
-                double weight = double.Parse(match.Groups[1].Value);
-                Console.WriteLine("Weight: " + weight);
-            }
-            else
-            {
-                Console.WriteLine("Không đọc được khối lượng!");
-            }
-
-            _txtScale.Visible = !GlobalVariables.ConfigJson.IsTest;
+            //Match match = Regex.Match(input, pattern);
+            //if (match.Success)
+            //{
+            //    double weight = double.Parse(match.Groups[1].Value);
+            //    Console.WriteLine("Weight: " + weight);
+            //}
+            //else
+            //{
+            //    Console.WriteLine("Không đọc được khối lượng!");
+            //}
         }
 
         private void _txtScale_KeyDown(object sender, KeyEventArgs e)
