@@ -360,20 +360,11 @@ namespace WeightChecking
                     {
                         var w = Math.Round(o.Value * GlobalVariables.ConfigJson.UnitScale, 2);
                         GlobalVariables.RealWeight = w;
-                        //if (w.ToString().Length >= 4 || w == 0)
+
+                        GlobalVariables.InvokeIfRequired(this, () =>
                         {
-                            if (labRealWeight.InvokeRequired)
-                            {
-                                labRealWeight.Invoke(new Action(() =>
-                                {
-                                    labScaleValue.Text = w.ToString();
-                                }));
-                            }
-                            else
-                            {
-                                labScaleValue.Text = w.ToString();
-                            }
-                        }
+                            labScaleValue.Text = w.ToString();
+                        });
                     }
                     catch (Exception ex)
                     {
