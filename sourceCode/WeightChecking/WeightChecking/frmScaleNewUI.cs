@@ -719,189 +719,84 @@ namespace WeightChecking
                             {
                                 #region Fill data from coreData to scanData, tính toán ra NetWeight và GrossWeight
                                 //Xét điều kiện để lấy boxWeight. Nếu là hàng đi sơn thì dùng thùng nhựa
-                                if ((_scanData.Decoration == 0 || (_scanData.Decoration == 1 && checkOc != null)) && ocFirstChar != "PR")
+
+                                _scanData.Status = 2;//báo trạng thái hàng ko đi sơn, hoặc hàng sơn đã được sơn rồi
+
+                                //lấy tolerance theo thùng giấy
+                                lowerToleranceOfBox = (double)res.LowerToleranceOfCartonBox;
+                                upperToleranceOfBox = (double)res.UpperToleranceOfCartonBox;
+
+                                #region get box weight
+                                if (_scanData.Quantity <= res.BoxQtyBx6)
                                 {
-                                    _scanData.Status = 2;//báo trạng thái hàng ko đi sơn, hoặc hàng sơn đã được sơn rồi
+                                    _scanData.BoxWeight = (double)res.BoxWeightBx6;
+                                    _boxType = BoxTypeEnum.BX6;
+                                }
+                                else if (_scanData.Quantity > res.BoxQtyBx6 && _scanData.Quantity <= res.BoxQtyBx5)
+                                {
+                                    _scanData.BoxWeight = (double)res.BoxWeightBx5;
+                                    _boxType = BoxTypeEnum.BX5;
+                                }
+                                else if (_scanData.Quantity > res.BoxQtyBx5 && _scanData.Quantity <= res.BoxQtyBx4)
+                                {
+                                    _scanData.BoxWeight = (double)res.BoxWeightBx4;
+                                    _boxType = BoxTypeEnum.BX4;
+                                }
+                                else if (_scanData.Quantity > res.BoxQtyBx4 && _scanData.Quantity <= res.BoxQtyBx3)
+                                {
+                                    _scanData.BoxWeight = (double)res.BoxWeightBx3;
+                                    _boxType = BoxTypeEnum.BX3;
+                                }
+                                else if (_scanData.Quantity > res.BoxQtyBx3 && _scanData.Quantity <= res.BoxQtyBx2)
+                                {
+                                    _scanData.BoxWeight = (double)res.BoxWeightBx2;
+                                    _boxType = BoxTypeEnum.BX2;
+                                }
+                                else if (_scanData.Quantity > res.BoxQtyBx2 && _scanData.Quantity <= res.BoxQtyBx1A)
+                                {
+                                    _scanData.BoxWeight = (double)res.BoxWeightBx1A;
+                                    _boxType = BoxTypeEnum.BX1A;
+                                }
+                                else if (_scanData.Quantity > res.BoxQtyBx1A && _scanData.Quantity <= res.BoxQtyBx1)
+                                {
+                                    _scanData.BoxWeight = (double)res.BoxWeightBx1;
+                                    _boxType = BoxTypeEnum.BX1;
+                                }
+                                else if (_scanData.Quantity > res.BoxQtyBx1)
+                                {
+                                    var itemInserrt = new tblItemMissingInfo()
+                                    {
+                                        Id = Guid.NewGuid(),
+                                        CreatedDate = DateTime.Now,
+                                        IsActive = true,
+                                        ProductNumber = _scanData.ProductNumber,
+                                        ProductName = _scanData.ProductName,
+                                        OcNum = _scanData.OcNo,
+                                        Note = $"Quantity over the BX1 box limit ({res.BoxQtyBx1}).",
+                                        QrCode = _scanData.BarcodeString
+                                    };
 
-                                    //lấy tolerance theo thùng giấy
-                                    lowerToleranceOfBox = (double)res.LowerToleranceOfCartonBox;
-                                    upperToleranceOfBox = (double)res.UpperToleranceOfCartonBox;
+                                    dbContext.TblItemMissingInfos.Add(itemInserrt);
+                                    dbContext.SaveChanges();
 
-                                    #region get box weight
-                                    if (_scanData.Quantity <= res.BoxQtyBx6)
-                                    {
-                                        _scanData.BoxWeight = (double)res.BoxWeightBx6;
-                                        _boxType = BoxTypeEnum.BX6;
-                                    }
-                                    else if (_scanData.Quantity > res.BoxQtyBx6 && _scanData.Quantity <= res.BoxQtyBx5)
-                                    {
-                                        _scanData.BoxWeight = (double)res.BoxWeightBx5;
-                                        _boxType = BoxTypeEnum.BX5;
-                                    }
-                                    else if (_scanData.Quantity > res.BoxQtyBx5 && _scanData.Quantity <= res.BoxQtyBx4)
-                                    {
-                                        _scanData.BoxWeight = (double)res.BoxWeightBx4;
-                                        _boxType = BoxTypeEnum.BX4;
-                                    }
-                                    else if (_scanData.Quantity > res.BoxQtyBx4 && _scanData.Quantity <= res.BoxQtyBx3)
-                                    {
-                                        _scanData.BoxWeight = (double)res.BoxWeightBx3;
-                                        _boxType = BoxTypeEnum.BX3;
-                                    }
-                                    else if (_scanData.Quantity > res.BoxQtyBx3 && _scanData.Quantity <= res.BoxQtyBx2)
-                                    {
-                                        _scanData.BoxWeight = (double)res.BoxWeightBx2;
-                                        _boxType = BoxTypeEnum.BX2;
-                                    }
-                                    else if (_scanData.Quantity > res.BoxQtyBx2 && _scanData.Quantity <= res.BoxQtyBx1A)
-                                    {
-                                        _scanData.BoxWeight = (double)res.BoxWeightBx1A;
-                                        _boxType = BoxTypeEnum.BX1A;
-                                    }
-                                    else if (_scanData.Quantity > res.BoxQtyBx1A && _scanData.Quantity <= res.BoxQtyBx1)
-                                    {
-                                        _scanData.BoxWeight = (double)res.BoxWeightBx1;
-                                        _boxType = BoxTypeEnum.BX1;
-                                    }
-                                    else if (_scanData.Quantity > res.BoxQtyBx1)
-                                    {
-                                        var itemInserrt = new tblItemMissingInfo()
-                                        {
-                                            Id = Guid.NewGuid(),
-                                            CreatedDate = DateTime.Now,
-                                            IsActive = true,
-                                            ProductNumber = _scanData.ProductNumber,
-                                            ProductName = _scanData.ProductName,
-                                            OcNum = _scanData.OcNo,
-                                            Note = $"Quantity over the BX1 box limit ({res.BoxQtyBx1}).",
-                                            QrCode = _scanData.BarcodeString
-                                        };
-
-                                        dbContext.TblItemMissingInfos.Add(itemInserrt);
-                                        dbContext.SaveChanges();
-
-                                        #region Auto posting
-                                        //hàng từ production qua: decoration = 0 (OC)  và dcoration = 1 (PRT). transfer từ kho 3--> 64
-                                        //if (_scanData.Decoration == 0)
-                                        //{
-                                        //    GlobalVariables.ResultPosting = AutoPostingHelper.AutoTransfer(_scanData.ProductNumber, _scanData.BarcodeString, 3, 64, GlobalVariables.GetDbConnectionDogeWh(), null);
-                                        //    GlobalVariables.ResultPosting.Message = $"Hàng Production lỗi đóng gói (Transfer 3-->64): {GlobalVariables.ResultPosting.Message}";
-                                        //}
-                                        ////hàng sơn-sau sơn
-                                        //else if (_scanData.Decoration == 1 && checkOc != null)
-                                        //{
-                                        //    GlobalVariables.ResultPosting = AutoPostingHelper.AutoTransfer(_scanData.ProductNumber, _scanData.BarcodeString, 32, 64, GlobalVariables.GetDbConnectionDogeWh(), null);
-                                        //    GlobalVariables.ResultPosting.Message = $"Hàng QC lỗi đóng gói (Transfer 32-->64): {GlobalVariables.ResultPosting.Message}";
-                                        //}
-                                        #endregion
-
-                                        throw new Exception($"Product number {_scanData.ProductNumber} có số lượng vượt quá giới hạn thùng BX1. Số lượng đóng gói thùng BX1: ({res.BoxQtyBx1})");
-                                    }
+                                    #region Auto posting
+                                    //hàng từ production qua: decoration = 0 (OC)  và dcoration = 1 (PRT). transfer từ kho 3--> 64
+                                    //if (_scanData.Decoration == 0)
+                                    //{
+                                    //    GlobalVariables.ResultPosting = AutoPostingHelper.AutoTransfer(_scanData.ProductNumber, _scanData.BarcodeString, 3, 64, GlobalVariables.GetDbConnectionDogeWh(), null);
+                                    //    GlobalVariables.ResultPosting.Message = $"Hàng Production lỗi đóng gói (Transfer 3-->64): {GlobalVariables.ResultPosting.Message}";
+                                    //}
+                                    ////hàng sơn-sau sơn
+                                    //else if (_scanData.Decoration == 1 && checkOc != null)
+                                    //{
+                                    //    GlobalVariables.ResultPosting = AutoPostingHelper.AutoTransfer(_scanData.ProductNumber, _scanData.BarcodeString, 32, 64, GlobalVariables.GetDbConnectionDogeWh(), null);
+                                    //    GlobalVariables.ResultPosting.Message = $"Hàng QC lỗi đóng gói (Transfer 32-->64): {GlobalVariables.ResultPosting.Message}";
+                                    //}
                                     #endregion
+
+                                    throw new Exception($"Product number {_scanData.ProductNumber} có số lượng vượt quá giới hạn thùng BX1. Số lượng đóng gói thùng BX1: ({res.BoxQtyBx1})");
                                 }
-                                else if (_scanData.Decoration == 1 && ocFirstChar == "PR")//hàng trước sơn. chỉ có trạm SSFG01 mới nhảy vào đây
-                                {
-                                    if (_scanData.OcNo.Substring(0, 3) == "PRT")
-                                    {
-                                        //lấy tolerance theo thùng nhựa
-                                        lowerToleranceOfBox = (double)res.LowerToleranceOfPlasticBox;
-                                        upperToleranceOfBox = (double)res.UpperToleranceOfPlasticBox;
-                                        _scanData.BoxWeight = (double)res.PlasticBoxWeight;
-                                        _boxType = BoxTypeEnum.Plastic;
-                                    }
-                                    else
-                                    {
-                                        //lấy tolerance theo thùng giấy
-                                        lowerToleranceOfBox = (double)res.LowerToleranceOfCartonBox;
-                                        upperToleranceOfBox = (double)res.UpperToleranceOfCartonBox;
-                                        #region get box weight
-                                        if (_scanData.Quantity <= res.BoxQtyBx6)
-                                        {
-                                            _scanData.BoxWeight = (double)res.BoxWeightBx6;
-                                            _boxType = BoxTypeEnum.BX6;
-                                        }
-                                        else if (_scanData.Quantity > res.BoxQtyBx6 && _scanData.Quantity <= res.BoxQtyBx5)
-                                        {
-                                            _scanData.BoxWeight = (double)res.BoxWeightBx5;
-                                            _boxType = BoxTypeEnum.BX5;
-                                        }
-                                        else if (_scanData.Quantity > res.BoxQtyBx5 && _scanData.Quantity <= res.BoxQtyBx4)
-                                        {
-                                            _scanData.BoxWeight = (double)res.BoxWeightBx4;
-                                            _boxType = BoxTypeEnum.BX4;
-                                        }
-                                        else if (_scanData.Quantity > res.BoxQtyBx4 && _scanData.Quantity <= res.BoxQtyBx3)
-                                        {
-                                            _scanData.BoxWeight = (double)res.BoxWeightBx3;
-                                            _boxType = BoxTypeEnum.BX3;
-                                        }
-                                        else if (_scanData.Quantity > res.BoxQtyBx3 && _scanData.Quantity <= res.BoxQtyBx2)
-                                        {
-                                            _scanData.BoxWeight = (double)res.BoxWeightBx2;
-                                            _boxType = BoxTypeEnum.BX2;
-                                        }
-                                        else if (_scanData.Quantity > res.BoxQtyBx2 && _scanData.Quantity <= res.BoxQtyBx1A)
-                                        {
-                                            _scanData.BoxWeight = (double)res.BoxWeightBx1A;
-                                            _boxType = BoxTypeEnum.BX1A;
-                                        }
-                                        else if (_scanData.Quantity > res.BoxQtyBx1A && _scanData.Quantity <= res.BoxQtyBx1)
-                                        {
-                                            _scanData.BoxWeight = (double)res.BoxWeightBx1;
-                                            _boxType = BoxTypeEnum.BX1;
-                                        }
-                                        else if (_scanData.Quantity > res.BoxQtyBx1)
-                                        {
-                                            var itemInserrt = new tblItemMissingInfo()
-                                            {
-                                                Id = Guid.NewGuid(),
-                                                CreatedDate = DateTime.Now,
-                                                IsActive = true,
-                                                ProductNumber = _scanData.ProductNumber,
-                                                ProductName = _scanData.ProductName,
-                                                OcNum = _scanData.OcNo,
-                                                Note = $"Quantity over the BX1 box limit ({res.BoxQtyBx1}).",
-                                                QrCode = _scanData.BarcodeString
-                                            };
-
-                                            dbContext.TblItemMissingInfos.Add(itemInserrt);
-                                            dbContext.SaveChanges();
-
-                                            #region Auto posting
-                                            //hàng từ production qua: decoration = 0 (OC)  và dcoration = 1 (PRT). transfer từ kho 3--> 64
-                                            //if (_scanData.Decoration == 0)
-                                            //{
-                                            //    GlobalVariables.ResultPosting = AutoPostingHelper.AutoTransfer(_scanData.ProductNumber, _scanData.BarcodeString, 3, 64, GlobalVariables.GetDbConnectionDogeWh(), null);
-                                            //    GlobalVariables.ResultPosting.Message = $"Hàng Production lỗi đóng gói (Transfer 3-->64): {GlobalVariables.ResultPosting.Message}";
-                                            //}
-                                            ////hàng sơn-sau sơn
-                                            //else if (_scanData.Decoration == 1 && checkOc != null)
-                                            //{
-                                            //    GlobalVariables.ResultPosting = AutoPostingHelper.AutoTransfer(_scanData.ProductNumber, _scanData.BarcodeString, 32, 64, GlobalVariables.GetDbConnectionDogeWh(), null);
-                                            //    GlobalVariables.ResultPosting.Message = $"Hàng QC lỗi đóng gói (Transfer 32-->64): {GlobalVariables.ResultPosting.Message}";
-                                            //}
-                                            #endregion
-
-                                            //throw new Exception($"Quantity over the BX1 box limit ({res.BoxQtyBx1})");
-                                            throw new Exception($"Product number {_scanData.ProductNumber} có số lượng vượt quá giới hạn thùng BX1. Số lượng đóng gói thùng BX1: ({res.BoxQtyBx1})");
-                                        }
-                                        #endregion
-                                    }
-
-                                    if (GlobalVariables.ConfigJson.AfterPrinting == 0)
-                                    {
-                                        _scanData.Status = 1;// báo trạng thái hàng sơn cần đưa đi sơn, trạm SSFG01
-                                    }
-                                    else
-                                    {
-                                        _scanData.Status = 2;// báo trạng thái hàng sơn đã được sơn, trạm SSFG02 và SSFG03(Kerry)
-                                    }
-                                }
-                                else
-                                {
-                                    //throw new Exception($"Product number {_scanData.ProductNumber} has the wrong PRT label printed.");
-                                    throw new Exception($"Product number {_scanData.ProductNumber} in sai tem PRT.");
-                                }
+                                #endregion
 
                                 if (_scanData.MetalScan == 0)
                                 {
@@ -1707,7 +1602,7 @@ namespace WeightChecking
                 labNetRealWeight.Text = $"{_scanData.NetWeight}";
                 labDeviation.Text = $"{_scanData.Deviation} (g)";
                 labCalculatedPairs.Text = _scanData.CalculatedPairs.ToString();
-                labDeviationPairs.Text =$"{_scanData.DeviationPairs.ToString()} ({_unitLabel})";
+                labDeviationPairs.Text = $"{_scanData.DeviationPairs.ToString()} ({_unitLabel})";
 
                 labDeviationPairs.ForeColor = errorFlag == false ? Color.Green : Color.Red;
                 _labResultMessage.ForeColor = errorFlag == false ? Color.Green : Color.Red;
