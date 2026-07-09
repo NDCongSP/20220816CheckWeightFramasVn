@@ -59,6 +59,9 @@ namespace WeightChecking
         // Print the file.
         public static void Printing(string content, string idLabel, bool pass, string createdDate, string unit = "prs")
         {
+            //hiện tại yêu cầu bỏ hết thông tin ngày tháng khi in tem.
+            createdDate = " ";
+
             //content of the QR code "OC283225,6112012227-2094-2651,28,13,P,1/56,160506,1/1|1,30.2022"
             if (pass)
             {
