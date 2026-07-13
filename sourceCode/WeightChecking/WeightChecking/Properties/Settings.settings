@@ -3,11 +3,12 @@
   <Profiles />
   <Settings>
     <Setting Name="conString" Type="System.String" Scope="User">
-      <Value Profile="(Default)">ed3YbBgz3fEdyTkRahthFY5ktQmH2er+blyCD/lIJfgQTkdsvUtAX21xE6NORw6ZjeFRNfYstnZaiBSjcXumLFU/sdtwUevAWTdRgM8d5rXa3D3X5+GMyirpW1sHWm/HgWEKYxsSdYZlXnxiuz9nf7drrpUpv2SLYUqgcaS4tI12TlmBEo/Dm8Id8z+gGyVqgoQB0EuDAY/OlHLTcrxHSejQK2jjixrgD9KsnAkU2d8AQ3+rEONwHA==
-</Value>
+      <Value Profile="(Default)">
+          ed3YbBgz3fEdyTkRahthFY5ktQmH2er+blyCD/lIJfgQTkdsvUtAX21xE6NORw6ZjeFRNfYstnZaiBSjcXumLFU/sdtwUevAWTdRgM8d5rXa3D3X5+GMyirpW1sHWm/HgWEKYxsSdYZlXnxiuz9nf7drrpUpv2SLYUqgcaS4tI12TlmBEo/Dm8Id8z+gGyVqgoQB0EuDAY/OlHLTcrxHSejQK2jjixrgD9KsnAkU2d8AQ3+rEONwHA==
+        </Value>
     </Setting>
     <Setting Name="Station" Type="System.Int32" Scope="User">
-      <Value Profile="(Default)">0</Value>
+      <Value Profile="(Default)">1</Value>
     </Setting>
   </Settings>
 </SettingsFile>

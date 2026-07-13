@@ -25,10 +25,9 @@ namespace WeightChecking.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("ed3YbBgz3fEdyTkRahthFY5ktQmH2er+blyCD/lIJfgQTkdsvUtAX21xE6NORw6ZjeFRNfYstnZaiBSjc" +
-            "XumLFU/sdtwUevAWTdRgM8d5rXa3D3X5+GMyirpW1sHWm/HgWEKYxsSdYZlXnxiuz9nf7drrpUpv2SLY" +
-            "UqgcaS4tI12TlmBEo/Dm8Id8z+gGyVqgoQB0EuDAY/OlHLTcrxHSejQK2jjixrgD9KsnAkU2d8AQ3+rE" +
-            "ONwHA==\r\n")]
+        [global::System.Configuration.DefaultSettingValueAttribute(@"
+          ed3YbBgz3fEdyTkRahthFY5ktQmH2er+blyCD/lIJfgQTkdsvUtAX21xE6NORw6ZjeFRNfYstnZaiBSjcXumLFU/sdtwUevAWTdRgM8d5rXa3D3X5+GMyirpW1sHWm/HgWEKYxsSdYZlXnxiuz9nf7drrpUpv2SLYUqgcaS4tI12TlmBEo/Dm8Id8z+gGyVqgoQB0EuDAY/OlHLTcrxHSejQK2jjixrgD9KsnAkU2d8AQ3+rEONwHA==
+        ")]
         public string conString {
             get {
                 return ((string)(this["conString"]));
@@ -40,7 +39,7 @@ namespace WeightChecking.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("0")]
+        [global::System.Configuration.DefaultSettingValueAttribute("1")]
         public int Station {
             get {
                 return ((int)(this["Station"]));

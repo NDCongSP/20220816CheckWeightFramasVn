@@ -1,6 +1,7 @@
 ﻿using AutoUpdaterDotNET;
 using Dapper;
 using DevExpress.XtraEditors;
+using DevExpress.XtraRichEdit.Model.History;
 using DevExpress.XtraSplashScreen;
 using Newtonsoft.Json;
 using Serilog;
@@ -705,6 +706,8 @@ namespace WeightChecking
                         {
                             //có thể dựa vào category để biết được thùng đó đóng theo đôi hay L/R
                             //_scanData.Category = 1 là HC; 0 là Non-HC
+                            _scanData.IsHc = res.ProductCategory == 1 ? true : false;
+
                             _unitLabel = _scanData.Unit == "P" ? "prs" : "pcs";
                             _color = res.Color;
                             _sizeName = res.SizeName;
@@ -1021,7 +1024,7 @@ namespace WeightChecking
                                         GlobalVariables.Printing((_scanData.GrossWeight / 1000).ToString("#,#0.00")
                                                     , !string.IsNullOrEmpty(GlobalVariables.IdLabel) ? GlobalVariables.IdLabel : $"{_scanData.OcNo}|{_scanData.BoxNo}", true
                                                      , _scanData.CreatedDate.ToString("yyyy-MM-dd HH:mm:ss")
-                                                     , _unitLabel);
+                                                     , _scanData.IsHc);
 
                                         #region Auto posting
                                         //hàng từ production qua: decoration = 0 (OC). transfer từ kho 3--> 64
@@ -1148,6 +1151,7 @@ namespace WeightChecking
                                                         GlobalVariables.Printing((_scanData.GrossWeight / 1000).ToString("#,#0.00")
                                                             , !string.IsNullOrEmpty(GlobalVariables.IdLabel) ? GlobalVariables.IdLabel : $"{_scanData.OcNo}|{_scanData.BoxNo}", true
                                                              , _scanData.CreatedDate.ToString("yyyy-MM-dd HH:mm:ss")
+                                                             , isHC: _scanData.IsHc
                                                              , _unitLabel);
 
                                                         #region Auto posting
@@ -1209,6 +1213,7 @@ namespace WeightChecking
                                         GlobalVariables.Printing(_scanData.DeviationPairs.ToString()
                                                     , !string.IsNullOrEmpty(GlobalVariables.IdLabel) ? GlobalVariables.IdLabel : $"{_scanData.OcNo}|{_scanData.BoxNo}", false
                                                     , _scanData.CreatedDate.ToString("yyyy-MM-dd HH:mm:ss")
+                                                    , isHC: _scanData.IsHc
                                                     , _unitLabel);
 
                                         #region Auto posting

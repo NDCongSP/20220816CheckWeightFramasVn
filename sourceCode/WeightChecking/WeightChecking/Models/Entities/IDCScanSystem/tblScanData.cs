@@ -74,5 +74,8 @@ namespace WeightChecking
         public double RatioFailWeight { get; set; } = 0;
         public string ParentOc { get; set; }
         public string ParentBoxId { get; set; }
+
+        [NotMapped]
+        public bool IsHc { get; set; }=false;
     }
 }

@@ -246,7 +246,8 @@ namespace WeightChecking
                                 GlobalVariables.Printing((_scaleValue / 1000).ToString("#,#0.00")
                                           , !string.IsNullOrEmpty(_scanData.IdLabel) ? _scanData.IdLabel : $"{_scanData.OcNo}|{_scanData.BoxNo}", true
                                           , _scanData.CreatedDate.ToString("yyyy-MM-dd HH:mm:ss")
-                                          ,unit);
+                                          , isHC: _scanData.IsHc
+                                          , unit);
 
                                 #region Auto posting
                                 //hàng từ production qua: decoration = 0 (OC). transfer từ kho 3--> 64

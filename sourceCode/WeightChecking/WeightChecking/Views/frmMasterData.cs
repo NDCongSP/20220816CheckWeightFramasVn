@@ -189,7 +189,7 @@ namespace WeightChecking
                             grv.Columns["CodeItemSize"].Fixed = DevExpress.XtraGrid.Columns.FixedStyle.Left;
                             grv.Columns["ProductNumber"].Fixed = DevExpress.XtraGrid.Columns.FixedStyle.Left;
                             grv.Columns["ProductName"].Fixed = DevExpress.XtraGrid.Columns.FixedStyle.Left;
-                            grv.Columns["ProductCategory"].Fixed = DevExpress.XtraGrid.Columns.FixedStyle.Left;
+                            grv.Columns["IsHc"].Fixed = DevExpress.XtraGrid.Columns.FixedStyle.Left;
                             grv.Columns["Brand"].Fixed = DevExpress.XtraGrid.Columns.FixedStyle.Left;
                             grv.Columns["Decoration"].Fixed = DevExpress.XtraGrid.Columns.FixedStyle.Left;
                             grv.Columns["MetalScan"].Fixed = DevExpress.XtraGrid.Columns.FixedStyle.Left;

@@ -1378,7 +1378,9 @@ namespace WeightChecking
 
                                         GlobalVariables.Printing((_scanData.GrossWeight / 1000).ToString("#,#0.00")
                                                     , !string.IsNullOrEmpty(GlobalVariables.IdLabel) ? GlobalVariables.IdLabel : $"{_scanData.OcNo}|{_scanData.BoxNo}", true
-                                                     , _scanData.CreatedDate.ToString("yyyy-MM-dd HH:mm:ss"));
+                                                     , _scanData.CreatedDate.ToString("yyyy-MM-dd HH:mm:ss")
+                                                     , isHC: _scanData.IsHc
+                                                     );
 
                                         #region Auto posting
                                         //hàng từ production qua: decoration = 0 (OC). transfer từ kho 3--> 64
@@ -1540,7 +1542,9 @@ namespace WeightChecking
                                                         //in tem
                                                         GlobalVariables.Printing((_scanData.GrossWeight / 1000).ToString("#,#0.00")
                                                             , !string.IsNullOrEmpty(GlobalVariables.IdLabel) ? GlobalVariables.IdLabel : $"{_scanData.OcNo}|{_scanData.BoxNo}", true
-                                                             , _scanData.CreatedDate.ToString("yyyy-MM-dd HH:mm:ss"));
+                                                             , _scanData.CreatedDate.ToString("yyyy-MM-dd HH:mm:ss")
+                                                             , isHC: _scanData.IsHc
+                                                             );
 
                                                         #region Auto posting
                                                         //hàng từ production qua: decoration = 0 (OC). transfer từ kho 3--> 64
@@ -1622,7 +1626,9 @@ namespace WeightChecking
                                     {
                                         GlobalVariables.Printing(_scanData.DeviationPairs.ToString()
                                                     , !string.IsNullOrEmpty(GlobalVariables.IdLabel) ? GlobalVariables.IdLabel : $"{_scanData.OcNo}|{_scanData.BoxNo}", false
-                                                    , _scanData.CreatedDate.ToString("yyyy-MM-dd HH:mm:ss"));
+                                                    , _scanData.CreatedDate.ToString("yyyy-MM-dd HH:mm:ss")
+                                                    , isHC: _scanData.IsHc
+                                                    );
 
                                         #region Auto posting
                                         //hàng từ production qua: decoration = 0 (OC)  và dcoration = 1 (PRT). transfer từ kho 3--> 64
