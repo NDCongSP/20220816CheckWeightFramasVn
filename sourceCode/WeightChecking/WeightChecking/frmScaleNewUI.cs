@@ -442,7 +442,6 @@ namespace WeightChecking
             }
         }
 
-        #region Tasks
         private async Task TaskTimerAsync(CancellationToken token)
         {
             while (!token.IsCancellationRequested)
@@ -761,6 +760,8 @@ namespace WeightChecking
                             {
                                 //có thể dựa vào category để biết được thùng đó đóng theo đôi hay L/R
                                 //_scanData.Category = 1 là HC; 0 là Non-HC
+                                _scanData.IsHc = res.ProductCategory!=1?false:true;
+
                                 _unitLabel = _scanData.Unit == "P" ? "prs" : "pcs";
                                 _color = res.Color;
                                 _sizeName = res.SizeName;
@@ -982,6 +983,7 @@ namespace WeightChecking
                                             GlobalVariables.Printing((_scanData.GrossWeight / 1000).ToString("#,#0.00")
                                              , !string.IsNullOrEmpty(GlobalVariables.IdLabel) ? GlobalVariables.IdLabel : $"{_scanData.OcNo}|{_scanData.BoxNo}", true
                                               , _scanData.CreatedDate.ToString("yyyy-MM-dd HH:mm:ss")
+                                              ,isHC: _scanData.IsHc
                                               , _unitLabel);
                                         }
                                         //với thùng Pass mà trước đó đã cân và báo fail thì popup form nhập deviation
@@ -1049,6 +1051,7 @@ namespace WeightChecking
                                                             GlobalVariables.Printing((_scanData.GrossWeight / 1000).ToString("#,#0.00")
                                                                 , !string.IsNullOrEmpty(GlobalVariables.IdLabel) ? GlobalVariables.IdLabel : $"{_scanData.OcNo}|{_scanData.BoxNo}", true
                                                                  , _scanData.CreatedDate.ToString("yyyy-MM-dd HH:mm:ss")
+                                                                 , isHC: _scanData.IsHc
                                                                  , _unitLabel);
                                                         }
                                                     }
@@ -1090,6 +1093,7 @@ namespace WeightChecking
                                             GlobalVariables.Printing(_scanData.DeviationPairs.ToString()
                                                         , !string.IsNullOrEmpty(GlobalVariables.IdLabel) ? GlobalVariables.IdLabel : $"{_scanData.OcNo}|{_scanData.BoxNo}", false
                                                         , _scanData.CreatedDate.ToString("yyyy-MM-dd HH:mm:ss")
+                                                        , isHC: _scanData.IsHc
                                                         , _unitLabel);
 
                                             #region hien thi mau label
@@ -1175,8 +1179,6 @@ namespace WeightChecking
                                 throw new Exception($"Product number {_scanData.ProductNumber} does not exist in the system. Please check the information again.");
                             }
                         }
-                        #endregion
-
                     }
                     catch (Exception ex)
                     {

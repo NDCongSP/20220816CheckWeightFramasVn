@@ -93,5 +93,8 @@ namespace WeightChecking
         public string? BoxType { get; set; }
 
         public int? ProductCategory { get; set; }
+
+        [NotMapped]
+        public bool IsHc { get; set; } = false;
     }
 }
