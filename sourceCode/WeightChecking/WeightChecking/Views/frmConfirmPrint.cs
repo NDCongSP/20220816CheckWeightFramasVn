@@ -48,7 +48,7 @@ namespace WeightChecking
                 {
                     if (_checkCount == 0)
                     {
-                        _scanData.BarcodeString = _sen.Text;
+                        _scanData.BarcodeString = _sen.Text.Trim();
 
                         #region Get thông tin của thùng trong bảng ScanData
                         using (var dbContext = new ApplicationDbContext(GlobalVariables.ConnectionString))

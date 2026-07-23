@@ -12,7 +12,7 @@ namespace WeightChecking.Properties {
     
     
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.Editors.SettingsDesigner.SettingsSingleFileGenerator", "17.14.0.0")]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.Editors.SettingsDesigner.SettingsSingleFileGenerator", "18.8.0.0")]
     internal sealed partial class Settings : global::System.Configuration.ApplicationSettingsBase {
         
         private static Settings defaultInstance = ((Settings)(global::System.Configuration.ApplicationSettingsBase.Synchronized(new Settings())));
@@ -25,9 +25,10 @@ namespace WeightChecking.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute(@"
-          ed3YbBgz3fEdyTkRahthFY5ktQmH2er+blyCD/lIJfgQTkdsvUtAX21xE6NORw6ZjeFRNfYstnZaiBSjcXumLFU/sdtwUevAWTdRgM8d5rXa3D3X5+GMyirpW1sHWm/HgWEKYxsSdYZlXnxiuz9nf7drrpUpv2SLYUqgcaS4tI12TlmBEo/Dm8Id8z+gGyVqgoQB0EuDAY/OlHLTcrxHSejQK2jjixrgD9KsnAkU2d8AQ3+rEONwHA==
-        ")]
+        [global::System.Configuration.DefaultSettingValueAttribute("ed3YbBgz3fEdyTkRahthFY5ktQmH2er+blyCD/lIJfgQTkdsvUtAX21xE6NORw6ZjeFRNfYstnZaiBSjc" +
+            "XumLFU/sdtwUevAWTdRgM8d5rXa3D3X5+GMyirpW1sHWm/HgWEKYxsSdYZlXnxiuz9nf7drrpUpv2SLY" +
+            "UqgcaS4tI12TlmBEo/Dm8Id8z+gGyVqgoQB0EuDAY/OlHLTcrxHSejQK2jjixrgD9KsnAkU2d8AQ3+rE" +
+            "ONwHA==")]
         public string conString {
             get {
                 return ((string)(this["conString"]));
